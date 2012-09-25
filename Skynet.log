@@ -1,0 +1,474 @@
+﻿Build started 6/18/2010 8:02:54 AM.
+     1>Project "C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\Skynet\Skynet.vcxproj" on node 7 (build target(s)).
+     1>_PrepareForBuild:
+         Creating "X64\Release\Skynet.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       Midl:
+         All outputs are up-to-date.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         All outputs are up-to-date.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"X64\Release\\" /Fd"X64\Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.VisualC.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.DirectoryServices.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Comport.cpp Joystick.cpp Saliency.cpp Skynet.cpp TargetDialog.cpp
+         Comport.cpp
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1862): warning C4677: '_redrawDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(541): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(542): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1756): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(68): warning C4677: 'comportErrorDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(69): warning C4677: 'comportEstablishDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(70): warning C4677: 'imageDialogDelegate': signature of non-private member contains assembly private type 'Delegates::twointThreedoubleToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(9) : see declaration of 'Delegates::twointThreedoubleToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(71): warning C4677: 'saliencyAddTarget': signature of non-private member contains assembly private type 'Delegates::rowDataToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(10) : see declaration of 'Delegates::rowDataToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(72): warning C4677: 'saveImageDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(73): warning C4677: 'ocrDelegate': signature of non-private member contains assembly private type 'Delegates::dataGridViewRowToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(11) : see declaration of 'Delegates::dataGridViewRowToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(81): warning C4677: 'theComport': signature of non-private member contains assembly private type 'Communications::Comport'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Comport.h(49) : see declaration of 'Communications::Comport'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(84): warning C4677: 'm_joystick': signature of non-private member contains assembly private type 'Joystick'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Joystick.h(27) : see declaration of 'Joystick'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(85): warning C4677: 'db': signature of non-private member contains assembly private type 'Database::DatabaseConnection'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(45) : see declaration of 'Database::DatabaseConnection'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1496): warning C4677: 'insertTable': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1581): warning C4677: 'addRawTarget': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1561): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1562): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1651): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1659): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2061): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2062): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Comport.cpp(291): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Comport.cpp(292): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Comport.cpp(293): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Comport.cpp(294): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Comport.cpp(295): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Comport.cpp(296): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Comport.cpp(297): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+         Joystick.cpp
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cstdio(48): warning C4995: 'gets': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cstdio(52): warning C4995: 'sprintf': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cstdio(55): warning C4995: 'vsprintf': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cstring(21): warning C4995: 'strcat': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cstring(22): warning C4995: 'strcpy': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cwchar(30): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cwchar(31): warning C4995: 'vswprintf': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cwchar(33): warning C4995: 'wcscat': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\cwchar(35): warning C4995: 'wcscpy': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string(773): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string(782): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string(791): warning C4995: 'swprintf': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\intrin.h(380): warning C4995: 'strcat': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\intrin.h(382): warning C4995: 'strcpy': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\intrin.h(1091): warning C4995: 'wcscat': name was marked as #pragma deprecated
+     1>c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\intrin.h(1093): warning C4995: 'wcscpy': name was marked as #pragma deprecated
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1862): warning C4677: '_redrawDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(541): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(542): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1756): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(68): warning C4677: 'comportErrorDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(69): warning C4677: 'comportEstablishDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(70): warning C4677: 'imageDialogDelegate': signature of non-private member contains assembly private type 'Delegates::twointThreedoubleToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(9) : see declaration of 'Delegates::twointThreedoubleToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(71): warning C4677: 'saliencyAddTarget': signature of non-private member contains assembly private type 'Delegates::rowDataToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(10) : see declaration of 'Delegates::rowDataToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(72): warning C4677: 'saveImageDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(73): warning C4677: 'ocrDelegate': signature of non-private member contains assembly private type 'Delegates::dataGridViewRowToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(11) : see declaration of 'Delegates::dataGridViewRowToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(81): warning C4677: 'theComport': signature of non-private member contains assembly private type 'Communications::Comport'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Comport.h(49) : see declaration of 'Communications::Comport'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(84): warning C4677: 'm_joystick': signature of non-private member contains assembly private type 'Joystick'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Joystick.h(27) : see declaration of 'Joystick'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(85): warning C4677: 'db': signature of non-private member contains assembly private type 'Database::DatabaseConnection'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(45) : see declaration of 'Database::DatabaseConnection'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1496): warning C4677: 'insertTable': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1581): warning C4677: 'addRawTarget': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1561): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1562): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1651): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1659): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2061): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2062): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         Saliency.cpp
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1862): warning C4677: '_redrawDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(541): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(542): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1756): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(68): warning C4677: 'comportErrorDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(69): warning C4677: 'comportEstablishDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(70): warning C4677: 'imageDialogDelegate': signature of non-private member contains assembly private type 'Delegates::twointThreedoubleToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(9) : see declaration of 'Delegates::twointThreedoubleToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(71): warning C4677: 'saliencyAddTarget': signature of non-private member contains assembly private type 'Delegates::rowDataToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(10) : see declaration of 'Delegates::rowDataToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(72): warning C4677: 'saveImageDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(73): warning C4677: 'ocrDelegate': signature of non-private member contains assembly private type 'Delegates::dataGridViewRowToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(11) : see declaration of 'Delegates::dataGridViewRowToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(81): warning C4677: 'theComport': signature of non-private member contains assembly private type 'Communications::Comport'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Comport.h(49) : see declaration of 'Communications::Comport'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(84): warning C4677: 'm_joystick': signature of non-private member contains assembly private type 'Joystick'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Joystick.h(27) : see declaration of 'Joystick'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(85): warning C4677: 'db': signature of non-private member contains assembly private type 'Database::DatabaseConnection'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(45) : see declaration of 'Database::DatabaseConnection'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1496): warning C4677: 'insertTable': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1581): warning C4677: 'addRawTarget': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1561): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1562): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1651): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1659): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2061): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2062): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Saliency.cpp(154): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>Saliency.cpp(154): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>Saliency.cpp(157): warning C4244: 'initializing' : conversion from 'float' to 'size_t', possible loss of data
+     1>Saliency.cpp(159): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Saliency.cpp(160): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Saliency.cpp(171): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>Saliency.cpp(172): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>Saliency.cpp(173): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Saliency.cpp(180): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Saliency.cpp(181): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         Skynet.cpp
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1862): warning C4677: '_redrawDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(541): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(542): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1756): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(68): warning C4677: 'comportErrorDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(69): warning C4677: 'comportEstablishDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(70): warning C4677: 'imageDialogDelegate': signature of non-private member contains assembly private type 'Delegates::twointThreedoubleToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(9) : see declaration of 'Delegates::twointThreedoubleToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(71): warning C4677: 'saliencyAddTarget': signature of non-private member contains assembly private type 'Delegates::rowDataToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(10) : see declaration of 'Delegates::rowDataToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(72): warning C4677: 'saveImageDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(73): warning C4677: 'ocrDelegate': signature of non-private member contains assembly private type 'Delegates::dataGridViewRowToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(11) : see declaration of 'Delegates::dataGridViewRowToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(81): warning C4677: 'theComport': signature of non-private member contains assembly private type 'Communications::Comport'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Comport.h(49) : see declaration of 'Communications::Comport'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(84): warning C4677: 'm_joystick': signature of non-private member contains assembly private type 'Joystick'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Joystick.h(27) : see declaration of 'Joystick'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(85): warning C4677: 'db': signature of non-private member contains assembly private type 'Database::DatabaseConnection'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(45) : see declaration of 'Database::DatabaseConnection'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1496): warning C4677: 'insertTable': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1581): warning C4677: 'addRawTarget': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1561): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1562): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1651): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1659): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2061): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2062): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         TargetDialog.cpp
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1862): warning C4677: '_redrawDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(483): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(484): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(485): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(486): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(487): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(488): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(489): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(490): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(491): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(492): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(493): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(494): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(498): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(499): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(500): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(501): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(502): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(503): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(541): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(542): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\MapControl.h(1756): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(68): warning C4677: 'comportErrorDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(69): warning C4677: 'comportEstablishDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(70): warning C4677: 'imageDialogDelegate': signature of non-private member contains assembly private type 'Delegates::twointThreedoubleToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(9) : see declaration of 'Delegates::twointThreedoubleToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(71): warning C4677: 'saliencyAddTarget': signature of non-private member contains assembly private type 'Delegates::rowDataToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(10) : see declaration of 'Delegates::rowDataToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(72): warning C4677: 'saveImageDelegate': signature of non-private member contains assembly private type 'Delegates::voidToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(8) : see declaration of 'Delegates::voidToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(73): warning C4677: 'ocrDelegate': signature of non-private member contains assembly private type 'Delegates::dataGridViewRowToVoid'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Delegates.h(11) : see declaration of 'Delegates::dataGridViewRowToVoid'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(81): warning C4677: 'theComport': signature of non-private member contains assembly private type 'Communications::Comport'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Comport.h(49) : see declaration of 'Communications::Comport'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(84): warning C4677: 'm_joystick': signature of non-private member contains assembly private type 'Joystick'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Joystick.h(27) : see declaration of 'Joystick'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(85): warning C4677: 'db': signature of non-private member contains assembly private type 'Database::DatabaseConnection'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(45) : see declaration of 'Database::DatabaseConnection'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1496): warning C4677: 'insertTable': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1581): warning C4677: 'addRawTarget': signature of non-private member contains assembly private type 'Database::RowData'
+                 c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Database.h(21) : see declaration of 'Database::RowData'
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1561): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1562): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1651): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(1659): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2061): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\Form1.h(2062): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         Generating Code...
+         All outputs are up-to-date.
+         All outputs are up-to-date.
+         All outputs are up-to-date.
+       CoreResGen:
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\X64\Release\Skynet.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\Skynet opengl32.lib glu32.lib comsuppwd.lib dxguid.lib dxerr.lib dinput8.lib cv210.lib cvaux210.lib cxcore210.lib highgui210.lib cxts210.lib ml210.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:X64\Release\Skynet.Form1.resources /ASSEMBLYRESOURCE:X64\Release\Skynet.TargetDialog.resources /MANIFEST /ManifestFile:"X64\Release\Skynet.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\X64\Release\Skynet.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X64 X64\Release\app.res
+         X64\Release\AssemblyInfo.obj
+         X64\Release\Auvsi_cvFft.obj
+         X64\Release\Auvsi_cvUtil.obj
+         X64\Release\Auvsi_DualTree.obj
+         X64\Release\Auvsi_Ocr.obj
+         X64\Release\Auvsi_Radon.obj
+         X64\Release\Auvsi_Recognize.obj
+         X64\Release\blob.obj
+         X64\Release\BlobContour.obj
+         X64\Release\BlobOperators.obj
+         X64\Release\BlobResult.obj
+         X64\Release\ComponentLabeling.obj
+         X64\Release\Comport.obj
+         X64\Release\Database.obj
+         X64\Release\DeckLinkAPI_i.obj
+         X64\Release\DecklinkCallback.obj
+         X64\Release\GeoReference.obj
+         X64\Release\Joystick.obj
+         X64\Release\MapControl.obj
+         X64\Release\OCR.obj
+         X64\Release\Saliency.obj
+         X64\Release\SaveImage.obj
+         X64\Release\Skynet.obj
+         X64\Release\stdafx.obj
+         X64\Release\TargetDialog.obj
+         "X64\Release\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         Saliency_New.lib
+     1>dinput8.lib(dilib4.obj) : warning LNK4078: multiple '.text' sections found with different attributes (C0500040)
+            Creating library C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\X64\Release\Skynet.lib and object C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\X64\Release\Skynet.exp
+         Skynet.vcxproj -> C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\X64\Release\Skynet.exe
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\X64\Release\Skynet.exe;#1" /manifest X64\Release\Skynet.exe.intermediate.manifest
+       _AfterBuild:
+         Deleting file "X64\Release\Skynet.unsuccessfulbuild".
+         Touching "X64\Release\Skynet.lastbuildstate".
+     1>Done Building Project "C:\Users\UCSD\Documents\Visual Studio 2010\Projects\Skynet\Skynet\Skynet.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:11.06

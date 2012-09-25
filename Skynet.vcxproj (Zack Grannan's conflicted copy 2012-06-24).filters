@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Decklink API">
+      <UniqueIdentifier>{ca208f86-a8f0-4fd2-9dd8-bde707d194d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Auvsi_Saliency">
+      <UniqueIdentifier>{37e8e4e3-d529-4a67-a42a-f04b51cf1b2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OCR">
+      <UniqueIdentifier>{fb66c5fb-cfe3-44f4-a6ce-0e9d87371678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Communications">
+      <UniqueIdentifier>{e54562ab-356c-4069-9b77-a5f1fd778147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Communications">
+      <UniqueIdentifier>{2e48ff17-8f83-41f9-b113-9936aed4597a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI Forms">
+      <UniqueIdentifier>{c91a6743-62eb-4847-bdda-41ed629445fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Simulation">
+      <UniqueIdentifier>{9dbdefc8-2a47-4581-b3be-21774bb20aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI Forms">
+      <UniqueIdentifier>{216ae6a7-fd89-48c2-a00a-76398991f182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Simulation">
+      <UniqueIdentifier>{c53f3436-9837-4f36-b9cc-1c7dafcb2008}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="airplane_icon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="app.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ReadMe.txt" />
+    <None Include="Resampler.i">
+      <Filter>OCR</Filter>
+    </None>
+    <None Include="Saliency_New.exe" />
+    <None Include="Saliency_New.exp" />
+    <None Include="_Resampler.so">
+      <Filter>OCR</Filter>
+    </None>
+    <None Include="ClassDiagram2.cd" />
+    <None Include="autosearch.py">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Auvsi_cvFft.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="Auvsi_cvUtil.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="Auvsi_DualTree.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="Auvsi_Ocr.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="Auvsi_Radon.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="Auvsi_Recognize.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="blob.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="BlobContour.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="BlobOperators.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="BlobResult.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentLabeling.cpp">
+      <Filter>OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkCallback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Joystick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Saliency.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skynet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeoReference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Comport.cpp">
+      <Filter>Source Files\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="Comms.cpp">
+      <Filter>Source Files\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="AutopilotComport.cpp">
+      <Filter>Source Files\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="RabbitComport.cpp">
+      <Filter>Source Files\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="ComportHandler.cpp">
+      <Filter>Source Files\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneWatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkynetController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetDialog.cpp">
+      <Filter>Source Files\UI Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="MapControl.cpp">
+      <Filter>Source Files\UI Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="SimHandler.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="TelemetrySimulator.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoReader.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoSimulator.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseStructures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetLock.cpp">
+      <Filter>Source Files\Communications</Filter>
+    </ClCompile>
+    <ClCompile Include="GEarthHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VoteCounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Autosearch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeckLinkAPI_i.c">
+      <Filter>Decklink API</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Auvsi_cvFft.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_cvUtil.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_DualTree.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_FFT.h">
+      <Filter>Header Files\Auvsi_Saliency</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Filter.h">
+      <Filter>Header Files\Auvsi_Saliency</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Image.h">
+      <Filter>Header Files\Auvsi_Saliency</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Matrix.h">
+      <Filter>Header Files\Auvsi_Saliency</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Ocr.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Radon.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Recognize.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Saliency.h">
+      <Filter>Header Files\Auvsi_Saliency</Filter>
+    </ClInclude>
+    <ClInclude Include="Auvsi_Util.h">
+      <Filter>Header Files\Auvsi_Saliency</Filter>
+    </ClInclude>
+    <ClInclude Include="blob.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="BlobContour.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="BlobLibraryConfiguration.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="BlobOperators.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="BlobResult.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentLabeling.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Delegates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Form1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoReference.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Joystick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resampler.h">
+      <Filter>OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Saliency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Comms.h">
+      <Filter>Header Files\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="Comport.h">
+      <Filter>Header Files\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="AutopilotComport.h">
+      <Filter>Header Files\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="RabbitComport.h">
+      <Filter>Header Files\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="ComportHandler.h">
+      <Filter>Header Files\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneWatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLForm.h">
+      <Filter>Header Files\UI Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="MapControl.h">
+      <Filter>Header Files\UI Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="SimHandler.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="TelemetrySimulator.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoSimulator.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoReader.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="SkynetController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDControl.h">
+      <Filter>Header Files\UI Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="TelemetryStructures.h">
+      <Filter>Header Files\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="SkynetControllerInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetLock.h">
+      <Filter>Header Files\Communications</Filter>
+    </ClInclude>
+    <ClInclude Include="Tester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GEarthHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VoteCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Autosearch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DeckLinkAPI_h.h">
+      <Filter>Decklink API</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resX">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TargetDialog.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Saliency_New.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DeckLinkAPI.idl">
+      <Filter>Decklink API</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|X64">
+      <Configuration>Debug</Configuration>
+      <Platform>X64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|X64">
+      <Configuration>Release</Configuration>
+      <Platform>X64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{741068E1-38B1-408D-A1D6-59DF63CA5880}</ProjectGuid>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>Skynet</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CLRSupport>Pure</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CLRSupport>Pure</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 4.2.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\OpenCV-2.1.0\include\opencv;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\OpenCV-2.1.0\lib\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>OCR;C:\opencv\build\install\include\opencv;C:\opencv\build\install\include;SalientGreenGPU\include;SalientGreenGPU\cvBlob;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\build\install\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\ucsd_auvsi\Dropbox\Skynet\X64\Release;$(LibraryPath)</LibraryPath>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AssemblyDebug>true</AssemblyDebug>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <CompileAsManaged>true</CompileAsManaged>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;comsuppwd.lib;dxguid.lib;dxerr.lib;dinput8.lib;cv210d.lib;cvaux210d.lib;cxcore210d.lib;highgui210d.lib;cxts210d.lib;ml210d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AssemblyDebug>true</AssemblyDebug>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <CompileAsManaged>true</CompileAsManaged>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\opencv\include;C:\opencv\include\opencv;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenCUDA;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;comsuppwd.lib;dxguid.lib;dxerr.lib;dinput8.lib;opencv_core240.lib;opencv_highgui240.lib;opencv_video240.lib;opencv_ml240.lib;opencv_legacy240.lib;opencv_imgproc240.lib;opencv_objdetect240.lib;opencv_gpu240.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
+      <AdditionalLibraryDirectories>C:\opencv\build\install\bin;..\Skynet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ForceSymbolReferences>%(ForceSymbolReferences)</ForceSymbolReferences>
+    </Link>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+      <Message>
+      </Message>
+    </CustomBuildStep>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="*Microsoft.VisualC, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="*System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="Microsoft.VisualC" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="airplane_icon.ico" />
+    <None Include="app.ico" />
+    <None Include="autosearch.py" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="IntelligenceController.h" />
+    <None Include="pathfinder.py" />
+    <None Include="ReadMe.txt" />
+    <None Include="Saliency_New.exe" />
+    <None Include="Saliency_New.exp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="AutopilotComport.cpp" />
+    <ClCompile Include="Autosearch.cpp" />
+    <ClCompile Include="Comms.cpp" />
+    <ClCompile Include="Comport.cpp" />
+    <ClCompile Include="ComportHandler.cpp" />
+    <ClCompile Include="Database.cpp" />
+    <ClCompile Include="DatabaseStructures.cpp" />
+    <ClCompile Include="DeckLinkAPI_i.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">Default</CompileAs>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="DecklinkCallback.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="DuplicateResolver.cpp" />
+    <ClCompile Include="GEarthHandler.cpp" />
+    <ClCompile Include="GeoReference.cpp" />
+    <ClCompile Include="IntelligenceController.cpp" />
+    <ClCompile Include="Joystick.cpp" />
+    <ClCompile Include="MapControl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="OCR.cpp" />
+    <ClCompile Include="PlaneWatcher.cpp" />
+    <ClCompile Include="RabbitComport.cpp" />
+    <ClCompile Include="Saliency.cpp" />
+    <ClCompile Include="SalientGreenGPU\cvBlob\cvaux.cpp" />
+    <ClCompile Include="SalientGreenGPU\cvBlob\cvblob.cpp" />
+    <ClCompile Include="SalientGreenGPU\cvBlob\cvcolor.cpp" />
+    <ClCompile Include="SalientGreenGPU\cvBlob\cvcontour.cpp" />
+    <ClCompile Include="SalientGreenGPU\cvBlob\cvlabel.cpp" />
+    <ClCompile Include="SalientGreenGPU\cvBlob\cvtrack.cpp" />
+    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\Gaussian.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\LogGabor.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Normalization\Normalization.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SaveImage.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SimHandler.cpp" />
+    <ClCompile Include="Skynet.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="SkynetController.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|X64'">Create</PrecompiledHeader>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="TargetDialog.cpp" />
+    <ClCompile Include="TargetLock.cpp" />
+    <ClCompile Include="TelemetrySimulator.cpp" />
+    <ClCompile Include="VideoReader.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="VideoSimulator.cpp" />
+    <ClCompile Include="VisionController.cpp" />
+    <ClCompile Include="VoteCounter.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AutopilotComport.h" />
+    <ClInclude Include="Autosearch.h" />
+    <ClInclude Include="Comms.h" />
+    <ClInclude Include="Comport.h" />
+    <ClInclude Include="ComportHandler.h" />
+    <ClInclude Include="Database.h" />
+    <ClInclude Include="DatabaseStructures.h" />
+    <ClInclude Include="DeckLinkAPI_h.h" />
+    <ClInclude Include="DecklinkCallback.h" />
+    <ClInclude Include="Delegates.h" />
+    <ClInclude Include="DuplicateResolver.h" />
+    <ClInclude Include="Form1.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="GEarthHandler.h" />
+    <ClInclude Include="GeoReference.h" />
+    <ClInclude Include="HUDControl.h" />
+    <ClInclude Include="Joystick.h" />
+    <ClInclude Include="MapControl.h" />
+    <ClInclude Include="MasterHeader.h" />
+    <ClInclude Include="OCR.h" />
+    <ClInclude Include="OpenGLForm.h" />
+    <ClInclude Include="PlaneWatcher.h" />
+    <ClInclude Include="RabbitComport.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Saliency.h" />
+    <ClInclude Include="SalientGreenGPU\cvBlob\cvblob.h" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\config.h" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\LowPass.H" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H" />
+    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H" />
+    <ClInclude Include="SaveImage.h" />
+    <ClInclude Include="SimHandler.h" />
+    <ClInclude Include="SkynetController.h" />
+    <ClInclude Include="SkynetControllerInterface.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TargetDialog.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="TargetLock.h" />
+    <ClInclude Include="TelemetrySimulator.h" />
+    <ClInclude Include="TelemetryStructures.h" />
+    <ClInclude Include="Tester.h" />
+    <ClInclude Include="VideoReader.h" />
+    <ClInclude Include="VideoSimulator.h" />
+    <ClInclude Include="VisionController.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resX">
+      <DependentUpon>Form1.h</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TargetDialog.resx">
+      <DependentUpon>TargetDialog.h</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Saliency_New.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DeckLinkAPI.idl">
+      <TargetEnvironment Condition="'$(Configuration)|$(Platform)'=='Release|X64'">X64</TargetEnvironment>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutosearchWrapper\PathfinderWrapper.csproj">
+      <Project>{91e42a73-1027-4863-9768-dd532d9435ab}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SalientGreenCUDA\SalientGreenCUDA.vcxproj">
+      <Project>{8aa45e0e-0a80-47a1-925a-1257ffd6635d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 4.2.targets" />
+  </ImportGroup>
+</Project>
