@@ -80,6 +80,12 @@
     <None Include="IntelligenceController.h">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="OCR\Resampler.i">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </None>
+    <None Include="OCR\_Resampler.so">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -216,6 +222,42 @@
     </ClCompile>
     <ClCompile Include="SaveImage.cpp">
       <Filter>Source Files\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_DualTree.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Fft.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Ocr.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Radon.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Recognize.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\blob.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\BlobContour.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\BlobOperators.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\BlobResult.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\ComponentLabeling.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Recognizer.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_cvUtil.cpp">
+      <Filter>Header Files\Vision\OCR</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -356,6 +398,48 @@
     </ClInclude>
     <ClInclude Include="Saliency.h">
       <Filter>Header Files\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_cvUtil.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_DualTree.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Fft.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Ocr.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Radon.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Recognize.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\blob.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobContour.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobLibraryConfiguration.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobOperators.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobResult.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\ComponentLabeling.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Recognizer.h">
+      <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Resampler.h">
+      <Filter>Header Files\Vision\OCR</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,7 @@ namespace Delegates
 
 namespace Vision
 {
-	//ref class Recognizer;
+	ref class Recognizer;
 
     public ref class DuplicateResolver
     {
@@ -36,7 +36,7 @@ namespace Vision
 
 	protected:
     	Database::DatabaseConnection ^ database;
-		//Recognizer ^ recognizer;
+		Recognizer ^ recognizer;
     	
     	Skynet::Form1 ^ form1;
 

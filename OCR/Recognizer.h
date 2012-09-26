@@ -33,15 +33,16 @@ namespace Vision
 	private:
 		void loadData();
 
-		void trainLetters(Object ^ dirArg);
-		void trainShapes(Object ^ dirArg);
+		void train(String ^ directory, String ^ outputFilename);
+		void trainLetters(Object ^ directory);
+		void trainShapes(Object ^ directory);
 
-		void saveDatabase(cv::Mat data, cv::Mat classes, string filename);
+		void saveDatabase(cv::Mat data, cv::Mat classes, String ^ filename);
 
-		float letterStrToInt(String ^ letter);
-		String ^ letterIntToStr(float input);
-		float shapeStrToInt(String ^ shape);
-		String ^ shapeIntToStr(float input);
+		int letterStrToInt(String ^ letter);
+		String ^ letterIntToStr(int input);
+		int shapeStrToInt(String ^ shape);
+		String ^ shapeIntToStr(int input);
 
 		bool	isReady;
 	};

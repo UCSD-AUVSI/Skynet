@@ -8,6 +8,7 @@
 #pragma warning(push)
 #pragma warning(disable:4996 4267)
 #include <cv.h>
+#include <opencv2\opencv.hpp>
 #pragma warning(pop)
 
 
@@ -19,21 +20,21 @@ using namespace System::Threading;
 using namespace System::IO;
 using namespace Vision;
 
-#define LETTER_DATA_FILE "/Users/lewisanderson/Code/OCR/database/letterData"
-#define SHAPE_DATA_FILE "/Users/lewisanderson/Code/OCR/database/shapeData"
-#define LETTER_TRAIN_DIR "/Users/lewisanderson/Code/OCR/train/letter/"
-#define SHAPE_TRAIN_DIR "/Users/lewisanderson/Code/OCR/train/shape/"
-
-std::string ManagedToSTL(String ^ s) 
-{
-	using namespace Runtime::InteropServices;
-	const char* chars = 
-		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
-	std::string retVal = chars;
-	Marshal::FreeHGlobal(IntPtr((void*)chars));
-
-	return retVal;
-}
+#define LETTER_DATA_FILE "/SkynetFiles/OCR/database/letterData"
+#define SHAPE_DATA_FILE "/SkynetFiles/OCR/database/shapeData"
+#define LETTER_TRAIN_DIR "/SkynetFiles/OCR/train/letter/"
+#define SHAPE_TRAIN_DIR "/SkynetFiles/OCR/train/shape/"
+std::string ManagedToSTL(String ^ s) ;
+//std::string ManagedToSTL(String ^ s) 
+//{
+//	using namespace Runtime::InteropServices;
+//	const char* chars = 
+//		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+//	std::string retVal = chars;
+//	Marshal::FreeHGlobal(IntPtr((void*)chars));
+//
+//	return retVal;
+//}
 
 Auvsi_Ocr * theOCR;
 CvKNearest knnLetter;
@@ -73,7 +74,7 @@ ImageData ^ Recognizer::recognizeImage(cv::Mat input)
 
 	VT *rowPointer;
 	float *letterVec, *shapeVec;
-	IplImage * inputImg = input;
+	IplImage * inputImg = new IplImage(input);
 
 	// compute feature vector
 	theOCR->processImage(inputImg, &letterVec, &shapeVec);
@@ -108,14 +109,12 @@ ImageData ^ Recognizer::recognizeImage(cv::Mat input)
 	return gcnew ImageData(shapeName, letterName);
 }
 
-void Recognizer::trainLetters(Object ^ dirArg)
+void Recognizer::train(String ^ directory, String ^ outputFilename)
 {
-	String ^ directory = (String ^)dirArg;
 	typedef cv::Vec<float, 1> VT;
 	
 	VT *rowPointer;
-	
-	float *letterVec, *shapeVec;
+
 	Auvsi_Radon *theRadon = new Auvsi_Radon();
 	Auvsi_DualTree *theDualTree = new Auvsi_DualTree();
 	Auvsi_Fft *theFft = new Auvsi_Fft();
@@ -148,7 +147,7 @@ void Recognizer::trainLetters(Object ^ dirArg)
 
 		// convert to inverted black and white (black=1, white=0)
 		cv::Mat bwImg = cv::Mat(img.size(), CV_32FC1);
-		cv::cvtColor( floatImage, bwImg, CV_RGB2Gray );
+		cv::cvtColor( floatImage, bwImg, CV_RGB2GRAY );
 
 		cv::threshold(bwImg,bwImg,0.5,1.0,CV_THRESH_BINARY);
 
@@ -163,27 +162,33 @@ void Recognizer::trainLetters(Object ^ dirArg)
 		for (int j = 0; j < SIZE_OF_FEATURE_VECTOR; j++)
 			rowPointer[j] = letterVec[j];
 
+		String ^ letterStr = s->Split('.')[0];
+
 		rowPointer = trainLetterClasses.ptr<VT>(index); // save letter name
 		rowPointer[0] = letterStrToInt(letterStr);
 		
 
 		// add to samples
-		PRINT("TRAINED letter: " + letterStr + " = " + letterStrToInt(letterStr) + "\n";)
-
+		PRINT("TRAINED letter: " + letterStr + " = " + letterStrToInt(letterStr) + "\n");
+		delete letterVec;
 	}
 
 	// save letter data
-	saveDatabase(trainLetterData, trainLetterClasses, LETTER_DATA_FILE);
+	saveDatabase(trainLetterData, trainLetterClasses, outputFilename);
 
 	delete theRadon;
 	delete theDualTree;
 	delete theFft;
 }
 
-void Recognizer::trainShapes(Object ^ dirArg)
+void Recognizer::trainLetters(Object ^ directory)
 {
-	String ^ directory = (String ^)dirArg;
-	// TODO later: copy-paste from trainLetters
+	train((String ^)directory,LETTER_DATA_FILE);
+}
+
+void Recognizer::trainShapes(Object ^ directory)
+{
+	train((String ^)directory,SHAPE_DATA_FILE);
 }
 
 void Recognizer::loadData()
@@ -200,67 +205,78 @@ void Recognizer::loadData()
 	CvMat *shapeDataMat = (CvMat*)cvLoad( ManagedToSTL(shapeData).c_str() );
 	CvMat *shapeClassesMat = (CvMat*)cvLoad( ManagedToSTL(shapeClasses).c_str() );
 
-	// build KNN
-	knnLetter = CvKNearest(letterData, letterClasses, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
+	if (letterDataMat == nullptr || letterClassesMat == nullptr) {
+		trainLetters(LETTER_TRAIN_DIR);
+		letterDataMat = (CvMat*)cvLoad( ManagedToSTL(letterData).c_str() );
+		letterClassesMat = (CvMat*)cvLoad( ManagedToSTL(letterClasses).c_str() );
+	}
 
-	knnShape = CvKNearest(shapeData, shapeClasses, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
+	if (shapeDataMat == nullptr || shapeClassesMat == nullptr) {
+		trainShapes(SHAPE_TRAIN_DIR);
+		shapeDataMat = (CvMat*)cvLoad( ManagedToSTL(shapeData).c_str() );
+		shapeClassesMat = (CvMat*)cvLoad( ManagedToSTL(shapeClasses).c_str() );
+	}
+	
+	// build KNN
+	knnLetter = CvKNearest(letterDataMat, letterClassesMat, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
+
+	knnShape = CvKNearest(shapeDataMat, shapeClassesMat, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
 
 	// done
 	isReady = true;
 }
 
-void Recognizer::saveDatabase(cv::Mat data, cv::Mat classes, string filename)
+void Recognizer::saveDatabase(cv::Mat data, cv::Mat classes, String ^ filename)
 {
 	CvMat dataMat = data;
 	CvMat classesMat = classes;
 
-	string dataFileName = "";
+	String ^ dataFileName = "";
 	dataFileName += filename;
 	dataFileName += ".data.cv";
 
-	string classFileName = "";
+	String ^ classFileName = "";
 	classFileName += filename;
 	classFileName += ".classes.cv";
-
-	cvSave(dataFileName.c_str(),&dataMat);
-	cvSave(classFileName.c_str(),&classesMat);
+	cvSave( ManagedToSTL(dataFileName).c_str(),&dataMat);
+	cvSave( ManagedToSTL(classFileName).c_str(),&classesMat);
 }
 
 
 
 // return ASCII value of letter
-float Recognizer::letterStrToInt(String ^ letter)
+int Recognizer::letterStrToInt(String ^ letter)
 {
 	char letterChar = ManagedToSTL(letter).c_str()[0];
-	return (float)letterChar;
+	return letterChar;
 
 }
 
-String ^ Recognizer::letterIntToStr(float input) 
+String ^ Recognizer::letterIntToStr(int input) 
 {
-	char letter = (char)(int)input;
+	char letter = (char)input;
 	return "" + letter;
 }
 
 // return an int. 100 == unknown
-float Recognizer::shapeStrToInt(String ^ shape)
+int Recognizer::shapeStrToInt(String ^ shape)
 {
 	if (0 == shape->Substring(0,4)->Equals("squa")) {
-		return 0.0f;
+		return 0;
 	}
 
 	if (0 == shape->Substring(0,4)->Equals( "diam" ))
-		return 1.0f;
+		return 1;
 	if (0 == shape->Substring(0,4)->Equals( "rect" ))
-		return 2.0f;
+		return 2;
 	if (0 == shape->Substring(0,4)->Equals( "para" ))
-		return 3.0f;	
+		return 3;	
 	if (0 == shape->Substring(0,4)->Equals( "hexa" ))
-		return 4.0f;
-	return 100.0f;
+		return 4;
+	return 100;
 }
 
-String ^ Recognizer::shapeIntToStr(float input) 
+String ^ Recognizer::shapeIntToStr(int input) 
 {
 	switch (input)
 	{

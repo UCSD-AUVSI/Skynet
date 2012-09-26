@@ -6,6 +6,7 @@
 #include "OCR.h"
 #include "Form1.h"
 #include "GeoReference.h"
+#include "OCR/Recognizer.h"
 //#include "Recognizer.h"
 #include "DatabaseStructures.h"
 
@@ -31,7 +32,7 @@ DuplicateResolver::DuplicateResolver(DatabaseConnection ^ db, Skynet::Form1 ^ gu
 	database = db;
 	form1 = gui;
 
-	//recognizer = gcnew Recognizer();
+	recognizer = gcnew Recognizer();
 
 	saliencyAddTarget = gcnew candidateRowDataToVoid( this, &DuplicateResolver::receiveCandidate );
 
