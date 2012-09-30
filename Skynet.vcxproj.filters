@@ -37,26 +37,26 @@
     <Filter Include="Source Files\Vision">
       <UniqueIdentifier>{8e211d03-e652-4f24-af8b-a4cbd8919888}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Vision\SalientGreenGPU">
-      <UniqueIdentifier>{3e165790-6129-4363-b6db-c31ced534e09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Vision\SalientGreenGPU\cvBlob">
-      <UniqueIdentifier>{c58d07e8-d046-4676-8216-013d981c2900}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Vision">
       <UniqueIdentifier>{0f54c5d6-bb12-4716-a3ff-657bacb08241}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Vision\SalientGreenGPU">
-      <UniqueIdentifier>{3c9835a5-4523-4db8-923a-b419e11b4cd1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Vision\SalientGreenGPU\cvBlob">
-      <UniqueIdentifier>{c445637d-389a-4e60-a9bd-ab1b672d52ef}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Vision\OCR">
       <UniqueIdentifier>{ecf09fb4-9a99-4e77-97ae-7e12580016f8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Vision\OCR">
       <UniqueIdentifier>{feceb827-63f4-423f-9be0-0edbf44f9c31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenGPU">
+      <UniqueIdentifier>{4a556e98-0010-4a5e-a205-57dc944a415e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenGPU\Cuda">
+      <UniqueIdentifier>{8f20ee39-a1f2-400e-8fd1-4ea0a171591e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenGPU\Filters">
+      <UniqueIdentifier>{3be54e0f-7c39-45ea-88fd-034ae2eaa1e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenGPU\Normalization">
+      <UniqueIdentifier>{131273f9-887f-40ab-b52f-05ccc9376c04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +85,12 @@
     </None>
     <None Include="OCR\_Resampler.so">
       <Filter>Header Files\Vision\OCR</Filter>
+    </None>
+    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_C.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_CXX.bin">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -172,45 +178,6 @@
     <ClCompile Include="DatabaseStructures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvaux.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU\cvBlob</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvtrack.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU\cvBlob</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvblob.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU\cvBlob</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvcolor.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU\cvBlob</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvcontour.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU\cvBlob</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvlabel.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU\cvBlob</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\Gaussian.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\LogGabor.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Normalization\Normalization.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU</Filter>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp">
-      <Filter>Source Files\Vision\SalientGreenGPU</Filter>
-    </ClCompile>
     <ClCompile Include="Saliency.cpp">
       <Filter>Source Files\Vision</Filter>
     </ClCompile>
@@ -258,6 +225,51 @@
     </ClCompile>
     <ClCompile Include="OCR\Auvsi_cvUtil.cpp">
       <Filter>Header Files\Vision\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdC\CMakeCCompilerId.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdCXX\CMakeCXXCompilerId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvaux.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvblob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvcolor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvcontour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvlabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvtrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Gaussian.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LogGabor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Normalization\Normalization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -357,35 +369,8 @@
     <ClInclude Include="DeckLinkAPI_h.h">
       <Filter>Decklink API</Filter>
     </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\config.h">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\LowPass.H">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\cvBlob\cvblob.h">
-      <Filter>Header Files\Vision\SalientGreenGPU\cvBlob</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
-    </ClInclude>
     <ClInclude Include="GeoReference.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H">
-      <Filter>Header Files\Vision\SalientGreenGPU</Filter>
     </ClInclude>
     <ClInclude Include="DuplicateResolver.h">
       <Filter>Header Files\Vision</Filter>
@@ -440,6 +425,36 @@
     </ClInclude>
     <ClInclude Include="OCR\Resampler.h">
       <Filter>Header Files\Vision\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\cvBlob\cvblob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Timer.H">
+      <Filter>Header Files\SalientGreenGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\config.h">
+      <Filter>Header Files\SalientGreenGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H">
+      <Filter>Header Files\SalientGreenGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H">
+      <Filter>Header Files\SalientGreenGPU\Normalization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H">
+      <Filter>Header Files\SalientGreenGPU\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H">
+      <Filter>Header Files\SalientGreenGPU\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LowPass.H">
+      <Filter>Header Files\SalientGreenGPU\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H">
+      <Filter>Header Files\SalientGreenGPU\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H">
+      <Filter>Header Files\SalientGreenGPU\Cuda</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

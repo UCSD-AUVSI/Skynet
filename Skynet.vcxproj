@@ -148,7 +148,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsManaged>true</CompileAsManaged>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\opencv\include;C:\opencv\include\opencv;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenCUDA;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\include;C:\opencv\include;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\cvBlob;C:\opencv\include\opencv;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenCUDA;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -193,6 +193,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_C.bin" />
+    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_CXX.bin" />
     <None Include="airplane_icon.ico" />
     <None Include="app.ico" />
     <None Include="autosearch.py" />
@@ -207,6 +209,26 @@
     <None Include="Saliency_New.exp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdCXX\CMakeCXXCompilerId.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdC\CMakeCCompilerId.c">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvaux.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvblob.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvcolor.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvcontour.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvlabel.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvtrack.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Gaussian.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LogGabor.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Normalization\Normalization.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="AutopilotComport.cpp" />
     <ClCompile Include="Autosearch.cpp" />
@@ -247,33 +269,6 @@
     <ClCompile Include="PlaneWatcher.cpp" />
     <ClCompile Include="RabbitComport.cpp" />
     <ClCompile Include="Saliency.cpp" />
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvaux.cpp" />
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvblob.cpp" />
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvcolor.cpp" />
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvcontour.cpp" />
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvlabel.cpp" />
-    <ClCompile Include="SalientGreenGPU\cvBlob\cvtrack.cpp" />
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\Gaussian.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\LogGabor.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\Normalization\Normalization.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
-    <ClCompile Include="SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
     <ClCompile Include="SaveImage.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
@@ -303,6 +298,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\SalientGreenGPU\cvBlob\cvblob.h" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\config.h" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LowPass.H" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Timer.H" />
     <ClInclude Include="AutopilotComport.h" />
     <ClInclude Include="Autosearch.h" />
     <ClInclude Include="Comms.h" />
@@ -343,15 +348,6 @@
     <ClInclude Include="RabbitComport.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Saliency.h" />
-    <ClInclude Include="SalientGreenGPU\cvBlob\cvblob.h" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\config.h" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\LowPass.H" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H" />
-    <ClInclude Include="SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H" />
     <ClInclude Include="SaveImage.h" />
     <ClInclude Include="SimHandler.h" />
     <ClInclude Include="SkynetController.h" />
