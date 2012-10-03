@@ -48,6 +48,12 @@ VisionController::initImagingPathway()
 {
 	duplicateResolver = gcnew DuplicateResolver(skynetController->getDatabase(), skynetController->getForm1());
 	saliency = gcnew Saliency(skynetController->getPlaneWatcher(), duplicateResolver);
+	if ( saliency == nullptr ) {
+		PRINT("Saliency wasn't initialized properly");
+		throw gcnew Exception("Saliency was not initialized properly");
+	} else {
+		PRINT("Saliency initialized");
+	}
 }
 
 void 
@@ -88,8 +94,10 @@ VisionController::analyzeFrame(Frame ^ frame)
 void 
 VisionController::receiveFrame(float *buffer)
 {
-	if (!skynetController->appIsAlive)
-		return;
+	if (!skynetController->appIsAlive) {
+		//Thread::Sleep(1000);
+		//PRINT("SkynetController is not alive");
+	}
 
 	// display frame in GUI right away
 	openGLForm->UpdateBuffer(buffer);
@@ -108,7 +116,6 @@ VisionController::gotFirstFrame(int imgWidth, int imgHeight)
 	if ( saliency != nullptr ){
 		saliency->setValues(width, height, duplicateResolver);
 	}else{
-		//throw gcnew Exception("Saliency is null");
 		PRINT("SALIENCY IS NULL");
 	}
 }

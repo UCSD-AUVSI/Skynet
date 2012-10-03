@@ -25,16 +25,6 @@ using namespace Vision;
 #define LETTER_TRAIN_DIR "/SkynetFiles/OCR/train/letter/"
 #define SHAPE_TRAIN_DIR "/SkynetFiles/OCR/train/shape/"
 std::string ManagedToSTL(String ^ s) ;
-//std::string ManagedToSTL(String ^ s) 
-//{
-//	using namespace Runtime::InteropServices;
-//	const char* chars = 
-//		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
-//	std::string retVal = chars;
-//	Marshal::FreeHGlobal(IntPtr((void*)chars));
-//
-//	return retVal;
-//}
 
 Auvsi_Ocr * theOCR;
 CvKNearest knnLetter;
@@ -50,9 +40,10 @@ Recognizer::Recognizer()
 	theOCR = new Auvsi_Ocr();
 
 	// load data in other thread
-	Thread ^ loadThread = gcnew Thread(gcnew ThreadStart(this, &Recognizer::loadData));
+	/*Thread ^ loadThread = gcnew Thread(gcnew ThreadStart(this, &Recognizer::loadData));
 	loadThread->Name = "Recognizer Load Thread";
-	loadThread->Start();
+	loadThread->Start();*/
+	loadData();
 }
 
 void Recognizer::trainRecognizer()
@@ -111,6 +102,7 @@ ImageData ^ Recognizer::recognizeImage(cv::Mat input)
 
 void Recognizer::train(String ^ directory, String ^ outputFilename)
 {
+	PRINT("Training started");
 	typedef cv::Vec<float, 1> VT;
 	
 	VT *rowPointer;
@@ -134,6 +126,8 @@ void Recognizer::train(String ^ directory, String ^ outputFilename)
 
 	// for file in directory
 	int index = -1;
+	PRINT("Found "+files->Length + " files");
+	float *letterVec;
 	for each (String ^ s in files)
 	{
 		++index;
@@ -155,7 +149,7 @@ void Recognizer::train(String ^ directory, String ^ outputFilename)
 		//cv::waitKey(0); // DEBUG
 
 		// recognize
-		float *letterVec = theFft->computeFeatureDescriptor(theDualTree->runDualTree(theRadon->computeRadon(bwImg)));
+		letterVec = theFft->computeFeatureDescriptor(theDualTree->runDualTree(theRadon->computeRadon(bwImg)));
 		
 		// add letter + descriptor to letter database
 		rowPointer = trainLetterData.ptr<VT>(index);		// save feature vector
@@ -170,7 +164,7 @@ void Recognizer::train(String ^ directory, String ^ outputFilename)
 
 		// add to samples
 		PRINT("TRAINED letter: " + letterStr + " = " + letterStrToInt(letterStr) + "\n");
-		delete letterVec;
+		//delete letterVec; Weirdly, this causes an error
 	}
 
 	// save letter data
@@ -193,6 +187,8 @@ void Recognizer::trainShapes(Object ^ directory)
 
 void Recognizer::loadData()
 {
+
+	PRINT("Letters and shapes trained");
 	// make filenames
 	String ^letterData = LETTER_DATA_FILE + ".data.cv";
 	String ^letterClasses = LETTER_DATA_FILE + ".classes.cv";
@@ -206,12 +202,14 @@ void Recognizer::loadData()
 	CvMat *shapeClassesMat = (CvMat*)cvLoad( ManagedToSTL(shapeClasses).c_str() );
 
 	if (letterDataMat == nullptr || letterClassesMat == nullptr) {
+		PRINT("Letter data unavailable)");
 		trainLetters(LETTER_TRAIN_DIR);
 		letterDataMat = (CvMat*)cvLoad( ManagedToSTL(letterData).c_str() );
 		letterClassesMat = (CvMat*)cvLoad( ManagedToSTL(letterClasses).c_str() );
 	}
 
 	if (shapeDataMat == nullptr || shapeClassesMat == nullptr) {
+		PRINT("Shape data unavailable)");
 		trainShapes(SHAPE_TRAIN_DIR);
 		shapeDataMat = (CvMat*)cvLoad( ManagedToSTL(shapeData).c_str() );
 		shapeClassesMat = (CvMat*)cvLoad( ManagedToSTL(shapeClasses).c_str() );
