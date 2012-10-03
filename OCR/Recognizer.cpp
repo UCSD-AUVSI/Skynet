@@ -14,6 +14,16 @@
 
 #define SIZE_OF_FEATURE_VECTOR 320
 #define NUMBER_K_NEAREST_NEIGHBORS 2
+#define STAR 1
+#define HALF_CIRCLE 2
+#define CIRCLE 3
+#define HEXAGON 4
+#define PARALLELOGRAM 5
+#define PENTAGON 6
+#define SQUARE 7
+#define TRAPEZOID 8
+#define TRIANGLE 9
+#define UNKNOWN_SHAPE 100
 
 using namespace System;
 using namespace System::Threading;
@@ -117,17 +127,15 @@ void Recognizer::train(String ^ directory, String ^ outputFilename)
 
 	int trainSampleCount = files->Length;
 	
-	cv::Mat trainLetterData, trainLetterClasses, trainShapeData, trainShapeClasses;
+	cv::Mat trainData, trainClasses;
 	
-	trainLetterData = cv::Mat(trainSampleCount, SIZE_OF_FEATURE_VECTOR, CV_32FC1);
-	trainLetterClasses = cv::Mat(trainSampleCount, 1, CV_32FC1); // 1 number represents letter
-	trainShapeData = cv::Mat(trainSampleCount, SIZE_OF_FEATURE_VECTOR, CV_32FC1);
-	trainShapeClasses = cv::Mat(trainSampleCount, 1, CV_32FC1); // 1 number represents shape
+	trainData = cv::Mat(trainSampleCount, SIZE_OF_FEATURE_VECTOR, CV_32FC1);
+	trainClasses = cv::Mat(trainSampleCount, 1, CV_32FC1); // 1 number represents letter
 
 	// for file in directory
 	int index = -1;
 	PRINT("Found "+files->Length + " files");
-	float *letterVec;
+	float *objectVec;
 	for each (String ^ s in files)
 	{
 		++index;
@@ -149,26 +157,28 @@ void Recognizer::train(String ^ directory, String ^ outputFilename)
 		//cv::waitKey(0); // DEBUG
 
 		// recognize
-		letterVec = theFft->computeFeatureDescriptor(theDualTree->runDualTree(theRadon->computeRadon(bwImg)));
+		objectVec = theFft->computeFeatureDescriptor(theDualTree->runDualTree(theRadon->computeRadon(bwImg)));
 		
 		// add letter + descriptor to letter database
-		rowPointer = trainLetterData.ptr<VT>(index);		// save feature vector
+		rowPointer = trainData.ptr<VT>(index);		// save feature vector
 		for (int j = 0; j < SIZE_OF_FEATURE_VECTOR; j++)
-			rowPointer[j] = letterVec[j];
+			rowPointer[j] = objectVec[j];
 
-		String ^ letterStr = s->Split('.')[0];
+		
+		array<String^>^ fragments = s->Split('/');
+		String ^ objectStr=fragments[fragments->Length-1];
 
-		rowPointer = trainLetterClasses.ptr<VT>(index); // save letter name
-		rowPointer[0] = letterStrToInt(letterStr);
+		rowPointer = trainClasses.ptr<VT>(index); // save letter name
+		rowPointer[0] = objectStrToInt(objectStr);
 		
 
 		// add to samples
-		PRINT("TRAINED letter: " + letterStr + " = " + letterStrToInt(letterStr) + "\n");
+		PRINT("TRAINED object: " + objectStr + " = " +objectStrToInt(objectStr) + "\n");
 		//delete letterVec; Weirdly, this causes an error
 	}
 
 	// save letter data
-	saveDatabase(trainLetterData, trainLetterClasses, outputFilename);
+	saveDatabase(trainData, trainClasses, outputFilename);
 
 	delete theRadon;
 	delete theDualTree;
@@ -187,8 +197,9 @@ void Recognizer::trainShapes(Object ^ directory)
 
 void Recognizer::loadData()
 {
+	//trainLetters(LETTER_TRAIN_DIR);
+	//trainShapes(SHAPE_TRAIN_DIR);
 
-	PRINT("Letters and shapes trained");
 	// make filenames
 	String ^letterData = LETTER_DATA_FILE + ".data.cv";
 	String ^letterClasses = LETTER_DATA_FILE + ".classes.cv";
@@ -243,10 +254,11 @@ void Recognizer::saveDatabase(cv::Mat data, cv::Mat classes, String ^ filename)
 
 
 // return ASCII value of letter
-int Recognizer::letterStrToInt(String ^ letter)
+int Recognizer::objectStrToInt(String ^ object)
 {
-	char letterChar = ManagedToSTL(letter).c_str()[0];
-	return letterChar;
+	char objectChar = ManagedToSTL(object).c_str()[0];
+	if ( objectChar == 'x' ) return shapeStrToInt(object);
+	else return objectChar;
 
 }
 
@@ -259,40 +271,34 @@ String ^ Recognizer::letterIntToStr(int input)
 // return an int. 100 == unknown
 int Recognizer::shapeStrToInt(String ^ shape)
 {
-	if (0 == shape->Substring(0,4)->Equals("squa")) {
-		return 0;
-	}
-
-	if (0 == shape->Substring(0,4)->Equals( "diam" ))
-		return 1;
-	if (0 == shape->Substring(0,4)->Equals( "rect" ))
-		return 2;
-	if (0 == shape->Substring(0,4)->Equals( "para" ))
-		return 3;	
-	if (0 == shape->Substring(0,4)->Equals( "hexa" ))
-		return 4;
-	return 100;
+	if ( shape->Contains("star") ) return STAR;
+	if ( shape->Contains("halfcircle") ) return HALF_CIRCLE;
+	if ( shape->Contains("circle") ) return CIRCLE;
+	if ( shape->Contains("hexagon") ) return HEXAGON;
+	if ( shape->Contains("parallelogram") ) return PARALLELOGRAM;
+	if ( shape->Contains("pentagon") ) return PENTAGON;
+	if ( shape->Contains("square") ) return SQUARE;
+	if ( shape->Contains("trapezoid") ) return TRAPEZOID;
+	if ( shape->Contains("triangle") ) return TRIANGLE;
+	return UNKNOWN_SHAPE;	
 }
 
 String ^ Recognizer::shapeIntToStr(int input) 
 {
 	switch (input)
 	{
-		case 0:
-			return "Square";
-		case 1:
-			return "Diamond";
-		case 2:
-			return "Rectangle";
-		case 3:
-			return "Parallelogram";
-		case 4:
-			return "Hexagon";
-		default:
-			return "Unknown";
+		case STAR: return "star";
+		case HALF_CIRCLE: return "halfcircle";
+		case CIRCLE: return "circle";
+		case HEXAGON: return "hexagon";
+		case PARALLELOGRAM: return "parallelogram";
+		case PENTAGON: return "pentagon";
+		case SQUARE: return "square";
+		case TRAPEZOID: return "trapezoid";
+		case TRIANGLE: return "triangle";
+		default: return "Unknown";
 	}
 
-	return "Unknown";
 }
 
 

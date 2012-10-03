@@ -39,7 +39,7 @@ namespace Vision
 
 		void saveDatabase(cv::Mat data, cv::Mat classes, String ^ filename);
 
-		int letterStrToInt(String ^ letter);
+		int objectStrToInt(String ^ object);
 		String ^ letterIntToStr(int input);
 		int shapeStrToInt(String ^ shape);
 		String ^ shapeIntToStr(int input);
