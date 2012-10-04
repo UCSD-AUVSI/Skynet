@@ -215,7 +215,8 @@ Auvsi_Recognize::doClustering( cv::Mat input, int numClusters, bool colored = tr
 
 	// Perform the actual k-means clustering
 	// POSSIBLE FLAGS: KMEANS_PP_CENTERS KMEANS_RANDOM_CENTERS
-	cv::kmeans( kMeansData, numClusters, labels, cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 10, 1.0 ), NUMBER_OF_ATTEMPTS, cv::KMEANS_RANDOM_CENTERS, centers );
+	auto criteria = cv::TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 10, 1.0 );
+	cv::kmeans( kMeansData, numClusters, labels, criteria , NUMBER_OF_ATTEMPTS, cv::KMEANS_RANDOM_CENTERS, centers );
 
 	// Label the image according to the clustering results
 	cv::MatIterator_<VT> retIterator = retVal.begin<VT>();

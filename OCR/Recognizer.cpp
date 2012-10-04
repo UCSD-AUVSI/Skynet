@@ -82,13 +82,17 @@ ImageData ^ Recognizer::recognizeImage(cv::Mat input)
 
 
 	// get letter
-	cv::Mat sample = cv::Mat(1, SIZE_OF_FEATURE_VECTOR, CV_32FC1);
+	cv::Mat sample = cvCreateMat(1, SIZE_OF_FEATURE_VECTOR, CV_32FC1);
 	rowPointer = sample.ptr<VT>(0);
 	for (int j = 0; j < SIZE_OF_FEATURE_VECTOR; j++)
 		rowPointer[j] = letterVec[j];
 
 	cv::Mat nearests = cvCreateMat( 1, 1, CV_32FC1);
-	
+
+	/*PRINT(sample);
+	PRINT(NUMBER_K_NEAREST_NEIGHBORS);
+	PRINT(&nearests);*/
+
 	float response = knnLetter.find_nearest(sample, NUMBER_K_NEAREST_NEIGHBORS, &nearests);
 
 	String ^letterName = letterIntToStr(response);
@@ -233,6 +237,8 @@ void Recognizer::loadData()
 
 	// done
 	isReady = true;
+
+	PRINT("Image: "+recognizeImage(cv::imread("/SkynetFiles/OCR/test/circle.png"))->toString());
 }
 
 void Recognizer::saveDatabase(cv::Mat data, cv::Mat classes, String ^ filename)

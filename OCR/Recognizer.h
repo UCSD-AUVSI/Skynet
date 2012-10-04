@@ -12,14 +12,20 @@ namespace Vision
 {
 
 	public ref struct ImageData {
-		String ^ shape;
-		String ^ letter;
-
+	public:
+		String ^ toString(){
+			return "Shape: " + shape + ", Letter: " + letter;
+		};
 		ImageData(String ^s, String ^l)
 		{
 			shape = s;
 			letter = l;
-		}
+		};
+	private:
+		String ^ shape;
+		String ^ letter;
+
+		
 	};
 
 	public ref class Recognizer {
