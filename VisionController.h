@@ -28,7 +28,7 @@ namespace Communications
 
 namespace Vision
 {
-	ref class Saliency;
+	//ref class Saliency;
 	ref class DuplicateResolver;
 
 	public ref struct Box
@@ -133,7 +133,7 @@ namespace Vision
         Skynet::SkynetController 	^ skynetController;
 		Queue 						^ frameQueue;
         DuplicateResolver			^ duplicateResolver;
-        Saliency					^ saliency;
+        //Saliency					^ saliency;
         Decklink::Callback 			* callback;
         System::Threading::Thread	^ runLoopThread;
         int width, height;

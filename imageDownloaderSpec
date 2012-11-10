@@ -1,0 +1,21 @@
+Constructor:
+	ImageReciever(Directory, VisionController, isSimulation)
+Private methods:
+	- fileAdded
+Structs:
+	- ImageWithPlaneData
+		[int32] latitude in degrees (multiplied by 1E7)
+	    [int32] longitude in degrees  (multiplied by 1E7)
+	    [int32] altitude in millimeters
+	    [float] plane yaw in radians
+	    [float] plane pitch in radians 
+	    [float] plane roll in radians
+	    [float] gimbal roll in radians (relative to horizontal, NOT relative to plane)
+	    [float] gimbal pitch in radians (relative to horizontal, NOT relative to plane)
+	    [int16] plane speed x in meters / second * 100 
+	    [int16] plane speed y in meters / second * 100 
+	    [int16] plane speed z in meters / second * 100
+Configuration values:
+	FLIGHT_TIMEOUT_SECONDS = 60
+
+Calls VisionController->recieveImage(ImageWithPlaneData image)

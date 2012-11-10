@@ -92,6 +92,7 @@
     <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_CXX.bin">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ClassDiagram3.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -250,19 +251,10 @@
     <ClCompile Include="..\SalientGreenGPU\cvBlob\cvtrack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Gaussian.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LogGabor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Normalization\Normalization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">

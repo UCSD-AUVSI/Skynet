@@ -52,7 +52,7 @@ DuplicateResolver::receiveCandidate(CandidateRowData ^ candidate)
 	UnverifiedRowData ^ matchingUnverified = nullptr;
 
 	GPSPositionRowData ^ candidateGPS = unverified->location->centerGPS();
-	float candidateArea = unverified->location->widthMeters()*unverified->location->heightMeters();
+	float candidateArea = (float)unverified->location->widthMeters() * (float)unverified->location->heightMeters();
 
 
 
@@ -60,7 +60,7 @@ DuplicateResolver::receiveCandidate(CandidateRowData ^ candidate)
 	for each (UnverifiedRowData ^ row in unverifiedRows)
 	{
 		GPSPositionRowData ^rowGPS = row->location->centerGPS();
-		float rowArea = row->location->widthMeters()*row->location->heightMeters();
+		float rowArea = (float)row->location->widthMeters() * (float)row->location->heightMeters();
 
 		if (candidateGPS->distanceTo(rowGPS) < 5 && abs(rowArea - candidateArea) < 1)
 		{
@@ -72,8 +72,8 @@ DuplicateResolver::receiveCandidate(CandidateRowData ^ candidate)
 		isUnique = true;
 	else
 	{
-		float unverifiedBlurFactor = unverified->candidate->telemetry->blurFactor;
-		float matchingBlurFactor = matchingUnverified->candidate->telemetry->blurFactor;
+		float unverifiedBlurFactor = (float)unverified->candidate->telemetry->blurFactor;
+		float matchingBlurFactor = (float)matchingUnverified->candidate->telemetry->blurFactor;
 		int unverifiedAreaPixels = unverified->candidate->telemetry->widthPixels*unverified->candidate->telemetry->heightPixels;
 		int matchingAreaPixels = matchingUnverified->candidate->telemetry->widthPixels*matchingUnverified->candidate->telemetry->heightPixels;;
 

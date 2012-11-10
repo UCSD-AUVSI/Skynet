@@ -474,11 +474,6 @@ Auvsi_Recognize::extractLetter( void )
 	#endif
 	typedef cv::Vec<int, 1> IT;
 	
-
-	
-	
-	
-	
 	// Erode input slightly
 	cv::Mat input;
 	cv::erode( _shape, input, cv::Mat() );

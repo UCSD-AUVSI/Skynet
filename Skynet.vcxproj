@@ -200,6 +200,7 @@
     <None Include="autosearch.py" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
     <None Include="IntelligenceController.h" />
     <None Include="OCR\Resampler.i" />
     <None Include="OCR\_Resampler.so" />
@@ -222,13 +223,14 @@
     <ClCompile Include="..\SalientGreenGPU\cvBlob\cvcontour.cpp" />
     <ClCompile Include="..\SalientGreenGPU\cvBlob\cvlabel.cpp" />
     <ClCompile Include="..\SalientGreenGPU\cvBlob\cvtrack.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Gaussian.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LogGabor.cpp" />
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp" />
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Normalization\Normalization.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp" />
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="AutopilotComport.cpp" />
     <ClCompile Include="Autosearch.cpp" />
@@ -268,7 +270,9 @@
     <ClCompile Include="OCR\Recognizer.cpp" />
     <ClCompile Include="PlaneWatcher.cpp" />
     <ClCompile Include="RabbitComport.cpp" />
-    <ClCompile Include="Saliency.cpp" />
+    <ClCompile Include="Saliency.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SaveImage.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
@@ -388,8 +392,8 @@
     <ProjectReference Include="..\AutosearchWrapper\PathfinderWrapper.csproj">
       <Project>{91e42a73-1027-4863-9768-dd532d9435ab}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\SalientGreenCUDA\SalientGreenCUDA.vcxproj">
-      <Project>{8aa45e0e-0a80-47a1-925a-1257ffd6635d}</Project>
+    <ProjectReference Include="..\ImageDownloader\ImageDownloader\ImageDownloader.vcxproj">
+      <Project>{60fe0b07-aa98-42a2-887e-92bf556a667f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

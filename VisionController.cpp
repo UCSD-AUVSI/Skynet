@@ -5,7 +5,7 @@
 #include "MasterHeader.h"
 #include "OpenGLForm.h"
 #include "DecklinkCallback.h"
-#include "Auvsi_Saliency.h"
+//#include "Auvsi_Saliency.h"
 #include "Saliency.h"
 #include "OCR.h"
 #include "PlaneWatcher.h"
@@ -36,7 +36,7 @@ VisionController::VisionController(OpenGLForm::COpenGL ^ openGL, SkynetControlle
 
 VisionController::~VisionController()
 {
-	saliency = nullptr;
+	//saliency = nullptr;
 	if (runLoopThread != nullptr)
 		runLoopThread->Abort();
 
@@ -47,13 +47,13 @@ void
 VisionController::initImagingPathway()
 {
 	duplicateResolver = gcnew DuplicateResolver(skynetController->getDatabase(), skynetController->getForm1());
-	saliency = gcnew Saliency(skynetController->getPlaneWatcher(), duplicateResolver);
+	/* saliency = gcnew Saliency(skynetController->getPlaneWatcher(), duplicateResolver);
 	if ( saliency == nullptr ) {
 		PRINT("Saliency wasn't initialized properly");
 		throw gcnew Exception("Saliency was not initialized properly");
 	} else {
 		PRINT("Saliency initialized");
-	}
+	} */
 }
 
 void 
@@ -88,7 +88,7 @@ VisionController::analyzeFrame(Frame ^ frame)
 {
 	frame->planeState = skynetController->getPlaneWatcher()->predictLocationAtTime((float)frame->timestamp.Subtract(DateTime::Now).TotalSeconds);
 
-	saliency->analyzeFrame(frame);
+//	saliency->analyzeFrame(frame);
 }
 
 void 
@@ -113,11 +113,11 @@ VisionController::gotFirstFrame(int imgWidth, int imgHeight)
 	width = imgWidth;
 	height = imgHeight;
 	openGLForm->CallbackSetup( width, height );
-	if ( saliency != nullptr ){
+/*	if ( saliency != nullptr ){
 		saliency->setValues(width, height, duplicateResolver);
 	}else{
 		PRINT("SALIENCY IS NULL");
-	}
+	} */
 }
 
 

@@ -30,7 +30,7 @@ Add the following to the end of those files
 #include "DecklinkCallback.h"
 #include "Comport.h"
 #include "Joystick.h"
-#include "Auvsi_Saliency.h"
+//#include "Auvsi_Saliency.h"
 #include "Database.h"
 #include "Delegates.h"
 // #include "MapControl.h" DELETE MAP
@@ -51,6 +51,7 @@ Add the following to the end of those files
 #include "SkynetController.h"
 #include "TargetLock.h"
 #include "VisionController.h"
+#include "..\ImageDownloader\ImageDownloader\ImageReceiver.h"
 
 #include <math.h>
 #include "Tester.h"
@@ -407,7 +408,9 @@ private: System::Windows::Forms::Label^  label7;
 
 			// Set up DeckLink
 			//callback = new Decklink::Callback( this->visionController );
-			callback = visionController->getDecklinkCallback();
+			//callback = visionController->getDecklinkCallback();
+			PRINT("Starting ImageReceiver");
+			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\Users\\ucsd_auvsi\\Dropbox\\Skynet\\flight_images",this->visionController, true);
 			
 			theVideoSimulator = gcnew Simulator::VideoSimulator( this->visionController );
 

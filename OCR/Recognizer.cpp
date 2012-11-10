@@ -28,17 +28,28 @@
 using namespace System;
 using namespace System::Threading;
 using namespace System::IO;
+using namespace System::Runtime::InteropServices;
 using namespace Vision;
 
 #define LETTER_DATA_FILE "/SkynetFiles/OCR/database/letterData"
 #define SHAPE_DATA_FILE "/SkynetFiles/OCR/database/shapeData"
 #define LETTER_TRAIN_DIR "/SkynetFiles/OCR/train/letter/"
 #define SHAPE_TRAIN_DIR "/SkynetFiles/OCR/train/shape/"
-std::string ManagedToSTL(String ^ s) ;
+
+std::string ManagedToSTL(String ^ s) 
+{
+   using namespace Runtime::InteropServices;
+   const char* chars = 
+	  (const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+   std::string retVal = chars;
+   Marshal::FreeHGlobal(IntPtr((void*)chars));
+
+   return retVal;
+}
 
 Auvsi_Ocr * theOCR;
-CvKNearest knnLetter;
-CvKNearest knnShape;
+CvKNearest * knnLetter;
+CvKNearest * knnShape;
 cv::Mat letterData;
 cv::Mat letterClasses;
 cv::Mat shapeData;
@@ -53,7 +64,7 @@ Recognizer::Recognizer()
 	/*Thread ^ loadThread = gcnew Thread(gcnew ThreadStart(this, &Recognizer::loadData));
 	loadThread->Name = "Recognizer Load Thread";
 	loadThread->Start();*/
-	loadData();
+	//loadData();
 }
 
 void Recognizer::trainRecognizer()
@@ -87,14 +98,18 @@ ImageData ^ Recognizer::recognizeImage(cv::Mat input)
 	for (int j = 0; j < SIZE_OF_FEATURE_VECTOR; j++)
 		rowPointer[j] = letterVec[j];
 
-	cv::Mat nearests = cvCreateMat( 1, 1, CV_32FC1);
+	cv::Mat nearests = cv::Mat();//cvCreateMat( 1, 1, CV_32FC1);
 
 	/*PRINT(sample);
 	PRINT(NUMBER_K_NEAREST_NEIGHBORS);
 	PRINT(&nearests);*/
-
-	float response = knnLetter.find_nearest(sample, NUMBER_K_NEAREST_NEIGHBORS, &nearests);
-
+	float response;
+	try {
+		response = knnLetter->find_nearest(sample, NUMBER_K_NEAREST_NEIGHBORS, &nearests);
+	} catch (Exception ^ e) {
+		PRINT("Exception: " + e->Source);
+	}
+	//float response = knnLetter.find_nearest(&(const cv::Mat()), NUMBER_K_NEAREST_NEIGHBORS, cv::Mat());
 	String ^letterName = letterIntToStr(response);
 
 
@@ -106,7 +121,7 @@ ImageData ^ Recognizer::recognizeImage(cv::Mat input)
 
 	nearests = cvCreateMat( 1, 1, CV_32FC1);
 	
-	response = knnShape.find_nearest(sample, NUMBER_K_NEAREST_NEIGHBORS, &nearests);
+	response = knnShape->find_nearest(sample, NUMBER_K_NEAREST_NEIGHBORS, &nearests);
 
 	String ^shapeName = shapeIntToStr(response);
 
@@ -231,9 +246,9 @@ void Recognizer::loadData()
 	}
 	
 	// build KNN
-	knnLetter = CvKNearest(letterDataMat, letterClassesMat, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
+	knnLetter = new CvKNearest(letterDataMat, letterClassesMat, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
 
-	knnShape = CvKNearest(shapeDataMat, shapeClassesMat, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
+	knnShape = new CvKNearest(shapeDataMat, shapeClassesMat, cv::Mat(), false, NUMBER_K_NEAREST_NEIGHBORS);
 
 	// done
 	isReady = true;

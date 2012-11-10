@@ -115,6 +115,7 @@ void GeoReference::runTests()
 	
 	getCorners(state, TLLat, TLLon, TRLat, TRLon, BRLat, BRLon, BLLat, BLLon);
 
+	assert(BRLAT == 32);
 
 	PRINT("input state: " + state->stringVal());
 

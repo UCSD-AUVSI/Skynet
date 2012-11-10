@@ -85,7 +85,7 @@ namespace OpenGLForm
 		{
 			theController->gotVideo();
 			lock l(this);
-			memcpy(buffer, input, frameW * frameH * sizeof(float) * 4 / 2);	
+			memcpy(buffer, input, frameW * frameH * sizeof(float) * 3);	
 			
 			newFrame = true;
 		}

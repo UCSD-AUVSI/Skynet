@@ -1,4 +1,4 @@
-#pragma once
+/* #pragma once
 #include <string>
 // #include "Auvsi_Saliency.h"
 #include "Database.h"
@@ -77,3 +77,4 @@ namespace Vision
 		void saveImagesThreadFunction();	// main run loop for saving images
 	};
 }
+*/

@@ -202,8 +202,8 @@ DecklinkCallback::VideoInputFrameArrived( IDeckLinkVideoInputFrame *videoFrame, 
 	}	
 
 	// send frame to vision pathway
-	if (!dontShow)
-		visionCtrlPtr->receiveFrame( outputBuffer );
+	//if (!dontShow)
+		//visionCtrlPtr->receiveFrame( outputBuffer );
 	
 	//System::Diagnostics::Trace::WriteLine( "update buffer from callback");
 	firstFrame = false;

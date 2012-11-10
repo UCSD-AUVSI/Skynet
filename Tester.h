@@ -13,9 +13,9 @@ namespace Skynet {
 		{
 			System::Diagnostics::Trace::WriteLine("Tester::testSaliency() STARTING test ");
 
-			Vision::Saliency ^ sal = gcnew Vision::Saliency();
+//			Vision::Saliency ^ sal = gcnew Vision::Saliency();
 
-			sal->runTest();
+	//		sal->runTest();
 			//"C:\\Users\\UCSD\\Pictures\\Saliency Sample\\heli.bmp");
 			//"C:\\Users\\UCSD\\Desktop\\test.png");
 
