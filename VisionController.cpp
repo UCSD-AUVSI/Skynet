@@ -4,7 +4,6 @@
 #include "DuplicateResolver.h"
 #include "MasterHeader.h"
 #include "OpenGLForm.h"
-#include "DecklinkCallback.h"
 //#include "Auvsi_Saliency.h"
 #include "Saliency.h"
 #include "OCR.h"
@@ -23,8 +22,6 @@ VisionController::VisionController(OpenGLForm::COpenGL ^ openGL, SkynetControlle
 	// init queue
 	frameQueue = gcnew Queue(60);
 
-	// make and init decklink
-	callback = new Decklink::Callback( this );
 
 	// make and init DuplicateResolver,Saliency,OCR
 	initImagingPathway();
@@ -40,7 +37,6 @@ VisionController::~VisionController()
 	if (runLoopThread != nullptr)
 		runLoopThread->Abort();
 
-	delete(callback);
 }
 
 void 
@@ -92,7 +88,7 @@ VisionController::analyzeFrame(Frame ^ frame)
 }
 
 void 
-VisionController::receiveFrame(float *buffer)
+VisionController::receiveFrame(unsigned char *buffer)
 {
 	if (!skynetController->appIsAlive) {
 		//Thread::Sleep(1000);
@@ -101,6 +97,7 @@ VisionController::receiveFrame(float *buffer)
 
 	// display frame in GUI right away
 	openGLForm->UpdateBuffer(buffer);
+	openGLForm->SwapOpenGLBuffers();
 
 	// queue frame for later analysis
 	Frame ^frame = gcnew Frame(buffer, width, height);
@@ -112,7 +109,7 @@ VisionController::gotFirstFrame(int imgWidth, int imgHeight)
 {
 	width = imgWidth;
 	height = imgHeight;
-	openGLForm->CallbackSetup( width, height );
+	openGLForm->SetSize( width, height );
 /*	if ( saliency != nullptr ){
 		saliency->setValues(width, height, duplicateResolver);
 	}else{

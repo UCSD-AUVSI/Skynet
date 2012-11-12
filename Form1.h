@@ -27,7 +27,6 @@ Add the following to the end of those files
 #include "MasterHeader.h"
 
 #include "OpenGLForm.h"
-#include "DecklinkCallback.h"
 #include "Comport.h"
 #include "Joystick.h"
 //#include "Auvsi_Saliency.h"
@@ -131,7 +130,6 @@ namespace Skynet {
 	protected:
 		Vision::VisionController ^		visionController;
 		OpenGLForm::COpenGL ^			openGLView;  	// video viewport
-		Decklink::Callback *			callback;	
 		SkynetController ^				appController;
 		Communications::TargetLock ^	targetLock;
 		Communications::Comms ^			theComms;
@@ -406,18 +404,13 @@ private: System::Windows::Forms::Label^  label7;
 			this->visionController = gcnew Vision::VisionController(openGLView, appController);
 
 
-			// Set up DeckLink
-			//callback = new Decklink::Callback( this->visionController );
-			//callback = visionController->getDecklinkCallback();
 			PRINT("Starting ImageReceiver");
 			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\Users\\ucsd_auvsi\\Dropbox\\Skynet\\flight_images",this->visionController, true);
 			
 			theVideoSimulator = gcnew Simulator::VideoSimulator( this->visionController );
 
 			// Comport Stuff
-			//theComport = gcnew Communications::Comport( this );
-			//comPortStripComboBox->Items->AddRange( theComport->getPortNames() );
-			theSimHandler = gcnew Simulator::SimHandler(theVideoSimulator, callback, openGLView, this->visionController);
+			theSimHandler = gcnew Simulator::SimHandler(theVideoSimulator, openGLView, this->visionController);
 
 			//set up Joystick
 			m_joystick = gcnew Joystick( this );
@@ -525,11 +518,6 @@ private: System::Windows::Forms::Label^  label7;
 			if ( logFile )
             	delete (IDisposable^)logFile;
 
-			if( callback )
-			{
-				delete callback;
-				System::Diagnostics::Trace::WriteLine("Callback");
-			}
 			if (theComms)
 			{
 				//if( comReadThread )

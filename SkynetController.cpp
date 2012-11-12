@@ -231,7 +231,6 @@ String ^ SkynetController::saveCurrentFrameAsImage(String ^ basePath)
 	// save current image to a file
 	String ^ pathbase = basePath;
 	String ^ filename = "img_" + DateTime::Now.ToString("o")->Replace(":", "-") + ".jpg";
-	theOpenGL->saveImage( pathbase + filename );
 
 	return filename;
 }
@@ -261,7 +260,6 @@ void SkynetController::saveCurrentFrameAsUnverified()
 	// save current image to a file
 	String ^ pathbase = HTTP_SERVER_TARGET_PATH;
 	String ^ filename = "img_" + DateTime::Now.ToString("o")->Replace(":", "-") + ".jpg";
-	theOpenGL->saveImage( pathbase + filename );
 
 	// insert data into database
 	auto unverified = gcnew UnverifiedRowData(stateOfPlane, originX, originY, width, height);

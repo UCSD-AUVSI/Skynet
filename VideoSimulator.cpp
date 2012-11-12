@@ -167,8 +167,8 @@ VideoSimulator::readThread( void )
 
 				*/
 		
-				if (frame != 0 ) {
-					receiver->receiveFrame( frame );
+			//	if (frame != 0 ) {
+				//	receiver->receiveFrame( frame );
 					
 					
 					// benchmark code
@@ -181,7 +181,7 @@ VideoSimulator::readThread( void )
 					System::Diagnostics::Trace::WriteLine( "framerate:" + frameRate + " counter:" + counter + " seconds:" + numSeconds);
 					*/
 					//delete frame;
-				}
+		//		}
 
 				// prepare next frame
 				theReader->grab();

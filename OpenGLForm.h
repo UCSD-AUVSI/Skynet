@@ -50,15 +50,12 @@ namespace OpenGLForm
 			//rtri = 0.0f;
 			//rquad = 0.0f;
 
-			callbackSetupDone = false;
+			sizeSet = false;
 			textureSetupDone = false;
 			buffer = nullptr;
 			frameW = frameH = -1;
 			cubeZoom = 1.63f;
 			xLocation = 1.0f;
-
-			saveVideo = false;
-
 
 			_parent = parent;
 			newFrame = false;
@@ -77,72 +74,43 @@ namespace OpenGLForm
 			if( buffer != nullptr )
 				delete buffer;
 
-			if( imSaver != nullptr )
-				delete imSaver;
 		}
 
-		System::Void UpdateBuffer( float * input )
+		System::Void UpdateBuffer( unsigned char* input )
 		{
 			theController->gotVideo();
 			lock l(this);
-			memcpy(buffer, input, frameW * frameH * sizeof(float) * 3);	
+			memcpy(buffer, input, frameW * frameH * 3);	
 			
 			newFrame = true;
 		}
 
-		System::Void CallbackSetup( GLsizei fWidth, GLsizei fHeight )
+		System::Void SetSize( GLsizei fWidth, GLsizei fHeight )
 		{
 			frameW = fWidth;
 			frameH = fHeight;
 
-			buffer = new float[fWidth * fHeight * 4];
-			callbackSetupDone = true;		
+			buffer = new unsigned char[fWidth * fHeight * 3];
+			sizeSet = true;		
 
-			imSaver = new ImageUtil::SaveImage( frameH, frameW, 4 );	
-//			theSaliency->setValues(frameW, frameH, _parent);
-			PRINT("CallbackSetup ... shit will be borked if video was running during this");
-		}
-
-		System::Void saveVideoFrame()
-		{
-			benchmark++;
-			imSaver->writeFrame( buffer );
-
-			//System::Diagnostics::Trace::WriteLine("writeFrame in Render in OpenGLForm.h: " + benchmark);
+			PRINT("OpenGL Frame Size set");
 		}
 
 		System::Void Render(System::Void)
 		{
-			if( callbackSetupDone && !textureSetupDone )
+			if( sizeSet && !textureSetupDone )
 			{
 				SetupTexture();
 				textureH = ((float)frameH)/((float)bufferH); 
-				textureH = textureH / 2; // deinterlaced means that valid data takes up first half of buffer only
 				textureW = ((float)frameW)/((float)bufferW);
 				cubeW = 1.0f;
 				cubeH = ((float)frameH)/((float)frameW); // aspect ratio
 				cubeZoom = 1.63f; // this assumes the view is wider (in terms of aspect ratio) than the video. if the view is taller, zoom must change
-				//cubeZoom = 1.00f;
 			}
 			if( textureSetupDone )
 			{
 				glBindTexture(GL_TEXTURE_2D, texture[0]);
-
-				// only hose it if there is a new frame
-				//if (newFrame)
-					/*if (showSaliency)
-						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (GLint)frameW, (GLint)frameH, GL_LUMINANCE, GL_FLOAT, saliencyBuffer);
-					else*/
-						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (GLint)frameW, (GLint)frameH, GL_RGBA, GL_FLOAT, buffer);	
-			}
-
-			// never do this. instead, save video in SimHandler
-			if( false && saveVideo )
-			{
-				benchmark++;
-				imSaver->writeFrame( buffer );
-
-				System::Diagnostics::Trace::WriteLine("writeFrame in Render in OpenGLForm.h: " + benchmark);
+				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (GLint)frameW, (GLint)frameH, GL_RGB, GL_UNSIGNED_BYTE, buffer);	
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);			
@@ -156,7 +124,6 @@ namespace OpenGLForm
 
 			glBegin(GL_QUADS);
 				// Front Face
-				//glColor3f(1.0f, 0.0f, 0.0f);
 				glTexCoord2f(0.0f, textureH); glVertex3f(-cubeW - 1.0f, -cubeH,  0.0f);	// Bottom Left Of The Texture and Quad
 				glTexCoord2f(textureW, textureH); glVertex3f( cubeW - 1.0f, -cubeH,  0.0f);	// Bottom Right Of The Texture and Quad
 				glTexCoord2f(textureW, 0.0f); glVertex3f( cubeW - 1.0f,  cubeH,  0.0f);	// Top Right Of The Texture and Quad 
@@ -169,54 +136,10 @@ namespace OpenGLForm
 			SwapBuffers(m_hDC) ;
 		}
 
-		// save current frame to path
-		System::Void saveImage( String ^ path )
-		{
-			if (imSaver != nullptr)
-				imSaver->saveFrame( buffer, ManagedToSTL( path ) );
-		}
-
-		System::Void saveImage( String ^ path, String ^ pathBase, array<float> ^ homo, double heading )
-		{
-			float * homography = new float[9];
-			for( int i = 0; i < 9; ++i )
-				homography[i] = homo[i];
-
-			//homography[0] = homography[4] = homography[8] = 1.0;
-			//heading = 45;
-
-			if (imSaver != nullptr)
-				imSaver->saveFrame( buffer, ManagedToSTL( path ), ManagedToSTL( pathBase ), homography, heading );
-		}
-
-		bool enableVideoRecording( String ^ path )
-		{
-			System::Diagnostics::Trace::WriteLine("enableVideoRecording in OpenGLForm.h");
-			if (imSaver != nullptr)
-				imSaver->setupVideo( ManagedToSTL( path ) );
-			else 
-				return false;
-			saveVideo = true;
-			benchmark = 0;
-			return true;
-		}
-
-		System::Void disableVideoRecording()
-		{
-			System::Diagnostics::Trace::WriteLine("disableVideoRecording in OpenGLForm.h");
-			imSaver->stopVideo();
-			saveVideo = false;
-		}
-
-
-		System::Void changeEncoding( String ^ encoding )
-		{
-			imSaver->changeEncoding( ManagedToSTL( encoding ) );
-		}
 
 
 	public:		
-		float * buffer;
+		unsigned char* buffer;
 		GLsizei frameW, frameH;
 
 		Skynet::SkynetController ^theController;
@@ -231,13 +154,12 @@ namespace OpenGLForm
 		GLfloat cubeW, cubeH;
 		GLfloat cubeZoom;
 		GLfloat xLocation;
-		bool callbackSetupDone;
+		bool sizeSet;
 		bool textureSetupDone;	
 		bool saveVideo;
 //		bool showSaliency;
 		bool newFrame;
 
-		ImageUtil::SaveImage * imSaver;
 //		Vision::Saliency ^ theSaliency;
 
 		Object ^ _parent;

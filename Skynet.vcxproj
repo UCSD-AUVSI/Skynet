@@ -239,14 +239,6 @@
     <ClCompile Include="ComportHandler.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DatabaseStructures.cpp" />
-    <ClCompile Include="DeckLinkAPI_i.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">Default</CompileAs>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
-    </ClCompile>
-    <ClCompile Include="DecklinkCallback.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</CompileAsManaged>
-    </ClCompile>
     <ClCompile Include="DuplicateResolver.cpp" />
     <ClCompile Include="GEarthHandler.cpp" />
     <ClCompile Include="GeoReference.cpp" />
@@ -319,8 +311,6 @@
     <ClInclude Include="ComportHandler.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="DatabaseStructures.h" />
-    <ClInclude Include="DeckLinkAPI_h.h" />
-    <ClInclude Include="DecklinkCallback.h" />
     <ClInclude Include="Delegates.h" />
     <ClInclude Include="DuplicateResolver.h" />
     <ClInclude Include="Form1.h">
@@ -382,11 +372,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Saliency_New.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="DeckLinkAPI.idl">
-      <TargetEnvironment Condition="'$(Configuration)|$(Platform)'=='Release|X64'">X64</TargetEnvironment>
-    </Midl>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutosearchWrapper\PathfinderWrapper.csproj">

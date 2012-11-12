@@ -16,11 +16,6 @@ namespace OpenGLForm
 	ref class COpenGL;
 }
 
-namespace Decklink
-{
-	class Callback;
-}
-
 namespace Communications
 {
 	ref struct PlaneState;
@@ -49,19 +44,19 @@ namespace Vision
 
 	public ref struct Frame
 	{
-		float *buffer;
+		unsigned char *buffer;
 		cv::Mat *img;
 		DateTime timestamp;
 		Collections::Generic::List<Box ^>^ saliencyBlobs;
 		Communications::PlaneState ^ planeState;
 
-		Frame(float *buf, int w, int h, DateTime time)
+		Frame(unsigned char *buf, int w, int h, DateTime time)
 		{
 			allocImg(buf,w,h);
 			init(time);
 		}
 
-		Frame(float *buf, int w, int h)
+		Frame(unsigned char *buf, int w, int h)
 		{
 			allocImg(buf,w,h);
 			init(DateTime::Now.AddSeconds(-VIDEO_LATENCY));
@@ -69,16 +64,16 @@ namespace Vision
 
 		Frame(cv::Mat inputImg)
 		{
-			buffer = NULL;
+			buffer = nullptr;
 			img = new cv::Mat(inputImg);
 			
 			init(DateTime::Now.AddSeconds(-VIDEO_LATENCY));
 		}
 
-		void allocImg(float *buf, int w, int h)
+		void allocImg(unsigned char* buf, int w, int h)
 		{
 			buffer = buf;
-			img = new cv::Mat(h, w, CV_32FC3, buf);
+			img = new cv::Mat(h, w, CV_8UC3, buf);
 		}
 
 		void init(DateTime time)
@@ -115,10 +110,8 @@ namespace Vision
 		VisionController(OpenGLForm::COpenGL ^ openGL, Skynet::SkynetController ^ skynetCtrl);
 		~VisionController();
 
-		void receiveFrame(float *buffer);
+		void receiveFrame(unsigned char *buffer);
 		void gotFirstFrame(int imgWidth, int imgHeight);
-
-		Decklink::Callback *getDecklinkCallback() { return callback; }
 
 	protected:
 		void runLoop();
@@ -134,7 +127,6 @@ namespace Vision
 		Queue 						^ frameQueue;
         DuplicateResolver			^ duplicateResolver;
         //Saliency					^ saliency;
-        Decklink::Callback 			* callback;
         System::Threading::Thread	^ runLoopThread;
         int width, height;
     };

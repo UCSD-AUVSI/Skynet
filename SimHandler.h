@@ -1,7 +1,6 @@
 #pragma once
 
 #include "VideoSimulator.h"
-#include "DecklinkCallback.h"
 #include <fstream>
 #include <iostream>
 
@@ -44,7 +43,7 @@ namespace Simulator
 		TelemetrySimulator ^ theTelSimulator; // telemetry
 		Object ^ theComms;
 
-		SimHandler(VideoSimulator ^ vidSim, Decklink::Callback * decklinkCallback, OpenGLForm::COpenGL ^ openGL, Vision::VisionController ^ visionCtrl);
+		SimHandler(VideoSimulator ^ vidSim, OpenGLForm::COpenGL ^ openGL, Vision::VisionController ^ visionCtrl);
 		~SimHandler();
 
 		void startPlayback(String ^ filename);
@@ -76,7 +75,6 @@ namespace Simulator
 		Simulator::VideoSimulator ^ theVideoSimulator;
 		OpenGLForm::COpenGL ^ openGLView;
 		Vision::VisionController ^ visionController;
-		Decklink::Callback * callback;
 		Thread ^ videoAttemptThread;
 		Thread ^ videoWriteThread;
 

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Decklink API">
-      <UniqueIdentifier>{ca208f86-a8f0-4fd2-9dd8-bde707d194d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -98,9 +95,6 @@
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DecklinkCallback.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Joystick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -166,9 +160,6 @@
     </ClCompile>
     <ClCompile Include="Autosearch.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DeckLinkAPI_i.c">
-      <Filter>Decklink API</Filter>
     </ClCompile>
     <ClCompile Include="IntelligenceController.cpp">
       <Filter>Source Files</Filter>
@@ -268,9 +259,6 @@
     <ClInclude Include="Database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DecklinkCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Delegates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -357,9 +345,6 @@
     </ClInclude>
     <ClInclude Include="Autosearch.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DeckLinkAPI_h.h">
-      <Filter>Decklink API</Filter>
     </ClInclude>
     <ClInclude Include="GeoReference.h">
       <Filter>Header Files</Filter>
@@ -464,10 +449,5 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Saliency_New.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="DeckLinkAPI.idl">
-      <Filter>Decklink API</Filter>
-    </Midl>
   </ItemGroup>
 </Project>

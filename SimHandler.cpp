@@ -32,16 +32,13 @@ using namespace msclr;
 #define FRAME_FREQUENCY		1000 / VIDEO_FRAMERATE
 
 
-SimHandler::SimHandler(VideoSimulator ^ vidSim, Decklink::Callback * decklinkCallback, OpenGLForm::COpenGL ^ openGL, Vision::VisionController ^ visionCtrl)
+SimHandler::SimHandler(VideoSimulator ^ vidSim, OpenGLForm::COpenGL ^ openGL, Vision::VisionController ^ visionCtrl)
 {
 	recordTelemetry = false;
 	recordVideo = false;
 	theVideoSimulator = vidSim;
 	visionController = visionCtrl;
 	openGLView = openGL;
-	callback = decklinkCallback;
-	//fileO = new ofstream();
-	//fileI = NULL;
 	
 	splitTimer = nullptr;
 
@@ -88,29 +85,8 @@ void SimHandler::startPlayingVideo(String ^ filename)
 	theVideoSimulator->stopVideo();
 	theVideoSimulator->loadVideo( (const char*)(Marshal::StringToHGlobalAnsi(filename)).ToPointer());
 	theVideoSimulator->startVideo();
-	callback->dontShow();
 }
 
-	//True = Comport's calls will result in telemetry data being recorded.
-	//False = calls will result in return.
-
-	/*void setRecordTelemetryBool(bool shouldRecordT)
-	{
-		recordTelemetry = shouldRecordT;
-	}
-	void setRecordVideoBool(bool shouldRecordV);
-	{
-		recordVideo = shouldRecordV;
-	}*/
-	/*
-	 * bool runVideo();
-	 * bool runTelemetry();
-	 */
-
-	/**
-	 * Calls OpenGL's savevideo()
-	 * and initializes fileStream for telemetry.
-	 */
 int SimHandler::beginRecording()
 {
 	int retStatus = ALL_FAILED;
@@ -151,59 +127,12 @@ int SimHandler::beginRecording()
 
 void SimHandler::tryToStartVideo(Object ^ arg)
 {
-	breakNow = false;
-	try {
-		String^ filename = ((String^) arg)+".avi";
-		while (!breakNow)
-		{
-			// try to start video
-			if (openGLView->enableVideoRecording(filename)) {
-				breakNow = false;
-				videoWriteThread = gcnew Thread(gcnew ThreadStart(this, &SimHandler::writeVideo));
-				videoWriteThread->Name = "SimHandler Video Write Thread";
-				videoWriteThread->Start();
-
-				Encoding^ u8 = Encoding::UTF8;
-
-				// write to telemetry file that video started
-				array<Byte> ^ fileArray = u8->GetBytes(filename);
-				writeTelemetry(System::DateTime::Now.Subtract(((TelemetrySimulator^)theTelSimulator)->time), STARTVIDEO, fileArray->Length ,fileArray);
-
-				// begin timer
-				TimerCallback^ tcb = gcnew TimerCallback(this, &SimHandler::splitVideo);
-				splitTimer = gcnew Threading::Timer(tcb, nullptr, SPLIT_LENGTH*1000, Timeout::Infinite);
-
-				recordVideo = true;
-				return;
-			}
-
-
-			// sleep for one second
-			Thread::Sleep( 1000 );
-
-		}
-	} catch (Exception ^ e) {
-		System::Diagnostics::Trace::WriteLine("SimHandler::tryToStartVideo(): Catch: " + e);
-	}
-
+	return;
 }
 
 void SimHandler::stopVideo()
 {
-	if (videoWriteThread != nullptr) {
-			// stop, then wait
-
-			breakNow = true;
-			Thread::Sleep( 100 ); // ms
-
-			videoWriteThread->Abort();
-	}
-
-	openGLView->disableVideoRecording();
-	if (splitTimer != nullptr) {
-		splitTimer->~Timer(); // THIS LINE: FIX TODO:
-		splitTimer = nullptr;
-	}
+	return;
 		/* TODO: deal with this 
 	A first chance exception of type 'System.NullReferenceException' occurred in Skynet.exe
 System.Transactions Critical: 0 : <TraceRecord xmlns="http://schemas.microsoft.com/2004/10/E2ETraceEvent/TraceRecord" Severity="Critical"><TraceIdentifier>http://msdn.microsoft.com/TraceCodes/System/ActivityTracing/2004/07/Reliability/Exception/Unhandled</TraceIdentifier><Description>Unhandled exception</Description><AppDomain>Skynet.exe</AppDomain><Exception><ExceptionType>System.NullReferenceException, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</ExceptionType><Message>Object reference not set to an instance of an object.</Message><StackTrace>   at Simulator.SimHandler.stopVideo() in c:\users\ucsd\documents\visual studio 2010\projects\skynet\skynet\simhandler.cpp:line 204
@@ -328,7 +257,6 @@ SimHandler::writeVideo() {
 					break;
 
 				// save video frame
-				openGLView->saveVideoFrame();
 				numframes++;
 
 			} 
