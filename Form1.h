@@ -405,10 +405,8 @@ private: System::Windows::Forms::Label^  label7;
 
 
 			PRINT("Starting ImageReceiver");
-			if ( thePlaneWatcher == nullptr) {
-				PRINT("WTF");
-			}
-			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\Users\\ucsd_auvsi\\Dropbox\\Skynet\\flight_images",visionController, thePlaneWatcher, true);
+
+			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\flight_images",visionController, thePlaneWatcher, false);
 			
 			theVideoSimulator = gcnew Simulator::VideoSimulator( this->visionController );
 
