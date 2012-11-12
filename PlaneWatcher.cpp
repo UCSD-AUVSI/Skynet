@@ -4,6 +4,7 @@
 #include <msclr/lock.h>
 #include "GeoReference.h"
 #include "AutopilotComport.h"
+#include "..\ImageDownloader\ImageDownloader\ImageReceiver.h"
 
 using namespace Communications;
 using namespace msclr;
@@ -14,32 +15,15 @@ using namespace System::Runtime::InteropServices;
 PlaneWatcher::PlaneWatcher(Object ^ theParent)
 { 
 	parent = theParent; 
-
-	gimbalRoll = 3000;
-	gimbalPitch = 3000;
-	zoomLevel = 1;
-
-    gimbalInfo = gcnew array<GimbalInfo ^>(NUM_GIMBAL_DATA);  //create a new array with num entities
-	autopilotGPSInfo = gcnew array<PlaneGPSPacket ^>(NUM_GPS_DATA);
-	autopilotTelemInfo = gcnew array<PlaneTelemPacket ^>(NUM_TELEM_DATA);
-
-	gimbalInfoIndex  = 0;  //point it to the front of the array
-	autopilotGPSInfoIndex = 0;
-	autopilotTelemInfoIndex = 0;
-
-	for(int a = 0; a < NUM_GIMBAL_DATA; a++){
-		gimbalInfo[a] = nullptr;
-	}
-
-	for(int a = 0; a < NUM_GPS_DATA; a++){
-		autopilotGPSInfo[a] = nullptr;
-	}
-
-	for(int a = 0; a < NUM_TELEM_DATA; a++){
-		autopilotTelemInfo[a] = nullptr;
-	}
 }
 		
+
+void PlaneWatcher::updateInfo (ImageWithPlaneData ^ data) {
+	if ( data != nullptr && parent != nullptr){
+		state = data;
+		((Skynet::Form1 ^)parent)->reloadTable(data);
+	}
+}
 
 void PlaneWatcher::updateGimbalInfo( GimbalInfo ^ data)
 {
@@ -86,7 +70,7 @@ void PlaneWatcher::updatePlaneTelemInfo( PlaneTelemPacket ^ data)
 
 void PlaneWatcher::planeStateUpdated()
 {
-	((Skynet::Form1 ^)parent)->reloadTable();
+//	((Skynet::Form1 ^)parent)->reloadTable();
 }
 
 PlaneState ^ PlaneWatcher::stateOfCurrentImage()
@@ -423,27 +407,16 @@ float PlaneWatcher::gimbalPitchInDegrees()
 void PlaneWatcher::incrementGimbalInfoIndex()
 {
 	gimbalInfoIndex = (gimbalInfoIndex+1)%NUM_GIMBAL_DATA;  //increment
-	// if(gimbalInfoIndex >= NUM_GIMBAL_DATA){
-	// 	gimbalInfoIndex = 0;  //reset to zero
-	// }
 }
 
 void PlaneWatcher::incrementGPSInfoIndex()
 {
 	autopilotGPSInfoIndex = (autopilotGPSInfoIndex+1)%NUM_GPS_DATA;  //increment
-	// autopilotGPSInfoIndex ++;  //increment
-	// if(autopilotGPSInfoIndex >= NUM_GPS_DATA){
-	// 	autopilotGPSInfoIndex = 0;  //reset to zero
-	// }
 }
 
 void PlaneWatcher::incrementTelemInfoIndex()
 {
 	autopilotTelemInfoIndex = (autopilotTelemInfoIndex+1)%NUM_TELEM_DATA;  //increment
-	// autopilotTelemInfoIndex ++;  //increment
-	// if(autopilotTelemInfoIndex >= NUM_TELEM_DATA){
-	// 	autopilotTelemInfoIndex = 0;  //reset to zero
-	// }
 }
 
 __int32 PlaneWatcher::getTimeUTC(PlaneGPSPacket ^ state)

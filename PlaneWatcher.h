@@ -19,6 +19,8 @@ namespace Intelligence
 	ref class IntelligenceController;
 }
 
+ref class ImageWithPlaneData;
+
 namespace Skynet
 {
 	ref class SkynetController;
@@ -33,6 +35,7 @@ namespace Communications
 		void setController(Skynet::SkynetController ^ theCntl) { theController = theCntl; }
 
 		void planeStateUpdated();
+		void updateInfo(ImageWithPlaneData ^ data);
 		void updatePlaneGPSInfo(PlaneGPSPacket ^ data);
 		void updatePlaneTelemInfo(PlaneTelemPacket ^ data);
 		void updateGimbalInfo( GimbalInfo ^ data);
@@ -47,7 +50,7 @@ namespace Communications
 		PlaneState ^ predictLocationAtTime( float timeOffset );
 		PlaneState ^ stateOfCurrentImage();
 		PlaneState ^ currentState() { return predictLocationAtTime(0); }
-
+		ImageWithPlaneData^ state;
 		void requiredRollPitchForGPS( unsigned __int16 & roll, unsigned __int16 & pitch, float lat, float lon);
 
 		unsigned __int16 gimbalRoll;

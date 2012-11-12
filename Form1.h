@@ -405,7 +405,10 @@ private: System::Windows::Forms::Label^  label7;
 
 
 			PRINT("Starting ImageReceiver");
-			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\Users\\ucsd_auvsi\\Dropbox\\Skynet\\flight_images",this->visionController, true);
+			if ( thePlaneWatcher == nullptr) {
+				PRINT("WTF");
+			}
+			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\Users\\ucsd_auvsi\\Dropbox\\Skynet\\flight_images",visionController, thePlaneWatcher, true);
 			
 			theVideoSimulator = gcnew Simulator::VideoSimulator( this->visionController );
 
@@ -2731,34 +2734,19 @@ public: System::Void updateIntendedCameraZoom( float zoom )
 				gimbalHUDView->setIntendedCameraZoom( zoom, true);
 		}
 		 
-public: System::Void reloadTable() 
+public: System::Void reloadTable(ImageWithPlaneData^ state) 
 		{
+			this->metadataTable[1, G_ROLL]->Value = "" + state->gimbalRoll + "*";
+			this->metadataTable[1, G_PITCH]->Value = "" + state->gimbalPitch + "*"; //elevation;
+			this->metadataTable[1, A_ALT]->Value = "" + state->altitude + " (m)"; // altitude;
+			this->metadataTable[1, A_LAT]->Value = "" + state->latitude + "*"; // latitude;
+			this->metadataTable[1, A_LON]->Value = "" + state->longitude + "*"; // longitude; // ######.####
+			this->metadataTable[1, A_HEAD]->Value = "" + state->yaw + "*"; //heading;
+			this->metadataTable[1, A_ROLL]->Value = "" + state->roll + "*"; // roll;
+			this->metadataTable[1, A_PITCH]->Value = "" + state->pitch + "*"; //pitch;
+			this->metadataTable[1, V_ZOOM]->Value = "LOL"; // zoom;
 			
-
-			
-			Communications::PlaneState ^ state = thePlaneWatcher->predictLocationAtTime(0.0);
-
-			//PRINT("state->gimbalInfo->roll:"+state->gimbalInfo->roll);
-			this->metadataTable[1, G_ROLL]->Value = "" + thePlaneWatcher->rawToDegrees(state->gimbalInfo->roll) + "*"; //azimuth;
-			this->metadataTable[1, G_PITCH]->Value = "" + thePlaneWatcher->rawToDegrees(state->gimbalInfo->pitch) + "*"; //elevation;
-			this->metadataTable[1, A_ALT]->Value = "" + Single(state->telemData->altitudeHAL).ToString("F") + " (m)"; // altitude;
-			this->metadataTable[1, A_LAT]->Value = "" + Double(state->gpsData->gpsLatitude).ToString("######.#######") + "*"; // latitude;
-			this->metadataTable[1, A_LON]->Value = "" + Double(state->gpsData->gpsLongitude).ToString("######.#######") + "*"; // longitude; // ######.####
-			this->metadataTable[1, A_HEAD]->Value = "" + Single(state->telemData->heading * RAD_TO_DEG).ToString("F") + "*"; //heading;
-			this->metadataTable[1, A_ROLL]->Value = "" + Single(state->telemData->roll * RAD_TO_DEG).ToString("F") + "*"; // roll;
-			this->metadataTable[1, A_PITCH]->Value = "" + Single(state->telemData->pitch * RAD_TO_DEG).ToString("F") + "*"; //pitch;
-			this->metadataTable[1, V_ZOOM]->Value = "" + state->gimbalInfo->zoom + "x"; // zoom;
-			
-			//System::Diagnostics::Trace::WriteLine("Form1::reloadTable() lat:" + state->gpsData->gpsLatitude + " lon:" + state->gpsData->gpsLongitude + " roll:" + state->telemData->roll  + 
-			//								" pitch:" + state->telemData->pitch  + " heading:" + state->telemData->heading );
-			/* mapView->SetAirplaneLocation( state->gpsData->gpsLatitude, 
-					 state->gpsData->gpsLongitude, 
-					 state->telemData->heading ); DELETE MAP*/
-
-			 gimbalHUDView->setGimbalPosition( thePlaneWatcher->rawToDegrees(state->gimbalInfo->roll),
-				 thePlaneWatcher->rawToDegrees(state->gimbalInfo->pitch), false );
-
-			 gimbalHUDView->setCameraZoom( state->gimbalInfo->zoom, true );
+			 gimbalHUDView->setGimbalPosition( (float)state->gimbalRoll, (float)state->gimbalPitch, false );
 		}
 
 public: System::Void updateGimbalInfo( Communications::GimbalInfo ^ data ) {
