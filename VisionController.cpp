@@ -82,7 +82,8 @@ VisionController::receiveOCRResults()
 void 
 VisionController::analyzeFrame(Frame ^ frame)
 {
-	frame->planeState = skynetController->getPlaneWatcher()->predictLocationAtTime((float)frame->timestamp.Subtract(DateTime::Now).TotalSeconds);
+
+	// frame->planeState = skynetController->getPlaneWatcher()->predictLocationAtTime((float)frame->timestamp.Subtract(DateTime::Now).TotalSeconds);
 
 //	saliency->analyzeFrame(frame);
 }

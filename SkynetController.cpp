@@ -76,13 +76,7 @@ SkynetController::~SkynetController()
 	openGLView = nullptr;
 	theDatabase = nullptr;
 	theGEarthHandler = nullptr;
-	//voteCounter = nullptr;
 }
-
-//Autosearch^ SkynetController::getAutosearch()
-//{
-//	return this->autosearch;
-//}
 
 IntelligenceController^ SkynetController::getIntelligenceController()
 {

@@ -406,7 +406,7 @@ private: System::Windows::Forms::Label^  label7;
 
 			PRINT("Starting ImageReceiver");
 
-			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\flight_images",visionController, thePlaneWatcher, false);
+			ImageReceiver ^ receiver = gcnew ImageReceiver("C:\\flight_images",visionController, thePlaneWatcher, true);
 			
 			theVideoSimulator = gcnew Simulator::VideoSimulator( this->visionController );
 
@@ -2696,23 +2696,6 @@ private: System::Void checkedListBox1_SelectedIndexChanged(System::Object^  send
 		         MessageBox::Show( String::Concat( "Item with title: \"", itemChecked, "\", is checked. Checked state is: ", checkedListBox1->GetItemCheckState( checkedListBox1->Items->IndexOf( itemChecked ) ), "." ) );
 		      }
 		 }
-private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			
-			 /*if (checkBox1->Checked) {
-				 openGLView->switchSaliencyState( true );
-				 
-				 consoleMessage( "Displaying video and saliency", Color::Green );
-			
-			 } else {
-				 openGLView->switchSaliencyState( false );
-				 consoleMessage( "Displaying video but not saliency", Color::Green );
-			
-			 }*/
-			 
-		     
-
-}
-
 private: void AddText( Stream^ fs, String^ value )
 {
    array<Byte>^info = (gcnew UTF8Encoding( true ))->GetBytes( value );

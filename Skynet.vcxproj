@@ -17,6 +17,14 @@
       <Configuration>Release</Configuration>
       <Platform>X64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="ZDebug|Win32">
+      <Configuration>ZDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ZDebug|X64">
+      <Configuration>ZDebug</Configuration>
+      <Platform>X64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{741068E1-38B1-408D-A1D6-59DF63CA5880}</ProjectGuid>
@@ -48,7 +56,17 @@
     <CLRSupport>Pure</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CLRSupport>Pure</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
@@ -66,7 +84,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -81,7 +105,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>OCR;C:\opencv\build\install\include\opencv;C:\opencv\build\install\include;SalientGreenGPU\include;SalientGreenGPU\cvBlob;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\build\install\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\ucsd_auvsi\Dropbox\Skynet\X64\Release;$(LibraryPath)</LibraryPath>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>OCR;C:\opencv\build\install\include\opencv;C:\opencv\build\install\include;SalientGreenGPU\include;SalientGreenGPU\cvBlob;$(IncludePath)</IncludePath>
     <LibraryPath>C:\opencv\build\install\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\ucsd_auvsi\Dropbox\Skynet\X64\Release;$(LibraryPath)</LibraryPath>
@@ -139,7 +172,64 @@
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <CompileAsManaged>true</CompileAsManaged>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\include;C:\opencv\include;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\cvBlob;C:\opencv\include\opencv;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenCUDA;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;comsuppwd.lib;dxguid.lib;dxerr.lib;dinput8.lib;opencv_core240.lib;opencv_highgui240.lib;opencv_video240.lib;opencv_ml240.lib;opencv_legacy240.lib;opencv_imgproc240.lib;opencv_objdetect240.lib;opencv_gpu240.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
+      <AdditionalLibraryDirectories>C:\opencv\build\install\bin;..\Skynet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ForceSymbolReferences>%(ForceSymbolReferences)</ForceSymbolReferences>
+    </Link>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+      <Message>
+      </Message>
+    </CustomBuildStep>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -212,10 +302,13 @@
   <ItemGroup>
     <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdCXX\CMakeCXXCompilerId.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdC\CMakeCCompilerId.c">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">false</CompileAsManaged>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\SalientGreenGPU\cvBlob\cvaux.cpp" />
     <ClCompile Include="..\SalientGreenGPU\cvBlob\cvblob.cpp" />
@@ -227,9 +320,11 @@
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp" />
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="AutopilotComport.cpp" />
@@ -246,6 +341,7 @@
     <ClCompile Include="Joystick.cpp" />
     <ClCompile Include="MapControl.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="OCR.cpp" />
     <ClCompile Include="OCR\Auvsi_cvUtil.cpp" />
@@ -264,10 +360,12 @@
     <ClCompile Include="RabbitComport.cpp" />
     <ClCompile Include="Saliency.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="SaveImage.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">false</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="SimHandler.cpp" />
     <ClCompile Include="Skynet.cpp">
@@ -278,19 +376,24 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ZDebug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|X64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">Create</PrecompiledHeader>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="TargetDialog.cpp" />
     <ClCompile Include="TargetLock.cpp" />
     <ClCompile Include="TelemetrySimulator.cpp" />
     <ClCompile Include="VideoReader.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">false</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="VideoSimulator.cpp" />
     <ClCompile Include="VisionController.cpp" />
     <ClCompile Include="VoteCounter.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -50,6 +50,7 @@ namespace Vision
 		Collections::Generic::List<Box ^>^ saliencyBlobs;
 		Communications::PlaneState ^ planeState;
 
+
 		Frame(unsigned char *buf, int w, int h, DateTime time)
 		{
 			allocImg(buf,w,h);
@@ -85,13 +86,8 @@ namespace Vision
 
 		~Frame()
 		{
-		}
-
-		!Frame()
-		{
-			delete img; 
-			if (buffer != NULL)
-				delete buffer;
+			delete buffer;
+			delete img;
 		}
 
 		bool isReady()
