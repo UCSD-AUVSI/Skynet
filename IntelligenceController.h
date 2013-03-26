@@ -1,16 +1,13 @@
 ﻿#pragma once
 
-using namespace System;
-
 namespace Skynet
 {
 	ref class SkynetController;
 }
+
 namespace Communications
 {
 	ref class PlaneWatcher;
-	ref struct UAVCommand;
-	ref struct Waypoint;
 }
  
 using namespace Skynet;
@@ -25,10 +22,9 @@ namespace Intelligence
 		IntelligenceController(SkynetController ^ skynetController);
 	void restart();
     void setPlaneWatcher(PlaneWatcher ^ planeWatcher);
-		void displayAutosearchImage(Drawing::Bitmap^ image);
+		void displayAutosearchImage(System::Drawing::Bitmap^ image);
 		void startPathfinder();
 		void startPathfinderThread();
-		array <Waypoint ^>^ getWaypoints();
 		SkynetController ^ skynetController;
 		Autosearch ^ autosearch;
         

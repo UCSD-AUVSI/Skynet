@@ -1,14 +1,7 @@
-/* #pragma once
+#pragma once
 #include <string>
-// #include "Auvsi_Saliency.h"
-#include "Database.h"
+#include <cv.h>
 
-using namespace System::Threading;
-using namespace System;
-using namespace System::Windows::Forms;
-
-#define MIN_SIZE	0.42
-#define MAX_SIZE	3.5
 
 namespace sg
 {
@@ -20,39 +13,42 @@ namespace Communications
 	ref class PlaneWatcher;
 }
 
+ref struct ImageWithPlaneData;
+
 namespace Vision
 {
-	ref class DuplicateResolver;
 	ref struct Frame;
+	ref class VisionController;
 
 	public ref class Saliency
 	{
 	public:
-		Saliency( Communications::PlaneWatcher ^ watcher, DuplicateResolver ^ resolver ); 	// constructor
-		Saliency();
+		Saliency(VisionController^ visionController); 	// constructor
 		virtual ~Saliency();	// destructor
 
-		void setValues(int w, int h, Object ^ newDelegate);		// set initial values
 		bool canAcceptFrame() { return !currentlyAnalyzing;}	// call to see if ready to accept new frame
 		void analyzeFrame(Frame ^ frame);						// pass in new frame to analyze
-		// float * postSaliency;		// results of saliency (black and white)
 
+		void setValues(int w, int h);
 		void runTest();
-		void runTestOnImageNamed(String ^ filename);
+		void runTestOnImageNamed(System::String ^ filename);
+
+		const static int MAX_IMAGE_WIDTH = 720;
+		const static int MAX_IMAGE_HEIGHT = 720;
+		const static double MAX_TARGET_SIDE_LENGTH_METERS = 1.5;
+		const static double MIN_TARGET_SIDE_LENGTH_METERS = 0.25;
+		
 
 	protected:
 		bool currentlyAnalyzing;	// saliency is running
 		bool newFrameReady;			// saliency is ready for new frame
-		Thread ^ saliencyThread;	// thread for running saliency
-		Thread ^ saveImagesThread;	// thread for saving images
-		// float * inputBuffer;		// frame being analyzed by saliency
+		System::Threading::Thread ^ saliencyThread;	// thread for running saliency
+		System::Threading::Thread ^ saveImagesThread;	// thread for saving images
 		int width;					// frame width
 		int height;					// frame height
 		float threshold;			// threshold for saliency
-		DuplicateResolver ^ parent;			// delegate to send info to
 		Frame ^ currentFrameData;	// current saliency frame
-		Communications::PlaneWatcher ^ planeWatcher;
-		DuplicateResolver ^ duplicateResolver;
+		VisionController^ visionController;
 		
 		void computeSaliencyForFrame(Frame ^ frame, bool isTest);//, sg::SalientGreenGPU green);
 
@@ -61,20 +57,18 @@ namespace Vision
 
 		// for saving images thread
 		Frame ^ savingFrameData;
-		// box * boundingBoxes;
-		// int numBoxes;
-		// float * savingBuffer;		// color image for saving to file
 		bool newFrameForSaving;		// new frame ready for saveThread to save
 		bool savingData;			// images are being saved
 
 		bool tempPause;
 
 		void analyzeResults ( Frame ^ frame, int imageHeight, int imageWidth, bool isTest );
-		void analyzeResults ( Frame ^ frame, int imageHeight, int imageWidth, Communications::PlaneState ^ state, bool isTest ); 
+		void analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool isTest ); 
 		bool validSize(double size);
 		
 		void saliencyThreadFunction(); // main run loop for saliency
 		void saveImagesThreadFunction();	// main run loop for saving images
+	private:
+		cv::Mat Saliency::convertImageForSaliency(cv::Mat image);
 	};
 }
-*/

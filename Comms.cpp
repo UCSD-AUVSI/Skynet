@@ -12,22 +12,10 @@ using namespace System::Threading;
 Comms::Comms(Object ^ telSimulator, Object ^ newDelegate) {
 
 	theDelegate = newDelegate;
-	autopilotPortname = nullptr;
-	rabbitPortname = nullptr;
-	autopilot = gcnew AutopilotComport((TelemetrySimulator ^)telSimulator, this);
-	rabbit = gcnew RabbitComport((TelemetrySimulator ^)telSimulator, this, autopilot);
-	autopilot->rabbit = rabbit;
-
 	theTelSimulator = (TelemetrySimulator ^)telSimulator;
 
 	autopilotConnected = false;
 	rabbitConnected = false;
-	
-	rabbitDelegate = gcnew rabbitUpdateDelegate(((Skynet::Form1 ^ )theDelegate), &Skynet::Form1::updateGimbalInfo );
-	planeGPS = gcnew planeGPSDelegate(((Skynet::Form1 ^ )theDelegate), &Skynet::Form1::updatePlaneGPSInfo );
-	planeTelem = gcnew planeTelemDelegate(((Skynet::Form1 ^ )theDelegate), &Skynet::Form1::updatePlaneTelemInfo );
-	consoleDelegate = gcnew guiConsoleDelegate(((Skynet::Form1 ^ )theDelegate), &Skynet::Form1::printToConsole );
-
 }
 
 void Comms::connectAll() {

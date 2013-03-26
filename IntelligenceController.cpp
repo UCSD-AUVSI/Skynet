@@ -1,14 +1,11 @@
 #include "stdafx.h"
 #include "IntelligenceController.h"
-#include "Autosearch.h"
+#include "../Pathfinding/Autosearch.h"
+#include "../Pathfinding/Pathfinder.h"
 #include "SkynetController.h"
 #include "MasterHeader.h"
-#include "Comport.h"
-#include "AutopilotComport.h"
-#include "SimHandler.h"
 
 using namespace Intelligence;
-using namespace PathfinderWrapper;
 using namespace System;
 using namespace System::Threading;
 using namespace System::Collections::Generic;
@@ -44,7 +41,9 @@ void IntelligenceController::startPathfinderThread(){
 		PRINT("ERROR in IntelligenceController::startPathfinder: " + e);
 	}
 	
-	Pathfinder::Create();
+	Pathfinder^ finder = gcnew Pathfinder();
+	finder->buildPath(autosearch);
+
 	
 	try {
 		autosearch->updateImage();
@@ -60,24 +59,6 @@ void IntelligenceController::startPathfinderThread(){
 	skynetController->printConsoleMessageInGreen("Path created.");
 }
 
-
-array<Waypoint ^>^ IntelligenceController::getWaypoints()
-{
-	StreamReader ^ pathReader = File::OpenText("path.txt");
-	String ^ line;
-	LinkedList<Waypoint ^>^ waypointList = gcnew LinkedList<Waypoint ^>();
-	while ( (line = pathReader->ReadLine()) != nullptr ){
-		Waypoint ^ waypoint = gcnew Waypoint();
-		array<String ^>^ coords = line->Split(',');
-		waypoint->lat = Convert::ToSingle(coords[0]);
-		waypoint->lon = Convert::ToSingle(coords[1]);
-		waypoint->alt = 100.0f;
-		waypoint->speed = 14.0f;
-		waypointList->AddLast(waypoint);
-	}
-	return Enumerable::ToArray(waypointList);
-
-}
 
 void IntelligenceController::setPlaneWatcher(PlaneWatcher^ planeWatcher)
 {

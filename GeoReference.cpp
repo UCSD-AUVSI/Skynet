@@ -10,16 +10,22 @@
 #include "GeoReference.h"
 #include "MasterHeader.h"
 #include "PlaneWatcher.h"
+#include "DatabaseStructures.h"
+#include "ImageWithPlaneData.h"
 
 using namespace System;
 using namespace Vision;
 using namespace Communications;
 using namespace Database;
+using System::Math;
 
 
 #define GIMBAL_YAW		0.0
 #define X_PIXELS		720
 #define Y_PIXELS		486
+#define CAMERA_X_FOV_DEGREES 35
+#define CAMERA_Y_FOV_DEGREES 35
+
 
 String ^ GeoReference::matToString(cv::Mat in)
 {
@@ -68,296 +74,10 @@ double GeoReference::metersToGPS(double meters){
 /**
 	Converts a number of GPS degrees to the equivalent number of meters
 */
-double GeoReference::GPStoMeters(double gps){
-	return gps * 111122;
+double GeoReference::GPStoMeters(double gpsDegrees){
+	return gpsDegrees * 111122;
 }
 
-
-void GeoReference::runTests()
-{
-	System::Diagnostics::Trace::WriteLine("GeoReference::runTests() STARTING TESTS");
-	//int score = 0, total = 0;
-	//bool failed = true, result;
-
-	//// run tests
-	//double plane_latitude = 32.0, plane_longitude = -117.0, plane_altitude = 100, plane_roll, plane_pitch, plane_heading;
-	//double target_x = -0, target_y = -0, zoom = 1; // for forward only
-	//double Target_Latitude, Target_Longitude, Target_Height, gimbal_roll, gimbal_pitch, gimbal_yaw = 0;
-
-	//double testvalRollPitch[5] = {-60, -30, 0.0, 30, 60 };
-	//double testvalYaw[11] = {-180.0, -135.0, -90.0, -60.0, -30.0, 0.0, 30.0, 60.0, 90.0, 135.0, 180.0 };
-
-	//plane_latitude = 39.99475;
-	//plane_longitude = -112.0192;
-	//plane_altitude = 100.3333;
-	//plane_roll    = -0.01;
-	//plane_pitch   = 0.002;
-	//plane_heading = 4.724;
-	//gimbal_roll   = 0.55*PI_TO_RAD;
-	//gimbal_pitch  = -0.15*PI_TO_RAD;
-	//target_x = 0;//X_PIXELS-1;
-	//target_y = Y_PIXELS-1;
-	//getGPS(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-	//						target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-
-	double TLLat, TLLon, TRLat, TRLon, BLLat, BLLon, BRLat, BRLon;
-
-	PlaneState ^ state = gcnew PlaneState();
-	state->gpsData->gpsLatitude = 39.99475;
-	state->gpsData->gpsLongitude = -112.0192;
-	state->telemData->altitudeHAL = 100.3333;
-	state->telemData->roll = -0.01;
-	state->telemData->pitch = 0.002;
-	state->telemData->heading = 4.724;
-	state->gimbalInfo->roll = PlaneWatcher::gimbalDegreesToRaw(0.55);
-	state->gimbalInfo->pitch = PlaneWatcher::gimbalDegreesToRaw(-0.15);
-
-	
-	getCorners(state, TLLat, TLLon, TRLat, TRLon, BRLat, BRLon, BLLat, BLLon);
-
-	assert(BRLAT == 32);
-
-	PRINT("input state: " + state->stringVal());
-
-	PRINT(TLLat + "," + TLLon + "\n" + TRLat + "," + TRLon + "\n" + 
-		  BLLat + "," + BLLon + "\n" + BRLat + "," + BRLon + "\n\n");
-
-	PRINT("done");
-
-//	/// start tests
-//	plane_latitude = 32;
-//	plane_longitude = -117;
-//	plane_altitude = 100;
-//	plane_roll    = 0.345;
-//	plane_pitch   = 0.197;
-//	plane_heading = 2.78;
-//	gimbal_roll   = 0.1;
-//	gimbal_pitch  = 0.05;
-//	target_x = 0;
-//	target_y = 0;
-//
-//	getGPS(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-//							target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-//
-//	result = (veryNearlyEqual(Target_Latitude, 0) && veryNearlyEqual(Target_Longitude, 0));
-//
-//	if (result)
-//		PRINT("First test passed");
-//	else
-//		PRINT("First test failed:" + Target_Latitude + ", " + Target_Longitude);
-//
-//	/*if (!(veryNearlyEqual(Target_Latitude, 32.0) && veryNearlyEqual(Target_Longitude, -117.0)))
-//		PRINT("FAILED: Control");
-//
-//	plane_latitude = 32;
-//	plane_longitude = -117;
-//	plane_altitude = 1000;
-//	plane_roll    = 0;
-//	plane_pitch   = 0;
-//	plane_heading = 0;
-//	gimbal_roll   = 0;
-//	gimbal_pitch  = PI / 6;
-//	target_x	  =	0;
-//	target_y	  =	0;
-//
-//	getGPS(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-//							target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-//
-//	if (!(veryNearlyEqual(Target_Latitude, 32.0 + metersToGPS(plane_altitude * tan(gimbal_pitch))) && veryNearlyEqual(Target_Longitude, -117.0))){
-//		PRINT("FAILED: Pitch = 30 Degrees");
-//		PRINT("Target_Latitude: " + Target_Latitude + "\tTarget_Longitude: " + Target_Longitude);
-//		PRINT("Calculated Latitude: " +  (32.0 + metersToGPS(plane_altitude * tan(gimbal_pitch))) + "\tCalculated Longitude: -117.0\n");
-//	}
-//
-//	plane_latitude = 32;
-//	plane_longitude = -117;
-//	plane_altitude = 1000;
-//	plane_roll    = 0;
-//	plane_pitch   = 0;
-//	plane_heading = 0;
-//	gimbal_roll   = PI / 6;
-//	gimbal_pitch  = 0;
-//	target_x	  =	0;
-//	target_y	  =	0;
-//
-//	getGPS(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-//							target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-//
-//	if (!(veryNearlyEqual(Target_Latitude, 32 ) && veryNearlyEqual(Target_Longitude, -117.0 + metersToGPS(plane_altitude * tan(0-gimbal_roll))))){
-//		//Need to account for curvature of the earth
-//		PRINT("FAILED: Roll = 30 Degrees");
-//		PRINT("Target_Latitude: " + Target_Latitude + "\tTarget_Longitude: " + Target_Longitude);
-//		PRINT("Calculated Latitude: 32\tCalculated Longitude: " + (-117.0 + metersToGPS(plane_altitude * tan(0-gimbal_roll))) + "\n");
-//	}
-//
-//
-//	plane_latitude = 32;
-//	plane_longitude = -117;
-//	plane_altitude = 1000;
-//	plane_roll    = 0;
-//	plane_pitch   = 0;
-//	plane_heading = 0;
-//	gimbal_roll   = PI / 6;
-//	gimbal_pitch  = PI / 6;
-//	target_x	  =	0;
-//	target_y	  =	0;
-//
-//	getGPS(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-//							target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-//
-//	if (!(veryNearlyEqual(Target_Latitude, 32.0 + metersToGPS(plane_altitude * tan(gimbal_pitch))) && veryNearlyEqual(Target_Longitude, -117.0 + metersToGPS(plane_altitude * tan(0-gimbal_roll))))){
-//		//Need to account for curvature of the earth, and the combined nature of translations.
-//		PRINT("FAILED: Roll = 30 Degrees, Pitch = 30 Degrees");
-//		PRINT("Target_Latitude: " + Target_Latitude + "\tTarget_Longitude: " + Target_Longitude);
-//		PRINT("Calculated Latitude: " + (32.0 + metersToGPS(plane_altitude * tan(gimbal_pitch))) + "\tCalculated Longitude: " + (-117.0 + metersToGPS(plane_altitude * tan(0-gimbal_roll))) +'\n');
-//	}
-//
-//	
-//
-//	plane_latitude = 32;
-//	plane_longitude = -117;
-//	plane_altitude = 1000;
-//	plane_roll    = .6;
-//	plane_pitch   = .9;
-//	plane_heading = -.5;
-//	gimbal_roll   = 1.2;
-//	gimbal_pitch  = -.7;
-//	target_x	  =	50;
-//	target_y	  =	50;
-//	zoom		  = 2;
-//
-//	getGPS(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-//							target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-//
-//	PRINT("Custom:\n\nTarget Latitutude: " + Target_Latitude + "\nTarget Longitude: " + Target_Longitude + "\nTarget Height: " + Target_Height );
-//		/// end first set of test*/
-//	return;
-//	//VerifiedRowData ^ verified = gcnew VerifiedRowData();
-//	//UnverifiedRowData ^ unverified = gcnew UnverifiedRowData();
-//	//unverified->gpsLatitude = 32;//32.76413;
-//	//unverified->gpsLongitude = -117;//-117.21099;
-//	//unverified->altitudeAboveLaunch = unverified->gpsAltitude = 100;//71.167;
-//	//unverified->planeRollDegrees    = 0;//0.7840;
-//	//unverified->planePitchDegrees   = 0;//-0.032000;
-//	//unverified->planeHeadingDegrees = 0;//4.96800;
-//	//unverified->gimbalRollDegrees   = 0;//-0.705986;
-//	//unverified->gimbalPitchDegrees  = 0;//0.045379;
-//	//unverified->zoom   = 1;//-0.705986;
-//	//unverified->targetX = 760;
-//	//unverified->targetY = 243;
-//	
-//	// N, NE, E, SE, S
-//	//unverified->topOfTargetX = 100;
-//	//unverified->topOfTargetY = 200;
-//	//completeVerifiedUsingUnverified(verified, unverified);
-//	//getTargetGPS(unverified, Target_Latitude, Target_Longitude, Target_Height);
-//	//PRINT("Lat: " + Target_Latitude + " Lon:" + Target_Longitude + " Alt:" + Target_Height);
-//
-//	
-//	/*unverified->topOfTargetX = 200;
-//	unverified->topOfTargetY = 200;
-//	completeVerifiedUsingUnverified(verified, unverified);
-//	unverified->topOfTargetX = 200;
-//	unverified->topOfTargetY = 100;
-//	completeVerifiedUsingUnverified(verified, unverified);
-//	unverified->topOfTargetX = 200;
-//	unverified->topOfTargetY = 0;
-//	completeVerifiedUsingUnverified(verified, unverified);
-//	
-//	unverified->topOfTargetX = 100;
-//	unverified->topOfTargetY = 0;
-//	completeVerifiedUsingUnverified(verified, unverified);
-//
-//	// SW, W, NW
-//	
-//	
-//	unverified->topOfTargetX = 0;
-//	unverified->topOfTargetY = 0;
-//	completeVerifiedUsingUnverified(verified, unverified);
-//	unverified->topOfTargetX = 0;
-//	unverified->topOfTargetY = 100;
-//	completeVerifiedUsingUnverified(verified, unverified);
-//	unverified->topOfTargetX = 0;
-//	unverified->topOfTargetY = 200;
-//	completeVerifiedUsingUnverified(verified, unverified);*/
-//
-//	forwardGeoreferencing(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-//							target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-//	
-//	PRINT("Lat: " + Target_Latitude + " Lon:" + Target_Longitude + " Alt:" + Target_Height);
-//
-//	double totalRoll, totalPitch, maxAngle = 57.0;
-//	for (int p_r = 0; p_r < 5; p_r++) 
-//	{
-//		for (int p_p = 0; p_p < 5; p_p++) 
-//		{
-//			for (int p_y = 0; p_y < 11; p_y++) 
-//			{
-//				for (int g_r = 0; g_r < 5; g_r++) 
-//				{
-//					for (int g_p = 0; g_p < 5; g_p++) 
-//					{
-//						plane_roll = testvalRollPitch[p_r];
-//						plane_pitch = testvalRollPitch[p_p];
-//						plane_heading = testvalYaw[p_y];
-//
-//						gimbal_roll = testvalRollPitch[g_r];
-//						gimbal_pitch = testvalRollPitch[g_p];
-//						
-//						totalRoll = plane_roll + gimbal_roll;
-//						totalPitch = plane_pitch + gimbal_pitch;
-//
-//						if (abs(totalRoll) > maxAngle || abs(totalPitch) > maxAngle )
-//							continue;
-//
-//
-//						total++;
-//						failed = false;
-//
-//							
-//						//if (g_r == 0 && p_r == 0)
-//							//System::Diagnostics::Trace::WriteLine(" ");
-//
-//						result = getGPS(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 
-//							target_x, target_y, zoom, Target_Latitude, Target_Longitude, Target_Height);
-//						
-//						if (!result || approxEqual(Target_Latitude, 1000)) {
-//							failed = true;
-//
-//						}
-//
-//						if (abs(Target_Latitude - plane_latitude) > 0.1 || abs(Target_Longitude - plane_longitude) > 0.1)
-//							failed = true;
-//						/*else {
-//							reverseGeoreference(plane_latitude, plane_longitude, plane_altitude, plane_roll, plane_pitch, plane_heading, 
-//								Target_Latitude, Target_Longitude, Target_Height, gimbal_roll, gimbal_pitch);
-//						}*/
-//
-//						//if (g_r == 0 && p_r == 0)
-//							//System::Diagnostics::Trace::WriteLine(" ");
-//
-//						if (failed) {// || !(approxEqual(gimbal_roll, testvalRollPitch[g_r]) && approxEqual(gimbal_pitch, testvalRollPitch[g_p]))) {
-//							System::Diagnostics::Trace::WriteLine("TEST FAILED: ( " + score + "/" + total + ") (p_r, p_p, p_y, g_r, g_p): (" + p_r + ", " + p_p + ", " + p_y + ", " + g_r + ", " + g_p + 
-//							") ... p_roll: " + plane_roll + " p_pitch: " + plane_pitch + " g_roll: " + gimbal_roll + " g_pitch: " + gimbal_pitch + " Target_Latitude: " + Target_Latitude + " Target_Longitude: " + Target_Longitude);
-//							//return;
-//						} else {
-//							score++;
-//							System::Diagnostics::Trace::WriteLine("TEST PASSED: " + score + "/" + total);
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//	System::Diagnostics::Trace::WriteLine("GeoReference::runTests() FINISHED TESTS: SCORE (" + score + "/" + total + ")");
-//
-//
-//	/*reverseGeoreference(double plane_latitude, double plane_longitude, double plane_altitude, double plane_roll, double plane_pitch, double plane_heading, 
-//				double Target_Latitude, double Target_Longitude, double Target_Height, double & gimbal_roll, double & gimbal_pitch)*/
-//
-//	/*getGPS(double plane_latitude, double plane_longitude, double plane_altitude, double plane_roll, double plane_pitch, double plane_heading, double gimbal_roll, double gimbal_pitch, double gimbal_yaw, 
-//				double target_x, double target_y, double zoom, double & Target_Latitude, double & Target_Longitude, double & Target_Height)*/
-}
 
 double cosd(double input)
 {
@@ -501,12 +221,6 @@ cv::Mat GeoReference::ECEF_to_GEO(cv::Mat ECEF, double flatness, double eccentri
 
 cv::Mat GeoReference::EulerAngles_Plane(cv::Mat Orig_Vector, double Roll, double Pitch, double Yaw)
 {
-	//PRINT("Euler Angle called with:");
-	//PRINT(matToString(Orig_Vector));
-	//PRINT("Roll: " +Roll);
-	//PRINT("Pitch: " +Pitch);
-	//PRINT("Yaw: " +Yaw);
-
 	double R = Roll;
 	double P = Pitch;
 	double Y = Yaw;
@@ -539,7 +253,7 @@ cv::Mat GeoReference::EulerAngles_Plane(cv::Mat Orig_Vector, double Roll, double
 // plane and gimbal orientation in radians
 // target_x/y in pixels, where 0,0 is center
 bool GeoReference::forwardGeoreferencing(double plane_latitude, double plane_longitude, double plane_altitude, double plane_roll, double plane_pitch, double plane_heading, double gimbal_roll, double gimbal_pitch, double gimbal_yaw, 
-				double target_x, double target_y, double zoom, double & Target_Latitude, double & Target_Longitude, double & Target_Height)
+				double target_x, double target_y, double zoom, const int image_width, const int image_height, double & Target_Latitude, double & Target_Longitude, double & Target_Height)
 {
 	/////////////////////
 	// Funcs used by forwardGeoreferencing:
@@ -547,13 +261,11 @@ bool GeoReference::forwardGeoreferencing(double plane_latitude, double plane_lon
 	//	Mat NED_to_ECEF(Mat, double, double), Mat ECEF_to_GEO(Mat, double, double, double)
 	/////////////////////
 	
-	// bL = 0,0. tR = w,h.
-	
 
-	double x_fov = 46.0 * PI_TO_RAD;
-	double y_fov = 34.0 * PI_TO_RAD;
-	double x_pixels = X_PIXELS;
-	double y_pixels = Y_PIXELS;
+	double x_fov = CAMERA_X_FOV_DEGREES * PI_TO_RAD;
+	double y_fov = CAMERA_Y_FOV_DEGREES * PI_TO_RAD;
+	double x_pixels = image_width;
+	double y_pixels = image_height;
 	double a = 6378137;
 	double b = 6356752.3142;
 	double ground_altitude = 0.0;
@@ -568,14 +280,6 @@ bool GeoReference::forwardGeoreferencing(double plane_latitude, double plane_lon
 	plane_longitude = plane_longitude * PI_TO_RAD;
 
 	
-
-
-	//double cam_pt_vec[3] = {0,0,1};
-	//cv::Mat Camera_Point_Vector = cv::Mat(3, 1, CV_64FC1, cam_pt_vec);
-	//double cam_up_vec[3] = {1,0,0};
-	//cv::Mat Camera_Up_Vector = cv::Mat(3, 1, CV_64FC1, cam_up_vec);
-
-	//double ground_altitude = 0;
 
 
 	/////////////// Part A /////////////////////
@@ -664,21 +368,17 @@ bool GeoReference::forwardGeoreferencing(double plane_latitude, double plane_lon
 	bool success = true;
 	if (abs(Target_Latitude) > 180.0 || approxEqual(Target_Latitude, 0.0) || approxEqual(abs(Target_Latitude), 180.0))
 	{
-		Target_Latitude = 1000.0;
-		success = false;
+		throw gcnew GeoReferenceException("Georeferencing Error.");
 	}
 
 	if (abs(Target_Longitude) > 180.0 || approxEqual(Target_Longitude, 0.0) || approxEqual(abs(Target_Longitude), 180.0))
 	{
-		Target_Longitude = 1000.0;
-		success = false;
+		throw gcnew GeoReferenceException("Georeferencing Error.");
 	}
 
 	if (Pixel_Point_Vector.at<double>(2,0) < 0.0)
 	{
-		Target_Latitude = 1000.0;
-		Target_Longitude = 1000.0;
-		success = false;
+		throw gcnew GeoReferenceException("Georeferencing Error.");
 	}
 
 	return success;
@@ -804,13 +504,12 @@ void GeoReference::getTargetOrientation(Database::UnverifiedRowData ^ data, doub
 			data->description->targetX,
 			data->description->targetY,
 			telemetry->gimbalZoom,
+			X_PIXELS, // TODO: Fix this
+			Y_PIXELS,
 			toplat,
 			toplon,
 			topalt);
 
-
-	//getGPS(data->gpsLatitude, data->gpsLongitude, data->altitudeAboveLaunch, data->planeRollDegrees, data->planePitchDegrees, data->planeHeadingDegrees, data->gimbalRollDegrees, data->gimbalPitchDegrees,
-	//	GIMBAL_YAW, data->topOfTargetX - X_PIXELS/2, data->topOfTargetY - Y_PIXELS/2, data->zoom, toplat, toplon, topalt);
 
 	// TODO: Tim's cals
 	double lat_1 = centerlat;
@@ -901,74 +600,10 @@ array<String ^>^ GeoReference::latLonToDMS (double lat, double lon){
 	return gcnew array<String^>{Lat,Lon};
 }
 
-//void GeoReference::completeVerifiedUsingUnverified(Database::VerifiedRowData ^ verified, Database::UnverifiedRowData ^ unverified)
-//{
-//	double lat, lon, alt;
-//	getTargetGPS(unverified, lat, lon, alt);
-//
-//	if (lat > 179.99 || lon > 179.99) {
-//		lat = unverified->candidate->telemetry->planeLocation->lat;
-//		lon = unverified->candidate->telemetry->planeLocation->lon;
-//	}
-//
-//	/*String ^ Lat = "";
-//	String ^ Lon = "";
-//
-//	if (lat < 0.0)
-//		Lat += "S";
-//	else
-//		Lat += "N";
-//
-//	if (lon < 0.0)
-//		Lon += "W";
-//	else
-//		Lon += "E";
-//
-//	Lat += Int32(lat).ToString("00");
-//	Lon += Int32(lon).ToString("000");
-//
-//	lat = lat - (double)(int)lat;
-//	lon = lon - (double)(int)lon;
-//
-//	Lat += " ";
-//	Lon += " ";
-//
-//	lat = lat*60;
-//	lon = lon*60;
-//
-//	Lat += Int32(lat).ToString("00");
-//	Lon += Int32(lon).ToString("00");
-//	
-//	lat = lat - (double)(int)lat;
-//	lon = lon - (double)(int)lon;
-//
-//	Lat += " ";
-//	Lon += " ";
-//	
-//	lat = lat*60;
-//	lon = lon*60;
-//	
-//	Lat += Double(lat).ToString("00.000");
-//	Lon += Double(lon).ToString("00.000");*/
-//
-//	verified->centerGPS->lat = lat;
-//	verified->centerGPS->lon = lon;
-//
-//	double orientation;
-//
-//	getTargetOrientation(unverified, orientation);
-//
-//	verified->target->description->heading = getHeadingString(orientation);
-//
-//	//PRINT("Lat:"+verified->Latitude+" Lon:"+verified->Longitude+" Or:"+verified->Orientation);
-//}
-
 void GeoReference::getTargetGPS(Database::CandidateRowData ^ data, double & centerLatitude, double & centerLongitude, double & centerAltitude )
 {
 	if (data == nullptr) {
-		centerLatitude = 1000;
-		centerLongitude = 1000;
-		return;
+		throw gcnew GeoReferenceException("Georeferencing Error.");
 	}
 
 	TelemetryRowData ^ telemetry = data->telemetry;
@@ -984,6 +619,8 @@ void GeoReference::getTargetGPS(Database::CandidateRowData ^ data, double & cent
 			telemetry->gimbalYaw,
 			telemetry->originX + telemetry->widthPixels/2,// - X_PIXELS/2,
 			telemetry->originY + telemetry->heightPixels/2,// - Y_PIXELS/2,
+			X_PIXELS,
+			Y_PIXELS, // TODO: Fix
 			telemetry->gimbalZoom,
 			centerLatitude,
 			centerLongitude,
@@ -993,9 +630,7 @@ void GeoReference::getTargetGPS(Database::CandidateRowData ^ data, double & cent
 void GeoReference::getTargetGPS(Database::UnverifiedRowData ^ data, double & centerLatitude, double & centerLongitude, double & centerAltitude )
 {
 	if (data == nullptr) {
-		centerLatitude = 1000;
-		centerLongitude = 1000;
-		return;
+		throw gcnew GeoReferenceException("Georeferencing Error.");
 	}
 	TelemetryRowData ^ telemetry = data->candidate->telemetry;
 
@@ -1011,116 +646,54 @@ void GeoReference::getTargetGPS(Database::UnverifiedRowData ^ data, double & cen
 			telemetry->originX + data->description->targetX,// - X_PIXELS / 2,
 			telemetry->originY + data->description->targetY,// - Y_PIXELS / 2,
 			telemetry->gimbalZoom,
+			X_PIXELS,
+			Y_PIXELS, // TODO: Fix
 			centerLatitude,
 			centerLongitude,
 			centerAltitude);
 }
 
-//void 
-//GeoReference::getCandidateGPS(Database::CandidateRowData ^ data, double & centerLatitude, double & centerLongitude, double & centerAltitude )
-//{
-//	getTargetGPS(data, centerLatitude, centerLongitude, centerAltitude);
-//}
-//
-//void 
-//GeoReference::getUnverifiedGPS(Database::UnverifiedRowData ^ data, double & centerLatitude, double & centerLongitude, double & centerAltitude )
-//{
-//	getTargetGPS(data, centerLatitude, centerLongitude, centerAltitude);
-//}
-		
 
-void GeoReference::getCenterGPSFromState(Communications::PlaneState ^ planeState, double & centerLatitude, double & centerLongitude, double & centerAltitude )
+void GeoReference::getCenterGPSFromState(ImageWithPlaneData ^ planeState, double & centerLatitude, double & centerLongitude, double & centerAltitude )
 {
 	if (planeState == nullptr) {
-		centerLatitude = 1000;
-		centerLongitude = 1000;
-		return;
+		throw gcnew GeoReferenceException("Georeferencing Error.");
 	}
 
-
-	getGPS(planeState->gpsData->gpsLatitude, planeState->gpsData->gpsLongitude, planeState->telemData->altitudeHAL, (planeState->telemData->roll), (planeState->telemData->pitch), (planeState->telemData->heading),
-		PlaneWatcher::rawToRadians(planeState->gimbalInfo->roll), PlaneWatcher::rawToRadians(planeState->gimbalInfo->pitch), GIMBAL_YAW, X_PIXELS / 2, Y_PIXELS / 2, PlaneWatcher::rawZoomToFloat(planeState->gimbalInfo->zoom),
+	getGPS(planeState->latitude, planeState->longitude, planeState->altitude, (planeState->roll), (planeState->pitch), (planeState->yaw),
+		planeState->gimbalRoll * PI/180, planeState->gimbalPitch * PI/180, GIMBAL_YAW, X_PIXELS / 2, Y_PIXELS / 2, 1 /*Zoom*/,
+		planeState->image->cols, planeState->image->rows,
 		centerLatitude, centerLongitude, centerAltitude);
 }
-
-//void GeoReference::getCenterGPSFromCandidateData(Database::CandidateRowData ^ data, double & centerLatitude, double & centerLongitude, double & centerAltitude )
-//{
-//	if (data == nullptr) {
-//		centerLatitude = 1000;
-//		centerLongitude = 1000;
-//		return;
-//	}
-//
-//		TelemetryRowData ^ telemetry = data->telemetry;
-//
-//	getGPS(	telemetry->planeLocation->lat,
-//			telemetry->planeLocation->lon,
-//			telemetry->planeLocation->alt,
-//			telemetry->planeRoll,
-//			telemetry->planePitch,
-//			telemetry->planeHeading,
-//			telemetry->gimbalRoll,
-//			telemetry->gimbalPitch,
-//			telemetry->gimbalYaw,
-//			telemetry->originX + telemetry->widthPixels/2 - X_PIXELS/2,
-//			telemetry->originY + telemetry->heightPixels/2 - y_PIXELS/2,
-//			telemetry->gimbalZoom,
-//			centerLatitude,
-//			centerLongitude,
-//			centerAltitude);
-//
-//}
 
 
 void GeoReference::getCenterGPSFromUnverifiedData(Database::UnverifiedRowData ^ data, double & centerLatitude, double & centerLongitude, double & centerAltitude )
 {
 	getTargetGPS(data->candidate, centerLatitude, centerLongitude, centerAltitude);
 
-	//if (data == nullptr) {
-	//	centerLatitude = 1000;
-	//	centerLongitude = 1000;
-	//	return;
-	//}
-	//TelemetryRowData ^ telemetry = data->candidate->telemetry;
-	//getGPS(	telemetry->planeLocation->lat,
-	//		telemetry->planeLocation->lon,
-	//		telemetry->planeLocation->alt,
-	//		telemetry->planeRoll,
-	//		telemetry->planePitch,
-	//		telemetry->planeHeading,
-	//		telemetry->gimbalRoll,
-	//		telemetry->gimbalPitch,
-	//		telemetry->gimbalYaw,
-	//		data->description->targetX - X_PIXELS / 2,
-	//		data->description->targetY - Y_PIXELS / 2,
-	//		telemetry->gimbalZoom,
-	//		centerLatitude,
-	//		centerLongitude,
-	//		centerAltitude);
-
 }
 
 
-void GeoReference::getCorners(Communications::PlaneState ^ planeState, double & TLLat, double & TLLon, 
+void GeoReference::getCorners(ImageWithPlaneData ^ planeState, double & TLLat, double & TLLon, 
 	double & TRLat, double & TRLon, double & BRLat, double & BRLon, double & BLLat, double & BLLon)
 {
 	double altitude = 0.00;
 
 
-	getGPS(planeState->gpsData->gpsLatitude, planeState->gpsData->gpsLongitude, planeState->telemData->altitudeHAL, (planeState->telemData->roll), (planeState->telemData->pitch), (planeState->telemData->heading),
-		PlaneWatcher::rawToRadians(planeState->gimbalInfo->roll), PlaneWatcher::rawToRadians(planeState->gimbalInfo->pitch), GIMBAL_YAW, 0, 0, PlaneWatcher::rawZoomToFloat(planeState->gimbalInfo->zoom),
+	getGPS(planeState->latitude, planeState->longitude, planeState->altitude, (planeState->roll), (planeState->pitch), (planeState->yaw),
+		PI/180*(planeState->gimbalRoll), PI/180*(planeState->gimbalPitch), GIMBAL_YAW, 0, 0, 1,planeState->image->cols, planeState->image->rows,
 		BLLat, BLLon, altitude);
 
-	getGPS(planeState->gpsData->gpsLatitude, planeState->gpsData->gpsLongitude, planeState->telemData->altitudeHAL, (planeState->telemData->roll), (planeState->telemData->pitch), (planeState->telemData->heading),
-		PlaneWatcher::rawToRadians(planeState->gimbalInfo->roll), PlaneWatcher::rawToRadians(planeState->gimbalInfo->pitch), GIMBAL_YAW, X_PIXELS-1, 0, PlaneWatcher::rawZoomToFloat(planeState->gimbalInfo->zoom),
+	getGPS(planeState->latitude, planeState->longitude, planeState->altitude, (planeState->roll), (planeState->pitch), (planeState->yaw),
+		PI/180*(planeState->gimbalRoll), PI/180*(planeState->gimbalPitch), GIMBAL_YAW, planeState->image->cols-1, 0, 1,planeState->image->cols, planeState->image->rows,
 		BRLat, BRLon, altitude);
 
-	getGPS(planeState->gpsData->gpsLatitude, planeState->gpsData->gpsLongitude, planeState->telemData->altitudeHAL, (planeState->telemData->roll), (planeState->telemData->pitch), (planeState->telemData->heading),
-		PlaneWatcher::rawToRadians(planeState->gimbalInfo->roll), PlaneWatcher::rawToRadians(planeState->gimbalInfo->pitch), GIMBAL_YAW, X_PIXELS-1, Y_PIXELS-1, PlaneWatcher::rawZoomToFloat(planeState->gimbalInfo->zoom),
+	getGPS(planeState->latitude, planeState->longitude, planeState->altitude, (planeState->roll), (planeState->pitch), (planeState->yaw),
+		PI/180*(planeState->gimbalRoll), PI/180*(planeState->gimbalPitch), GIMBAL_YAW, planeState->image->cols-1, planeState->image->rows-1, 1,planeState->image->cols, planeState->image->rows,
 		TRLat, TRLon, altitude);
 
-	getGPS(planeState->gpsData->gpsLatitude, planeState->gpsData->gpsLongitude, planeState->telemData->altitudeHAL, (planeState->telemData->roll), (planeState->telemData->pitch), (planeState->telemData->heading),
-		PlaneWatcher::rawToRadians(planeState->gimbalInfo->roll), PlaneWatcher::rawToRadians(planeState->gimbalInfo->pitch), GIMBAL_YAW, 0, Y_PIXELS-1, PlaneWatcher::rawZoomToFloat(planeState->gimbalInfo->zoom),
+	getGPS(planeState->latitude, planeState->longitude, planeState->altitude, (planeState->roll), (planeState->pitch), (planeState->yaw),
+		PI/180*(planeState->gimbalRoll), PI/180*(planeState->gimbalPitch), GIMBAL_YAW, 0, planeState->image->rows-1, 1,planeState->image->cols, planeState->image->rows,
 		TLLat, TLLon, altitude);
 }
 
@@ -1129,8 +702,6 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 {
 	double altitude = 0.00;
 	
-	//TelemetryRowData ^ telemetry = data->candidate->telemetry;
-
 	getGPS(	data->planeLocation->lat,
 			data->planeLocation->lon,
 			data->planeLocation->alt,
@@ -1143,6 +714,8 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->originX,// - X_PIXELS / 2,
 			data->originY,// - Y_PIXELS / 2,
 			data->gimbalZoom,
+			X_PIXELS, // TODO: FIX
+			Y_PIXELS,
 			BLLat,
 			BLLon,
 			altitude);
@@ -1159,6 +732,8 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->originX + data->widthPixels-1,// - X_PIXELS / 2,
 			data->originY,// - Y_PIXELS / 2,
 			data->gimbalZoom,
+			X_PIXELS, // TODO: FIX
+			Y_PIXELS,
 			BRLat,
 			BRLon,
 			altitude);
@@ -1175,6 +750,8 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->originX,// - X_PIXELS / 2,
 			data->originY + data->heightPixels-1,// - Y_PIXELS / 2,
 			data->gimbalZoom,
+			X_PIXELS, // TODO: FIX
+			Y_PIXELS,
 			TLLat,
 			TLLon,
 			altitude);
@@ -1191,6 +768,8 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->originX + data->widthPixels-1,// - X_PIXELS / 2,
 			data->originY + data->heightPixels-1,// - Y_PIXELS / 2,
 			data->gimbalZoom,
+			X_PIXELS, // TODO: FIX
+			Y_PIXELS,
 			TRLat,
 			TRLon,
 			altitude);
@@ -1204,13 +783,18 @@ void GeoReference::getCorners(Database::UnverifiedRowData ^ data, double & BLLat
 }
 
 bool GeoReference::getGPS(double plane_latitude, double plane_longitude, double plane_altitude, double plane_roll, double plane_pitch, double plane_heading, double gimbal_roll, double gimbal_pitch, double gimbal_yaw, 
-				double target_x, double target_y, double zoom, double & Target_Latitude, double & Target_Longitude, double & Target_Height)
+				double target_x, double target_y, double zoom, int image_width, int image_height, double & Target_Latitude, double & Target_Longitude, double & Target_Height)
 {
-	return forwardGeoreferencing(plane_latitude, plane_longitude, plane_altitude, 
-		plane_roll, plane_pitch, plane_heading, 
-		gimbal_roll, gimbal_pitch, gimbal_yaw, 
-		target_x, target_y, zoom, 
-		Target_Latitude, Target_Longitude, Target_Height) ;
+	try{
+		return forwardGeoreferencing(plane_latitude, plane_longitude, plane_altitude, 
+			plane_roll, plane_pitch, plane_heading, 
+			gimbal_roll, gimbal_pitch, gimbal_yaw, 
+			target_x, target_y, zoom,
+			image_width, image_height,
+			Target_Latitude, Target_Longitude, Target_Height) ;
+	} catch(GeoReferenceException^ e){
+		throw e;
+	}
 }
 
 

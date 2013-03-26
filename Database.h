@@ -1,16 +1,16 @@
 #pragma once
 
-#include "TelemetryStructures.h"
-#include "DatabaseStructures.h"
-
-using namespace System;
-using namespace System::Data::Odbc;
-
-
-
 namespace Database
 {
 
+	ref struct CandidateRowData;
+	ref struct DescriptionRowData;
+	ref struct GPSPositionRowData;
+	ref struct LocationRowData;
+	ref struct TelemetryRowData;
+	ref struct UnverifiedRowData;
+	ref struct VerifiedRowData;
+	ref struct DialogEditingData;
 
 	enum ColumnName
 	{
@@ -37,7 +37,7 @@ namespace Database
 		// SQL operations
 		bool disconnect(void); 
 		bool reset(void);
-		OdbcDataReader ^ runQuery(String ^ query);
+		System::Data::Odbc::OdbcDataReader ^ runQuery(System::String ^ query);
 
 		array<CandidateRowData ^>^ getAllCandidates();
 		array<UnverifiedRowData ^>^ getAllUnverified();
@@ -45,9 +45,9 @@ namespace Database
 		
 		// transfered to here
 
-		String ^ getTabDelimitedVerifiedTargetDataForSubmission();
+		System::String ^ getTabDelimitedVerifiedTargetDataForSubmission();
 
-		String ^ imageNameForID(String ^ id);
+		System::String ^ imageNameForID(System::String ^ id);
 		
 		void clearCandidatesTable();
 		void clearUnverifiedTable();
@@ -67,53 +67,30 @@ namespace Database
 		void modifyGPSPosition ( GPSPositionRowData ^ data);
 		void modifyTelemetry ( TelemetryRowData ^ data);
 
-		void removeCandidate( String ^ id);
-		void removeUnverified( String ^ id);
-		void removeVerified( String ^id );
+		void removeCandidate( System::String ^ id);
+		void removeUnverified( System::String ^ id);
+		void removeVerified( System::String ^id );
 		
-		CandidateRowData ^ candidateWithID(String ^ id);
-		UnverifiedRowData ^ unverifiedWithID(String ^ id);
-		VerifiedRowData ^ verifiedWithID(String ^ id);
+		CandidateRowData ^ candidateWithID(System::String ^ id);
+		UnverifiedRowData ^ unverifiedWithID(System::String ^ id);
+		VerifiedRowData ^ verifiedWithID(System::String ^ id);
 
 		bool connect(void);
 		
-		///////////////////// no longer used /////////////////////
-		// void saveNewVerifiedTarget(VerifiedTargetRowData ^ data);
-		// void modifyVerifiedTarget(VerifiedTargetRowData ^ data);
-		// void removeVerifiedTarget( String ^id );
-		// void verifiedTargetForID(String ^ id);
-		// VerifiedTargetRowData ^ verifiedTargetFromReader(OdbcDataReader ^ theReader);
-		// void removeVotesForId( String ^ id);
-		// void addVote(VoteRowData ^ data);
-		// void clearVotesTable();
-
-		// void fillDatabase();
-		
-		// String ^ getField( TableName table, int field, String ^ rowID );
-		//bool insertData( TableName table, RowData ^ data );
-		//bool updateValue( TableName table, String ^ field, String ^ value, String ^ rowID );
-		// String ^ formatHomography( array<float> ^ input );
-		//bool move( TableName source, TableName dest, String ^ verifiedStatus );		
-		// bool moveProcessed( TableName source, TableName dest, String ^ processedStatus );
-
-		// array<float> ^ getHomography( TableName table, String ^ rowID );
-
 	protected:
-		array<Object ^>^ getAllRows(String ^query, int tableType);
-		String ^ getTableName( TableName table );
+		array<Object ^>^ getAllRows(System::String ^query, int tableType);
+		System::String ^ getTableName( TableName table );
 		
-		CandidateRowData ^ candidateFromReader(OdbcDataReader ^ theReader);
-		VerifiedRowData ^ verifiedFromReader(OdbcDataReader ^ theReader);
-		UnverifiedRowData ^ unverifiedFromReader(OdbcDataReader ^ theReader);
+		CandidateRowData ^ candidateFromReader(System::Data::Odbc::OdbcDataReader ^ theReader);
+		VerifiedRowData ^ verifiedFromReader(System::Data::Odbc::OdbcDataReader ^ theReader);
+		UnverifiedRowData ^ unverifiedFromReader(System::Data::Odbc::OdbcDataReader ^ theReader);
 
 
 	private:
-		OdbcConnection ^ _database;
-		OdbcCommand ^ _command;
-		OdbcDataReader ^ _reader;
+		System::Data::Odbc::OdbcConnection ^ _database;
+		System::Data::Odbc::OdbcCommand ^ _command;
+		System::Data::Odbc::OdbcDataReader ^ _reader;
 		bool databaseOpen;
-
-
 	};
 }
 

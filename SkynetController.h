@@ -1,12 +1,9 @@
 #pragma once
 
-#include "TelemetryStructures.h"
-#include "Database.h"
 #include "SkynetControllerInterface.h"
+#include <cv.h>
 
-using namespace System;
-using namespace Communications;
-using namespace System::Drawing;
+ref struct ImageWithPlaneData;
 
 namespace Intelligence
 {
@@ -15,26 +12,34 @@ namespace Intelligence
 	ref class IntelligenceController;
 }
 
-namespace OpenGLForm 
-{
-	ref class COpenGL;
-}
+ref class PlaneDataReceiver;
 
 namespace Communications 
 {
 	ref class PlaneWatcher;
-	ref class TargetLock;
-	ref class GEarthHandler;
-}
-
-namespace Database
-{
-	//ref class VoteCounter;
 }
 
 namespace Simulator
 {
 	ref class SimHandler;
+}
+
+namespace Database
+{
+	ref class DatabaseConnection;
+	ref struct CandidateRowData;
+	ref struct DescriptionRowData;
+	ref struct GPSPositionRowData;
+	ref struct LocationRowData;
+	ref struct TelemetryRowData;
+	ref struct UnverifiedRowData;
+	ref struct VerifiedRowData;
+	ref struct DialogEditingData;
+}
+
+namespace Vision
+{
+	ref class VisionController;
 }
 
 namespace Skynet
@@ -49,12 +54,11 @@ namespace Skynet
 
 		void comeAlive(); // called when the GUI is all set up, and Skynet is ready to begin flight ops
 
-		void setCameraView(OpenGLForm::COpenGL ^ cameraView);
+		void setCameraView(System::Windows::Forms::PictureBox ^ cameraView);
 		void setDatabase(Database::DatabaseConnection ^ newDatabase);
-		void setPlaneWatcher(PlaneWatcher ^ newWatcher);
-		void setTargetLock(TargetLock ^ newLock) { targetLock = newLock; }
+		void setPlaneWatcher(Communications::PlaneWatcher ^ newWatcher);
 
-		void exportData(String ^ basePath);
+		void exportData(System::String ^ basePath);
 
 		virtual void intendedGimbalPositionUpdated( float rollDegrees, float pitchDegrees );
 		virtual void intendedCameraZoomUpdated( float zoom );
@@ -67,19 +71,18 @@ namespace Skynet
 		void updateVerifiedTableFromDatabaseAtInterval(Object ^ interval);
 		void loadUnverifiedTableFromDisk();
 		void clearAllTables();
-		void restartIntelligenceController(array<String ^>^ fieldBoundaries);
-		void createIntelligenceController(array<String^>^ fieldBoundaries);
+		void restartIntelligenceController(array<System::String ^>^ fieldBoundaries);
+		void createIntelligenceController(array<System::String^>^ fieldBoundaries);
 
-		String ^ saveCurrentFrameAsImage();
-		String ^ saveCurrentFrameAsImage(String ^ basePath);
+		System::String ^ saveCurrentFrameAsImage();
+		System::String ^ saveCurrentFrameAsImage(System::String ^ basePath);
 
 		virtual void saveCurrentFrameAsUnverified();	 // call this anywhere, any thread, any time
-		void saveUnverified(float * data, int width, int height, int numChannels, int originX, int originY, PlaneState ^ stateOfPlane);
-		void saveCurrentFrameAsUnverifiedOnMainThread(); // call this only from main thread
+		void saveUnverified(float * data, int width, int height, int numChannels, int originX, int originY, ImageWithPlaneData ^ stateOfPlane);
 		void addUnverifiedToGUITable(Object ^ theObject);
 
+		void addCandidate(Database::CandidateRowData ^ data);
 		void addUnverified(Database::UnverifiedRowData ^ data);
-		//bool addVote(Database::VoteRowData ^ data);
 		void addVerifiedTarget(Database::VerifiedRowData ^ data);
 		void addVerifiedTargetWithDialogData(Database::DialogEditingData ^ data);
 		void addVerifiedTargetToGUITable(Database::VerifiedRowData ^ data);
@@ -87,17 +90,17 @@ namespace Skynet
 		void modifyUnverified(Database::UnverifiedRowData ^ data);
 
 		void removeUnverified(Database::UnverifiedRowData ^ data);
-		void removeUnverified(String ^ id);
-		// void removeVotesForID(String ^ id);
-		void removeVerifiedTargetForID(String ^ id);
-		void displayAutosearchImage(Image ^ image);
-		void displayPathfinderImage(Image ^ image);
-		void pathfinderComplete(Image ^ image);
+		void removeUnverified(System::String ^ id);
+		void removeVerifiedTargetForID(System::String ^ id);
+		void displayAutosearchImage(System::Drawing::Image ^ image);
+		void displayPathfinderImage(System::Drawing::Image ^ image);
+		void pathfinderComplete(System::Drawing::Image ^ image);
+		void processPlaneData(ImageWithPlaneData^ imageWithPlaneData);
 
-		Database::CandidateRowData ^ candidateWithID(String ^ id);
-		Database::UnverifiedRowData ^ unverifiedWithID(String ^ id);
-		Database::VerifiedRowData ^ verifiedWithID(String ^ id);
-		// Database::VotesOnCandidate ^ votesForID(String ^ id);
+		array<Database::UnverifiedRowData ^>^ getAllUnverified();
+		Database::CandidateRowData ^ candidateWithID(System::String ^ id);
+		Database::UnverifiedRowData ^ unverifiedWithID(System::String ^ id);
+		Database::VerifiedRowData ^ verifiedWithID(System::String ^ id);
 		// Intelligence::Autosearch ^ getAutosearch();
 		Intelligence::IntelligenceController ^ getIntelligenceController();
 		void setSimHandler(Simulator::SimHandler ^ simHandler)
@@ -105,12 +108,12 @@ namespace Skynet
 			this->simHandler = simHandler;
 		}
 		Simulator::SimHandler ^ getSimHandler() { return simHandler; }
-		String ^ imageNameForID(String ^ id);
+		System::String ^ imageNameForID(System::String ^ id);
 		Database::DatabaseConnection ^ getDatabase();
-		void printConsoleMessageInGreen(String ^ message);
+		void printConsoleMessageInGreen(System::String ^ message);
 
 		Form1 ^ getForm1() { return form1View; }
-		PlaneWatcher ^ getPlaneWatcher() { return theWatcher; }
+		Communications::PlaneWatcher ^ getPlaneWatcher() { return theWatcher; }
 
 		void gotGPS();
 		void gotVideo();
@@ -118,27 +121,16 @@ namespace Skynet
 		bool appIsAlive;
 		int frameCount;
 
-		///////////// no longer used ////////////////
-		//void loadTargetTableFromDisk();
-		//void addTargetToGUITable(Object ^ theObject);
-//		bool addTarget(Database::TargetRowData ^ data);
-//		void modifyTarget(Database::TargetRowData ^ data);
-//		void removeTarget(Database::TargetRowData ^ data);
-		//void removeTarget(String ^ id);
 
 	protected:
-		//Intelligence::Autosearch ^ autosearch;
 		Intelligence::IntelligenceController ^ intelligenceController;
 		Form1 ^ form1View;
-		OpenGLForm::COpenGL ^ openGLView;
+		System::Windows::Forms::PictureBox ^ cameraView;
 		Database::DatabaseConnection ^ theDatabase;
-		PlaneWatcher ^ theWatcher;
-		TargetLock ^ targetLock;
-		Communications::GEarthHandler ^ theGEarthHandler;
+		Communications::PlaneWatcher ^ theWatcher;
 		Simulator::SimHandler ^ simHandler;
-		
-		//Database::VoteCounter ^ voteCounter;
-
+		Vision::VisionController ^ visionController;
+		PlaneDataReceiver ^ receiver;
 		bool hasTelemetry;
 		bool hasVideo;
 

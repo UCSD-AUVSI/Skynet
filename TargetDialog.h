@@ -1,9 +1,8 @@
 #pragma once
 
-
-#include "GeoReference.h"
 #include "DatabaseStructures.h"
-//#include "SkynetControllerInterface.h"
+
+#define PI 3.14159265358979323846
 
 namespace Skynet {
 
@@ -20,7 +19,7 @@ namespace Skynet {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	//ref class SkynetController;
+	ref class SkynetController;
 
 	/// <summary>
 	/// Summary for TargetDialog
@@ -55,121 +54,6 @@ namespace Skynet {
 			}
 
 		}
-
-		/*property Database::TargetRowData ^ Target
-		{
-			Database::TargetRowData ^ get()
-			{
-				return target;
-			}
-			void set( Database::TargetRowData ^ newData)
-			{
-				target = newData;
-				data = gcnew Database::DialogEditingData(newData);
-				reloadData();
-			}
-		}*/
-
-/*		property Database::VotesOnCandidate ^ Votes
-		{
-			Database::VotesOnCandidate ^ get()
-			{
-				return votingData;
-			}
-			void set( Database::VotesOnCandidate ^ newData)
-			{
-				votingData = newData;
-				// set type
-
-				//data = gcnew Database::DialogEditingData(newData);
-				reloadData();
-			}
-
-		}
-*/
-
-		/*property int targetid
-		{
-			int get()
-			{
-				return _targetid;
-			}
-			void set( int value )
-			{
-				_targetid = value;
-				this->Text = "Image " + _targetid;
-			}
-		}
-
-		property double Latitude
-		{
-			double get()
-			{
-				return _latitude;
-			}
-			void set( double value )
-			{
-				_latitude = value;
-			}
-		}
-
-		property double Longitude
-		{
-			double get()
-			{
-				return _longitude;
-			}
-			void set( double value )
-			{
-				_longitude = value;
-			}
-		}	
-
-		property double Heading
-		{
-			double get()
-			{
-				return _heading;
-			}
-			void set( double value )
-			{
-				_heading = value;
-			}
-		}	
-
-		property int RowID
-		{
-			int get()
-			{
-				return _rowID;
-			}
-			void set( int value )
-			{
-				_rowID = value;
-			}
-		}
-
-		property String ^ ImagePath
-		{
-			String ^ get()
-			{
-				return _path;
-			}
-			void set( String ^ value )
-			{
-				_path = value->Substring(0, value->IndexOf(".jpg"));
-				try
-				{
-					_targetImage = Image::FromFile( _path + "_rectified.jpg" );
-					imageBox->Image = _targetImage;
-				}
-				catch( Exception ^ )
-				{
-		System::Diagnostics::Trace::WriteLine("catch in target dialog");
-
-				}
-			}
-		}*/
 
 		static String ^ getHeadingString( double angle )
 		{
@@ -219,7 +103,7 @@ namespace Skynet {
 			else if(x>0 && y<0)
 			    angle = Math::Atan(-y/x);
 			else if(x<0 && y<0)
-				angle =   PI/2.0 +Math::Atan(-x/-y);
+				angle = PI/2.0 +Math::Atan(-x/-y);
 			else if(x<0 && y>0)
 			    angle = -PI/2 -Math::Atan(-x/y);
 			else if(x> 0 && y == 0)
@@ -236,12 +120,6 @@ namespace Skynet {
 			return -angle;
 		}
 		
-		/*void setHeading( int x, int y )
-		{
-			double angle = atan3( x, y ) * 180.0 / PI;
-
-			_heading = angle;
-		}*/
 
 	protected:
 
@@ -254,21 +132,8 @@ namespace Skynet {
 		Database::CandidateRowData ^ candidate;
 		Database::UnverifiedRowData ^ target;
 		Database::DialogEditingData ^ data;
-		// Database::VotesOnCandidate ^ votingData;
 		SkynetController ^ appController;
 		DialogEditingMode mode;
-		/*int _targetid;
-		int _rowID;
-		String ^ _path;
-		Image ^ _targetImage;
-		double _latitude, _longitude;
-		double _heading;
-
-		double _centerLat, _centerLon;
-		double _latMap, _lonMap;
-		Point _mouseDown;
-
-		array<float> ^ _homography;*/
 
 
 	private: System::Windows::Forms::PictureBox^  imageBox;
@@ -278,7 +143,7 @@ namespace Skynet {
 	private: System::Windows::Forms::Button^  headingButton;
 
 	private: System::Windows::Forms::Button^  okButton;
-	private: System::Windows::Forms::Button^  cancelButton;
+
 private: System::Windows::Forms::Label^  instructionLabel;
 private: System::Windows::Forms::TextBox^  textBox1;
 private: System::Windows::Forms::TextBox^  textBox2;
@@ -316,7 +181,6 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 			this->latlonButton = (gcnew System::Windows::Forms::Button());
 			this->headingButton = (gcnew System::Windows::Forms::Button());
 			this->okButton = (gcnew System::Windows::Forms::Button());
-			this->cancelButton = (gcnew System::Windows::Forms::Button());
 			this->instructionLabel = (gcnew System::Windows::Forms::Label());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
@@ -375,19 +239,9 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 			this->okButton->Name = L"okButton";
 			this->okButton->Size = System::Drawing::Size(109, 52);
 			this->okButton->TabIndex = 3;
-			this->okButton->Text = L"Move to Unverified";
+			this->okButton->Text = L"Move to Verified";
 			this->okButton->UseVisualStyleBackColor = true;
 			this->okButton->Click += gcnew System::EventHandler(this, &TargetDialog::okButton_Click);
-			// 
-			// cancelButton
-			// 
-			this->cancelButton->Location = System::Drawing::Point(664, 597);
-			this->cancelButton->Name = L"cancelButton";
-			this->cancelButton->Size = System::Drawing::Size(75, 23);
-			this->cancelButton->TabIndex = 4;
-			this->cancelButton->Text = L"Cancel";
-			this->cancelButton->UseVisualStyleBackColor = true;
-			this->cancelButton->Click += gcnew System::EventHandler(this, &TargetDialog::cancelButton_Click);
 			// 
 			// instructionLabel
 			// 
@@ -488,7 +342,7 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 			// 
 			this->button1->Location = System::Drawing::Point(665, 568);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->Size = System::Drawing::Size(75, 52);
 			this->button1->TabIndex = 18;
 			this->button1->Text = L"Delete";
 			this->button1->UseVisualStyleBackColor = true;
@@ -552,7 +406,6 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->instructionLabel);
-			this->Controls->Add(this->cancelButton);
 			this->Controls->Add(this->okButton);
 			this->Controls->Add(this->headingButton);
 			this->Controls->Add(this->latlonButton);
@@ -567,7 +420,8 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 		}
 #pragma endregion
 
-private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^  e); 
+private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^  e);
+	
 
 private: System::Void cancelButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			 candidate = nullptr;
@@ -577,44 +431,21 @@ private: System::Void cancelButton_Click(System::Object^  sender, System::EventA
 			 this->Close();
 		 }
 private: System::Void headingButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			/*try
-			{
-				_targetImage = Image::FromFile( _path + "_rectified.jpg" );
-				imageBox->Image = _targetImage;
-			}
-			catch( Exception ^ )
-			{
-				
-				System::Diagnostics::Trace::WriteLine("catch in target dialog");
-			}*/
 
 			_markHeading = true;
 			_markLat = false;
 			instructionLabel->Text = "Click on top of target";
 		 }
 private: System::Void latlonButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			/*try
-			{
-				_targetImage = Image::FromFile( _path + ".jpg" );
-				imageBox->Image = _targetImage;
-			}
-			catch( Exception ^ )
-			{
-
-			}
-			*/
 			_markHeading = false;
 			_markLat = true;
 			instructionLabel->Text = "Click on center of target";
 		 }
 private: System::Void imageBox_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {			 			 
-			 //if( e->Button != ::MouseButtons::Left )
-				// return;
 			 if (!imageOpen)
 				 setImage();
 
 			 if( _markHeading ) {
-				 //_mouseDown = e->Location;
 				 
 				 Point location = e->Location;
 
@@ -654,41 +485,10 @@ private: System::Void imageBox_MouseDown(System::Object^  sender, System::Window
 				 centerX = newCenterX;
 				 centerY = newCenterY;
 
-
-				 //double latReturn = 0.0f, lonReturn = 0.0f;
-
-				 // need to fix georeferencing
-				 //GeoReference::applyHomography( _homography, e->Location.X, e->Location.Y, _latMap, _lonMap, latReturn, lonReturn );
-
-
-				 //_latitude = latReturn;
-				 //_longitude = lonReturn;
-				 
-				 //instructionLabel->Text = "Lat: " + _latitude + ", Lon: " + _longitude;
-
-				 //_markLat = false;
 			 }
 		 }
 private: System::Void imageBox_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 //if( e->Button != ::MouseButtons::Left )
-				// return;
 			 return;
-			 /*if( _markHeading )
-			 {
-				 // Get pixel displacement from prior point
-				 int deltaX, deltaY;
-				 deltaX = e->Location.X - _mouseDown.X;
-				 deltaY = e->Location.Y - _mouseDown.Y;
-
-				 // adjust for North/East direction
-				 deltaY *= -1;
-
-				 // our atan3 function is written to expect X as the up/down axis, Y as the left/right, so pass in reverse order
-				 setHeading( deltaY, deltaX );
-				 instructionLabel->Text = "Heading set to " + getHeadingString( _heading );
-				 
-				 _markHeading = false;
-			 }*/
 		 }
 
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);

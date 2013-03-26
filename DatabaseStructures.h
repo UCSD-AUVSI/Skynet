@@ -7,6 +7,8 @@ namespace Communications
 	ref struct PlaneState;
 }
 
+ref struct ImageWithPlaneData;
+
 namespace Database
 {
 	ref struct CandidateRowData;
@@ -26,8 +28,7 @@ namespace Database
 		bool processed;
 
 		CandidateRowData();
-		//CandidateRowData(Communications::PlaneState ^ planeState);
-		CandidateRowData(Communications::PlaneState ^ planeState, int originX, int originY, int widthPixels, int heightPixels);
+		CandidateRowData(ImageWithPlaneData ^ planeState, int originX, int originY, int widthPixels, int heightPixels);
 	
 		bool Equals(CandidateRowData ^ object);
 	};
@@ -135,8 +136,8 @@ namespace Database
 		double planeHeading;
 		GPSPositionRowData ^ planeLocation;
 		TelemetryRowData() {}
-		//TelemetryRowData(Communications::PlaneState ^ planeState);
-		TelemetryRowData(Communications::PlaneState ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
+		//TelemetryRowData(ImageWithPlaneData ^ planeState);
+		TelemetryRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
 	
 		
 		bool Equals(TelemetryRowData ^ object);
@@ -152,7 +153,7 @@ namespace Database
 		DescriptionRowData ^ description;
 		UnverifiedRowData() {}
 		UnverifiedRowData(CandidateRowData ^ candidate);
-		UnverifiedRowData(Communications:: PlaneState ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
+		UnverifiedRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
 	
 		void updateCandidate(CandidateRowData ^ candidate);
 		

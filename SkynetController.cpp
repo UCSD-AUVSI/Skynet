@@ -2,57 +2,61 @@
 
 #include "SkynetController.h"
 #include "IntelligenceController.h"
-
-#include "GEarthHandler.h"
+#include "VisionController.h"
 #include "PlaneWatcher.h"
-#include "OpenGLForm.h"
 #include "Form1.h"
 #include "Delegates.h"
-#include "TargetLock.h"
-//#include "VoteCounter.h"
+#include "SaveImage.h"
+#include "SimulatorPlaneDataReceiver.h"
 
 
 using namespace System;
 using namespace System::Data::Odbc;
 using namespace Skynet;
-using namespace OpenGLForm;
 using namespace Database;
-using namespace msclr;
 using namespace Communications;
 using namespace Intelligence;
+using namespace Vision;
+using namespace Delegates;
 
-SkynetController::SkynetController(Form1 ^ mainView)
+SkynetController::SkynetController(Form1 ^ mainView):
+	theDatabase(gcnew Database::DatabaseConnection()),
+	form1View(mainView),
+	guiHasData(false),
+	hasTelemetry(false),
+	hasVideo(false),
+	frameCount(0)
 {
+	if (!theDatabase->connect()){
+		PRINT("WARNING: Could not connect to database");
+	}
 	appIsAlive = false;
-	openGLView = nullptr;
-	theDatabase = nullptr;
-	theWatcher = nullptr;
-	form1View = mainView;
-	theGEarthHandler = gcnew GEarthHandler(nullptr, nullptr);
-	theGEarthHandler->setController(this);
-
-	//voteCounter = gcnew VoteCounter(this);
-	//voteCounter->setForm1(mainView);
+	cameraView = nullptr;
+	theWatcher = gcnew PlaneWatcher(this);
+	visionController = gcnew VisionController(this);
+	receiver = gcnew SimulatorPlaneDataReceiver("C:\\good_flight_images1", theWatcher);
 	
 	// intelligenceController = gcnew IntelligenceController("D:\\Skynet Files\\Field Boundaries Test.txt",this);
 	// intelligenceController->updateImage();
 	// autosearch = gcnew Autosearch("D:\\Skynet Files\\Field Boundaries.txt",this);
 	// autosearch->updateImage();
+}
 
-	guiHasData = false;
-	hasTelemetry = false;
-	hasVideo = false;
-	frameCount = 0;
+void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
+	visionController->receiveFrame(imageWithPlaneData);
+	form1View->displayPlaneData(imageWithPlaneData);
 }
 
 void SkynetController::createIntelligenceController(array<String ^>^ fieldBoundaries)
 {
 	try{
-		FileStream ^ fs = gcnew FileStream( "D:\\Skynet Files\\Field Boundaries.txt", FileMode::Create);
-		StreamWriter ^ file = gcnew StreamWriter( fs, Encoding::UTF8 );
-		for each(String ^ fieldBoundary in fieldBoundaries)
-			file->Write(fieldBoundary + "\r\n");
-		file->Close();
+		/*
+			FileStream ^ fs = gcnew FileStream( "D:\\Skynet Files\\Field Boundaries.txt", FileMode::Create);
+			StreamWriter ^ file = gcnew StreamWriter( fs, Encoding::UTF8 );
+			for each(String ^ fieldBoundary in fieldBoundaries)
+				file->Write(fieldBoundary + "\r\n");
+			file->Close();
+		*/
 		intelligenceController = gcnew IntelligenceController(this);
 	}catch(IOException ^)
 	{
@@ -73,9 +77,8 @@ void SkynetController::restartIntelligenceController(array<String ^>^ fieldBound
 SkynetController::~SkynetController()
 {
 	form1View = nullptr;
-	openGLView = nullptr;
+	cameraView = nullptr;
 	theDatabase = nullptr;
-	theGEarthHandler = nullptr;
 }
 
 IntelligenceController^ SkynetController::getIntelligenceController()
@@ -150,33 +153,22 @@ void SkynetController::exportData(String ^ basePath)
 
 void SkynetController::comeAlive()
 {
-	theGEarthHandler->start();
-	//intelligenceController->startPathfinderThread();
 	appIsAlive = true;
 }
 
-void SkynetController::setCameraView(OpenGLForm::COpenGL ^ cameraView) 
+void SkynetController::setCameraView(PictureBox ^ cameraView) 
 { 
-	openGLView = cameraView; 
-	theGEarthHandler->setOpenGL(cameraView);
-	openGLView->theController = this;
-
+	cameraView = this->cameraView;
 }
 
 void SkynetController::setPlaneWatcher(PlaneWatcher ^ newWatcher)
 { 
-	/*autosearch->setPlaneWatcher(newWatcher);*/
-	//intelligenceController->setPlaneWatcher(newWatcher);
  	theWatcher = newWatcher; 
-	theGEarthHandler->setWatcher(newWatcher);
-	theWatcher->setController(this);
 }
 
 void SkynetController::setDatabase(Database::DatabaseConnection ^ newDatabase)
 { 
 	theDatabase = newDatabase;
-	theGEarthHandler->setDatabase(newDatabase);
-	//voteCounter->setDatabase(newDatabase);
 }
 
 void SkynetController::gotGPS()
@@ -198,7 +190,6 @@ void SkynetController::gotVideo()
 
 void SkynetController::stopTargetLock()
 {
-	targetLock->endLock();
 }
 
 void SkynetController::intendedGimbalPositionUpdated( float rollDegrees, float pitchDegrees )
@@ -215,12 +206,10 @@ void SkynetController::intendedCameraZoomUpdated( float zoom )
 String ^ SkynetController::saveCurrentFrameAsImage(String ^ basePath)
 {
 	// invoke saveCurrentFrameAsCandidateOnMainThread()
-	if (openGLView == nullptr) {
-		System::Diagnostics::Trace::WriteLine("SkynetController::saveCurrentFrameAsCandidate() ran, but openGLView == nullptr");
+	if (cameraView == nullptr) {
+		System::Diagnostics::Trace::WriteLine("SkynetController::saveCurrentFrameAsCandidate() ran, but cameraView == nullptr");
 		return nullptr;
 	}
-
-	COpenGL ^theOpenGL = (COpenGL ^)openGLView;
 
 	// save current image to a file
 	String ^ pathbase = basePath;
@@ -236,26 +225,20 @@ String ^ SkynetController::saveCurrentFrameAsImage()
 
 void SkynetController::saveCurrentFrameAsUnverified()
 {
-	// invoke saveCurrentFrameAsCandidateOnMainThread()
-	if (openGLView == nullptr) {
-		System::Diagnostics::Trace::WriteLine("SkynetController::saveCurrentFrameAsCandidate() ran, but openGLView == nullptr");
-		return;
-	}
-
-	COpenGL ^theOpenGL = (COpenGL ^)openGLView;
-
-	int width = theOpenGL->frameW; 
-	int height = theOpenGL->frameH;
-	int numChannels = 4;
-	int originX = 0;
-	int originY = 0;
-	PlaneState ^ stateOfPlane = theWatcher->stateOfCurrentImage();
+	ImageWithPlaneData ^ stateOfPlane = theWatcher->getState();
+	cv::Mat image = *(stateOfPlane->image);
 
 	// save current image to a file
 	String ^ pathbase = HTTP_SERVER_TARGET_PATH;
 	String ^ filename = "img_" + DateTime::Now.ToString("o")->Replace(":", "-") + ".jpg";
 
+	cv::imwrite(std::string((const char*)Marshal::StringToHGlobalAnsi(pathbase + filename).ToPointer()),image);
+
 	// insert data into database
+	int width = image.cols;
+	int height = image.rows;
+	int originX = 0;
+	int originY = 0;
 	auto unverified = gcnew UnverifiedRowData(stateOfPlane, originX, originY, width, height);
 	unverified->candidate->imageName = filename;
 
@@ -274,12 +257,8 @@ void SkynetController::saveCurrentFrameAsUnverified()
 	catch(Exception ^ e) {
 		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::saveCurrentFrameAsCandidate(): Failed to add image to target - " + e);
 	}
-	/*try {
+
 		((Form1 ^)form1View)->Invoke(gcnew Delegates::unverifiedRowDataToVoid( ((Form1 ^)form1View), &Skynet::Form1::insertUnverifiedData), unverified );
-	}
-	catch(Exception ^ e) {
-		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::saveCurrentFrameAsCandidate(): Failed to add image to target - " + e);
-	}*/
 
 }
 
@@ -293,28 +272,6 @@ String ^ SkynetController::imageNameForID(String ^ id)
 	return theDatabase->imageNameForID(id);
 }
 
-void SkynetController::saveCurrentFrameAsUnverifiedOnMainThread()
-{
-	if (openGLView == nullptr) {
-		System::Diagnostics::Trace::WriteLine("SkynetController::saveCurrentFrameAsCandidate() ran, but openGLView == nullptr");
-		return;
-	}
-	System::Diagnostics::Trace::WriteLine("SkynetController::saveCurrentFrameAsCandidate() ERROR: function no longer used. use saveCurrentFrameAsCandidate() instead.");
-	throw gcnew Exception();
-	return;
-	
-	COpenGL ^theOpenGL = (COpenGL ^)openGLView;
-
-	float *imageBuffer = new float[ theOpenGL->frameW * theOpenGL->frameH * sizeof(float) * 4 / 2];
-	{
-		lock l(theOpenGL);
-		memcpy(imageBuffer, theOpenGL->buffer, theOpenGL->frameW * theOpenGL->frameH * sizeof(float) * 4 / 2); // 4 is numChannels, 2 is because deinterlacing cuts height in half	
-	}
-
-	saveUnverified(imageBuffer, theOpenGL->frameW, theOpenGL->frameH/2, 4, 0, 0, theWatcher->stateOfCurrentImage());
-
-	((Form1 ^)form1View)->printToConsole("Saved image to database", Color::Orange);
-}
 
 // theObject is actually an array of one UnverifiedRowData object
 void SkynetController::addUnverifiedToGUITable(Object ^ theObject)
@@ -331,24 +288,6 @@ void SkynetController::addUnverifiedToGUITable(Object ^ theObject)
 	}
 }
 
-
-//void SkynetController::addTargetToGUITable(Object ^ theObject)
-//{	
-//	PRINT("SkynetController::addTargetToGUITable() REMOVED AND SHOULD NOT BE USED");
-//	return;
-//
-//	/*array<TargetRowData ^>^ theArr = (array<TargetRowData ^> ^)theObject;
-//	TargetRowData ^ data = (TargetRowData ^)(theArr[0]);
-//	Delegates::targetRowDataToVoid ^ blahdelegate = gcnew Delegates::targetRowDataToVoid((Form1 ^)form1View, &Form1::insertTargetData );
-//
-//	try {
-//		((Form1 ^)form1View)->Invoke( blahdelegate, gcnew array<Object ^>{data} );
-//	}
-//	catch(Exception ^ e) {
-//		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::addTargetToGUITable(): Failed to add image to GUI Table - " + e);
-//	}*/
-//
-//}
 
 void SkynetController::loadAllTablesFromDisk()
 {
@@ -408,25 +347,26 @@ Database::DatabaseConnection ^ SkynetController::getDatabase()
 }
 
 
-void SkynetController::addUnverified(UnverifiedRowData ^ data)
+void SkynetController::addCandidate(CandidateRowData^ candidate)
+{
+	theDatabase->addCandidate(candidate);
+	form1View->Invoke(gcnew candidateRowDataToVoid( form1View, &Skynet::Form1::insertCandidateData), candidate );
+}
+
+array<UnverifiedRowData ^>^ SkynetController::getAllUnverified()
+{
+	/*
+	 * TODO:
+	 * This unverified targets should be stored in memory. DuplicateResolver will call this
+	 * method every time saliency detects a target, so it can't be making a DB call each time
+	 */
+	return theDatabase->getAllUnverified(); 
+}
+void SkynetController::addUnverified(UnverifiedRowData ^ unverified)
 {	
-	if (theDatabase == nullptr) {
-		System::Diagnostics::Trace::WriteLine("SkynetController::addUnverified() ran, but theDatabase == nullptr");
-		return;
-	}
-
-	if (data == nullptr) {
-		System::Diagnostics::Trace::WriteLine("SkynetController::addUnverified() ran, but data == nullptr");
-		return;
-	}
 	try {
-		theDatabase->addUnverified(data);
-
-		TimerCallback^ tcb =
-           gcnew TimerCallback(this, &SkynetController::addUnverifiedToGUITable);
-		Threading::Timer^ addTargetTimer = gcnew Threading::Timer(tcb,  gcnew array<UnverifiedRowData ^>{data}, 250, Timeout::Infinite);
-
-		//stateTimer->Start();
+		theDatabase->addUnverified(unverified);
+		form1View->Invoke(gcnew unverifiedRowDataToVoid( form1View, &Skynet::Form1::modifyUnverifiedInTable), unverified  );
 	}
 	catch(Exception ^ e) {
 		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::saveCandidate(): Failed to save imageS - " + e);
@@ -660,8 +600,8 @@ void SkynetController::displayPathfinderImage(Image ^ image)
 
 void SkynetController::pathfinderComplete(Image ^ image){
 	displayPathfinderImage(image);
-	array <Waypoint ^>^ waypoints = intelligenceController->getWaypoints();
-	((Form1 ^)form1View)->fillGpsCheckboxList(waypoints);
+	// array <Waypoint ^>^ waypoints = intelligenceController->getWaypoints();
+	// ((Form1 ^)form1View)->fillGpsCheckboxList(waypoints);
 }
 
 Database::CandidateRowData ^ SkynetController::candidateWithID(String ^ id)
@@ -688,7 +628,7 @@ Database::VerifiedRowData ^ SkynetController::verifiedWithID(String ^ id) // not
 }
 
 
-void SkynetController::saveUnverified(float * data, int width, int height, int numChannels, int originX, int originY, PlaneState ^ stateOfPlane)
+void SkynetController::saveUnverified(float * data, int width, int height, int numChannels, int originX, int originY, ImageWithPlaneData ^ stateOfPlane)
 {
 	System::Diagnostics::Trace::WriteLine("ERROR SkynetController::saveUnverified() not implemented");
 	return;

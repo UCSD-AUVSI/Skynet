@@ -1,6 +1,8 @@
 #pragma once
-#include "Comms.h"
-#include "PlaneWatcher.h"
+
+namespace Communications {
+	ref class PlaneWatcher;
+}
 
 struct DIJOYCONFIG;
 struct XINPUT_DEVICE_NODE;
@@ -36,12 +38,8 @@ public:
 
 	HRESULT UpdateInputState( HWND hDlg );
 	HRESULT init(HWND hDlg);
-	Communications::Comms ^ comm;
 	Communications::PlaneWatcher ^ theWatcher;
 
-	void setZoom( int level );
-	int getZoom( void );
-	void sendZoom( Object^ source, Timers::ElapsedEventArgs^ e );
 protected:
 	HRESULT SetupForIsXInputDevice();
 
@@ -54,13 +52,10 @@ protected:
 
 	bool manualMode;
 	int manualModeCounter;
-	int zoomModeCounter;		// counts how many more times to send the zoom
-	__int32 zoomLevel;
 
 	Object ^ parent;
 
-	Timers::Timer ^ zoomTimer;
-	int zoomDirection;
+	System::Timers::Timer ^ zoomTimer;
 	int imageCounter;
 	Skynet::SkynetController ^ theDelegate;
 };

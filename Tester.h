@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Saliency.h"
-#include "Autosearch.h"
+#include "../Pathfinding/Autosearch.h"
 //#include <atltime.h>
 using namespace Intelligence;
 
@@ -25,7 +25,6 @@ namespace Skynet {
 		static void testGeoreferencing() 
 		{
 			System::Diagnostics::Trace::WriteLine("Tester::testGeoreferencing() STARTING test");
-			Vision::GeoReference::runTests();
 			System::Diagnostics::Trace::WriteLine("Tester::testGeoreferencing() FINISHED with test");
 		}
 
@@ -40,6 +39,7 @@ namespace Skynet {
 		static void testautoSearch()
 		{
 		
+			/**
 			GPSCoord^ d = gcnew GPSCoord ( GPSCoord::metersToGPS(0), GPSCoord::metersToGPS(0) , 0 );
 			GPSCoord^ c = gcnew GPSCoord ( GPSCoord::metersToGPS(0), GPSCoord::metersToGPS(2000) , 0 );
 			GPSCoord^ b = gcnew GPSCoord ( GPSCoord::metersToGPS(1000), GPSCoord::metersToGPS(2000) , 0 );
@@ -69,6 +69,8 @@ namespace Skynet {
 			//testAS->saveImage("field.bmp");
 			DateTime stop = DateTime::Now;
 			PRINT("elapsed time to make bitmap:" + (stop.Subtract(start).TotalSeconds));
+
+			**/
 		}
 
 		static void testDatabase()

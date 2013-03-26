@@ -56,16 +56,6 @@ namespace Communications
 		float				unusedTwo;
 	};
 
-	public ref struct Waypoint
-	{
-		virtual String ^ ToString() override{
-			return "("+lat+","+lon+")";
-		}
-		float lat;
-		float lon;
-		float alt;
-		float speed;
-	};
 
 
 	public ref struct AutopilotVCPacket20

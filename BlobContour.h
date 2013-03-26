@@ -7,7 +7,7 @@
 #pragma warning(disable:4996 4267)
 #include "cv.h"
 #pragma warning(pop)
-#include "cxtypes.h"
+#include "cxcore.h"
 
 //! Type of chain codes
 typedef unsigned char t_chainCode;

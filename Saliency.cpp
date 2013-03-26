@@ -1,18 +1,20 @@
 #include "StdAfx.h"
-#include "Form1.h"
 #include "Saliency.h"
 #include "SaveImage.h"
-#include "PlaneWatcher.h"
 #include "DuplicateResolver.h"
 #include "DatabaseStructures.h"
+#include "ImageWithPlaneData.h"
+#include "VisionController.h"
+#include "GeoReference.h"
+#include "Util.h"
+#include "MasterHeader.h"
 
-#include "SalientGreenGPU/SalientGreenGPU.H"
-#include "SalientGreenGPU/Filters/Utility.H"  
-//#include "SalientGreenGPU/Timer.H"
+
+#include "../SalientGreenCUDA/SalientGreenGPU.H"
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
-#include <cvblob.h>
+#include "../CvBlob/cvblob.h"
 
 // Saliency update frequency (in miliseconds)
 #define UPDATE_FREQUENCY 5
@@ -24,73 +26,23 @@
 using namespace Vision;
 using namespace Database;
 using namespace System::Collections::Generic;
-
-//[DllImport("Saliency_New", CharSet=CharSet::Ansi)]
-//extern "C" void Auvsi_Saliency();	
-
-std::string ManagedToSTL(String ^ s) 
-{
-	using namespace Runtime::InteropServices;
-	const char* chars = 
-		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
-	std::string retVal = chars;
-	Marshal::FreeHGlobal(IntPtr((void*)chars));
-
-	return retVal;
-}
-
-Saliency::Saliency()
-{
-	PRINT("WARNING: DEFAULT constructor for saliency does not function properly and is only for testing. Use Saliency(pointer) if you want saliency to work.");
-
-}
+using namespace Communications;
+using namespace System::Threading;
+using namespace Util;
 
 cv::Mat testImage;
-Saliency::Saliency( PlaneWatcher ^ watcher, DuplicateResolver ^ resolver )
+Saliency::Saliency(VisionController^ visionController): 
+	visionController(visionController),
+	width(0), height(0), threshold(0.7f), frameCount(0), tempPause(false)
 {
 	saliencyThread = gcnew Thread(gcnew ThreadStart(this, &Saliency::saliencyThreadFunction));
 	saliencyThread->Name = "Saliency Analysis Thread";
-	//saliencyThread->Start(); // DEBUG uncomment to run saliency
+	saliencyThread->Start();
 
 	saveImagesThread = gcnew Thread(gcnew ThreadStart(this, &Saliency::saveImagesThreadFunction));
 	saveImagesThread->Name = "Image Saving Thread";
 	saveImagesThread->Start(); 
 
-	planeWatcher = watcher;
-	duplicateResolver = resolver;
-
-	newFrameReady = false;
-	width = 0;
-	height = 0;
-	threshold = 0.7f;
-	frameCount = 0;
-	//boundingBoxes = NULL;
-	//postSaliency = NULL;
-	tempPause = false;
-	
-	System::DateTime start = System::DateTime::Now;
-	
-	Communications::PlaneState ^ state = planeWatcher->predictLocationAtTime( 0 );
-	
-	double plane_lat = state->gpsData->gpsLatitude, plane_lon = state->gpsData->gpsLongitude, plane_alt = state->gpsData->gpsAltitude;
-	double plane_roll = state->telemData->roll, plane_pitch = state->telemData->pitch, plane_heading = state->telemData->heading;
-	double gimbal_roll = state->gimbalInfo->roll, gimbal_pitch = state->gimbalInfo->pitch, gimbal_yaw = 0;
-	
-	
-	System::Diagnostics::Trace::WriteLine("Saliency: Running Georeference: lat:" + plane_lat + " lon:" + plane_lon + " alt:" + plane_alt + " roll:" + plane_roll + " pitch:" + plane_pitch + " heading:" + plane_heading + " groll:" + gimbal_roll + " gpitch:" + gimbal_pitch + " gyaw:" + gimbal_yaw);
-	
-	double target_x = 0, target_y = 0, zoom = 1, t_lat = -1, t_lon = -1, t_alt = -1;
-	
-	double t_lat_1, t_lat_2, t_lon_1, t_lon_2;
-
-	GeoReference::getGPS(plane_lat, plane_lon, plane_alt, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, target_x, target_y, zoom, t_lat_1, t_lon_1, t_alt);
-	GeoReference::getGPS(plane_lat, plane_lon, plane_alt, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, 10, target_y, zoom, t_lat_2, t_lon_2, t_alt);
-
-	System::Diagnostics::Trace::WriteLine("Distance: " + GeoReference::distanceBetweenGPS(t_lat_1, t_lon_1, t_lat_2, t_lon_2));
-			
-	System::Diagnostics::Trace::WriteLine("Saliency: Done with Georeference lat: " + t_lat + " lon: " + t_lon + " alt: " + t_alt + " time (ms): " + System::DateTime::Now.Subtract(start).TotalMilliseconds);
-
-	testImage = cv::imread(ManagedToSTL("C:\\Users\\ucsd_auvsi\\Desktop\\saliency_test2.jpg"), 1);
 }
 
 void Saliency::runTest()
@@ -100,13 +52,14 @@ void Saliency::runTest()
 
 void Saliency::runTestOnImageNamed(String ^ filename)
 {
-	// load image from file
-	cv::Mat image = cv::imread(ManagedToSTL(filename), 1);
-	cv::imwrite(  ManagedToSTL("C:\\Users\\ucsd_auvsi\\Desktop\\saliencytest_preconvert.bmp"), image);
+	using namespace Util;
+
+	cv::Mat image = cv::imread(managedToSTL(filename), 1);
+	cv::imwrite(  managedToSTL("C:\\Users\\ucsd_auvsi\\Desktop\\saliencytest_preconvert.bmp"), image);
 
 	Frame ^ localFrame = gcnew Frame(image);
 	
-	//sg::SalientGreenGPU green;
+	sg::SalientGreenGPU green;
 
 	computeSaliencyForFrame(localFrame,true);
 
@@ -117,23 +70,37 @@ void Saliency::runTestOnImageNamed(String ^ filename)
 }
 
 sg::SalientGreenGPU green; // global variable, suck it
+
+cv::Mat Saliency::convertImageForSaliency(cv::Mat image) {
+	const double widthRatio = Saliency::MAX_IMAGE_WIDTH / (double)image.cols;
+	const double heightRatio = Saliency::MAX_IMAGE_HEIGHT / (double)image.rows;
+	const double ratio = Math::Min(widthRatio, heightRatio);
+	if ( ratio < 1.0 ) {
+		cv::Mat result;
+		cv::resize(image,result,cv::Size(0,0),ratio,ratio);
+		return result;
+	} else {
+		return image;
+	}
+}
+	
+
 void
-Saliency::computeSaliencyForFrame(Frame ^ frame, bool isTest)
+Saliency::computeSaliencyForFrame(Frame ^ frame, bool debug)
 {
+	static int saliencyframe = 0;
+	saliencyframe++;
+
 	sg::SalientGreenGPU::labWeights lw;
 	sg::SalientGreenGPU::Results results;
 
-	cv::Mat inputImage = testImage; // DEBUG: should be *frame->img
+	cv::Mat frameImage = *frame->img;
+	cv::Mat inputImage = convertImageForSaliency(frameImage);
 
-	// compute saliency
+	frame->saliencyImageWidth = inputImage.cols;
+	frame->saliencyImageHeight = inputImage.rows;
+
 	results = green.computeSaliencyGPU( inputImage, &lw );
-	//if (isTest)
-	//{
-	//	results.show(); cvWaitKey(0);
-	//}
-
-	if (isTest)
-		cv::imwrite(  ManagedToSTL("C:\\Users\\ucsd_auvsi\\Desktop\\saliencytest_output.bmp"), results.labSaliency); // DEBUG testing only
 
 	// run connected components
 	cvb::CvBlobs blobs;
@@ -144,13 +111,19 @@ Saliency::computeSaliencyForFrame(Frame ^ frame, bool isTest)
 	cv::Mat labSaliency8bit(results.labSaliency.size(), CV_8UC1);
 	results.labSaliency.convertTo(labSaliency8bit,CV_8UC1,1.0);
 	cv::threshold(labSaliency8bit,labSaliency8bit,threshold*255,255.0,CV_THRESH_BINARY);
-	if (isTest)
-		cv::imwrite(  ManagedToSTL("C:\\Users\\ucsd_auvsi\\Desktop\\saliencytest_output_thresh.bmp"), labSaliency8bit); // DEBUG testing only
 
 	// do labelling
 	IplImage saliencyOutputImgIpl = labSaliency8bit;
 	IplImage *bloblsOutputImgIpl = cvCreateImage(results.labSaliency.size(), IPL_DEPTH_LABEL, 1);
 	unsigned int result = cvb::cvLabel(&saliencyOutputImgIpl, bloblsOutputImgIpl, blobs);
+
+	/**
+	 * Output image for rendering the blobs - debug only
+	 */
+	cv::Mat saliencyBlobImage;
+	if (debug){
+		cv::cvtColor(results.labSaliency,saliencyBlobImage,CV_GRAY2RGB);
+	}
 
 	// store blob results in Frame object
 	frame->saliencyBlobs = gcnew List<Box ^>();
@@ -158,14 +131,21 @@ Saliency::computeSaliencyForFrame(Frame ^ frame, bool isTest)
 	{
 		cvb::CvBlob * blob = (*it).second;
 		frame->saliencyBlobs->Add(gcnew Box(blob->minx,blob->miny,blob->maxx,blob->maxy));
-		if (isTest)
+		if (debug){
+			cv::rectangle(saliencyBlobImage,cv::Point(blob->minx,blob->miny),cv::Point(blob->maxx,blob->maxy),cv::Scalar(0,0,255), 5);
 			PRINT("box: " + blob->minx+", "+blob->miny+", "+blob->maxx+", "+blob->maxy);
+		}
 	}
-	cvReleaseImage(&bloblsOutputImgIpl);
 
-	if (isTest)
+
+	if (debug){ 
+		cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyInput" + saliencyframe + ".jpg"),inputImage);
+		cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyThreshold" + saliencyframe + ".jpg"),labSaliency8bit);
+		cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyBlobs" + saliencyframe + ".jpg"),saliencyBlobImage);
 		PRINT("Saliency: " + frame->saliencyBlobs->Count + " objects found");
-
+	}
+	cvReleaseBlobs(blobs);
+	cvReleaseImage(&bloblsOutputImgIpl);
 }
 
 void 
@@ -175,44 +155,20 @@ Saliency::saliencyThreadFunction(void)
 	DateTime startTime = DateTime::Now;
 
 	try {
-		FILE * fd;
-		fopen_s(&fd, "D:\\Skynet Files\\Saliency Error Log.txt", "w");
-		fprintf(fd, "Error Log for saliency:\n");
-		fclose( fd );
-
-		//sg::SalientGreenGPU green;
-		sg::SalientGreenGPU::Results results;
-
-		int localW = 0, localH = 0;
-
 		while( true )
 		{
 			Thread::Sleep( UPDATE_FREQUENCY ); // dont run too fast, or we eat up cpu ... ;)
-			//continue;	// DONT RUN SALIENCY 
-
-			// check for new width, height
-			if (localW != width || localH != height) 
-			{
-				localW = width;
-				localH = height;
-
-				if (localW != 0 && localH != 0) 
-				{
-					// update any data if necessary
-				}
-			}
 		
 			// check for new frame
 			if (newFrameReady) 
 			{			
 				// set flags
 				currentlyAnalyzing = true;
+				Frame ^localFrame = currentFrameData;
 				newFrameReady = false;
 
 				// compute saliency
-				Frame ^localFrame = currentFrameData;
-
-				computeSaliencyForFrame(localFrame, false);
+				computeSaliencyForFrame(localFrame, true);
 
 				// send to saveImagesThread
 				while (savingData) { Thread::Sleep( UPDATE_FREQUENCY ); }
@@ -223,7 +179,6 @@ Saliency::saliencyThreadFunction(void)
 				newFrameForSaving = true;
 			
 				++saliencyCount;
-				//PRINT("SALIENCY " + saliencyCount/(float)DateTime::Now.Subtract(startTime).TotalSeconds);
 			}
 
 		}
@@ -238,121 +193,141 @@ Saliency::saliencyThreadFunction(void)
 }
 
 void 
-Saliency::analyzeResults ( Frame ^ frame, int imageHeight, int imageWidth, bool isTest )
+Saliency::analyzeResults ( Frame ^ frame, int imageHeight, int imageWidth, bool debug )
 {
-	analyzeResults(frame,imageHeight,imageWidth,frame->planeState,isTest);
+	analyzeResults(frame,frame->planeState, debug);
 }
 
 void 
-Saliency::analyzeResults ( Frame ^ frame, int imageHeight, int imageWidth, Communications::PlaneState ^ state, bool isTest )
+Saliency::analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool debug )
 {
+	static int analyzeframe = 0;
+	analyzeframe++;
 	double metersPerXPixel, metersPerYPixel;
 	{ // georef calculations
 		double plane_lat, plane_lon, plane_alt;
 		double plane_roll, plane_pitch, plane_heading;
 		double gimbal_roll, gimbal_pitch, gimbal_yaw;
-		if ( isTest )
-		{
-			plane_lat = 0;
-			plane_lon = 0;
-			plane_alt = 0;
-			plane_roll = 0;
-			plane_pitch = 0;
-			plane_heading = 0;
-			gimbal_roll = 0;
-			gimbal_pitch = 0;
-			gimbal_yaw = 0;
-		}
-		else
-		{
-			plane_lat = state->gpsData->gpsLatitude;
-			plane_lon = state->gpsData->gpsLongitude;
-			plane_alt = state->gpsData->gpsAltitude;
-			plane_roll = state->telemData->roll;
-			plane_pitch = state->telemData->pitch;
-			plane_heading = state->telemData->heading;
-			gimbal_roll = state->gimbalInfo->roll;
-			gimbal_pitch = state->gimbalInfo->pitch;
-			gimbal_yaw = 0;
-		}
+		plane_lat = state->latitude;
+		plane_lon = state->longitude;
+		plane_alt = state->altitude;
+		plane_roll = state->roll * 3.14159 / 180.0;
+		plane_pitch = state->pitch * 3.14159 / 180.0;
+		plane_heading = state->yaw;
+		gimbal_roll = state->gimbalRoll;
+		gimbal_pitch = state->gimbalPitch;
+		gimbal_yaw = 0;
 
 		double target_x = 0, target_y = 0, zoom = 1, t_lat = -1, t_lon = -1, t_alt = -1;
 		double t_lat_1 , t_lat_2, t_lon_1, t_lon_2;
 
 		target_x = 0; target_y = 100;
-		GeoReference::getGPS(plane_lat, plane_lon, plane_alt, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, target_x, target_y, zoom, t_lat_1, t_lon_1, t_alt);
-				
-		target_x = 200; target_y = 100;
-		GeoReference::getGPS(plane_lat, plane_lon, plane_alt, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, target_x, target_y, zoom, t_lat_2, t_lon_2, t_alt);
-		if (isTest)
-		{
-			t_lat_1 = 0;
-			t_lat_2 = 0.00001;
-			t_lon_1 = 0;
-			t_lon_2 = 0;
-		}
-		metersPerXPixel = GeoReference::distanceBetweenGPS(t_lat_1, t_lon_1, t_lat_2, t_lon_2) / 200.0f;
-				
-		target_x = 100; target_y = 0;
-		GeoReference::getGPS(plane_lat, plane_lon, plane_alt, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, target_x, target_y, zoom, t_lat_1, t_lon_1, t_alt);
-		
-		target_x = 100; target_y = 200;
-		GeoReference::getGPS(plane_lat, plane_lon, plane_alt, plane_roll, plane_pitch, plane_heading, gimbal_roll, gimbal_pitch, gimbal_yaw, target_x, target_y, zoom, t_lat_2, t_lon_2, t_alt);
+		try{ 
+			GeoReference::getGPS(plane_lat, plane_lon, plane_alt,
+								 plane_roll, plane_pitch, plane_heading,
+								 gimbal_roll, gimbal_pitch, gimbal_yaw,
+								 target_x, target_y, zoom,
+								 frame->saliencyImageWidth, frame->saliencyImageHeight,
+								 t_lat_1, t_lon_1, t_alt);
+			target_x = 200; target_y = 100;
+			GeoReference::getGPS(plane_lat, plane_lon, plane_alt,
+								 plane_roll, plane_pitch, plane_heading,
+								 gimbal_roll, gimbal_pitch, gimbal_yaw,
+								 target_x, target_y, zoom,
+								 frame->saliencyImageWidth, frame->saliencyImageHeight,
+								 t_lat_2, t_lon_2, t_alt);
 
-		if (isTest)
-		{
-			t_lat_1 = 0;
-			t_lat_2 = 0.00001;
-			t_lon_1 = 0;
-			t_lon_2 = 0;
+			metersPerXPixel = GeoReference::distanceBetweenGPS(t_lat_1, t_lon_1, t_lat_2, t_lon_2) / 200.0f;
+					
+			target_x = 100; target_y = 0;
+			GeoReference::getGPS(plane_lat, plane_lon, plane_alt, 
+									 plane_roll, plane_pitch, plane_heading,
+									 gimbal_roll, gimbal_pitch, gimbal_yaw, 
+									 target_x, target_y, zoom,
+									 frame->saliencyImageWidth, frame->saliencyImageHeight,
+									 t_lat_1, t_lon_1, t_alt);
+			target_x = 100; target_y = 200;
+			GeoReference::getGPS(plane_lat, plane_lon, plane_alt,
+								plane_roll, plane_pitch, plane_heading,
+								gimbal_roll, gimbal_pitch, gimbal_yaw,
+								target_x, target_y, zoom, 
+								frame->saliencyImageWidth, frame->saliencyImageHeight,
+								t_lat_2, t_lon_2, t_alt);
+
+			metersPerYPixel = GeoReference::distanceBetweenGPS(t_lat_1, t_lon_1, t_lat_2, t_lon_2) / 200.0f;
+		} catch(Vision::GeoReferenceException^ e){
+			PRINT("SALIENCY: GEOREF ERROR OCCURED: "+e);
+			frame->img->release();
+			return;
 		}
-		metersPerYPixel = GeoReference::distanceBetweenGPS(t_lat_1, t_lon_1, t_lat_2, t_lon_2) / 200.0f;
 	} // end georef calcs
 
+	double xRatio = (double)frame->img->cols / frame->saliencyImageWidth;
+	double yRatio = (double)frame->img->rows / frame->saliencyImageHeight;
+
+
+	cv::Mat image;
+
+	if (debug){
+		image = frame->img->clone();
+		cv::rectangle(image,
+					  cv::Point(5,5),
+					  cv::Point(5 + (int)(Saliency::MAX_TARGET_SIDE_LENGTH_METERS / metersPerXPixel * xRatio),
+								5 + (int)(Saliency::MAX_TARGET_SIDE_LENGTH_METERS / metersPerYPixel * yRatio)),
+					  cv::Scalar(0,0,0),2);
+
+		cv::rectangle(image,
+					  cv::Point(5,5),
+					  cv::Point(5 + (int)(Saliency::MIN_TARGET_SIDE_LENGTH_METERS / metersPerXPixel * xRatio),
+								5 + (int)(Saliency::MIN_TARGET_SIDE_LENGTH_METERS / metersPerYPixel * yRatio)),
+					  cv::Scalar(0,0,0),2);
+	}
 
 	// save blobs
 	int i = 0;
-	//PRINT("saliency found " + frame->saliencyBlobs->Count + " results");
 	for each (Box ^box in frame->saliencyBlobs) 
 	{
 		// skip candidates of the wrong size
-		if (!isTest && !(validSize(((double)box->width())*metersPerXPixel) && validSize(((double)box->height())*metersPerYPixel))) {
+		if (!(validSize(((double)box->width())*metersPerXPixel) && validSize(((double)box->height())*metersPerYPixel))) {
 			continue;
 		}
-		else
+		else {
 			System::Diagnostics::Trace::WriteLine("Saliency: size of target included w:" + box->width()*metersPerXPixel + " h:" + box->height()*metersPerYPixel  );
+		}
 
 		// copy and save candidate image, with padding
-		int leftCorner = (box->minx > BORDER_PADDING ? box->minx - BORDER_PADDING : 0);
-		int topCorner = (int) (box->miny > BORDER_PADDING ? box->miny - BORDER_PADDING : 0);
-		int rightCorner = (int) (box->maxx + BORDER_PADDING < imageWidth ? box->maxx + BORDER_PADDING : imageWidth);
-		int bottomCorner = (int) (box->maxy + BORDER_PADDING < imageHeight ? box->maxy + BORDER_PADDING : imageHeight);
+		int leftCorner = (int)((box->minx > BORDER_PADDING ? box->minx - BORDER_PADDING : 0) * xRatio);
+		int topCorner = (int)((box->miny > BORDER_PADDING ? box->miny - BORDER_PADDING : 0) * yRatio);
+		int rightCorner = (int)((box->maxx + BORDER_PADDING < (int)frame->saliencyImageWidth ? box->maxx + BORDER_PADDING : frame->saliencyImageWidth) * xRatio);
+		int bottomCorner = (int)((box->maxy + BORDER_PADDING < (int)frame->saliencyImageHeight ? box->maxy + BORDER_PADDING : frame->saliencyImageHeight) * yRatio);
+
+		if (debug) {
+			cv::rectangle(image,cv::Point(leftCorner, bottomCorner),cv::Point(rightCorner, topCorner),cv::Scalar(0,0,255), 5);
+		}
 
 		int blobWidth = (rightCorner - leftCorner); 
 		int blobHeight = (bottomCorner - topCorner);
 
 
 		cv::Mat blobImg = cv::Mat(*frame->img, cv::Rect(leftCorner, topCorner, blobWidth, blobHeight));
+		cv::cvtColor(blobImg,blobImg,CV_BGR2RGB);
 
-
-		if ( isTest ){
-			String ^ path = "C:\\Users\\ucsd_auvsi\\Desktop\\saliencytestS_" + i + ".bmp";
-
-			cv::imwrite(ManagedToSTL(path),blobImg);
+		if (debug){
+			String ^ path = "C:\\Saliency_Test_Output\\Image"+analyzeframe+"_"+i+".bmp";
+			cv::imwrite(managedToSTL(path),blobImg);
 		}
 		else
 		{
 			String ^imageName =  frameCount + "_" + i + ".bmp";
 			String ^path = HTTP_SERVER_TARGET_PATH + imageName;
 
-			// make CandidateRowData (set targetX/Y)
 			CandidateRowData ^ candidateData = gcnew CandidateRowData(state,leftCorner,topCorner,blobWidth,blobHeight);
 			candidateData->imageName = imageName;
 				
-			cv::imwrite(ManagedToSTL(path),blobImg);
+			cv::imwrite(managedToSTL(path),blobImg);
 			
 			try {
-				parent->saliencyAddTarget( candidateData );
+				visionController->processSaliencyCandidate(candidateData);
 			}
 			catch (Exception ^ e) {		
 				System::Diagnostics::Trace::WriteLine( "WARNING: Saliency exception: " + e);
@@ -362,6 +337,10 @@ Saliency::analyzeResults ( Frame ^ frame, int imageHeight, int imageWidth, Commu
 		
 		i += 1;
 	}
+	if (debug){
+		cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyBlobsPostGeoref" + analyzeframe + ".jpg"),image);
+	}
+	frame->img->release();
 }
 
 void 
@@ -376,7 +355,6 @@ Saliency::saveImagesThreadFunction()
 			savingData = true;
 			newFrameForSaving = false;
 			frameCount++;
-			// continue; // uncomment to stop saliency saving
 
 			Frame ^ localFrame = savingFrameData;
 			analyzeResults(localFrame, height, width, false );
@@ -390,51 +368,15 @@ Saliency::saveImagesThreadFunction()
 
 bool Saliency::validSize(double size)
 {
-	return (size < MAX_SIZE) && (size > MIN_SIZE);
-
+	return size < Saliency::MAX_TARGET_SIDE_LENGTH_METERS && size > Saliency::MIN_TARGET_SIDE_LENGTH_METERS;
 }
 
 // set new width, height, delegate
 void 
-Saliency::setValues(int w, int h, Object ^ newDelegate) 
+Saliency::setValues(int w, int h) 
 {
-	
-	tempPause = true;
-	Thread::Sleep( 40 );
-	
-
 	width = w;
 	height = h;
-
-	//// (re) allocate all buffers
-	//if (postSaliency)
-	//{
-	//	delete postSaliency;
-	//	postSaliency = NULL;
-	//}
-
-	////postSaliency = new float[w*h];
-
-	//if (savingBuffer)
-	//{
-	//	delete savingBuffer;
-	//	savingBuffer = NULL;
-	//}
-	//
-	//savingBuffer = new float[w*h*4];
-
-	//if (inputBuffer)
-	//{
-	//	delete inputBuffer;
-	//	inputBuffer = NULL;
-	//}
-
-	//inputBuffer = new float[w*h*4];
-
-	if (newDelegate != nullptr)
-		parent = (Vision::DuplicateResolver ^)(newDelegate);
-
-	tempPause = false;
 }
 
 // copies new frame into buffer, sets flag
@@ -442,11 +384,9 @@ void
 Saliency::analyzeFrame(Frame ^ frame)	
 {
 	if (canAcceptFrame()) {
-		//memcpy(inputBuffer, frame->buffer, width*height*4/2*sizeof(float));
 		currentFrameData = frame;
 		newFrameReady = true;
 	}
-	//System::Diagnostics::Trace::WriteLine( "analyzeFrame()");
 }
 
 Saliency::~Saliency()

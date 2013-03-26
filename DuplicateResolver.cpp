@@ -1,114 +1,58 @@
-#include "StdAfx.h"
 #include "DuplicateResolver.h"
-#include "Database.h"
 #include "MasterHeader.h"
 #include "Delegates.h"
-#include "OCR.h"
-#include "Form1.h"
 #include "GeoReference.h"
-#include "OCR/Recognizer.h"
-//#include "Recognizer.h"
 #include "DatabaseStructures.h"
+#include "Util.h"
+#include "SkynetController.h"
 
 
 using namespace Vision;
 using namespace Delegates;
-//using namespace Skynet;
 using namespace Database;
 
-//std::string ManagedToSTL(String ^ s) 
-//{
-//	using namespace Runtime::InteropServices;
-//	const char* chars = 
-//		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
-//	std::string retVal = chars;
-//	Marshal::FreeHGlobal(IntPtr((void*)chars));
-//
-//	return retVal;
-//}
+DuplicateResolver::DuplicateResolver(Skynet::SkynetController^ skynetController):
+	skynetController(skynetController)
+{}
 
-DuplicateResolver::DuplicateResolver(DatabaseConnection ^ db, Skynet::Form1 ^ gui)
+bool
+DuplicateResolver::betterThanDuplicate(CandidateRowData^ candidate, UnverifiedRowData^ duplicate)
 {
-	database = db;
-	form1 = gui;
+	const float duplicateBlurFactor = (float)duplicate->candidate->telemetry->blurFactor;
+	const float candidateBlurFactor = (float)candidate->telemetry->blurFactor;
+	const int duplicateAreaPixels = duplicate->candidate->telemetry->widthPixels * duplicate->candidate->telemetry->heightPixels;
+	const int candidateAreaPixels = candidate->telemetry->widthPixels * candidate->telemetry->heightPixels;;
 
-	recognizer = gcnew Recognizer();
+	// determine if matchingUnverified is better than unverified
+	return duplicateAreaPixels > candidateAreaPixels || ( duplicateAreaPixels*1.5 > candidateAreaPixels && duplicateBlurFactor < candidateBlurFactor);
 
-	saliencyAddTarget = gcnew candidateRowDataToVoid( this, &DuplicateResolver::receiveCandidate );
-
-	unverifiedRows = db->getAllUnverified();
 }
 
-void
-DuplicateResolver::receiveCandidate(CandidateRowData ^ candidate)
+UnverifiedRowData^ 
+DuplicateResolver::maybeFindDuplicate(CandidateRowData ^ candidate)
 {
-	// save candidate in database
-	database->addCandidate(candidate);
-	form1->Invoke(gcnew candidateRowDataToVoid( form1, &Skynet::Form1::insertCandidateData), candidate );
 
-	bool isUnique = true;
-	bool isImproved = false;
-	UnverifiedRowData ^ unverified = gcnew UnverifiedRowData(candidate);
-	UnverifiedRowData ^ matchingUnverified = nullptr;
+	/**
+	 * TODO: This whole method could probably be replaced with a well-crafted 
+	 *       SQL query.
+	 */
 
-	GPSPositionRowData ^ candidateGPS = unverified->location->centerGPS();
-	float candidateArea = (float)unverified->location->widthMeters() * (float)unverified->location->heightMeters();
+	UnverifiedRowData^ unverified = gcnew UnverifiedRowData(candidate);
 
-
+	GPSPositionRowData ^ const candidateGPS = unverified->location->centerGPS();
+	const float candidateArea = (float)unverified->location->widthMeters() * (float)unverified->location->heightMeters();
 
 	// find unverified row with gps w/in 5 meters, and size w/in 1 meter
-	for each (UnverifiedRowData ^ row in unverifiedRows)
+	for each (UnverifiedRowData ^ const row in skynetController->getAllUnverified())
 	{
-		GPSPositionRowData ^rowGPS = row->location->centerGPS();
-		float rowArea = (float)row->location->widthMeters() * (float)row->location->heightMeters();
+		GPSPositionRowData ^ const rowGPS = row->location->centerGPS();
+		const float rowArea = (float)row->location->widthMeters() * (float)row->location->heightMeters();
 
 		if (candidateGPS->distanceTo(rowGPS) < 5 && abs(rowArea - candidateArea) < 1)
 		{
-			matchingUnverified = row;
+			return row;
 		}
 	}
-
-	if (matchingUnverified == nullptr)
-		isUnique = true;
-	else
-	{
-		float unverifiedBlurFactor = (float)unverified->candidate->telemetry->blurFactor;
-		float matchingBlurFactor = (float)matchingUnverified->candidate->telemetry->blurFactor;
-		int unverifiedAreaPixels = unverified->candidate->telemetry->widthPixels*unverified->candidate->telemetry->heightPixels;
-		int matchingAreaPixels = matchingUnverified->candidate->telemetry->widthPixels*matchingUnverified->candidate->telemetry->heightPixels;;
-
-		// determine if matchingUnverified is better than unverified
-		if (unverifiedAreaPixels > matchingAreaPixels || ( unverifiedAreaPixels*1.5 > matchingAreaPixels && unverifiedBlurFactor < matchingBlurFactor))
-			isImproved = true;
-
-	}
-
-	if (isUnique)
-	{
-		database->addUnverified(unverified);
-		form1->Invoke(gcnew unverifiedRowDataToVoid( form1, &Skynet::Form1::insertUnverifiedData), unverified );
-	}
-
-	else if (isImproved)
-	{
-		matchingUnverified->updateCandidate(candidate);
-
-		database->modifyUnverified(matchingUnverified);
-		form1->Invoke(gcnew unverifiedRowDataToVoid( form1, &Skynet::Form1::modifyUnverifiedInTable), matchingUnverified  );
-	}
-
-	if (isUnique || isImproved)
-	{
-		unverified = matchingUnverified;
-
-		//// run OCR - should modify database
-		//ImageData ^ ocrData = recognizer->recognizeImage(cv::imread(ManagedToSTL(HTTP_SERVER_TARGET_PATH + candidate->imageName)));
-
-		//// handle data
-		//unverified->description->shape = ocrData->shape;
-		//unverified->description->letter = ocrData->letter;
-
-		//database->modifyUnverified(unverified);
-	}
-
+	
+	return nullptr;
 }

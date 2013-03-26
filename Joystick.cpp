@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "MasterHeader.h"
 
-#include "SkynetControllerInterface.h"
+#include "SkynetController.h"
 
 //button bindings
 #define BTN_SQUARE 0
@@ -16,18 +16,6 @@
 #define BTN_START 9
 #define BTN_L3 10 // LEFT STICK
 #define BTN_R3 11
-
-
-#define ZOOM_TIME				800
-#define GIMBAL_FACTOR			4	// 1..8, 4 is best
-#define EXPONENTIAL_FACTOR		4.0
-#define ZOOM_NONE				-1
-#define ZOOM_IN					0
-#define ZOOM_OUT				1
-
-
-
-#define INTENDED_POSITION_UPDATES_ENABLED	true
 
 #define DIRECTINPUT_VERSION 0x0800
 #define _CRT_SECURE_NO_DEPRECATE
@@ -47,9 +35,12 @@
 
 #include <strsafe.h>
 
-#include "Form1.h"
 #include "Joystick.h"
-#include "Comport.h"
+
+using namespace System::Threading;
+
+
+
 #pragma warning( default : 4995 )
 #pragma warning( default : 4996 )
 
@@ -74,12 +65,10 @@ LPDIRECTINPUT8          g_pDI;
 LPDIRECTINPUTDEVICE8    g_pJoystick;
 
 
-static Communications::ComportUpstream * lastPacket;
 using namespace System;
 using namespace System::Timers;
-//using namespace Skynet;
 
-Joystick::Joystick( Object ^ theParent )
+Joystick::Joystick( SkynetController^ controller )
 {
 	g_bFilterOutXinputDevices = false;
 	g_pXInputDeviceList = NULL;
@@ -91,13 +80,9 @@ Joystick::Joystick( Object ^ theParent )
 	{
 		tracker[i] = 0;
 	}
-	zoom_level = 1;
-
-	parent = theParent;
 
 	manualMode = false;
 	manualModeCounter = 0;
-	lastPacket = NULL;
 	imageCounter = 0;
 }
 
@@ -106,87 +91,11 @@ Joystick::~Joystick(void)
 	FreeDirectInput();
 }
 
-int
-Joystick::getZoom(void)
-{
-	return zoom_level;
-}
-
-void
-Joystick::setZoom( int level )
-{
-	if( level > 0 )
-		zoom_level = level;
-}
-
-
-
-void Joystick::sendZoom( Object^ source, ElapsedEventArgs^ e )
-{
-	System::Diagnostics::Trace::WriteLine("sendZoom started");
-	int newZoomLevel = theWatcher->zoomLevel;
-	if (newZoomLevel == ZOOM_IN)
-		newZoomLevel++;
-	else if (newZoomLevel == ZOOM_OUT)
-		newZoomLevel--;
-	else
-		return;
-
-	if (newZoomLevel > MAX_ZOOM_LEVEL)
-		newZoomLevel = MAX_ZOOM_LEVEL;
-	if (newZoomLevel < MIN_ZOOM_LEVEL)
-		newZoomLevel = MIN_ZOOM_LEVEL;
-	theWatcher->zoomLevel = newZoomLevel;
-
-	unsigned __int32 zoom = 0;
-	switch( newZoomLevel )
-	{
-		case 1:
-			zoom = 0x00000000;
-			break;
-		case 2:
-			zoom = 0x00080000;
-			break;
-		case 3:
-			zoom = 0x01000000;
-			break;
-		case 4:
-			zoom = 0x01080000;
-			break;
-		case 5:
-			zoom = 0x02000000;
-			break;
-		case 6:
-			zoom = 0x02080000;
-			break;
-		case 7:
-			zoom = 0x03000000;
-			break;
-		case 8:
-			zoom = 0x03080000;
-			break;
-		case 9:
-			zoom = 0x04000000;
-			break;
-		default:
-			zoom = 0xAAAAAAAA; // no zoom update
-			break;
-	}
-	comm->sendZoom(zoom);
-	System::Diagnostics::Trace::WriteLine("sendZoom sent");
-	
-}
 
 HRESULT
 Joystick::init(HWND hDlg)
 {
 	HRESULT hr;
-
-	
-	zoomTimer = gcnew Timers::Timer(ZOOM_TIME/10);
-	zoomTimer->Elapsed += gcnew ElapsedEventHandler( this, &Joystick::sendZoom );
-	zoomTimer->Stop();
-	zoomDirection = ZOOM_NONE;
 
     // Register with the DirectInput subsystem and get a pointer
     // to a IDirectInput interface we can use.
@@ -224,8 +133,6 @@ Joystick::init(HWND hDlg)
     // Make sure we got a Joystick
     if( NULL == g_pJoystick )
     {
-        // joystick not found
-		
         return S_OK;
     }
 
@@ -240,14 +147,6 @@ Joystick::init(HWND hDlg)
         return hr;
 	}
 
-    // Set the cooperative level to let DInput know how this device should
-    // interact with the system and with other DInput applications.
-    /*if( FAILED( hr = g_pJoystick->SetCooperativeLevel( hDlg, DISCL_EXCLUSIVE |
-                                                       DISCL_FOREGROUND ) ) )
-	{
-		System::Diagnostics::Trace::WriteLine("returned2");
-        return hr;
-	}*/
 
     // Enumerate the Joystick objects. The callback function enabled user
     // interface elements for objects that are found, and sets the min/max
@@ -486,9 +385,6 @@ Joystick::UpdateInputState( HWND hDlg )
     HRESULT hr;
     TCHAR strText[512] = {0}; // Device state text
     DIJOYSTATE2 js;           // DInput Joystick state 
-	JOY_STATUS joyie;
-	bool change = false;			  // flag for any changes
-	bool zoomChanged = false;
 
 	if (this == nullptr)
 		return S_OK;
@@ -496,9 +392,6 @@ Joystick::UpdateInputState( HWND hDlg )
 	if (theWatcher == nullptr)
 		return S_OK;
 
-	unsigned __int16 newGimbalRoll = theWatcher->gimbalRoll;
-	unsigned __int16 newGimbalPitch = theWatcher->gimbalPitch;
-	int newZoomLevel = theWatcher->zoomLevel;
 
     if( NULL == g_pJoystick )
         return S_OK;
@@ -525,88 +418,6 @@ Joystick::UpdateInputState( HWND hDlg )
     if( FAILED( hr = g_pJoystick->GetDeviceState( sizeof( DIJOYSTATE2 ), &js ) ) )
         return hr; // The device should have been acquired during the Poll()
 	
-	//Communications::ComportUpstream * packet = new Communications::ComportUpstream();
-
-
-
-
-	//Calculate JOY_STATUS things.
-	joyie.thresholds = 1;
-	bool exponential = true;
-	double localX, localY;
-
-	// calculate joystick positions
-	if(js.lY > 200  || js.lX > 200 || js.lY < -200 || js.lX < -200){
-		manualMode = true;
-		manualModeCounter = 0;	
-		
-		localX = js.lX;
-		localY = js.lY;
-		double thresholdRange = 1000.00/joyie.thresholds;
-		localX = js.lX / thresholdRange;
-		localY = js.lY / thresholdRange;
-
-		change = true;
-
-		
-		if(exponential){
-			if(localX < 0) {
-				localX = -( pow(EXPONENTIAL_FACTOR, (-localX))); // output = (EXPONENTIAL_FACTOR^input - 1)/(EXPONENTIAL_FACTOR - 1)
-				localX += 1;
-				localX /= EXPONENTIAL_FACTOR - 1;
-			}
-			else{			
-				localX =  pow(EXPONENTIAL_FACTOR, localX);
-				localX -= 1;
-				localX /= EXPONENTIAL_FACTOR - 1;
-			}
-			if(localY < 0) {
-				localY = -( pow(EXPONENTIAL_FACTOR, (-localY)));
-				localY += 1;
-				localY /= EXPONENTIAL_FACTOR - 1;
-			}
-			else{
-				localY = pow(EXPONENTIAL_FACTOR, localY);
-				localY -= 1;
-				localY /= EXPONENTIAL_FACTOR - 1;
-			}
-
-			
-		}
-
-		joyie.stickAngle = atan((float) (-js.lY)/js.lX)* 180.0 / JOYSTICK_PI;
-		//ANGLE CALCULATIONS
-		//1st quadrant conversion
-		if(js.lY <= 0 && js.lX > 0)
-		{
-			joyie.stickAngle = 90.0 - joyie.stickAngle;
-		}
-		//2nd quadrant
-		else if (js.lY < 0 && js.lX < 0)
-		{
-			joyie.stickAngle = 360 - (joyie.stickAngle + 90);
-		}
-		//3rd quad
-		else if (js.lY >= 0 && js.lX < 0)
-		{
-			joyie.stickAngle = 270 -joyie.stickAngle;
-		}
-		//4th quad
-		else if (js.lY > 0 && js.lX >= 0)
-		{
-			joyie.stickAngle = (-joyie.stickAngle) + 90;
-		}
-		else
-			joyie.stickAngle = 0.0;
-	}
-	else
-	{
-		localX = 0.0;
-		localY = 0.0;
-		joyie.stickAngle = 0.0;
-	}
-	
-
 
 	// Button 2 = X = save picture
 	if( js.rgbButtons[BTN_X] & 0x80 ) { tracker[BTN_X]++; }
@@ -617,176 +428,12 @@ Joystick::UpdateInputState( HWND hDlg )
 		Thread ^thread = gcnew Thread( gcnew ThreadStart(theDelegate, &Skynet::SkynetController::saveCurrentFrameAsUnverified));
 		thread->Name = "SkynetController saveFrameAUnverified thread";
 		thread->Start();
-		//theDelegate->saveCurrentFrameAsCandidate();
 		PRINT("save image pressed: " + ++imageCounter);	
 	}
-
-	// localX and Y contain the stick coordinates between -1 and 1
-	newGimbalRoll -= (unsigned __int16)(40.0f*GIMBAL_FACTOR*localX);
-	newGimbalPitch += (unsigned __int16)(40.0f*GIMBAL_FACTOR*localY);
-		
-	// Button 1 = SQUARE = Gimbal Stabilized Mode
-	if( js.rgbButtons[BTN_SQUARE] & 0x80 )
-	{ tracker[BTN_SQUARE]++; }
-	else { tracker[BTN_SQUARE] = 0; }
-
-	if( tracker[BTN_SQUARE] == 1 )
-	{
-//		PRINT("Entering stabilized look-down mode");
-//		comm->commandGimbalStabilizedMode();
-//		theDelegate->printConsoleMessageInGreen("Set gimbal look-down mode");
-
-	}
-
-
-	if( tracker[BTN_SQUARE] == 1 ) { }
 
 	if( js.rgbButtons[BTN_CIRCLE] & 0x80 ) { tracker[BTN_CIRCLE]++; }
 	else { tracker[BTN_CIRCLE] = 0; }
 
-	if( tracker[BTN_CIRCLE] == 1 ) { }
-	
-
-	// L1 button to zoom in
-	if( js.rgbButtons[BTN_L1] & 0x80 ) { tracker[BTN_L1]++; }
-	else { tracker[BTN_L1] = 0; }
-	
-	// R1 button to zoom out
-	if( js.rgbButtons[BTN_R1] & 0x80 ) { tracker[BTN_R1]++; }
-	else { tracker[BTN_R1] = 0; }
-
-
-	// handle zoom buttons
-	if(tracker[BTN_L1] == 1 && !(tracker[BTN_R1] == 1))
-	{
-		if(newZoomLevel > MIN_ZOOM_LEVEL)
-		{
-			newZoomLevel--;
-		}
-		zoomChanged = true;
-
-		// start timer
-		zoomDirection = ZOOM_OUT;
-		//zoomTimer->Start();
-		
-	}
-	else if(tracker[BTN_R1] == 1 && !(tracker[BTN_L1] == 1))
-	{
-		//send zoom packet
-		if(newZoomLevel < MAX_ZOOM_LEVEL)
-		{
-			newZoomLevel++;
-			//packet->update_type = 0x0A;
-		}
-		zoomChanged = true;
-		
-
-		// start timer
-		zoomDirection = ZOOM_IN;
-		//zoomTimer->Start();
-		//System::Diagnostics::Trace::WriteLine("R1 press registered");
-	}
-
-	else {
-		// stop timer
-		zoomDirection = ZOOM_NONE;
-		//zoomTimer->Stop();
-		//System::Diagnostics::Trace::WriteLine("no press");
-	}
-
-
-	// center gimbal by pushing stick
-	if( js.rgbButtons[BTN_L3] & 0x80 )
-	{ tracker[BTN_L3]++; }
-	else
-	{ tracker[BTN_L3] = 0; }
-	if( tracker[BTN_L3] == 1 )
-	{
-		newGimbalRoll = 3000;
-		newGimbalPitch = 3000;
-	}
-
-	/*// Print status of each button
-    for( int i = 0; i < 128; i++ )
-    {
-        if( js.rgbButtons[i] & 0x80 )
-        {
-			System::Diagnostics::Trace::WriteLine("Button " + i + " pressed.");
-        }
-    }*/
-
-	// send commands to Comms
-	if (newGimbalRoll != theWatcher->gimbalRoll || newGimbalPitch != theWatcher->gimbalPitch) {
-
-		//((Skynet::SkynetController ^)theDelegate)->stopTargetLock();
-
-		//if (newGimbalRoll > MAX_ROLL)
-		//	newGimbalRoll = MAX_ROLL;
-		//if (newGimbalRoll < MIN_ROLL)
-		//	newGimbalRoll = MIN_ROLL;
-		//
-		//if (newGimbalPitch > MAX_PITCH)
-		//	newGimbalPitch = MAX_PITCH;
-		//if (newGimbalPitch < MIN_PITCH)
-		//	newGimbalPitch = MIN_PITCH;
-		//
-		//theWatcher->gimbalRoll = newGimbalRoll;
-		//theWatcher->gimbalPitch = newGimbalPitch;
-
-		//comm->sendGimbalRollPitch(newGimbalRoll, newGimbalPitch);
-
-		//if (INTENDED_POSITION_UPDATES_ENABLED)
-		//	((Skynet::SkynetController ^)theDelegate)->intendedGimbalPositionUpdated(theWatcher->rawToDegrees(newGimbalRoll), theWatcher->rawToDegrees(newGimbalPitch));
-
-	}
-
-	if (zoomChanged) { // newZoomLevel != theWatcher->zoomLevel) {
-		if (newZoomLevel > MAX_ZOOM_LEVEL)
-			newZoomLevel = MAX_ZOOM_LEVEL;
-		if (newZoomLevel < MIN_ZOOM_LEVEL)
-			newZoomLevel = MIN_ZOOM_LEVEL;
-		theWatcher->zoomLevel = newZoomLevel;
-
-		unsigned __int32 zoom = 0;
-		switch( newZoomLevel )
-		{
-			case 1:
-				zoom = 0x00000000;
-				break;
-			case 2:
-				zoom = 0x00080000;
-				break;
-			case 3:
-				zoom = 0x01000000;
-				break;
-			case 4:
-				zoom = 0x01080000;
-				break;
-			case 5:
-				zoom = 0x02000000;
-				break;
-			case 6:
-				zoom = 0x02080000;
-				break;
-			case 7:
-				zoom = 0x03000000;
-				break;
-			case 8:
-				zoom = 0x03080000;
-				break;
-			case 9:
-				zoom = 0x04000000;
-				break;
-			default:
-				zoom = 0xAAAAAAAA; // no zoom update
-				break;
-		}
-		comm->sendZoom(newZoomLevel);
-		if (INTENDED_POSITION_UPDATES_ENABLED)
-			((Skynet::SkynetController ^)theDelegate)->intendedCameraZoomUpdated(theWatcher->rawZoomToFloat(zoom));
-	}
-	
-	//PRINT("End: " + System::DateTime::Now.Second + "." + System::DateTime::Now.Millisecond );
     return S_OK;
 }
 

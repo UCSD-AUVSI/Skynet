@@ -1,9 +1,9 @@
 #include "StdAfx.h"
-#include "Form1.h"
 #include "TargetDialog.h"
 
 #include "SkynetController.h"
 #include "DatabaseStructures.h"
+#include "MasterHeader.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -68,28 +68,23 @@ void TargetDialog::showDialogForData(Database::CandidateRowData ^ theData)
 
 void TargetDialog::showDialogForData(Database::UnverifiedRowData ^ theData)
 {
-	// TODO: implement
+	if (theData == nullptr) {
+		PRINT("TargetDialog::showDialogForData() ERROR theData == nullptr");
+		return;
+	}
+
+	mode = DialogEditingCandidate;
+	data = gcnew DialogEditingData(theData);
+	candidate = theData->candidate;
+	data->id = theData->targetid;
+	target = theData;
+	open = true;
+	_markLat = false;
+	_markHeading = false;
+	this->setImage();
+	this->Show();
 }
 
-
-//void TargetDialog::showDialogForData(Database::VotesOnCandidate ^ theData)
-//{
-//	if (theData == nullptr) {
-//		PRINT("TargetDialog::showDialogForData() ERROR theData == nullptr");
-//		return;
-//	}
-//	mode = DialogEditingUnverified;
-//
-//	data = gcnew DialogEditingData(theData->votes[0]);
-//	votingData = theData;
-//	open = true;
-//	_markLat = false;
-//	_markHeading = false;
-//
-//	
-//	this->Show();
-//	reloadData();
-//}
 
 void TargetDialog::showDialogForData(Database::VerifiedRowData ^ theData)
 {
@@ -176,40 +171,6 @@ void TargetDialog::clearVotingText()
 	// TODO: implement
 }
 
-//void TargetDialog::clearVotingText()
-//{
-//	centerVoteLabel->Text = "";
-//	headingVoteLabel->Text = "";
-//	shapeVoteResults->Text = "";
-//	letterVoteResults->Text = "";
-//}
-//
-//void TargetDialog::buildVotingText() 
-//{
-//	String ^ center = "";
-//	String ^ heading = "";
-//	String ^ shape = "";
-//	String ^ letter = "";
-//
-//	for each(auto data in votingData->votes) {
-//		if (data == nullptr)
-//			continue;
-//
-//		center += "("+ data->targetX + "," + data->targetY+")\n";
-//		heading += "("+ data->topOfTargetX + "," + data->topOfTargetY+")\n";
-//		shape += "" + data->shapeColor + " " + data->shape + "\n";
-//		letter += "" + data->letterColor + " " + data->letter + "\n";
-//
-//
-//	}
-//
-//	centerVoteLabel->Text = center;
-//	headingVoteLabel->Text = heading;
-//	shapeVoteResults->Text = shape;
-//	letterVoteResults->Text = letter;
-//
-//}
-
 void TargetDialog::setImage()
 {
 	//System::Diagnostics::Trace::WriteLine("TargetDialog::setImage(): setting image: " + HTTP_SERVER_TARGET_PATH + data->imageName->Remove(0, 8));
@@ -273,24 +234,10 @@ TargetDialog::okButton_Click(System::Object^  sender, System::EventArgs^  e)
 	getDataFromUI();
 
 	if (mode == DialogEditingCandidate) {
-		//VoteRowData ^newData = gcnew VoteRowData();
-		//newData->updateFrom(data);
-		//
-		//bool result = ((SkynetController ^)appController)->addVote(newData);
-		//if (result)
-		//	((SkynetController ^)appController)->removeCandidate(candidate);
-		//else
-		//	PRINT("ERROR in TargetDialog::okButton_Click(): failed to add target");
-
-
+		appController->addVerifiedTargetWithDialogData(data);
 	}
 
 	else if (mode == DialogEditingUnverified) {
-		//target->updateFrom(data);
-
-		//((SkynetController ^)appController)->modifyTarget(target);
-
-		//VerifiedTargetRowData ^ newVerifiedTarget = gcnew VerifiedTargetRowData(data);
 
 		appController->addVerifiedTargetWithDialogData(data);
 	}
@@ -316,11 +263,6 @@ TargetDialog::button1_Click(System::Object^  sender, System::EventArgs^  e)
 	else if (mode == DialogEditingVerified) {
 		appController->removeVerifiedTargetForID("" + data->id);
 	}
-
-	// dont delete all votes, that could blow shit up
-	/*else if (mode == DialogEditingUnverified) {
-		((SkynetController ^)appController)->removeTarget(target);
-	}*/
 
 	open = false;
 	_markLat = false;

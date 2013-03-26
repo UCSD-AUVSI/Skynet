@@ -7,7 +7,6 @@
 #include <highgui.h>
 #pragma warning(pop)
 
-//#include "OpenGLForm.h"
 
 #include <string>
 

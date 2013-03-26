@@ -2,18 +2,11 @@
 
 #include <cv.h>
 
-using namespace System;
-using namespace System::Collections;
-
 #define VIDEO_LATENCY 0.150 // seconds
 
 namespace Skynet
 {
 	ref class SkynetController;
-}
-namespace OpenGLForm 
-{
-	ref class COpenGL;
 }
 
 namespace Communications
@@ -21,10 +14,18 @@ namespace Communications
 	ref struct PlaneState;
 }
 
+namespace Database
+{
+	ref struct CandidateRowData;
+}
+
+ref struct ImageWithPlaneData;
+
 namespace Vision
 {
-	//ref class Saliency;
+	ref class Saliency;
 	ref class DuplicateResolver;
+	ref class OCRWrapper;
 
 	public ref struct Box
 	{
@@ -45,13 +46,14 @@ namespace Vision
 	public ref struct Frame
 	{
 		unsigned char *buffer;
+		unsigned int saliencyImageHeight, saliencyImageWidth;
 		cv::Mat *img;
-		DateTime timestamp;
-		Collections::Generic::List<Box ^>^ saliencyBlobs;
-		Communications::PlaneState ^ planeState;
+		System::DateTime timestamp;
+		System::Collections::Generic::List<Box ^>^ saliencyBlobs;
+		ImageWithPlaneData ^ planeState;
 
 
-		Frame(unsigned char *buf, int w, int h, DateTime time)
+		Frame(unsigned char *buf, int w, int h, System::DateTime time)
 		{
 			allocImg(buf,w,h);
 			init(time);
@@ -60,7 +62,7 @@ namespace Vision
 		Frame(unsigned char *buf, int w, int h)
 		{
 			allocImg(buf,w,h);
-			init(DateTime::Now.AddSeconds(-VIDEO_LATENCY));
+			init(System::DateTime::Now.AddSeconds(-VIDEO_LATENCY));
 		}
 
 		Frame(cv::Mat inputImg)
@@ -68,7 +70,7 @@ namespace Vision
 			buffer = nullptr;
 			img = new cv::Mat(inputImg);
 			
-			init(DateTime::Now.AddSeconds(-VIDEO_LATENCY));
+			init(System::DateTime::Now.AddSeconds(-VIDEO_LATENCY));
 		}
 
 		void allocImg(unsigned char* buf, int w, int h)
@@ -77,11 +79,11 @@ namespace Vision
 			img = new cv::Mat(h, w, CV_8UC3, buf);
 		}
 
-		void init(DateTime time)
+		void init(System::DateTime time)
 		{
 			timestamp = time;
 			planeState = nullptr;
-			saliencyBlobs = gcnew Collections::Generic::List<Box ^>();
+			saliencyBlobs = gcnew System::Collections::Generic::List<Box ^>();
 		}
 
 		~Frame()
@@ -93,7 +95,7 @@ namespace Vision
 		bool isReady()
 		{
 			// if frame is more than 2 seconds old
-			if (DateTime::Now.Subtract(timestamp).TotalSeconds > 2.0)
+			if (System::DateTime::Now.Subtract(timestamp).TotalSeconds > 2.0)
 				return true;
 			else
 				return false;
@@ -103,27 +105,28 @@ namespace Vision
     public ref class VisionController
     {
 	public:
-		VisionController(OpenGLForm::COpenGL ^ openGL, Skynet::SkynetController ^ skynetCtrl);
+		VisionController(Skynet::SkynetController ^ skynetCtrl);
 		~VisionController();
 
-		void receiveFrame(unsigned char *buffer);
-		void gotFirstFrame(int imgWidth, int imgHeight);
+		void receiveFrame(ImageWithPlaneData^ imageWithPlaneData);
+		bool processSaliencyCandidate(Database::CandidateRowData^ candidate);
 
 	protected:
 		void runLoop();
 		void initImagingPathway(); // TODO
 		void receiveOCRResults(); // TODO: pass in a struct
 		void analyzeFrame(Frame ^ frame);
-
+		void updateSaliencyImageSize(int imgWidth, int imgHeight);
 		bool endRunLoop;
         
 	private:
-        OpenGLForm::COpenGL			^ openGLForm;
         Skynet::SkynetController 	^ skynetController;
-		Queue 						^ frameQueue;
+		System::Collections::Queue ^ frameQueue;
         DuplicateResolver			^ duplicateResolver;
-        //Saliency					^ saliency;
+        Saliency					^ saliency;
+		OCRWrapper					^ ocr;
         System::Threading::Thread	^ runLoopThread;
         int width, height;
+		bool paused;
     };
 }

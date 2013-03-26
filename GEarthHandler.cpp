@@ -26,7 +26,6 @@ using namespace System;
 using namespace System::Threading;
 using namespace System::IO;
 using namespace Communications;
-using namespace OpenGLForm;
 using namespace Database;
 
 GEarthHandler::GEarthHandler(PlaneWatcher ^ tpw, OpenGLForm::COpenGL ^ togl)
@@ -365,15 +364,15 @@ void GEarthHandler::updatePlaneFile(PlaneState ^ state)
 
 	double TLLat, TLLon, TRLat, TRLon, BLLat, BLLon, BRLat, BRLon;
 
-	double centerLat = state->gpsData->gpsLatitude;
-	double centerLon = state->gpsData->gpsLongitude;
+	double centerLat = state->latitude;
+	double centerLon = state->longitude;
 	double centerAlt = state->telemData->altitudeHAL;
 
 	double centerTargetLat, centerTargetLon, alt;
 	Vision::GeoReference::getCenterGPSFromState(state, centerTargetLat, centerTargetLon, alt);
 
 
-	double heading = (state->telemData->heading)*180.0/PI - 90;
+	double heading = (state->yaw)*180.0/PI - 90;
 	if (heading < 0)
 		heading += 360.0;
 	if (centerAlt < 0)
@@ -383,7 +382,7 @@ void GEarthHandler::updatePlaneFile(PlaneState ^ state)
 			BLLat, BLLon);
 	
 
-	//PRINT("head: " + Single((state->telemData->heading)*180.0/PI).ToString("######.#") + " roll: " + Single((state->telemData->pitch)*180.0/PI).ToString("######.#") + " pitch: " + Single((state->telemData->pitch)*180.0/PI).ToString("######.#") + ".");
+	//PRINT("head: " + Single((state->yaw)*180.0/PI).ToString("######.#") + " roll: " + Single((state->pitch)*180.0/PI).ToString("######.#") + " pitch: " + Single((state->pitch)*180.0/PI).ToString("######.#") + ".");
 
 	//PRINT("Google Earth " + state->stringVal() +"\n "+TLLat+", "+TLLon+", "+TRLat+", "+TRLon+", "+BRLat+", "+BRLon+", "+BLLat+", "+BLLon);
 
@@ -393,7 +392,7 @@ void GEarthHandler::updatePlaneFile(PlaneState ^ state)
 				"<Document>\n"+
 				"<Style id=\"plane\">\n"+
 				"\t<IconStyle>\n"+
-				"\t\t<heading>"+Single(state->telemData->heading).ToString("F")+"</heading>\n"+
+				"\t\t<heading>"+Single(state->yaw).ToString("F")+"</heading>\n"+
 				"\t\t<Icon>\n"+
 				"\t\t\t<href>http://localhost/falco.png</href>\n"+
 				"\t\t\t<scale>1.0</scale>\n"+
@@ -414,14 +413,14 @@ void GEarthHandler::updatePlaneFile(PlaneState ^ state)
 				"\t<Model id=\"falco\">\n"+
 				"\t\t<altitudeMode>relativeToGround</altitudeMode>\n"+
 				"\t\t<Location>\n"+ 
-				"\t\t\t<latitude>"+Single(state->gpsData->gpsLatitude).ToString("######.#######")+"</latitude>\n"+
-				"\t\t\t<longitude>"+Single(state->gpsData->gpsLongitude).ToString("######.#######")+"</longitude>\n"+
-				"\t\t\t<altitude>"+centerAlt/*Single(state->gpsData->gpsAltitude).ToString("F")*/+"</altitude>\n"+
+				"\t\t\t<latitude>"+Single(state->latitude).ToString("######.#######")+"</latitude>\n"+
+				"\t\t\t<longitude>"+Single(state->longitude).ToString("######.#######")+"</longitude>\n"+
+				"\t\t\t<altitude>"+centerAlt/*Single(state->altitude).ToString("F")*/+"</altitude>\n"+
 				"\t\t</Location>\n"+ 
 				"\t\t<Orientation>\n"+ 
 				"\t\t\t<heading>"+ Single(heading).ToString("######.#") +"</heading>\n"+
-				"\t\t\t<tilt>"+ 0.0 /*Single((state->telemData->roll)*180.0/PI).ToString("######.#")*/+"</tilt>\n"+ 
-				"\t\t\t<roll>"+ 0.0 /*Single((state->telemData->pitch)*180.0/PI).ToString("######.#")*/+"</roll>\n"+ 
+				"\t\t\t<tilt>"+ 0.0 /*Single((state->roll)*180.0/PI).ToString("######.#")*/+"</tilt>\n"+ 
+				"\t\t\t<roll>"+ 0.0 /*Single((state->pitch)*180.0/PI).ToString("######.#")*/+"</roll>\n"+ 
 				"\t\t</Orientation>\n"+ 
 				"\t\t<Scale>\n"+ 
 				"\t\t\t<x>5.0</x>\n"+ 

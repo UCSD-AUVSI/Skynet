@@ -15,13 +15,15 @@
 
 
 #define PRINT System::Diagnostics::Trace::WriteLine
+#define SCOM + ", " +
 #define BADSTRING String::IsNullOrWhiteSpace
 
 
 #define PI 3.14159265358979323846
 #define RAD_TO_DEG 180.0 / PI
 #define PI_TO_RAD PI / 180.0
-
+#define VERY_LOW_NUMBER -1e6 // is -1,000,000
+#define VERY_LARGE_NUMBER 1e6 // is 1,000,000
 
 
 #define FIELD_ALTITUDE 156.5

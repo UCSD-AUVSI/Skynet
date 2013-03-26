@@ -1,8 +1,8 @@
 #include "StdAfx.h"
 #include "Database.h"
+#include "DatabaseStructures.h"
 
 #include "GeoReference.h"
-#include "AutopilotComport.h"
 #include "MasterHeader.h"
 #include <msclr/lock.h>
 
@@ -1031,8 +1031,21 @@ DatabaseConnection::addVerified( VerifiedRowData ^ data)
 VerifiedRowData ^ 
 DatabaseConnection::addVerifiedWithDialogData(DialogEditingData ^ data)
 {
-	// TODO: implement
-	return nullptr;
+	UnverifiedRowData^ target = unverifiedWithID("" + data->id);
+	VerifiedRowData^ verified = gcnew VerifiedRowData(target);
+
+	DescriptionRowData^ description = target->description;
+	
+	description->targetX = data->targetX;
+	description->targetY = data->targetY;
+	description->shape = data->shape;
+	description->shapeColor = data->shapeColor;
+	description->letter = data->letter;
+	description->letterColor = data->letterColor;
+	modifyDescription(description);
+	int id = addVerified(verified);
+	verified->submitid = id;
+	return verified;
 }
 
 //////////// Modify Rows ///////////////
@@ -1199,7 +1212,6 @@ DatabaseConnection::getAllCandidates()
 {
 	array<Object ^>^ rows;
 	String ^ query = CANDIDATE_QUERY_STRING + " ORDER BY candidateid ";
-	//PRINT("Database::GetAllCandidates() Query: " + query);
 	rows = getAllRows(query, Candidate_Table);
 	if (rows == nullptr)
 		rows = gcnew array<Object ^>(0);
@@ -1218,7 +1230,6 @@ DatabaseConnection::getAllUnverified()
 	String ^ query = UNVERIFIED_QUERY_STRING + " ORDER BY targetid ";
 
 
-	//PRINT("Database::GetAllUnverified() Query: " + query);
 	rows = getAllRows(query, Unverified_Table);
 	if (rows == nullptr)
 		rows = gcnew array<Object ^>(0);
@@ -1236,7 +1247,6 @@ DatabaseConnection::getAllVerified()
 	array<Object ^>^ rows;
 	String ^ query = VERIFIED_QUERY_STRING + " ORDER BY submitid ";
 
-	//PRINT("Database::GetAllVerified() Query: " + query);
 	rows = getAllRows(query, Target_Table);
 	if (rows == nullptr)
 		rows = gcnew array<Object ^>(0);
