@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Skynet", "Skynet\Skynet.vcxproj", "{741068E1-38B1-408D-A1D6-59DF63CA5880}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F82B58BF-2003-4A9E-9952-5A18C49495DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Debug|X64 = Debug|X64
+		Debug|x86 = Debug|x86
+		dllRelease|Mixed Platforms = dllRelease|Mixed Platforms
+		dllRelease|Win32 = dllRelease|Win32
+		dllRelease|X64 = dllRelease|X64
+		dllRelease|x86 = dllRelease|x86
+		EmuDebug|Mixed Platforms = EmuDebug|Mixed Platforms
+		EmuDebug|Win32 = EmuDebug|Win32
+		EmuDebug|X64 = EmuDebug|X64
+		EmuDebug|x86 = EmuDebug|x86
+		EmuRelease|Mixed Platforms = EmuRelease|Mixed Platforms
+		EmuRelease|Win32 = EmuRelease|Win32
+		EmuRelease|X64 = EmuRelease|X64
+		EmuRelease|x86 = EmuRelease|x86
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+		Release|X64 = Release|X64
+		Release|x86 = Release|x86
+		ZDebug|Mixed Platforms = ZDebug|Mixed Platforms
+		ZDebug|Win32 = ZDebug|Win32
+		ZDebug|X64 = ZDebug|X64
+		ZDebug|x86 = ZDebug|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Debug|Mixed Platforms.ActiveCfg = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Debug|Mixed Platforms.Build.0 = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Debug|Win32.ActiveCfg = Debug|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Debug|Win32.Build.0 = Debug|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Debug|X64.ActiveCfg = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Debug|X64.Build.0 = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Debug|x86.ActiveCfg = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.dllRelease|Mixed Platforms.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.dllRelease|Mixed Platforms.Build.0 = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.dllRelease|Win32.ActiveCfg = Release|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.dllRelease|Win32.Build.0 = Release|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.dllRelease|X64.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.dllRelease|X64.Build.0 = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.dllRelease|x86.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuDebug|Mixed Platforms.ActiveCfg = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuDebug|Mixed Platforms.Build.0 = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuDebug|X64.ActiveCfg = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuDebug|X64.Build.0 = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuDebug|x86.ActiveCfg = Debug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuRelease|Mixed Platforms.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuRelease|Mixed Platforms.Build.0 = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuRelease|Win32.Build.0 = Release|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuRelease|X64.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuRelease|X64.Build.0 = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.EmuRelease|x86.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Release|Mixed Platforms.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Release|Mixed Platforms.Build.0 = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Release|Win32.ActiveCfg = Release|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Release|Win32.Build.0 = Release|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Release|X64.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Release|X64.Build.0 = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.Release|x86.ActiveCfg = Release|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.ZDebug|Mixed Platforms.ActiveCfg = ZDebug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.ZDebug|Mixed Platforms.Build.0 = ZDebug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.ZDebug|Win32.ActiveCfg = ZDebug|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.ZDebug|Win32.Build.0 = ZDebug|Win32
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.ZDebug|X64.ActiveCfg = ZDebug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.ZDebug|X64.Build.0 = ZDebug|X64
+		{741068E1-38B1-408D-A1D6-59DF63CA5880}.ZDebug|x86.ActiveCfg = ZDebug|X64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+EndGlobal
