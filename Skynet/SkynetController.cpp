@@ -586,7 +586,6 @@ void SkynetController::modifyUnverified(Database::UnverifiedRowData ^ data)
 void SkynetController::displayAutosearchImage(Image ^ image)
 {
 	try{
-		((Form1 ^)form1View)->autosearchBox->Image = image;
 		((Form1 ^)form1View)->pathfinderBox->BackgroundImage = image;
 	}catch(InvalidOperationException ^){
 		
