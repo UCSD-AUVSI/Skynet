@@ -20,97 +20,23 @@ using namespace Skynet;
 #define LETTER			textBox3
 
 
-TargetDialog::TargetDialog(SkynetController ^ newAppController)
+TargetDialog::TargetDialog(SkynetController ^ appController, Database::TargetRowData^ row): 
+	appController(appController),
+	_markLat(false),
+	_markHeading(false),
+	dialogData(row->toDialogData()),
+	rowData(row)
+
 {
-	appController = newAppController;
-	_markLat = false;
-	_markHeading = false;
-	
-
-	centerX = -1.0f;
-	centerY = -1.0f;
-	
-	topOfTargetX = -1.0f;
-	topOfTargetY = -1.0f;
-	
-	open = false;
-	imageOpen = false;
-	_targetImage = nullptr;
-
 	InitializeComponent();
-
-}
-
-/*
-void CandidateTargetDialog::showDialog(){}
-void VerifiedTargetDialog::showDialog(){}
-void UnverifiedTargetDialog::showDialog(){}
-*/
-
-/*
-void TargetDialog::showDialogForData(Database::CandidateRowData ^ theData)
-{
-	if (theData == nullptr) {
-		PRINT("TargetDialog::showDialogForData() ERROR theData == nullptr");
-		return;
-	}
-
-	candidate = theData;
-	target = nullptr;
-	open = true;
-	_markLat = false;
-	_markHeading = false;
-	//reloadData();
-}
-
-void TargetDialog::showDialogForData(Database::UnverifiedRowData ^ theData)
-{
-	if (theData == nullptr) {
-		PRINT("TargetDialog::showDialogForData() ERROR theData == nullptr");
-		return;
-	}
-
-	mode = DialogEditingCandidate;
-	data = gcnew DialogEditingData(theData);
-	candidate = theData->candidate;
-	data->id = theData->targetid;
-	target = theData;
-	open = true;
-	_markLat = false;
-	_markHeading = false;
-	this->setImage();
-	this->Show();
+	loadUIWithData(dialogData);
 }
 
 
-void TargetDialog::showDialogForData(Database::VerifiedRowData ^ theData)
+void TargetDialog::loadUIWithData(DialogEditingData^ data)
 {
-	if (theData == nullptr) {
-		PRINT("TargetDialog::showDialogForData() ERROR theData == nullptr");
-		return;
-	}
-
-	mode = DialogEditingVerified;
-
-	data = gcnew DialogEditingData(theData);
-	open = true;
-	_markLat = false;
-	_markHeading = false;
-
-	reloadData();
-	this->Show();
-	
-}
-*/
-
-void TargetDialog::reloadData()
-{
-
-	//data->imageName = appController->imageNameForID("" + data->id);
-
 
 	// reload text fields
-	/*
 	if (String::IsNullOrEmpty(data->shape) || data->shape->Equals("Unknown"))
 		SHAPE->Text = "";
 	else 
@@ -151,26 +77,16 @@ void TargetDialog::reloadData()
 			break;
 	}
 	*/
-	/*
+
 	centerX = (float)data->targetX;
 	centerY = (float)data->targetY;
 
 	topOfTargetX = (float)( data->topOfTargetX );
 	topOfTargetY = (float)( data->topOfTargetY );
 
-	setImage();
-	*/
+	setImage(data->imageName);
 
 }
-
-CandidateTargetDialog::CandidateTargetDialog(Database::CandidateRowData^ candidate, Skynet::SkynetController^ skynetController):
-	TargetDialog(skynetController){}
-
-UnverifiedTargetDialog::UnverifiedTargetDialog(Database::UnverifiedRowData^ unverified, Skynet::SkynetController^ skynetController):
-	TargetDialog(skynetController){}
-
-VerifiedTargetDialog::VerifiedTargetDialog(Database::VerifiedRowData^ verified, Skynet::SkynetController^ skynetController):
-	TargetDialog(skynetController){}
 
 void TargetDialog::buildVotingText() 
 {
@@ -182,8 +98,10 @@ void TargetDialog::clearVotingText()
 	// TODO: implement
 }
 
-void TargetDialog::setImage()
+void TargetDialog::setImage(String^ imageFilename)
 {
+	imageBox->Image = Image::FromFile(imageFilename);
+
 	/*
 	//System::Diagnostics::Trace::WriteLine("TargetDialog::setImage(): setting image: " + HTTP_SERVER_TARGET_PATH + data->imageName->Remove(0, 8));
 	try
@@ -213,13 +131,12 @@ void TargetDialog::setImage()
 		System::Diagnostics::Trace::WriteLine("ERROR: TargetDialog::setImage(): failed to set image: " + e);
 	}
 	*/
-
 }
 
 
 DialogEditingData^ TargetDialog::getDataFromUI()
 {
-	DialogEditingData^ data;
+	DialogEditingData^ data = gcnew DialogEditingData();
 	// reload text fields
 	if (!SHAPE->Text->Equals(""))
 		data->shape = SHAPE->Text;
@@ -248,7 +165,8 @@ DialogEditingData^ TargetDialog::getDataFromUI()
 System::Void 
 TargetDialog::okButton_Click(System::Object^  sender, System::EventArgs^  e) 
 {
-	saveAsVerified();
+	VerifiedRowData ^ verified = rowData->asVerified(getDataFromUI());
+	appController->addVerifiedTarget(verified);
 
 	open = false;
 	_markLat = false;

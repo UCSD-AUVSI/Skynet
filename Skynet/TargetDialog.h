@@ -4,6 +4,10 @@
 
 #define PI 3.14159265358979323846
 
+namespace Database {
+	ref struct TargetRowData;
+}
+
 namespace Skynet {
 
 	ref class SkynetController;
@@ -16,22 +20,19 @@ namespace Skynet {
 	using namespace System::Drawing;
 
 
-	public ref class TargetDialog abstract: public System::Windows::Forms::Form
+	public ref class TargetDialog : public System::Windows::Forms::Form
 	{
 	public:
-		TargetDialog(SkynetController ^ skynetController);
+		TargetDialog(SkynetController ^ skynetController, Database::TargetRowData^ candidate);
 
-		virtual void showDialog() = 0;
-
-		void reloadData();
-		void setImage();
+		void loadUIWithData(Database::DialogEditingData^ data);
+		void setImage(String^ imageFilename);
 		bool isOpen() { return open; }
 
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		virtual bool saveAsVerified() = 0;
 		Database::DialogEditingData^ getDataFromUI();
 
 		~TargetDialog()
@@ -78,8 +79,10 @@ namespace Skynet {
 		float topOfTargetX, topOfTargetY;
 		bool _markLat, _markHeading;
 		bool open, imageOpen;
+		Database::TargetRowData^ rowData;
 		Image ^ _targetImage;
 		Object ^ _parent;
+		Database::DialogEditingData^ dialogData;
 		SkynetController ^ appController;
 
 
@@ -385,8 +388,10 @@ private: System::Void latlonButton_Click(System::Object^  sender, System::EventA
 			instructionLabel->Text = "Click on center of target";
 		 }
 private: System::Void imageBox_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {			 			 
+			 /*
 			 if (!imageOpen)
 				 setImage();
+				*/
 
 			 if( _markHeading ) {
 				 
@@ -441,28 +446,4 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 
 };
 
-public ref class CandidateTargetDialog: public TargetDialog {
-public:
-	CandidateTargetDialog(Database::CandidateRowData^ candidate, Skynet::SkynetController^ skynetController);
-	virtual void showDialog() override{};
-protected:
-	virtual bool saveAsVerified() override{return false;};
-};
-
-public ref class UnverifiedTargetDialog: public TargetDialog {
-public:
-	UnverifiedTargetDialog(Database::UnverifiedRowData^ unverified, Skynet::SkynetController^ skynetController);
-	virtual void showDialog() override{};
-protected:
-	virtual bool saveAsVerified() override{return false;};
-};
-
-public ref class VerifiedTargetDialog: public TargetDialog {
-public:
-	VerifiedTargetDialog(Database::VerifiedRowData^ unverified, Skynet::SkynetController^ skynetController);
-	virtual void showDialog() override{};
-protected:
-	virtual bool saveAsVerified() override{return false;};
-
-};
 }

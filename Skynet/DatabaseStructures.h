@@ -1,4 +1,5 @@
 #pragma once
+#include "MasterHeader.h"
 using namespace System;
 
 namespace Communications
@@ -10,6 +11,7 @@ ref struct ImageWithPlaneData;
 
 namespace Database
 {
+	ref struct TargetRowData;
 	ref struct CandidateRowData;
 	ref struct DescriptionRowData;
 	ref struct GPSPositionRowData;
@@ -18,8 +20,22 @@ namespace Database
 	ref struct UnverifiedRowData;
 	ref struct VerifiedRowData;
 	ref struct DialogEditingData;
+
+	public ref struct TargetRowData {
+	public:
+		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData){
+			PRINT("WARNING: asVerified() is not implemented");
+			return nullptr;
+		}
+
+		virtual DialogEditingData^ toDialogData(){
+			PRINT("WARNING: toDialogData() is not implemented");
+			return nullptr;
+		}
+		
+	};
 	
-	public ref struct CandidateRowData
+	public ref struct CandidateRowData: public TargetRowData
 	{
 		int candidateid;
 		String ^ imageName;
@@ -29,6 +45,8 @@ namespace Database
 		CandidateRowData();
 		CandidateRowData(ImageWithPlaneData ^ planeState, int originX, int originY, int widthPixels, int heightPixels);
 	
+		virtual DialogEditingData^ toDialogData() override;
+		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
 		bool Equals(CandidateRowData ^ object);
 	};
 
@@ -45,6 +63,7 @@ namespace Database
 		String ^ heading;
 		DescriptionRowData();
 		
+		void applyDialogEditingData(DialogEditingData^ data);
 		bool Equals(DescriptionRowData ^ object);
 	};
 
@@ -142,7 +161,8 @@ namespace Database
 		bool Equals(TelemetryRowData ^ object);
 	};
 
-	public ref struct UnverifiedRowData
+
+	public ref struct UnverifiedRowData: public TargetRowData
 	{
 		int targetid;
 		CandidateRowData ^ candidate;
@@ -153,20 +173,27 @@ namespace Database
 		UnverifiedRowData() {}
 		UnverifiedRowData(CandidateRowData ^ candidate);
 		UnverifiedRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
-	
+		UnverifiedRowData(CandidateRowData^ candidate, DialogEditingData^ extra);
+
+		virtual DialogEditingData^ toDialogData() override;
+		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
+		void applyDialogData(DialogEditingData^ data);
 		void updateCandidate(CandidateRowData ^ candidate);
-		
 		bool Equals(UnverifiedRowData ^ object);
 	};
 
-	public ref struct VerifiedRowData
+	public ref struct VerifiedRowData: public TargetRowData
 	{
 		UnverifiedRowData ^ target;
 		int submitid; // this is submitid in the database
 		GPSPositionRowData ^ centerGPS;
 		VerifiedRowData() {}
 		VerifiedRowData(UnverifiedRowData ^ unverified);
+		VerifiedRowData(CandidateRowData ^ candindate, DialogEditingData^ dialogData);
 		
+		virtual DialogEditingData^ toDialogData() override;
+		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
+		void applyDialogData(DialogEditingData^ data);
 		bool Equals(VerifiedRowData ^ object);
 	};
 
@@ -196,5 +223,6 @@ namespace Database
 		int topOfTargetY;
 
 		bool Equals(DialogEditingData ^ object);
+		String^ getHeadingString();
 	};
 }

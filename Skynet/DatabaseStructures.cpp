@@ -8,6 +8,54 @@
 using namespace Database;
 using namespace Vision;
 
+String^ DialogEditingData::getHeadingString() {
+	// TODO: Implement
+	return nullptr;
+}
+
+DialogEditingData^ CandidateRowData::toDialogData() {
+	return gcnew DialogEditingData(this);
+}
+
+DialogEditingData^ UnverifiedRowData::toDialogData() {
+	return gcnew DialogEditingData(this);
+}
+
+DialogEditingData^ VerifiedRowData::toDialogData() {
+	return gcnew DialogEditingData(this);
+}
+
+VerifiedRowData^ VerifiedRowData::asVerified(DialogEditingData^ dialogData) {
+	applyDialogData(dialogData);
+	return this;
+}
+
+VerifiedRowData^ UnverifiedRowData::asVerified(DialogEditingData^ dialogData) {
+	applyDialogData(dialogData);
+	return gcnew VerifiedRowData(this);
+}
+
+VerifiedRowData^ CandidateRowData::asVerified(DialogEditingData^ dialogData) {
+	return gcnew VerifiedRowData(this, dialogData);
+}
+
+void DescriptionRowData::applyDialogEditingData(DialogEditingData^ dialogData) {
+	shape = dialogData->shape;
+	shapeColor = dialogData->shapeColor;
+	letter = dialogData->letter;
+	letterColor = dialogData->letterColor;
+	targetX = dialogData->targetX;
+	targetY = dialogData->targetY;
+	heading = dialogData->getHeadingString();
+}
+
+void UnverifiedRowData::applyDialogData(DialogEditingData^ dialogData) {
+	description->applyDialogEditingData(dialogData);
+}
+
+void VerifiedRowData::applyDialogData(DialogEditingData^ dialogData) {
+	target->applyDialogData(dialogData);
+}
 
 CandidateRowData::CandidateRowData()
 {
@@ -205,6 +253,19 @@ VerifiedRowData::VerifiedRowData(UnverifiedRowData ^ unverified)
 {
 	this->target = unverified;
 	this->centerGPS = gcnew GPSPositionRowData(unverified);
+}
+
+VerifiedRowData::VerifiedRowData(CandidateRowData ^ candidate, DialogEditingData^ dialogData) {
+	this->target = gcnew UnverifiedRowData(candidate, dialogData);
+	this->centerGPS = gcnew GPSPositionRowData(target);
+}
+
+UnverifiedRowData::UnverifiedRowData(CandidateRowData^ candidate, DialogEditingData^ dialogData):
+	candidate(candidate),
+	location(gcnew LocationRowData(candidate->telemetry)),
+	description(gcnew DescriptionRowData)
+{
+	applyDialogData(dialogData);
 }
 
 bool VerifiedRowData::Equals(VerifiedRowData ^ object)

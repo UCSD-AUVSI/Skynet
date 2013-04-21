@@ -228,13 +228,18 @@ String ^ SkynetController::saveCurrentFrameAsImage()
 void SkynetController::saveCurrentFrameAsUnverified()
 {
 	ImageWithPlaneData ^ stateOfPlane = theWatcher->getState();
+	String ^ filename = HTTP_SERVER_TARGET_PATH + "img_" + DateTime::Now.ToString("o")->Replace(":", "-") + ".jpg";
 	cv::Mat image = *(stateOfPlane->image);
 
-	// save current image to a file
-	String ^ pathbase = HTTP_SERVER_TARGET_PATH;
-	String ^ filename = "img_" + DateTime::Now.ToString("o")->Replace(":", "-") + ".jpg";
-
-	cv::imwrite(std::string((const char*)Marshal::StringToHGlobalAnsi(pathbase + filename).ToPointer()),image);
+	/**
+	 * If the image is based on a file on the disk, copy the file using the Windows API.
+	 * Otherwise, use OpenCV.
+	 */
+	if (String::IsNullOrEmpty(stateOfPlane->imageFilename)){
+		cv::imwrite(std::string((const char*)Marshal::StringToHGlobalAnsi(filename).ToPointer()),image);
+	} else {
+		File::Copy(stateOfPlane->imageFilename, filename, true);
+	}
 
 	// insert data into database
 	int width = image.cols;
@@ -243,13 +248,6 @@ void SkynetController::saveCurrentFrameAsUnverified()
 	int originY = 0;
 	auto unverified = gcnew UnverifiedRowData(stateOfPlane, originX, originY, width, height);
 	unverified->candidate->imageName = filename;
-
-	//auto dialog = gcnew DialogEditingData(unverified);
-	//dialog->imageName = filename;
-	//dialog->dataWidth = width;
-	//dialog->dataHeight = height;
-	//dialog->targetX = originX;
-	//dialog->targetY = originY;
 
 	auto saveDelegate = gcnew Delegates::unverifiedRowDataToVoid(this, &SkynetController::addUnverified );
 

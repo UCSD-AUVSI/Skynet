@@ -315,7 +315,7 @@ Saliency::analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool debug
 			String ^path = HTTP_SERVER_TARGET_PATH + imageName;
 
 			CandidateRowData ^ candidateData = gcnew CandidateRowData(state,leftCorner,topCorner,blobWidth,blobHeight);
-			candidateData->imageName = imageName;
+			candidateData->imageName = path;
 				
 			cv::imwrite(managedToSTL(path),blobImg);
 			
