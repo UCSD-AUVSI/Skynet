@@ -38,7 +38,6 @@ namespace Vision {
         String ^ countColors(cv::Mat img);
         String ^ averageColors(const std::vector<Color_Util::Pix>& colors);
         String ^ mapToName(double avgRed, double avgGreen, double avgBlue);
-		double calculateTargetOrientationDegrees();
 
 		String ^ filename;
 		static TessWrapper ^tessOCR;

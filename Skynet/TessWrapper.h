@@ -23,26 +23,26 @@ namespace Vision {
 	public:
 		String ^str;
 		float conf;
+		float rotationDegrees;
 		
-		TessOCRAttempt(String ^ s, float c)
+		TessOCRAttempt(String ^ str, float conf, float rotationDegrees): 
+			str(str), conf(conf), rotationDegrees(rotationDegrees)
 		{
-			str = s;
-			conf = c;
 		}
 
-		void replaceIfBetter(TessOCRAttempt ^ candidate)
+		/**
+		 * TODO: This should return a pointer to the better attempt
+		 */
+		void replaceIfBetter(TessOCRAttempt ^ other)
 		{
-			replaceIfBetter(candidate->str, candidate->conf);
-		}
-
-		void replaceIfBetter(String ^ s, float c)
-		{
-			if (conf < 0.0f || c < conf)
+			if (this->conf < 0.0f || this-> < other->conf)
 			{
-				conf = c;
-				str = s;
+				this->conf = other->conf;
+				this->str = other->str;
+				this->rotationDegrees = other->rotationDegrees;
 			}
 		}
+
 	};
 
 	ref class TessWrapper
@@ -50,7 +50,7 @@ namespace Vision {
 	public:
 		TessWrapper(void);
 		
-		String ^computeImage(cv::Mat blackWhiteImg);
+		Tuple2<String^, double>^ computeImage(cv::Mat blackWhiteImg);
 
 	private:
 		tessnet2::Tesseract ^ ocr;

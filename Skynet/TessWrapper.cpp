@@ -33,24 +33,22 @@ TessWrapper::TessWrapper(void)
 	ocr->Init(TESSDATA_DIRECTORY, lang, false);
 }
 
-String ^
+Tuple2<String^, double>^ 
 TessWrapper::computeImage(cv::Mat blackWhiteImg) 
 {
 	if (blackWhiteImg.rows == 0 || blackWhiteImg.cols == 0)
 		return "-";
 
-	TessOCRAttempt ^bestResult = gcnew TessOCRAttempt("", -1);
+	TessOCRAttempt ^bestResult = gcnew TessOCRAttempt("", -1, 0);
 	float maxRotation = 360.0f;
 	float rotationStep = 20.0f;
 	for (float rotation = 0.0f; rotation < maxRotation; rotation += rotationStep)
 	{
 		TessOCRAttempt ^attemptResult = attemptOCRForRotation(blackWhiteImg, rotation);
 		bestResult->replaceIfBetter(attemptResult);
-
-		//PRINT(rotation + ": " + attemptResult->str + " <-> " + attemptResult->conf);
 	}
 
-	return bestResult->str;
+	return gcnew Tuple2<String^, double>(bestResult->str,bestResult->rotationDegrees);
 }
 
 TessOCRAttempt ^TessWrapper::attemptOCRForRotation(cv::Mat img, float rotation)
@@ -62,7 +60,7 @@ TessOCRAttempt ^TessWrapper::attemptOCRForRotation(cv::Mat img, float rotation)
 	List<tessnet2::Word ^> ^results = ocr->DoOCR(bmp, Rectangle::Empty);
 	sortResultsByConfidence(results);
 
-	return gcnew TessOCRAttempt(results[0]->Text, (float)results[0]->Confidence);
+	return gcnew TessOCRAttempt(results[0]->Text, (float)results[0]->Confidence, rotation);
 }
 
 cv::Mat TessWrapper::rotateImage(const cv::Mat& source, double angle)

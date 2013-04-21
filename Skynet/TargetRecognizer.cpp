@@ -59,13 +59,14 @@ TargetRecognizer::doRecognition()
 	String ^ shape = recognizeShape();
 
 	segmentLetter();
-	String ^ letter = recognizeLetter();
+	Tuple2<String^, double>^ letterAndRotation = recognizeLetterAndRotation();
+	
+	String^ letter = letterAndRotation->Item1;
+	double rotationDegrees = letterAndRotation->Item2;
 
     String ^ color = recognizeColor(mColorImg->o());
 
-	double targetOrientationDegrees = calculateTargetOrientationDegrees();
-	
-	return gcnew TargetResult(letter, shape, color, targetOrientationDegrees);
+	return gcnew TargetResult(letter, shape, color, rotationDegrees);
 }
 
 void 
@@ -135,16 +136,19 @@ TargetRecognizer::letterIsValid()
 	return letterIsLarge;
 }
 
-String ^ 
-TargetRecognizer::recognizeLetter(cv::Mat img)
+Tuple2<String2, double> ^ 
+TargetRecognizer::recognizeLetterAndRotationDegrees(cv::Mat img)
 {
+	// TODO: No locks!
 	lock l(tessOCR);
-	String ^ letter = tessOCR->computeImage(img)->ToLower();
-	bool guessIsInvalid = letter == nullptr || letter->Length != 1 || letter->Equals("~");
+	Tuple2<String^,double>^ letterAndRotation = tessOCR->computeImage(img);
+	String^ letter = letterAndRotation->Item1;
+	double rotationDegrees = letterAndRotation->Item2;
+	bool guessIsInvalid = letterAndRotation == nullptr || letter->Length != 1 || letter->Equals("~");
 	if (guessIsInvalid)
 		return nullptr;
 	else
-		return "" + letter;
+		return letterAndRotation;
 }
 
 String ^
