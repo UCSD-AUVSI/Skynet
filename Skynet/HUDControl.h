@@ -34,9 +34,12 @@ namespace Skynet {
 			setIntendedCameraZoom(1.0f, false);
 			
 			_redrawHUDdelegate = gcnew Delegates::voidToVoid( this, &HUDControl::redraw );
-			bkgd = Image::FromFile( DROPBOX_DIR + "Skynet\\Skynet\\HUDbg.png" );
-			dot = Image::FromFile( DROPBOX_DIR + "Skynet\\Skynet\\HUDdot.png" );
-			outline = Image::FromFile( DROPBOX_DIR + "Skynet\\Skynet\\HUDoutline.png" );
+			/**
+			 * TODO: These should be embedded in Skynet.exe
+			 */
+			bkgd = Image::FromFile( "ui_images\\HUDbg.png" );
+			dot = Image::FromFile( "ui_images\\HUDdot.png" );
+			outline = Image::FromFile( "ui_images\\HUDoutline.png" );
 
 			this->BackgroundImage = bkgd;
 			this->Paint += gcnew System::Windows::Forms::PaintEventHandler( this, &HUDControl::paintHUD );

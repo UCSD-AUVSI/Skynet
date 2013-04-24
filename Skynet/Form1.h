@@ -48,9 +48,6 @@ Add the following to the end of those files
 #include <math.h>
 #include "Tester.h"
 
-#define GREEN_IMAGE_PATH (DROPBOX_DIR + "Skynet\\Skynet\\greenled.png")
-#define RED_IMAGE_PATH (DROPBOX_DIR + "Skynet\\Skynet\\redled.png")
-#define YELLOW_IMAGE_PATH (DROPBOX_DIR + "Skynet\\Skynet\\yellowled.png")
 #define VERIFIED_LOCK_ON_COLUMN 10
 
 	// row indexes for comport data
@@ -375,7 +372,7 @@ public:
 
 			// Logging			
 			DateTime timeTemp = DateTime::Now;
-			logFile = File::Create( "C:\\Skynet Logs\\" + timeTemp.ToString("o")->Replace(":", "-") + ".txt" );
+			logFile = File::Create( SKYNET_LOG_DIR + timeTemp.ToString("o")->Replace(":", "-") + ".txt" );
 
 			// Set up metadata Table
 			this->metadataTable->Rows->Add("Airplane Data", "---");
@@ -399,9 +396,12 @@ public:
 			isconnected = false;
 			isConnecting = false;
 
-			redImage = Image::FromFile( RED_IMAGE_PATH );
-			yellowImage = Image::FromFile( YELLOW_IMAGE_PATH );
-			greenImage = Image::FromFile( GREEN_IMAGE_PATH );
+			/**
+			 * TODO: These should be part of Skynet.exe
+			 */
+			redImage = Image::FromFile("ui_images\\redled.png");
+			yellowImage = Image::FromFile("ui_images\\redled.png");
+			greenImage = Image::FromFile("ui_images\\redled.png");
 
 			consoleMessage("... Skynet online", Color::Orange);
 			
