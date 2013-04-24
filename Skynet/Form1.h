@@ -2039,6 +2039,13 @@ private: void AddText( Stream^ fs, String^ value )
    fs->Write( info, 0, info->Length );
 }
 
+//helper method to pass in arguments
+private: void PassInArguments(ImageWithPlaneData^ data){
+	double al = data->altitude;
+	double la = data->latitude;
+	double lo = data->longitude;
+	
+}
 public: System::Void updateIntendedGimbalPosition( float rollDegrees, float pitchDegrees )
 		{
 			if (rollDegrees > -360.0f && rollDegrees < 360.0f && pitchDegrees > -360.0f && pitchDegrees < 360.0f)
@@ -2063,9 +2070,8 @@ public: System::Void updateTable(ImageWithPlaneData^ data)
 			this->metadataTable[1, A_ROLL]->Value = "" + data->roll + "*"; // roll;
 			this->metadataTable[1, A_PITCH]->Value = "" + data->pitch + "*"; //pitch;
 			
-			 gimbalHUDView->setGimbalPosition( (float)data->gimbalRoll, (float)data->gimbalPitch, false );
+			gimbalHUDView->setGimbalPosition( (float)data->gimbalRoll, (float)data->gimbalPitch, false );
 		}
-
 
 private: System::Void mapnikToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 mapnikToolStripMenuItem->Checked = true;

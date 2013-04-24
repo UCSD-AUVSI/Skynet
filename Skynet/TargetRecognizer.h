@@ -3,6 +3,7 @@
 #include <cv.h>
 #include <highgui.h>
 #include "VisionUtil.h"
+#include "Color_Util.h"
 
 namespace Vision {
 	
@@ -34,10 +35,10 @@ namespace Vision {
 		void segmentLetter();
 		String ^ recognizeLetter();
 		bool letterIsValid();
-        String ^ recognizeColor(cv::Mat img);
-        String ^ countColors(cv::Mat img);
-        String ^ averageColors(const std::vector<Color_Util::Pix>& colors);
-        String ^ mapToName(double avgRed, double avgGreen, double avgBlue);
+        //String ^ recognizeColor(cv::Mat img);
+        //String ^ countColors(cv::Mat img);
+        //String ^ averageColors(const std::vector<Color_Util::Pix>& colors);
+        //String ^ mapToName(double avgRed, double avgGreen, double avgBlue);
 		double calculateTargetOrientationDegrees();
 
 		String ^ filename;

@@ -33,7 +33,7 @@ void MarshalString ( String ^ s, std::string& os ) {
    os = chars;
    Marshal::FreeHGlobal(IntPtr((void*)chars));
 }
-
+/*
 ImageWithPlaneData::ImageWithPlaneData(ImageWithPlaneData^ other) :
 	imageFilename(other->imageFilename),
 	image(other->image),
@@ -68,6 +68,7 @@ ImageWithPlaneData::ImageWithPlaneData(String ^ imageFilename, String ^data) {
 	yVelocity = Convert::ToDouble(vars[9]) / 1000;
 	zVelocity = Convert::ToDouble(vars[10]) / 1000;
 }
+*/
 
 String ^ PlaneDataReceiver::extractFilename(String^ path){
 	auto segments = path->Split('\\');

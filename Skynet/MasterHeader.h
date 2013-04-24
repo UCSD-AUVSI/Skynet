@@ -25,6 +25,9 @@
 #define VERY_LOW_NUMBER -1e6 // is -1,000,000
 #define VERY_LARGE_NUMBER 1e6 // is 1,000,000
 
+#define PYTHON_EXECUTABLE_PATH "C:\\Python27\\Python.exe"
+#define PATHFINDER_SCRIPT_PATH "C:\\pathfinder\\pathfinder.py"
+
 
 #define FIELD_ALTITUDE 156.5
 

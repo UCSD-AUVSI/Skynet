@@ -52,6 +52,7 @@ namespace Skynet
 		SkynetController(Form1 ^ mainView);
 		~SkynetController(void);
 
+		void startIntelligenceController(array<System::String^> ^fieldBoundaries);
 		void comeAlive(); // called when the GUI is all set up, and Skynet is ready to begin flight ops
 
 		void setCameraView(System::Windows::Forms::PictureBox ^ cameraView);
@@ -71,8 +72,8 @@ namespace Skynet
 		void updateVerifiedTableFromDatabaseAtInterval(Object ^ interval);
 		void loadUnverifiedTableFromDisk();
 		void clearAllTables();
-		void restartIntelligenceController(array<System::String ^>^ fieldBoundaries);
-		void createIntelligenceController(array<System::String^>^ fieldBoundaries);
+		//void restartIntelligenceController(array<System::String ^>^ fieldBoundaries);
+		//void createIntelligenceController(array<System::String^>^ fieldBoundaries);
 
 		System::String ^ saveCurrentFrameAsImage();
 		System::String ^ saveCurrentFrameAsImage(System::String ^ basePath);
@@ -97,12 +98,14 @@ namespace Skynet
 		void pathfinderComplete(System::Drawing::Image ^ image);
 		void processPlaneData(ImageWithPlaneData^ imageWithPlaneData);
 
+		void handlePathfinderResult(System::String^ result);
+
 		array<Database::UnverifiedRowData ^>^ getAllUnverified();
 		Database::CandidateRowData ^ candidateWithID(System::String ^ id);
 		Database::UnverifiedRowData ^ unverifiedWithID(System::String ^ id);
 		Database::VerifiedRowData ^ verifiedWithID(System::String ^ id);
 		// Intelligence::Autosearch ^ getAutosearch();
-		Intelligence::IntelligenceController ^ getIntelligenceController();
+		//Intelligence::IntelligenceController ^ getIntelligenceController();
 		void setSimHandler(Simulator::SimHandler ^ simHandler)
 		{
 			this->simHandler = simHandler;

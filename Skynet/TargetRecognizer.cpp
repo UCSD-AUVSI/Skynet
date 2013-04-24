@@ -7,7 +7,7 @@
 #include "Auvsi_Recognize.h"
 #include "VisionUtil.h"
 #include "OCRWrapper.h"
-#include "Color_Util.h"
+//#include "Color_Util.h"
 
 using namespace Vision;
 using namespace System;
@@ -61,11 +61,11 @@ TargetRecognizer::doRecognition()
 	segmentLetter();
 	String ^ letter = recognizeLetter();
 
-    String ^ color = recognizeColor(mColorImg->o());
+    String ^ color = "TODO";//recognizeColor(mColorImg->o());
 
 	double targetOrientationDegrees = calculateTargetOrientationDegrees();
 	
-	return gcnew TargetResult(letter, shape, color, targetOrientationDegrees);
+	return gcnew TargetResult(letter, shape, targetOrientationDegrees);
 }
 
 void 
@@ -147,6 +147,7 @@ TargetRecognizer::recognizeLetter(cv::Mat img)
 		return "" + letter;
 }
 
+/*
 String ^
 TargetRecognizer::recognizeColor(cv::Mat img)
 {
@@ -228,4 +229,4 @@ TargetRecognizer::mapToName(double avgRed, double avgGreen, double avgBlue) {
 
     return colorDict[index].name;
 }
-
+*/
