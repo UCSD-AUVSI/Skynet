@@ -686,8 +686,7 @@ DatabaseConnection::DatabaseConnection()
 	}
 
 	catch(Exception ^ e) {
-		System::Diagnostics::Trace::WriteLine("ERROR in DatabaseConnection::DatabaseConnection(): Could not connect to database - " + e);
-		throw gcnew Exception("WTF");
+		throw gcnew Exception("ERROR in DatabaseConnection::DatabaseConnection(): Could not connect to database - " + e);
 	}
 }
 

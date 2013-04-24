@@ -37,7 +37,6 @@ Add the following to the end of those files
 #include "TargetDialog.h"
 #include "HUDControl.h"
 #include "Saliency.h"
-#include "OCRWrapper.h"
 #include "SimHandler.h"
 #include "PlaneWatcher.h"
 #include "SkynetController.h"

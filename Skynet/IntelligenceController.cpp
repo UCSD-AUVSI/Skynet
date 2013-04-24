@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "IntelligenceController.h"
 #include "../Pathfinding/Autosearch.h"
-#include "../Pathfinding/Pathfinder.h"
 #include "SkynetController.h"
 #include "MasterHeader.h"
 #include "ImageWithPlaneData.h"
@@ -22,7 +21,7 @@ ProcessStartInfo^ IntelligenceController::getPathfinderProcessInfo()
 	return processInfo;
 }
 
-String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInfo, GPSCoord planeData, array<String^>^ fieldBoundaries) {
+String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInfo, array<String^>^ fieldBoundaries) {
 	Diagnostics::Process ^finder = Diagnostics::Process::Start(processInfo);
 	for each (String^ line in fieldBoundaries){
 		finder->StandardInput->WriteLine(line);

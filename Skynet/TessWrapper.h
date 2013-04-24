@@ -35,7 +35,7 @@ namespace Vision {
 		 */
 		void replaceIfBetter(TessOCRAttempt ^ other)
 		{
-			if (this->conf < 0.0f || this-> < other->conf)
+			if (this->conf < 0.0f || this->conf < other->conf)
 			{
 				this->conf = other->conf;
 				this->str = other->str;
@@ -50,7 +50,7 @@ namespace Vision {
 	public:
 		TessWrapper(void);
 		
-		Tuple2<String^, double>^ computeImage(cv::Mat blackWhiteImg);
+		System::Tuple<String^, double>^ computeImage(cv::Mat blackWhiteImg);
 
 	private:
 		tessnet2::Tesseract ^ ocr;

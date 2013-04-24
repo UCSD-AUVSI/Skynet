@@ -33,11 +33,11 @@ TessWrapper::TessWrapper(void)
 	ocr->Init(TESSDATA_DIRECTORY, lang, false);
 }
 
-Tuple2<String^, double>^ 
+Tuple<String^, double>^ 
 TessWrapper::computeImage(cv::Mat blackWhiteImg) 
 {
 	if (blackWhiteImg.rows == 0 || blackWhiteImg.cols == 0)
-		return "-";
+		return gcnew Tuple<String^, double>("-", 0);
 
 	TessOCRAttempt ^bestResult = gcnew TessOCRAttempt("", -1, 0);
 	float maxRotation = 360.0f;
@@ -48,7 +48,7 @@ TessWrapper::computeImage(cv::Mat blackWhiteImg)
 		bestResult->replaceIfBetter(attemptResult);
 	}
 
-	return gcnew Tuple2<String^, double>(bestResult->str,bestResult->rotationDegrees);
+	return gcnew Tuple<String^, double>(bestResult->str,bestResult->rotationDegrees);
 }
 
 TessOCRAttempt ^TessWrapper::attemptOCRForRotation(cv::Mat img, float rotation)

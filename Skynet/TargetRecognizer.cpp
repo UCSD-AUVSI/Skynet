@@ -6,7 +6,7 @@
 #include <msclr/lock.h>
 #include "Auvsi_Recognize.h"
 #include "VisionUtil.h"
-#include "OCRWrapper.h"
+#include "TargetResult.h"
 //#include "Color_Util.h"
 
 using namespace Vision;
@@ -59,14 +59,15 @@ TargetRecognizer::doRecognition()
 	String ^ shape = recognizeShape();
 
 	segmentLetter();
-	Tuple2<String^, double>^ letterAndRotation = recognizeLetterAndRotation();
+	Tuple<String^, double>^ letterAndRotation = recognizeLetterAndRotationDegrees();
 	
 	String^ letter = letterAndRotation->Item1;
 	double rotationDegrees = letterAndRotation->Item2;
 
-    String ^ color = "TODO";//recognizeColor(mColorImg->o());
+	String^ letterColor = "TODO";
+	String^ shapeColor = "TODO";
 
-	return gcnew TargetResult(letter, shape, color, rotationDegrees);
+	return gcnew TargetResult(letter, shape, letterColor, shapeColor, rotationDegrees);
 }
 
 void 
@@ -102,11 +103,6 @@ TargetRecognizer::recognizeShape()
 	return shapeRecognizer->recognizeShape(shapeSquare);
 }
 
-double
-TargetRecognizer::calculateTargetOrientationDegrees(){
-	return 0; // TODO: Implement
-}
-
 void 
 TargetRecognizer::segmentLetter()
 {
@@ -117,12 +113,12 @@ TargetRecognizer::segmentLetter()
 		saveImage(letter, filename + "_b_letter.jpg");
 }
 
-String ^ 
-TargetRecognizer::recognizeLetter()
+Tuple<String^, double>^
+TargetRecognizer::recognizeLetterAndRotationDegrees()
 {
 	if (!letterIsValid())
 		return nullptr;
-	return recognizeLetter(mLetterImg->o());
+	return recognizeLetterAndRotationDegrees(mLetterImg->o());
 }
 
 bool 
@@ -136,12 +132,12 @@ TargetRecognizer::letterIsValid()
 	return letterIsLarge;
 }
 
-Tuple2<String2, double> ^ 
+Tuple<String^, double> ^ 
 TargetRecognizer::recognizeLetterAndRotationDegrees(cv::Mat img)
 {
 	// TODO: No locks!
 	lock l(tessOCR);
-	Tuple2<String^,double>^ letterAndRotation = tessOCR->computeImage(img);
+	Tuple<String^,double>^ letterAndRotation = tessOCR->computeImage(img);
 	String^ letter = letterAndRotation->Item1;
 	double rotationDegrees = letterAndRotation->Item2;
 	bool guessIsInvalid = letterAndRotation == nullptr || letter->Length != 1 || letter->Equals("~");

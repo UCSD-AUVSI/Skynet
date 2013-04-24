@@ -111,8 +111,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>OCR;C:\opencv_src\build\include\opencv;C:\opencv_src\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\opencv\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Tesseract-OCR\include\leptonica;OCR;C:\opencv_src\build\include\opencv;C:\opencv_src\build\include;C:\Program Files %28x86%29\Tesseract-OCR\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Tesseract-OCR\lib;C:\opencv_build\lib\Release;$(LibraryPath)</LibraryPath>
     <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">
@@ -204,10 +204,10 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>comsuppw.lib;opengl32.lib;glu32.lib;opencv_core244.lib;opencv_highgui244.lib;opencv_video244.lib;opencv_ml244.lib;opencv_legacy244.lib;opencv_imgproc244.lib;opencv_objdetect244.lib;opencv_gpu244.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppw.lib;opengl32.lib;glu32.lib;opencv_core245.lib;opencv_highgui245.lib;opencv_video245.lib;opencv_ml245.lib;opencv_legacy245.lib;opencv_imgproc245.lib;opencv_objdetect245.lib;opencv_gpu245.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <AdditionalLibraryDirectories>C:\opencv\lib\Release;..\Skynet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Zack\Documents\GitHub\Skynet-NoSaliency\Tessnet2;C:\Program Files %28x86%29\Tesseract-OCR\lib;C:\opencv\lib\Release;..\Skynet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ForceSymbolReferences>%(ForceSymbolReferences)</ForceSymbolReferences>
     </Link>
     <Midl>
@@ -288,8 +288,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="tessnet2_64, Version=2.0.4.0, Culture=neutral, PublicKeyToken=1550524b5ba07e29">
-      <HintPath>..\TessCompute\Release64\tessnet2_64.dll</HintPath>
+    <Reference Include="tessnet2_64">
+      <HintPath>..\Tessnet2\tessnet2_64.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -330,7 +330,9 @@
     <ClCompile Include="GeoReference.cpp" />
     <ClCompile Include="HistogramSegmenter.cpp" />
     <ClCompile Include="IntelligenceController.cpp" />
-    <ClCompile Include="LetterTester.cpp" />
+    <ClCompile Include="LetterTester.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="MapControl.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
@@ -345,7 +347,9 @@
     </ClCompile>
     <ClCompile Include="TessWrapper.cpp" />
     <ClCompile Include="VisionUtil.cpp" />
-    <ClCompile Include="OCRWrapper.cpp" />
+    <ClCompile Include="OCRWrapper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="OCR\Auvsi_cvUtil.cpp" />
     <ClCompile Include="OCR\Auvsi_DualTree.cpp" />
     <ClCompile Include="OCR\Auvsi_Fft.cpp" />
@@ -429,11 +433,12 @@
     <ClInclude Include="HistogramSegmenter.h" />
     <ClInclude Include="HUDControl.h" />
     <ClInclude Include="ImageWithPlaneData.h" />
-    <ClInclude Include="LetterTester.h" />
+    <ClInclude Include="LetterTester.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="MapControl.h" />
     <ClInclude Include="MasterHeader.h" />
     <ClInclude Include="OCRTester.h" />
-    <ClInclude Include="OCRWrapper.h" />
     <ClInclude Include="OCR\Auvsi_cvUtil.h" />
     <ClInclude Include="OCR\Auvsi_DualTree.h" />
     <ClInclude Include="OCR\Auvsi_Fft.h" />
@@ -500,6 +505,11 @@
     <EmbeddedResource Include="TargetDialog.resx">
       <DependentUpon>TargetDialog.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="X64\Release\PlaneDataReceiver.obj" />
+    <Object Include="X64\Release\RealPlaneDataReceiver.obj" />
+    <Object Include="X64\Release\SimulatorPlaneDataReceiver.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

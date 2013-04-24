@@ -3,11 +3,13 @@
 #include "DuplicateResolver.h"
 #include "MasterHeader.h"
 #include "Saliency.h"
-#include "OCRWrapper.h"
 #include "ImageWithPlaneData.h"
 #include "Util.h"
 #include "PlaneWatcher.h"
 #include "DatabaseStructures.h"
+#include "TargetRecognizer.h"
+#include "TargetResult.h"
+
 
 using namespace Vision;
 using namespace System;
@@ -43,7 +45,7 @@ VisionController::initImagingPathway()
 {
 	duplicateResolver = gcnew DuplicateResolver(skynetController);
 	saliency = gcnew Saliency(this);
-	ocr = gcnew OCRWrapper(this);
+	recognizer = gcnew TargetRecognizer();
 }
 
 void 
@@ -118,7 +120,7 @@ VisionController::processSaliencyCandidate(CandidateRowData^ candidate)
 			return false;
 		}
 	}
-	TargetResult ^ ocrData = ocr->recognizeImage(cv::imread(managedToSTL(HTTP_SERVER_TARGET_PATH + candidate->imageName)));
+	TargetResult ^ ocrData = recognizer->recognizeTarget(cv::imread(managedToSTL(HTTP_SERVER_TARGET_PATH + candidate->imageName)));
 
 	//// handle data
 	unverified->description->shape = ocrData->shape;
