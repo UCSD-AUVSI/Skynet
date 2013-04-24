@@ -3,6 +3,7 @@
 #include <cv.h>
 #include <highgui.h>
 #include "VisionUtil.h"
+#include "Color_Util.h"
 
 namespace Vision {
 	

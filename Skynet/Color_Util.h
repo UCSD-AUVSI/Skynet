@@ -1,17 +1,26 @@
+#ifndef Color_Util
+#define Color_Util
+
+#pragma once
+#include <cv.h>
+
 namespace Color_Util {
 
-    struct Pix {
+    struct Pix{
         Pix() {count = 0;}
-        Pix(Vec3b col) {color = col; count = 1;}
-        Vec3b color;
+		Pix(cv::Vec3b col){
+			color = col; 
+			count = 1;
+		}
+		cv::Vec3b color;
         int count;
     };
 
-    struct Color {
+    struct Color{
         int red, green, blue;
         std::string name;
     };
-
+	
     double getMax(double d1, double d2, double d3) {
         if(d1 > d2 && d1 > d3) return d1; 
         if(d2 > d1 && d2 > d3) return d2;
@@ -94,4 +103,4 @@ namespace Color_Util {
         colorDict.push_back(c);
     }
 }
-
+#endif

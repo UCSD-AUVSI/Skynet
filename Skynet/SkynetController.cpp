@@ -11,6 +11,7 @@
 
 
 using namespace System;
+using namespace System::Diagnostics;
 using namespace System::Data::Odbc;
 using namespace Skynet;
 using namespace Database;
@@ -33,49 +34,26 @@ SkynetController::SkynetController(Form1 ^ mainView):
 	appIsAlive = false;
 	cameraView = nullptr;
 	theWatcher = gcnew PlaneWatcher(this);
-	visionController = gcnew VisionController(this);
+	//visionController = gcnew VisionController(this);
 	receiver = gcnew SimulatorPlaneDataReceiver("C:\\good_flight_images1", theWatcher);
 	
-	/*
-	 intelligenceController = gcnew IntelligenceController("D:\\Skynet Files\\Field Boundaries Test.txt",this);
-	 intelligenceController->updateImage();
-	 autosearch = gcnew Autosearch("D:\\Skynet Files\\Field Boundaries.txt",this);
-	 autosearch->updateImage();
-	 */
 }
 
 void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
-	visionController->receiveFrame(imageWithPlaneData);
+	if (visionController != nullptr ){
+		visionController->receiveFrame(imageWithPlaneData);
+	}
 	form1View->displayPlaneData(imageWithPlaneData);
 }
 
-void SkynetController::createIntelligenceController(array<String ^>^ fieldBoundaries)
+
+
+void SkynetController::startIntelligenceController(array<String ^>^ fieldBoundaries)
 {
-	try{
-		/*
-			FileStream ^ fs = gcnew FileStream( "D:\\Skynet Files\\Field Boundaries.txt", FileMode::Create);
-			StreamWriter ^ file = gcnew StreamWriter( fs, Encoding::UTF8 );
-			for each(String ^ fieldBoundary in fieldBoundaries)
-				file->Write(fieldBoundary + "\r\n");
-			file->Close();
-		*/
-		intelligenceController = gcnew IntelligenceController(this);
-	}catch(IOException ^)
-	{
-	}
+		intelligenceController = gcnew IntelligenceController(fieldBoundaries, this,theWatcher->getState());
 
 }
 
-void SkynetController::restartIntelligenceController(array<String ^>^ fieldBoundaries)
-{
-	FileStream ^ fs = gcnew FileStream( "D:\\Skynet Files\\Field Boundaries.txt", FileMode::Create);
-	StreamWriter ^ file = gcnew StreamWriter( fs, Encoding::UTF8 );
-	for each(String ^ fieldBoundary in fieldBoundaries)
-		file->Write(fieldBoundary + "\r\n");
-	file->Close();
-	intelligenceController->restart();
-
-}
 SkynetController::~SkynetController()
 {
 	form1View = nullptr;
@@ -83,9 +61,10 @@ SkynetController::~SkynetController()
 	theDatabase = nullptr;
 }
 
-IntelligenceController^ SkynetController::getIntelligenceController()
+void SkynetController::handlePathfinderResult(String^ result)
 {
-	return this->intelligenceController;
+	//form1View->setWayPointsText(result);
+	pathfinderComplete(gcnew Bitmap(gcnew Bitmap("output.jpg")));
 }
 
 array<GPSCoord^>^ 
@@ -584,6 +563,7 @@ void SkynetController::modifyUnverified(Database::UnverifiedRowData ^ data)
 void SkynetController::displayAutosearchImage(Image ^ image)
 {
 	try{
+		((Form1 ^)form1View)->autosearchBox->Image = image;
 		((Form1 ^)form1View)->pathfinderBox->BackgroundImage = image;
 	}catch(InvalidOperationException ^){
 		

@@ -1,5 +1,4 @@
 #include "Node.h"
-#include "Pathfinder.h"
 
 using namespace Intelligence;
 
@@ -8,8 +7,6 @@ Node::Node(int i, int j, int id, Pathfinder^ pathfinder){
 	this->i = i;
 	this->j = j;
 	this->id = id;
-	this->pathfinder = pathfinder;
-	this->coordinates = pathfinder->arrayToMeters(i,j);
 	this->x = this->coordinates->Item1;
 	this->y = this->coordinates->Item2;
 	this->children = gcnew array<Node^>(6);
