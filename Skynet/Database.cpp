@@ -999,6 +999,19 @@ DatabaseConnection::addUnverified( UnverifiedRowData ^ data)
 	return data->targetid;
 }
 
+
+int 
+DatabaseConnection::upsertVerified( VerifiedRowData ^ data) 
+{
+	if (data->submitid){
+		return addVerified(data);
+	} else {
+		modifyVerified(data);
+		return data->submitid;
+	}
+}
+	
+
 int 
 DatabaseConnection::addVerified( VerifiedRowData ^ data)
 {
@@ -1025,26 +1038,6 @@ DatabaseConnection::addVerified( VerifiedRowData ^ data)
 	data->submitid = result->GetInt32(0);
 	result->Close();
 	return data->submitid;
-}
-
-VerifiedRowData ^ 
-DatabaseConnection::addVerifiedWithDialogData(DialogEditingData ^ data)
-{
-	UnverifiedRowData^ target = unverifiedWithID("" + data->id);
-	VerifiedRowData^ verified = gcnew VerifiedRowData(target);
-
-	DescriptionRowData^ description = target->description;
-	
-	description->targetX = data->targetX;
-	description->targetY = data->targetY;
-	description->shape = data->shape;
-	description->shapeColor = data->shapeColor;
-	description->letter = data->letter;
-	description->letterColor = data->letterColor;
-	modifyDescription(description);
-	int id = addVerified(verified);
-	verified->submitid = id;
-	return verified;
 }
 
 //////////// Modify Rows ///////////////

@@ -57,27 +57,6 @@ void TargetDialog::loadUIWithData(DialogEditingData^ data)
 	else 
 		LETTER_COLOR->Text = data->letterColor;
 
-	/*
-	// change UI elements
-	switch (mode) {
-		case DialogEditingCandidate:
-			okButton->Text = "Vote";
-			clearVotingText();
-			break;
-		case DialogEditingUnverified:
-			okButton->Text = "Approve for Export";
-			buildVotingText();
-			break;
-		case DialogEditingVerified:
-			okButton->Text = "STOP: DO NOT MODIFY";
-			clearVotingText();
-			break;
-		default:
-			okButton->Text = "Shit, bro";
-			break;
-	}
-	*/
-
 	centerX = (float)data->targetX;
 	centerY = (float)data->targetY;
 
@@ -88,56 +67,15 @@ void TargetDialog::loadUIWithData(DialogEditingData^ data)
 
 }
 
-void TargetDialog::buildVotingText() 
-{
-	// TODO: implement
-}
-
-void TargetDialog::clearVotingText() 
-{
-	// TODO: implement
-}
-
 void TargetDialog::setImage(String^ imageFilename)
 {
 	imageBox->Image = Image::FromFile(imageFilename);
-
-	/*
-	//System::Diagnostics::Trace::WriteLine("TargetDialog::setImage(): setting image: " + HTTP_SERVER_TARGET_PATH + data->imageName->Remove(0, 8));
-	try
-	{
-		String ^ path;
-		switch (mode) {
-			case DialogEditingCandidate:
-				path = HTTP_SERVER_TARGET_PATH + data->imageName;
-				break;
-			case DialogEditingUnverified:
-				path = HTTP_SERVER_TARGET_PATH + data->imageName;
-				buildVotingText();
-				break;
-			case DialogEditingVerified:
-				path = HTTP_SERVER_TARGET_PATH + data->imageName;
-				clearVotingText();
-				break;
-			default:
-				okButton->Text = "Shit, bro";
-				break;
-		}
-		_targetImage = Image::FromFile( path );
-		imageBox->Image = _targetImage;
-	}
-	catch( Exception ^ e)
-	{
-		System::Diagnostics::Trace::WriteLine("ERROR: TargetDialog::setImage(): failed to set image: " + e);
-	}
-	*/
 }
 
 
 DialogEditingData^ TargetDialog::getDataFromUI()
 {
 	DialogEditingData^ data = gcnew DialogEditingData();
-	// reload text fields
 	if (!SHAPE->Text->Equals(""))
 		data->shape = SHAPE->Text;
 

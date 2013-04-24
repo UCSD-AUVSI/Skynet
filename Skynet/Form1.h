@@ -172,10 +172,13 @@ namespace Skynet {
 	private: System::Windows::Forms::FolderBrowserDialog^  vidOptChangeDirBrowserDialog;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Property;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Value;
+	private: System::Windows::Forms::DataGridView^  candidateRegionsDataGridView;
 
 
 
-	private: System::Windows::Forms::DataGridView^  dataGridView1;
+
+
+
 
 
 
@@ -286,9 +289,13 @@ private: System::Windows::Forms::PictureBox^  imageView;
 private: System::Windows::Forms::ToolStripMenuItem^  frameByFrameMenuItem;
 private: System::Windows::Forms::TextBox^  textBox1;
 private: System::Windows::Forms::TabControl^  metadataTabControl;
-private: System::Windows::Forms::TabPage^  tabPage3;
-private: System::Windows::Forms::TabPage^  tabPage4;
-private: System::Windows::Forms::DataGridView^  dataGridView2;
+private: System::Windows::Forms::TabPage^  candidatesTab;
+private: System::Windows::Forms::TabPage^  unverifiedTab;
+
+
+private: System::Windows::Forms::DataGridView^  unverifiedTargetsDataGridView;
+
+
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_IDColumn;
 private: System::Windows::Forms::DataGridViewImageColumn^  unverified_ThumbnailColumn;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_LatitudeColumn;
@@ -301,8 +308,11 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_Shape;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_ShapeColor;
 private: System::Windows::Forms::DataGridViewCheckBoxColumn^  unverified_ProcessedColumn;
 private: System::Windows::Forms::DataGridViewCheckBoxColumn^  unverified_TargetLock;
-private: System::Windows::Forms::TabPage^  tabPage5;
-private: System::Windows::Forms::DataGridView^  dataGridView3;
+private: System::Windows::Forms::TabPage^  verifiedTab;
+
+private: System::Windows::Forms::DataGridView^  verifiedTargetsDataGridView;
+
+
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_IDColumn;
 private: System::Windows::Forms::DataGridViewImageColumn^  confirmed_ThumbnailColumn;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LatitudeColumn;
@@ -388,10 +398,6 @@ public:
 			this->metadataTable->Rows->Add("Video Data", "---");
 			this->metadataTable->Rows->Add("    Zoom");
 
-			// Delegates
-			imageDialogDelegate = gcnew Delegates::twointThreedoubleToVoid( this, &Form1::imageDialogCallback );
-
-			ocrDelegate = gcnew Delegates::dataGridViewRowToVoid( this, &Form1::ocrUpdateData );
 
 			isconnected = false;
 			isConnecting = false;
@@ -513,7 +519,7 @@ public:
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->vidOptChangeDirBrowserDialog = (gcnew System::Windows::Forms::FolderBrowserDialog());
-			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->candidateRegionsDataGridView = (gcnew System::Windows::Forms::DataGridView());
 			this->candidate_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->candidate_ThumbnailColumn = (gcnew System::Windows::Forms::DataGridViewImageColumn());
 			this->candidate_LatitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -549,9 +555,9 @@ public:
 			this->imageView = (gcnew System::Windows::Forms::PictureBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->metadataTabControl = (gcnew System::Windows::Forms::TabControl());
-			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
-			this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
-			this->dataGridView2 = (gcnew System::Windows::Forms::DataGridView());
+			this->candidatesTab = (gcnew System::Windows::Forms::TabPage());
+			this->unverifiedTab = (gcnew System::Windows::Forms::TabPage());
+			this->unverifiedTargetsDataGridView = (gcnew System::Windows::Forms::DataGridView());
 			this->unverified_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->unverified_ThumbnailColumn = (gcnew System::Windows::Forms::DataGridViewImageColumn());
 			this->unverified_LatitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -564,8 +570,8 @@ public:
 			this->unverified_ShapeColor = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->unverified_ProcessedColumn = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 			this->unverified_TargetLock = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
-			this->tabPage5 = (gcnew System::Windows::Forms::TabPage());
-			this->dataGridView3 = (gcnew System::Windows::Forms::DataGridView());
+			this->verifiedTab = (gcnew System::Windows::Forms::TabPage());
+			this->verifiedTargetsDataGridView = (gcnew System::Windows::Forms::DataGridView());
 			this->confirmed_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->confirmed_ThumbnailColumn = (gcnew System::Windows::Forms::DataGridViewImageColumn());
 			this->confirmed_LatitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -580,18 +586,18 @@ public:
 			this->gimbalHUDPanel = (gcnew System::Windows::Forms::Panel());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->candidateRegionsDataGridView))->BeginInit();
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->Border))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
 			this->metadataTabControl->SuspendLayout();
-			this->tabPage3->SuspendLayout();
-			this->tabPage4->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->BeginInit();
-			this->tabPage5->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->BeginInit();
+			this->candidatesTab->SuspendLayout();
+			this->unverifiedTab->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->unverifiedTargetsDataGridView))->BeginInit();
+			this->verifiedTab->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->verifiedTargetsDataGridView))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// menuStrip1
@@ -692,7 +698,7 @@ public:
 			this->providerToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->mapnikToolStripMenuItem, 
 				this->osmarenderToolStripMenuItem, this->cyclemapToolStripMenuItem});
 			this->providerToolStripMenuItem->Name = L"providerToolStripMenuItem";
-			this->providerToolStripMenuItem->Size = System::Drawing::Size(128, 22);
+			this->providerToolStripMenuItem->Size = System::Drawing::Size(118, 22);
 			this->providerToolStripMenuItem->Text = L"Provider";
 			// 
 			// mapnikToolStripMenuItem
@@ -713,22 +719,16 @@ public:
 			// 
 			this->cyclemapToolStripMenuItem->Name = L"cyclemapToolStripMenuItem";
 			this->cyclemapToolStripMenuItem->Size = System::Drawing::Size(139, 22);
-			this->cyclemapToolStripMenuItem->Text = L"Cyclemap";
-			this->cyclemapToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::cyclemapToolStripMenuItem_Click);
 			// 
 			// lockToolStripMenuItem
 			// 
 			this->lockToolStripMenuItem->Name = L"lockToolStripMenuItem";
-			this->lockToolStripMenuItem->Size = System::Drawing::Size(128, 22);
-			this->lockToolStripMenuItem->Text = L"Lock";
-			this->lockToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::lockToolStripMenuItem_Click);
+			this->lockToolStripMenuItem->Size = System::Drawing::Size(118, 22);
 			// 
 			// downloadToolStripMenuItem
 			// 
 			this->downloadToolStripMenuItem->Name = L"downloadToolStripMenuItem";
-			this->downloadToolStripMenuItem->Size = System::Drawing::Size(128, 22);
-			this->downloadToolStripMenuItem->Text = L"Download";
-			this->downloadToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::downloadToolStripMenuItem_Click);
+			this->downloadToolStripMenuItem->Size = System::Drawing::Size(118, 22);
 			// 
 			// databaseToolStripMenuItem
 			// 
@@ -884,21 +884,20 @@ public:
 			// 
 			this->vidOptChangeDirBrowserDialog->Description = L"Select Video Output Directory";
 			// 
-			// dataGridView1
+			// candidateRegionsDataGridView
 			// 
-			this->dataGridView1->AllowUserToAddRows = false;
-			this->dataGridView1->AllowUserToDeleteRows = false;
-			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->candidate_IDColumn, 
+			this->candidateRegionsDataGridView->AllowUserToAddRows = false;
+			this->candidateRegionsDataGridView->AllowUserToDeleteRows = false;
+			this->candidateRegionsDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->candidateRegionsDataGridView->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->candidate_IDColumn, 
 				this->candidate_ThumbnailColumn, this->candidate_LatitudeColumn, this->canidate_LongitudeColumn, this->candidate_VerifiedColumn, 
 				this->processed});
-			this->dataGridView1->Location = System::Drawing::Point(-4, 0);
-			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->RowTemplate->Height = 64;
-			this->dataGridView1->Size = System::Drawing::Size(804, 269);
-			this->dataGridView1->TabIndex = 0;
-			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView1_CellContentClick);
-			this->dataGridView1->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView1_CellDoubleClick);
+			this->candidateRegionsDataGridView->Location = System::Drawing::Point(-4, 0);
+			this->candidateRegionsDataGridView->Name = L"candidateRegionsDataGridView";
+			this->candidateRegionsDataGridView->RowTemplate->Height = 64;
+			this->candidateRegionsDataGridView->Size = System::Drawing::Size(804, 269);
+			this->candidateRegionsDataGridView->TabIndex = 0;
+			this->candidateRegionsDataGridView->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::candidateRegionsDataGridView_CellDoubleClick);
 			// 
 			// candidate_IDColumn
 			// 
@@ -976,7 +975,6 @@ public:
 			this->button4->TabIndex = 18;
 			this->button4->Text = L"Connect";
 			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Click += gcnew System::EventHandler(this, &Form1::button4_Click);
 			// 
 			// label9
 			// 
@@ -1138,7 +1136,6 @@ public:
 			this->mapBoundariesTextBox->Name = L"mapBoundariesTextBox";
 			this->mapBoundariesTextBox->Size = System::Drawing::Size(225, 211);
 			this->mapBoundariesTextBox->TabIndex = 41;
-			this->mapBoundariesTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::mapBoundariesTextBox_TextChanged);
 			// 
 			// generateMapButton
 			// 
@@ -1197,56 +1194,55 @@ public:
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(225, 126);
 			this->textBox1->TabIndex = 48;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
 			// 
 			// metadataTabControl
 			// 
-			this->metadataTabControl->Controls->Add(this->tabPage3);
-			this->metadataTabControl->Controls->Add(this->tabPage4);
-			this->metadataTabControl->Controls->Add(this->tabPage5);
+			this->metadataTabControl->Controls->Add(this->candidatesTab);
+			this->metadataTabControl->Controls->Add(this->unverifiedTab);
+			this->metadataTabControl->Controls->Add(this->verifiedTab);
 			this->metadataTabControl->Location = System::Drawing::Point(849, 660);
 			this->metadataTabControl->Name = L"metadataTabControl";
 			this->metadataTabControl->SelectedIndex = 0;
 			this->metadataTabControl->Size = System::Drawing::Size(845, 239);
 			this->metadataTabControl->TabIndex = 49;
 			// 
-			// tabPage3
+			// candidatesTab
 			// 
-			this->tabPage3->Controls->Add(this->dataGridView1);
-			this->tabPage3->Location = System::Drawing::Point(4, 22);
-			this->tabPage3->Name = L"tabPage3";
-			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage3->Size = System::Drawing::Size(837, 213);
-			this->tabPage3->TabIndex = 0;
-			this->tabPage3->Text = L"Candidate Regions";
-			this->tabPage3->UseVisualStyleBackColor = true;
-			this->tabPage3->Click += gcnew System::EventHandler(this, &Form1::tabPage3_Click);
+			this->candidatesTab->Controls->Add(this->candidateRegionsDataGridView);
+			this->candidatesTab->Location = System::Drawing::Point(4, 22);
+			this->candidatesTab->Name = L"candidatesTab";
+			this->candidatesTab->Padding = System::Windows::Forms::Padding(3);
+			this->candidatesTab->Size = System::Drawing::Size(837, 213);
+			this->candidatesTab->TabIndex = 0;
+			this->candidatesTab->Text = L"Candidate Regions";
+			this->candidatesTab->UseVisualStyleBackColor = true;
 			// 
-			// tabPage4
+			// unverifiedTab
 			// 
-			this->tabPage4->Controls->Add(this->dataGridView2);
-			this->tabPage4->Location = System::Drawing::Point(4, 22);
-			this->tabPage4->Name = L"tabPage4";
-			this->tabPage4->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage4->Size = System::Drawing::Size(837, 213);
-			this->tabPage4->TabIndex = 1;
-			this->tabPage4->Text = L"Unconfirmed Targets";
-			this->tabPage4->UseVisualStyleBackColor = true;
+			this->unverifiedTab->Controls->Add(this->unverifiedTargetsDataGridView);
+			this->unverifiedTab->Location = System::Drawing::Point(4, 22);
+			this->unverifiedTab->Name = L"unverifiedTab";
+			this->unverifiedTab->Padding = System::Windows::Forms::Padding(3);
+			this->unverifiedTab->Size = System::Drawing::Size(837, 213);
+			this->unverifiedTab->TabIndex = 1;
+			this->unverifiedTab->Text = L"Unverified Targets";
+			this->unverifiedTab->UseVisualStyleBackColor = true;
 			// 
-			// dataGridView2
+			// unverifiedTargetsDataGridView
 			// 
-			this->dataGridView2->AllowUserToAddRows = false;
-			this->dataGridView2->AllowUserToDeleteRows = false;
-			this->dataGridView2->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView2->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(12) {this->unverified_IDColumn, 
+			this->unverifiedTargetsDataGridView->AllowUserToAddRows = false;
+			this->unverifiedTargetsDataGridView->AllowUserToDeleteRows = false;
+			this->unverifiedTargetsDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->unverifiedTargetsDataGridView->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(12) {this->unverified_IDColumn, 
 				this->unverified_ThumbnailColumn, this->unverified_LatitudeColumn, this->unverified_LongitudeColumn, this->unverified_HeadingColumn, 
 				this->unverified_CenterPixel, this->unverfied_LetterColumn, this->unverified_LetterColor, this->unverified_Shape, this->unverified_ShapeColor, 
 				this->unverified_ProcessedColumn, this->unverified_TargetLock});
-			this->dataGridView2->Location = System::Drawing::Point(6, 6);
-			this->dataGridView2->Name = L"dataGridView2";
-			this->dataGridView2->RowTemplate->Height = 64;
-			this->dataGridView2->Size = System::Drawing::Size(1254, 269);
-			this->dataGridView2->TabIndex = 0;
+			this->unverifiedTargetsDataGridView->Location = System::Drawing::Point(6, 6);
+			this->unverifiedTargetsDataGridView->Name = L"unverifiedTargetsDataGridView";
+			this->unverifiedTargetsDataGridView->RowTemplate->Height = 64;
+			this->unverifiedTargetsDataGridView->Size = System::Drawing::Size(1254, 269);
+			this->unverifiedTargetsDataGridView->TabIndex = 0;
+			this->unverifiedTargetsDataGridView->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::unverifiedTargetsDataGridView_CellDoubleClick);
 			// 
 			// unverified_IDColumn
 			// 
@@ -1322,32 +1318,33 @@ public:
 			this->unverified_TargetLock->Name = L"unverified_TargetLock";
 			this->unverified_TargetLock->ReadOnly = true;
 			// 
-			// tabPage5
+			// verifiedTab
 			// 
-			this->tabPage5->Controls->Add(this->dataGridView3);
-			this->tabPage5->Location = System::Drawing::Point(4, 22);
-			this->tabPage5->Name = L"tabPage5";
-			this->tabPage5->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage5->Size = System::Drawing::Size(837, 213);
-			this->tabPage5->TabIndex = 2;
-			this->tabPage5->Text = L"Confirmed Targets";
-			this->tabPage5->UseVisualStyleBackColor = true;
+			this->verifiedTab->Controls->Add(this->verifiedTargetsDataGridView);
+			this->verifiedTab->Location = System::Drawing::Point(4, 22);
+			this->verifiedTab->Name = L"verifiedTab";
+			this->verifiedTab->Padding = System::Windows::Forms::Padding(3);
+			this->verifiedTab->Size = System::Drawing::Size(837, 213);
+			this->verifiedTab->TabIndex = 2;
+			this->verifiedTab->Text = L"Verified Targets";
+			this->verifiedTab->UseVisualStyleBackColor = true;
 			// 
-			// dataGridView3
+			// verifiedTargetsDataGridView
 			// 
-			this->dataGridView3->AllowUserToAddRows = false;
-			this->dataGridView3->AllowUserToDeleteRows = false;
-			this->dataGridView3->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView3->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(11) {this->confirmed_IDColumn, 
+			this->verifiedTargetsDataGridView->AllowUserToAddRows = false;
+			this->verifiedTargetsDataGridView->AllowUserToDeleteRows = false;
+			this->verifiedTargetsDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->verifiedTargetsDataGridView->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(11) {this->confirmed_IDColumn, 
 				this->confirmed_ThumbnailColumn, this->confirmed_LatitudeColumn, this->confirmed_LongitudeColumn, this->confirmed_HeadingColumn, 
 				this->confirmed_Shape, this->confirmed_ShapeColor, this->confirmed_LetterColumn, this->confirmed_LetterColor, this->targetid_column, 
 				this->verified_lockon});
-			this->dataGridView3->Location = System::Drawing::Point(6, 6);
-			this->dataGridView3->MultiSelect = false;
-			this->dataGridView3->Name = L"dataGridView3";
-			this->dataGridView3->RowTemplate->Height = 64;
-			this->dataGridView3->Size = System::Drawing::Size(1254, 269);
-			this->dataGridView3->TabIndex = 0;
+			this->verifiedTargetsDataGridView->Location = System::Drawing::Point(6, 6);
+			this->verifiedTargetsDataGridView->MultiSelect = false;
+			this->verifiedTargetsDataGridView->Name = L"verifiedTargetsDataGridView";
+			this->verifiedTargetsDataGridView->RowTemplate->Height = 64;
+			this->verifiedTargetsDataGridView->Size = System::Drawing::Size(1254, 269);
+			this->verifiedTargetsDataGridView->TabIndex = 0;
+			this->verifiedTargetsDataGridView->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::verifiedTargetsDataGridView_CellDoubleClick);
 			// 
 			// confirmed_IDColumn
 			// 
@@ -1424,7 +1421,6 @@ public:
 			this->gimbalHUDPanel->Name = L"gimbalHUDPanel";
 			this->gimbalHUDPanel->Size = System::Drawing::Size(134, 134);
 			this->gimbalHUDPanel->TabIndex = 34;
-			this->gimbalHUDPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::gimbalHUDPanel_Paint);
 			// 
 			// Form1
 			// 
@@ -1467,7 +1463,7 @@ public:
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->candidateRegionsDataGridView))->EndInit();
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->EndInit();
@@ -1475,11 +1471,11 @@ public:
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->EndInit();
 			this->metadataTabControl->ResumeLayout(false);
-			this->tabPage3->ResumeLayout(false);
-			this->tabPage4->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->EndInit();
-			this->tabPage5->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->EndInit();
+			this->candidatesTab->ResumeLayout(false);
+			this->unverifiedTab->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->unverifiedTargetsDataGridView))->EndInit();
+			this->verifiedTab->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->verifiedTargetsDataGridView))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1585,9 +1581,9 @@ public: System::Void setUnverifiedTableContents( array<Database::UnverifiedRowDa
 				return;
 			}
 
-			if ( !this->dataGridView2->InvokeRequired )
+			if ( !this->unverifiedTargetsDataGridView->InvokeRequired )
 			{
-				this->dataGridView2->Rows->Clear();
+				this->unverifiedTargetsDataGridView->Rows->Clear();
 
 				for each(Database::UnverifiedRowData ^ data in contents)
 				{
@@ -1608,9 +1604,9 @@ public: System::Void setVerifiedTableContents( array<Database::VerifiedRowData ^
 				System::Diagnostics::Trace::WriteLine("ERROR in Form1::setVerifiedTableContents(): data is null");
 				return;
 			}
-			if ( !this->dataGridView3->InvokeRequired )
+			if ( !this->verifiedTargetsDataGridView->InvokeRequired )
 			{
-				this->dataGridView3->Rows->Clear();
+				this->verifiedTargetsDataGridView->Rows->Clear();
 
 				for each(Database::VerifiedRowData ^ data in contents)
 				{
@@ -1629,14 +1625,10 @@ public: System::Void setVerifiedTableContents( array<Database::VerifiedRowData ^
 
 public: System::Void setCandidateTableContents( array<Database::CandidateRowData ^> ^ contents )
 		{
-			if (contents == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::setCandidateTableContents: data is null");
-				return;
-			}
-			if ( !this->dataGridView1->InvokeRequired )
+			if ( !this->candidateRegionsDataGridView->InvokeRequired )
 			{
 
-				this->dataGridView1->Rows->Clear();
+				this->candidateRegionsDataGridView->Rows->Clear();
 
 				for each(Database::CandidateRowData ^ data in contents)
 				{
@@ -1663,7 +1655,7 @@ private: bool findIntInArray( int num, array<int> ^ arr)
 
 public: System::Void setProcessedForCandidates( array<int> ^ idsToSet )
 		{
-			DataGridView ^ grid = this->dataGridView1;
+			DataGridView ^ grid = this->candidateRegionsDataGridView;
 			
 			int size = grid->Rows->Count;
 
@@ -1694,7 +1686,7 @@ public: System::Void insertCandidateData( Database::CandidateRowData ^ data)
 				return;
 			}
 			int rowNum;
-			DataGridView ^ grid = this->dataGridView1;
+			DataGridView ^ grid = this->candidateRegionsDataGridView;
 			if ( !grid-> InvokeRequired )
 			{
 				rowNum = grid->Rows->Add();
@@ -1746,7 +1738,7 @@ public: System::Void insertUnverifiedData( Database::UnverifiedRowData ^ data)
 
 			int rowNum;
 
-			DataGridView ^ grid = this->dataGridView2;
+			DataGridView ^ grid = this->unverifiedTargetsDataGridView;
 			
 			if ( !grid-> InvokeRequired )
 			{
@@ -1818,7 +1810,7 @@ public: System::Void insertVerifiedTargetData( Database::VerifiedRowData ^ data)
 			
 			int rowNum;
 
-			DataGridView ^ grid = this->dataGridView3;
+			DataGridView ^ grid = this->verifiedTargetsDataGridView;
 			
 			if ( !grid->InvokeRequired )
 			{
@@ -1875,7 +1867,7 @@ public: System::Void modifyCandidateInTable( Database::CandidateRowData ^ data )
 				return;
 			}
 
-			DataGridView ^ grid = this->dataGridView1;
+			DataGridView ^ grid = this->candidateRegionsDataGridView;
 
 			for (int i = 0; i < grid->Rows->Count; i++) {
 				if (grid->Rows[i]->Cells[0]->Value->Equals("" + data->candidateid)) {
@@ -1935,7 +1927,7 @@ public: System::Void modifyUnverifiedInTable( Database::UnverifiedRowData ^ data
 				return;
 			}
 
-			DataGridView ^ grid = this->dataGridView2;
+			DataGridView ^ grid = this->unverifiedTargetsDataGridView;
 
 			for (int i = 0; i < grid->Rows->Count; i++) {
 				if (grid->Rows[i]->Cells[0]->Value->Equals("" + data->targetid)) {
@@ -1983,7 +1975,7 @@ public: System::Void modifyUnverifiedInTable( Database::UnverifiedRowData ^ data
 
 public: System::Void removeUnverifiedFromTable(String ^ id)
 		{
-			DataGridView ^ grid = this->dataGridView1;
+			DataGridView ^ grid = this->candidateRegionsDataGridView;
 
 			for (int i = 0; i < grid->Rows->Count; i++) {
 				if (grid->Rows[i]->Cells[0]->Value->Equals(id)) {
@@ -2000,7 +1992,7 @@ public: System::Void removeUnverifiedFromTable(Database::CandidateRowData ^ data
 
 public: System::Void removeTargetFromTable(String ^ id)
 		{
-			DataGridView ^ grid = this->dataGridView2;
+			DataGridView ^ grid = this->unverifiedTargetsDataGridView;
 
 			for (int i = 0; i < grid->Rows->Count; i++) {
 				if (grid->Rows[i]->Cells[0]->Value->Equals(id)) {
@@ -2020,7 +2012,7 @@ public: System::Void removeVerifiedTargetFromTable(String ^ id)
 			if (BADSTRING(id))
 				return;
 
-			DataGridView ^ grid = this->dataGridView3;
+			DataGridView ^ grid = this->verifiedTargetsDataGridView;
 
 			for (int i = 0; i < grid->Rows->Count; i++) {
 				if (grid->Rows[i]->Cells[targetid_VERIFIED_COL]->Value->Equals(id)) {
@@ -2093,9 +2085,9 @@ private: System::Void cyclemapToolStripMenuItem_Click(System::Object^  sender, S
 private: System::Void resetToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 appController->clearAllTables();
 
-			 this->dataGridView1->Rows->Clear();
-			 this->dataGridView2->Rows->Clear();
-			 this->dataGridView3->Rows->Clear();
+			 this->candidateRegionsDataGridView->Rows->Clear();
+			 this->unverifiedTargetsDataGridView->Rows->Clear();
+			 this->verifiedTargetsDataGridView->Rows->Clear();
 		 }
 
 private: System::Void exportDataToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
@@ -2109,209 +2101,44 @@ private: System::Void exportDataToolStripMenuItem_Click(System::Object^  sender,
 
 			}
 
-private: System::Void lockToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if( lockToolStripMenuItem->Checked )
-			 {
-//				 mapView->SetUILocked( false ); DELETE MAP
-				 lockToolStripMenuItem->Checked = false;
-			 }
-			 else
-			 {
-//				mapView->SetUILocked( true ); DELETE MAP
-			 	lockToolStripMenuItem->Checked = true;
-			 }
-				
-
-		 }
-private: System::Void downloadToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if( downloadToolStripMenuItem->Checked )
-			 {
-//				 mapView->SetDownload( false ); DELETE MAP
-				 downloadToolStripMenuItem->Checked = false;
-			 }
-			 else
-			 {
-//				mapView->SetDownload( true ); DELETE MAP
-			 	downloadToolStripMenuItem->Checked = true;
-			 }
-		 }
-
-private: System::Void mapView_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 	if( e->Button != ::MouseButtons::Right )
-					return;
-
-				mouseGPS = e->Location;
-//				mapMenuStrip->Show( mapView, mouseGPS ); DELETE MAP
-
-
-		 }
 		 
-private: System::Void dataGridView1_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 // if( e->ColumnIndex < 1 || e->ColumnIndex > 4 )
-			//	 return;
+private: System::Void candidateRegionsDataGridView_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 
 			 if( e->RowIndex < 0 )
 				 return;
 
-			 String ^ id = Convert::ToString(dataGridView1->Rows[e->RowIndex]->Cells[0]->Value);
+			 String ^ id = Convert::ToString(candidateRegionsDataGridView->Rows[e->RowIndex]->Cells[0]->Value);
 			 
-			 viewCandidate(appController->candidateWithID(id));
+			 displayDialogForTarget(appController->candidateWithID(id));
 		 }
 
 		 
-private: System::Void dataGridView2_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 //if( e->ColumnIndex < 1 || e->ColumnIndex > 4 )
-			//	 return;
-
+private: System::Void unverifiedTargetsDataGridView_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 			 if( e->RowIndex < 0 )
 				 return;
 
-			 if ( e->ColumnIndex == 11 ) {
-
-				 // get data
-				 String ^ id = Convert::ToString(dataGridView2->Rows[e->RowIndex]->Cells[0]->Value);
-				 Database::UnverifiedRowData ^ data = appController->unverifiedWithID(id);
-
-				 // initiate target lock
-				 double lat, lon, alt;
-				 Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-			 }
-
-			 else {
-				 // show dialog
-				 String ^ id = Convert::ToString(dataGridView2->Rows[e->RowIndex]->Cells[0]->Value);
+			 String ^ id = Convert::ToString(unverifiedTargetsDataGridView->Rows[e->RowIndex]->Cells[0]->Value);
 			 
-				 editUnverifiedTargetUsingDialog(appController->unverifiedWithID(id));
-			 }
+			 displayDialogForTarget(appController->unverifiedWithID(id));
 
 		 }
-private: System::Void dataGridView3_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+private: System::Void verifiedTargetsDataGridView_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 			 if( e->RowIndex < 0 )
 				 return;
 
-			 if (e->ColumnIndex == VERIFIED_LOCK_ON_COLUMN) {
-				 
-				 String ^ id = Convert::ToString(dataGridView3->Rows[e->RowIndex]->Cells[targetid_VERIFIED_COL]->Value);
-				 Database::UnverifiedRowData ^ data = appController->unverifiedWithID(id);
-
-				 if (data == nullptr) {
-					 this->errorMessageUniversal("Could not find corresponding target to lock on to");
-					 return;
-				 }
-				 // initiate target lock
-				 double lat, lon, alt;
-				 Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-
-				 if (lat > 180 || lon > 180) {
-					 this->errorMessageUniversal("Could not calculate GPS to lock on to");
-					 return;
-				 }
-
-
-			 }
-			 else {
-				 String ^ id = Convert::ToString(dataGridView3->Rows[e->RowIndex]->Cells[0]->Value);
+			 String ^ id = Convert::ToString(verifiedTargetsDataGridView->Rows[e->RowIndex]->Cells[0]->Value);
 			 
-				 viewCandidate(appController->verifiedWithID(id)->target->candidate);
-			 }
+			 displayDialogForTarget(appController->verifiedWithID(id));
 		 }
 
-public: System::Void editUnverifiedTargetUsingDialog(Database::UnverifiedRowData ^ data) 
-		{
-			if (data == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR: editUnverifiedTargetUsingDialog(): data == nullptr.");
-				return;
-			}
-			imageDialog = gcnew TargetDialog(appController, data);
-			imageDialog->Show();
-		}
 
-
-public: System::Void viewCandidate(Database::CandidateRowData ^ data)
+public: System::Void displayDialogForTarget(Database::TargetRowData ^ data)
 {
-	if (data == nullptr) {
-		System::Diagnostics::Trace::WriteLine("ERROR: editUnverifiedTargetUsingDialog(): data == nullptr.");
-		return;
-	}
 	imageDialog = gcnew TargetDialog(appController, data);
 	imageDialog->Show();
 }
 
-
-public: System::Void editVerifiedTargetUsingDialog(Database::VerifiedRowData ^ theData) 
-		{
-			if (theData == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR: editVerifiedTargetUsingDialog(): data == nullptr.");
-				return;
-			}
-
-			imageDialog = gcnew TargetDialog(appController, theData);
-			imageDialog->Show();
-		}
-
-		 //public: Vision::ocrItem ^ getCandidateData( void )
-		 //{
-		 //	DataGridViewCellCollection ^ row;
-			//try
-			//{
-			//	row = dataGridView1->Rows[0]->Cells;
-			//}
-			//catch( Exception ^ )
-			//{
-			//	// no data to take
-			//	return nullptr;
-			//}
-
-			//// Set up return value
-			//String ^ id = Convert::ToString( row[0]->Value );
-			//Vision::ocrItem ^ retVal = gcnew Vision::ocrItem();			
-			//retVal->_homography = db->getHomography( Database::tableCandidateRegions, id );
-			//retVal->_row = dataGridView1->Rows[0];
-			//retVal->_heading = Convert::ToDouble( row[4]->Value );
-			//retVal->_path = db->getField(Database::tableCandidateRegions, 1, id);
-
-			//// Remove row from this table
-			//dataGridView1->Rows->Remove( dataGridView1->Rows[0] );
-
-			////dataGridView3->Rows->Add(row);
-			////db->move( Database::tableUnverifiedTargets, Database::tableVerifiedTargets, value );
-
-			//return retVal;
-		 //}
-
-		 public: void ocrUpdateData( DataGridViewRow ^ row )
-		 {
-		 	DataGridViewCellCollection ^ cells = row->Cells;
-			String ^ id = Convert::ToString( cells[0]->Value );
-			
-			// Update all values in old entry in database
-			//db->updateValue( Database::tableCandidateRegions, "shape", Convert::ToString( cells[COL_SHAPE]->Value ), id );
-			//db->updateValue( Database::tableCandidateRegions, "letter", Convert::ToString( cells[COL_LETTER]->Value ), id );
-			//db->updateValue( Database::tableCandidateRegions, "processed", "TRUE", id );
-
-			// Move into unverified
-			// db->moveProcessed( Database::tableCandidateRegions, Database::tableUnverifiedTargets, "TRUE" );
-			dataGridView2->Rows->Add(row);
-		 }
-
 		
-		 public: void imageDialogCallback( int rowID, int tarID, double lat, double lon, double heading )
-		 {
-		 	/*DataGridViewCellCollection ^ row = dataGridView3->Rows[rowID]->Cells;
-
-			// Update table
-			row[2]->Value = Convert::ToString( lat );
-			row[3]->Value = Convert::ToString( lon );
-			row[4]->Value = Convert::ToString( heading );
-
-			// Update database
-			db->updateValue( Database::tableVerifiedTargets, "target_lat", Convert::ToString( lat ), Convert::ToString( tarID ) );
-			db->updateValue( Database::tableVerifiedTargets, "target_lon", Convert::ToString( lon ), Convert::ToString( tarID ) );
-			db->updateValue( Database::tableVerifiedTargets, "heading", Convert::ToString( heading ), Convert::ToString( tarID ) );
-
-			// Update target in map
-			mapView->AddTarget( lat, lon, tarID );*/
-		 }
 private: System::Void choosePathToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 // ask user for filename
@@ -2418,23 +2245,6 @@ private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender,
 private: System::Void button5_Click_1(System::Object^  sender, System::EventArgs^  e) {
 			appController->saveCurrentFrameAsUnverified();		 
 		 }
-private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-			
 
-		 }
-private: System::Void mapBoundariesTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-		
-
-
-		 }
-
-private: System::Void dataGridView1_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-		 }
-private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
-		 }
-private: System::Void gimbalHUDPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-		 }
-private: System::Void tabPage3_Click(System::Object^  sender, System::EventArgs^  e) {
-		 }
 };
 }

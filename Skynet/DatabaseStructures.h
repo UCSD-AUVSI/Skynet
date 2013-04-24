@@ -21,17 +21,26 @@ namespace Database
 	ref struct VerifiedRowData;
 	ref struct DialogEditingData;
 
-	public ref struct TargetRowData {
-	public:
-		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData){
-			PRINT("WARNING: asVerified() is not implemented");
-			return nullptr;
-		}
+	/*
+	public ref struct PrimaryKey {
+		const int id;
+	};
+	*/
 
-		virtual DialogEditingData^ toDialogData(){
-			PRINT("WARNING: toDialogData() is not implemented");
-			return nullptr;
-		}
+	public ref struct RowData abstract {
+	public:
+		/*
+		virtual bool hasPrimaryKey() = 0;
+		virtual String^ makeInsertString() = 0;
+		virtual String^ makeUpdateString() = 0;
+		virtual String^ makeDeleteString() = 0;
+		*/
+	};
+
+	public ref struct TargetRowData abstract : public RowData {
+	public:
+		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) = 0;
+		virtual DialogEditingData^ toDialogData() = 0;
 		
 	};
 	
@@ -51,7 +60,7 @@ namespace Database
 	};
 
 	
-	public ref struct DescriptionRowData
+	public ref struct DescriptionRowData : public RowData
 	{
 		int description_id;
 		int targetX;
@@ -67,7 +76,7 @@ namespace Database
 		bool Equals(DescriptionRowData ^ object);
 	};
 
-	public ref struct GPSPositionRowData
+	public ref struct GPSPositionRowData : public RowData
 	{
 		int gps_id;
 		double lat;
@@ -97,7 +106,7 @@ namespace Database
 		bool Equals(GPSPositionRowData ^ object);
 	};
 
-	public ref struct LocationRowData
+	public ref struct LocationRowData : public RowData
 	{
 		int loc_id;
 		GPSPositionRowData ^ lowerLeftGPS;
@@ -137,7 +146,7 @@ namespace Database
 		bool Equals(LocationRowData ^ object);
 	};
 
-	public ref struct TelemetryRowData
+	public ref struct TelemetryRowData : RowData
 	{
 		int telemetry_id;
 		int originX;
@@ -197,7 +206,7 @@ namespace Database
 		bool Equals(VerifiedRowData ^ object);
 	};
 
-	public ref struct DialogEditingData
+	public ref struct DialogEditingData : public RowData
 	{
 		DialogEditingData() {};
 		DialogEditingData(VerifiedRowData ^ data);

@@ -383,7 +383,7 @@ void SkynetController::addUnverified(UnverifiedRowData ^ unverified)
 //	//return true;
 //}
 
-void SkynetController::addVerifiedTarget(VerifiedRowData ^ data) // not yet
+void SkynetController::addVerifiedTarget(VerifiedRowData ^ data)
 {
 	if (data == nullptr)
 		return;
@@ -395,21 +395,6 @@ void SkynetController::addVerifiedTarget(VerifiedRowData ^ data) // not yet
 		form1View->errorMessageUniversal("Failed to save verified target");
 	else
 		addVerifiedTargetToGUITable(data);
-
-}
-
-void SkynetController::addVerifiedTargetWithDialogData(DialogEditingData ^ data)
-{
-	if (data == nullptr)
-		return;
-
-
-	auto verifiedTarget = theDatabase->addVerifiedWithDialogData(data);
-
-	if (verifiedTarget == nullptr)
-		form1View->errorMessageUniversal("Failed to save verified target");
-	else
-		addVerifiedTargetToGUITable(verifiedTarget);
 
 }
 
@@ -594,15 +579,9 @@ Database::UnverifiedRowData ^ SkynetController::unverifiedWithID(String ^ id)
 }
 
 
-//Database::VotesOnCandidate ^ SkynetController::votesForID(String ^ id)
-//{
-//	return theDatabase->votesForID(id);
-//}
 
-Database::VerifiedRowData ^ SkynetController::verifiedWithID(String ^ id) // not yet
+Database::VerifiedRowData ^ SkynetController::verifiedWithID(String ^ id)
 {
-	//System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::verifiedTargetWithID(): not implemented");
-
 	return theDatabase->verifiedWithID(id);
 }
 

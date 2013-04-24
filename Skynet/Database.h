@@ -24,16 +24,6 @@ namespace Database
 		tableVerifiedTargets
 	};
 
-	// TODO: Implement
-	/**
-	public ref class DBObject {
-		virtual String^ updateString() = 0;
-		virtual String^ insertString() = 0;
-		virtual String^ deleteString() = 0;
-	};
-	*/
-
-
 	public ref class DatabaseConnection
 	{
 	public:
@@ -67,7 +57,6 @@ namespace Database
 		int addUnverified( UnverifiedRowData ^ data);
 		int addVerified( VerifiedRowData ^ data);
 		int addGPSPosition ( GPSPositionRowData ^ data);
-		VerifiedRowData ^ addVerifiedWithDialogData(DialogEditingData ^ data);
 
 		void modifyCandidate( CandidateRowData ^ data);
 		void modifyUnverified(UnverifiedRowData ^ data);
@@ -80,6 +69,8 @@ namespace Database
 		void removeCandidate( System::String ^ id);
 		void removeUnverified( System::String ^ id);
 		void removeVerified( System::String ^id );
+
+		int upsertVerified( VerifiedRowData^ data);
 		
 		CandidateRowData ^ candidateWithID(System::String ^ id);
 		UnverifiedRowData ^ unverifiedWithID(System::String ^ id);

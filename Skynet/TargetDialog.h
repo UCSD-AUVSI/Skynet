@@ -43,9 +43,9 @@ namespace Skynet {
 			}
 		}
 
-		void buildVotingText();
-		void clearVotingText();
-
+		/**
+		 * TODO: Move this shit out of here
+		 */
 		double atan3( double x, double y )
 		{
 			double angle;
