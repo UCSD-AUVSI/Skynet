@@ -312,7 +312,8 @@ Saliency::analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool debug
 		cv::Mat blobImg = cv::Mat(*frame->img, cv::Rect(leftCorner, topCorner, blobWidth, blobHeight));
 		cv::cvtColor(blobImg,blobImg,CV_BGR2RGB);
 
-		if (debug){
+		// changed from if(debug)
+		if (false){
 			String ^ path = "C:\\Saliency_Test_Output\\Image"+analyzeframe+"_"+i+".bmp";
 			cv::imwrite(managedToSTL(path),blobImg);
 		}

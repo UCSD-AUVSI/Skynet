@@ -35,3 +35,6 @@
 #define HTTP_SERVER_IMAGERY_PATH "C:\\xampp\\htdocs\\imagery\\"
 #define HTTP_SERVER_EXPORT_PATH "C:\\xampp\\htdocs\\turnin\\"
 #define TAB_DELIMITED_TURNIN_FILE_PATH (HTTP_SERVER_ROOT + "turnin\\UCSD.txt")
+
+#define PYTHON_EXECUTABLE_PATH "C:\\Python27\\python.exe"
+#define PATHFINDER_SCRIPT_PATH "C:\\Users\\ucsd_auvsi\\Desktop\\PathfinderV2-master\\pathfinder.py"

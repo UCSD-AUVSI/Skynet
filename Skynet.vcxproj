@@ -116,8 +116,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>OCR;C:\opencv\build\install\include\opencv;C:\opencv\build\install\include;SalientGreenGPU\include;SalientGreenGPU\cvBlob;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\opencv\build\install\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\ucsd_auvsi\Dropbox\Skynet\X64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\include;OCR;C:\opencv\build\install\include\opencv;C:\opencv\build\install\include;SalientGreenGPU\include;SalientGreenGPU\cvBlob;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\build\install\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\Users\ucsd_auvsi\Dropbox\Skynet\X64\ZDebug;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\lib\x64;$(LibraryPath)</LibraryPath>
     <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -198,6 +198,8 @@
       <CompileAsManaged>true</CompileAsManaged>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\include;C:\opencv\include;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\cvBlob;C:\opencv\include\opencv;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenCUDA;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -228,6 +230,9 @@
       <Message>
       </Message>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>copy app.config "$(TargetPath).config"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">
     <ClCompile>
@@ -242,7 +247,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;comsuppwd.lib;dxguid.lib;dxerr.lib;dinput8.lib;opencv_core240.lib;opencv_highgui240.lib;opencv_video240.lib;opencv_ml240.lib;opencv_legacy240.lib;opencv_imgproc240.lib;opencv_objdetect240.lib;opencv_gpu240.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;comsuppwd.lib;dxguid.lib;dxerr.lib;dinput8.lib;opencv_core240.lib;opencv_highgui240.lib;opencv_video240.lib;opencv_ml240.lib;opencv_legacy240.lib;opencv_imgproc240.lib;opencv_objdetect240.lib;SalientGreenCUDA.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
       <AdditionalLibraryDirectories>C:\opencv\build\install\bin;..\Skynet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -269,37 +274,56 @@
       <Message>
       </Message>
     </PreLinkEvent>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="*Microsoft.VisualC, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="*System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="tessnet2_64, Version=2.0.4.0, Culture=neutral, PublicKeyToken=1550524b5ba07e29">
+      <HintPath>..\TessCompute\Release64\tessnet2_64.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Desktop\Skynet\SalientGreenCUDA\Release\SalientGreenCUDA.pch">
+      <FileType>Document</FileType>
+    </None>
     <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_C.bin" />
     <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_CXX.bin" />
     <None Include="airplane_icon.ico" />
     <None Include="app.ico" />
-    <None Include="autosearch.py" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
     <None Include="ClassDiagram3.cd" />
+    <None Include="ClassDiagram4.cd" />
     <None Include="IntelligenceController.h" />
     <None Include="OCR\Resampler.i" />
     <None Include="OCR\_Resampler.so" />
-    <None Include="pathfinder.py" />
     <None Include="ReadMe.txt" />
     <None Include="Saliency_New.exe" />
     <None Include="Saliency_New.exp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cvBlob\cvaux.cpp" />
+    <ClCompile Include="..\cvBlob\cvblob.cpp" />
+    <ClCompile Include="..\cvBlob\cvcolor.cpp" />
+    <ClCompile Include="..\cvBlob\cvcontour.cpp" />
+    <ClCompile Include="..\cvBlob\cvlabel.cpp" />
+    <ClCompile Include="..\cvBlob\cvtrack.cpp" />
+    <ClCompile Include="..\Pathfinding\AdjacencyList.cpp" />
+    <ClCompile Include="..\Pathfinding\Autosearch.cpp" />
+    <ClCompile Include="..\Pathfinding\Node.cpp" />
+    <ClCompile Include="..\Pathfinding\Pathfinder.cpp" />
     <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdCXX\CMakeCXXCompilerId.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
@@ -310,40 +334,36 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvaux.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvblob.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvcolor.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvcontour.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvlabel.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\cvBlob\cvtrack.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\LowPass.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\Filters\Utility.cpp" />
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientGreenGPU.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\SalientGreenGPU\src\SalientGreenGPU\SalientMain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="AutopilotComport.cpp" />
-    <ClCompile Include="Autosearch.cpp" />
-    <ClCompile Include="Comms.cpp" />
-    <ClCompile Include="Comport.cpp" />
-    <ClCompile Include="ComportHandler.cpp" />
+    <ClCompile Include="ColorBlob.cpp" />
+    <ClCompile Include="ColorBlobDetector.cpp" />
+    <ClCompile Include="ColorUtil.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DatabaseStructures.cpp" />
+    <ClCompile Include="Dataset.cpp" />
     <ClCompile Include="DuplicateResolver.cpp" />
-    <ClCompile Include="GEarthHandler.cpp" />
+    <ClCompile Include="Form1.cpp" />
+    <ClCompile Include="GEarthHandler.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GeoReference.cpp" />
+    <ClCompile Include="HistogramSegmenter.cpp" />
     <ClCompile Include="IntelligenceController.cpp" />
-    <ClCompile Include="Joystick.cpp" />
+    <ClCompile Include="LetterTester.cpp" />
     <ClCompile Include="MapControl.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="OCR.cpp" />
+    <ClCompile Include="OCRTester.cpp" />
+    <ClCompile Include="ShapeClassifier.cpp" />
+    <ClCompile Include="ShapeFinder.cpp" />
+    <ClCompile Include="ShapeRecognizer.cpp" />
+    <ClCompile Include="ShapeSegmentationTester.cpp" />
+    <ClCompile Include="ShapeTester.cpp" />
+    <ClCompile Include="TargetRecognizer.cpp" />
+    <ClCompile Include="TessWrapper.cpp" />
+    <ClCompile Include="VisionUtil.cpp" />
+    <ClCompile Include="OCRWrapper.cpp" />
     <ClCompile Include="OCR\Auvsi_cvUtil.cpp" />
     <ClCompile Include="OCR\Auvsi_DualTree.cpp" />
     <ClCompile Include="OCR\Auvsi_Fft.cpp" />
@@ -355,19 +375,20 @@
     <ClCompile Include="OCR\BlobOperators.cpp" />
     <ClCompile Include="OCR\BlobResult.cpp" />
     <ClCompile Include="OCR\ComponentLabeling.cpp" />
-    <ClCompile Include="OCR\Recognizer.cpp" />
-    <ClCompile Include="PlaneWatcher.cpp" />
-    <ClCompile Include="RabbitComport.cpp" />
-    <ClCompile Include="Saliency.cpp">
+    <ClCompile Include="OCR\Recognizer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="PlaneDataReceiver.cpp" />
+    <ClCompile Include="PlaneWatcher.cpp" />
+    <ClCompile Include="RealPlaneDataReceiver.cpp" />
+    <ClCompile Include="Saliency.cpp" />
     <ClCompile Include="SaveImage.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">false</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="SimHandler.cpp" />
+    <ClCompile Include="SimulatorPlaneDataReceiver.cpp" />
     <ClCompile Include="Skynet.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</CompileAsManaged>
     </ClCompile>
@@ -383,13 +404,18 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="TargetDialog.cpp" />
-    <ClCompile Include="TargetLock.cpp" />
-    <ClCompile Include="TelemetrySimulator.cpp" />
+    <ClCompile Include="TelemetrySimulator.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Util.cpp" />
     <ClCompile Include="VideoReader.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">false</CompileAsManaged>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="VideoSimulator.cpp" />
+    <ClCompile Include="VideoSimulator.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="VisionController.cpp" />
     <ClCompile Include="VoteCounter.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
@@ -397,8 +423,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cvBlob\cvblob.h" />
+    <ClInclude Include="..\Pathfinding\AdjacencyList.h" />
+    <ClInclude Include="..\Pathfinding\Autosearch.h" />
+    <ClInclude Include="..\Pathfinding\Node.h" />
+    <ClInclude Include="..\Pathfinding\Pathfinder.h" />
     <ClInclude Include="..\SalientGreenGPU\cvBlob\cvblob.h" />
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\config.h" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\config.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H" />
     <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H" />
     <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H" />
@@ -406,26 +439,35 @@
     <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H" />
     <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H" />
     <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H" />
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Timer.H" />
-    <ClInclude Include="AutopilotComport.h" />
-    <ClInclude Include="Autosearch.h" />
-    <ClInclude Include="Comms.h" />
-    <ClInclude Include="Comport.h" />
-    <ClInclude Include="ComportHandler.h" />
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Timer.H">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Autosearch.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="ColorBlob.h" />
+    <ClInclude Include="ColorBlobDetector.h" />
+    <ClInclude Include="ColorUtil.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="DatabaseStructures.h" />
+    <ClInclude Include="Dataset.h" />
     <ClInclude Include="Delegates.h" />
     <ClInclude Include="DuplicateResolver.h" />
     <ClInclude Include="Form1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="GEarthHandler.h" />
+    <ClInclude Include="GEarthHandler.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="GeoReference.h" />
+    <ClInclude Include="HistogramSegmenter.h" />
     <ClInclude Include="HUDControl.h" />
-    <ClInclude Include="Joystick.h" />
+    <ClInclude Include="ImageWithPlaneData.h" />
+    <ClInclude Include="LetterTester.h" />
     <ClInclude Include="MapControl.h" />
     <ClInclude Include="MasterHeader.h" />
-    <ClInclude Include="OCR.h" />
+    <ClInclude Include="OCRTester.h" />
+    <ClInclude Include="OCRWrapper.h" />
     <ClInclude Include="OCR\Auvsi_cvUtil.h" />
     <ClInclude Include="OCR\Auvsi_DualTree.h" />
     <ClInclude Include="OCR\Auvsi_Fft.h" />
@@ -440,26 +482,46 @@
     <ClInclude Include="OCR\ComponentLabeling.h" />
     <ClInclude Include="OCR\Recognizer.h" />
     <ClInclude Include="OCR\Resampler.h" />
-    <ClInclude Include="OpenGLForm.h" />
+    <ClInclude Include="OpenGLForm.h.old" />
+    <ClInclude Include="PlaneDataReceiver.h" />
     <ClInclude Include="PlaneWatcher.h" />
-    <ClInclude Include="RabbitComport.h" />
+    <ClInclude Include="RealPlaneDataReceiver.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Saliency.h" />
+    <ClInclude Include="Saliency.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="SaveImage.h" />
+    <ClInclude Include="Segmenter.h" />
+    <ClInclude Include="ShapeClassifier.h" />
+    <ClInclude Include="ShapeFinder.h" />
+    <ClInclude Include="ShapeRecognizer.h" />
+    <ClInclude Include="ShapeSegmentationTester.h" />
+    <ClInclude Include="ShapeTester.h" />
     <ClInclude Include="SimHandler.h" />
+    <ClInclude Include="SimulatorPlaneDataReceiver.h" />
     <ClInclude Include="SkynetController.h" />
     <ClInclude Include="SkynetControllerInterface.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TargetDialog.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="TargetLock.h" />
-    <ClInclude Include="TelemetrySimulator.h" />
-    <ClInclude Include="TelemetryStructures.h" />
+    <ClInclude Include="TargetRecognizer.h" />
+    <ClInclude Include="TelemetrySimulator.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="TessWrapper.h" />
     <ClInclude Include="Tester.h" />
-    <ClInclude Include="VideoReader.h" />
-    <ClInclude Include="VideoSimulator.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="VideoReader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="VideoSimulator.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="VisionController.h" />
+    <ClInclude Include="VisionRuntimeException.h" />
+    <ClInclude Include="VisionUtil.h" />
+    <ClInclude Include="Waypoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -477,11 +539,8 @@
     <Library Include="Saliency_New.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutosearchWrapper\PathfinderWrapper.csproj">
-      <Project>{91e42a73-1027-4863-9768-dd532d9435ab}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ImageDownloader\ImageDownloader\ImageDownloader.vcxproj">
-      <Project>{60fe0b07-aa98-42a2-887e-92bf556a667f}</Project>
+    <ProjectReference Include="..\SalientGreenCUDA\SalientGreenCUDA.vcxproj">
+      <Project>{8aa45e0e-0a80-47a1-925a-1257ffd6635d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

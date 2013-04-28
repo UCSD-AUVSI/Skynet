@@ -8,8 +8,8 @@
 using namespace Vision;
 using namespace Util;
 using namespace System;
-	using namespace Collections;
-	using namespace Collections::Generic;
+using namespace Collections;
+using namespace Collections::Generic;
 
 HistogramSegmenter::HistogramSegmenter(void)
 {
@@ -43,6 +43,7 @@ HistogramSegmenter::setImageWithPreprocessing(cv::Mat colorImg, String ^ filenam
 cv::Mat 
 HistogramSegmenter::reduceColorsWithBinning()
 {
+	throw gcnew Exception("Don't use this! I just made it to prototype something");
 	cv::Mat binnedImage = (*(mImg->obj)) * binsToRGBRatio;
 	binnedImage.convertTo(binnedImage, CV_32SC3);
 	binnedImage.convertTo(binnedImage, CV_32FC3);

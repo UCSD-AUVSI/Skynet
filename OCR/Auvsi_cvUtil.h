@@ -13,8 +13,9 @@
 
 #define rightWeight (1 - leftWeight)
 #define topWeight (1 - bottomWeight)
-#define IMAGE_WIDTH  64
-#define IMAGE_HEIGHT 64
+#define IMAGE_WIDTH  128
+#define IMAGE_HEIGHT 128
+#define MAX_IMAGE_SIZE 640
 
 /*
 	Auvsi_Radon * theRadon = new Auvsi_Radon();

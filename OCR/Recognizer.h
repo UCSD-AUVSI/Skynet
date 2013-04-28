@@ -11,7 +11,7 @@ using namespace System;
 namespace Vision
 {
 
-	public ref struct ImageData {
+	public ref struct OCRImageData {
 	public:
 		String ^ toString(){
 			return "Shape: " + shape + ", Letter: " + letter;
@@ -21,6 +21,8 @@ namespace Vision
 			shape = s;
 			letter = l;
 		};
+		String^ getShape(){ return shape;};
+		String^ getLetter(){ return letter;};
 	private:
 		String ^ shape;
 		String ^ letter;

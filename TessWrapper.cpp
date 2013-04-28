@@ -2,7 +2,7 @@
 #include "TessWrapper.h"
 #include "Util.h"
 #include "VisionUtil.h"
-#include "OCRTrainer.h"
+//#include "OCRTrainer.h"
 #include <cv.h>
 #include <highgui.h>
 #include <stdio.h>
@@ -22,11 +22,8 @@ TessWrapper::TessWrapper(void)
 {
 	freopen ("C:\\myfile.txt","w",stderr);
 
-	// do a test!
-	String ^ imgPath = TESTING_DIRECTORY + "Letters\\1_Sarah3.bmp";
 	String ^ lang = "eng";
 
-	// load image
 	ocr = gcnew tessnet2::Tesseract();
 	ocr->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#");
 	ocr->SetVariable("unlv_tilde_crunching", false);

@@ -217,7 +217,15 @@ bool VerifiedRowData::Equals(VerifiedRowData ^ object)
 GPSPositionRowData::GPSPositionRowData(UnverifiedRowData ^ unverified)
 {
 	double latGeoref, lonGeoref, altGeoref;
-	GeoReference::getTargetGPS(unverified, latGeoref, lonGeoref, altGeoref);
+
+	/**
+	 * TODO: Output args shouldn't be passed in as inputs
+	 */
+	try {
+		GeoReference::getTargetGPS(unverified, latGeoref, lonGeoref, altGeoref);
+	} catch (Vision::GeoReferenceException^) {
+		latGeoref = lonGeoref = altGeoref = -1;
+	}
 
 	this->lat = latGeoref;
 	this->lon = lonGeoref;

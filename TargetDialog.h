@@ -55,30 +55,6 @@ namespace Skynet {
 
 		}
 
-		static String ^ getHeadingString( double angle )
-		{
-			String ^ retVal;
-
-			if( angle > -22.5 && angle <= 22.5 )
-				retVal = "N";
-			else if( angle > 22.5 && angle <= 67.5 )
-				retVal = "NE";
-			else if( angle > 67.5 && angle <= 112.5 )
-				retVal = "E";
-			else if( angle > 112.5 && angle <= 157.5 )
-				retVal = "SE";
-			else if( angle > 157.5 || angle < -157.5 )
-				retVal = "S";
-			else if( angle < -112.5 && angle >= -157.5 )
-				retVal = "SW";
-			else if( angle < -65.7 && angle >= -112.5 )
-				retVal = "W";
-			else
-				retVal = "NW";
-
-			return retVal;
-		}
-
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -494,4 +470,19 @@ private: System::Void imageBox_MouseUp(System::Object^  sender, System::Windows:
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
 
 };
+
+	/*
+	public ref class CandidateTargetDialog: public TargetDialog {
+
+	};
+
+	public ref class UnverifiedTargetDialog: public TargetDialog {
+	
+	};
+
+	public ref class VerifiedTargetDialog: public TargetDialog {
+
+	};
+	*/
+
 }

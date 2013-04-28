@@ -4,10 +4,8 @@
 #include <stdio.h>
 #include "Form1.h"
 #include "OCRWrapper.h"
-#include "OCRTrainer.h"
 #include "Dataset.h"
 #include "Auvsi_OCR.h"
-#include "TessWrapper.h"
 #include "ColorBlob.h"
 #include "ColorBlobDetector.h"
 #include "ShapeFinder.h"
@@ -17,6 +15,10 @@
 #include "Util.h"
 #include "VisionUtil.h"
 #include "ShapeRecognizer.h"
+#include <msclr/lock.h>
+#include "ShapeTester.h"
+#include "LetterTester.h"
+#include "TargetRecognizer.h"
 
 #define OCR_THREAD_INTERVAL 5
 
@@ -25,19 +27,24 @@
 
 #define LETTER_TEST_DIRECTORY (TESTING_DIRECTORY + "LetterTrainSet")
 //#define SHAPE_TEST_DIRECTORY (TESTING_DIRECTORY + "SingleShape")
-#define SHAPE_TEST_DIRECTORY (TESTING_DIRECTORY + "SmallGeneratedShapes")
-#define COMBINED_TEST_DIRECTORY (TESTING_DIRECTORY + "CombinedCanvasVaried")
+#define SHAPE_TEST_DIRECTORY (TESTING_DIRECTORY + "GeneratedShapes")
+//#define SHAPE_TEST_DIRECTORY (TESTING_DIRECTORY + "ShapeTestSet")
+//#define COMBINED_TEST_DIRECTORY (TESTING_DIRECTORY + "CombinedCanvasVaried")
+#define COMBINED_TEST_DIRECTORY (TESTING_DIRECTORY + "CombinedPlywood")
 
 using namespace Vision;
 using namespace Util;
 using namespace System;
 using namespace System::IO;
 using namespace System::Runtime::InteropServices;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
+using namespace msclr;
 
 OCRWrapper::OCRWrapper(VisionController ^ parent)
 {
+	targetRecognizer = gcnew TargetRecognizer();
 	ColorBlob::runTests();
-	tessOCR = gcnew TessWrapper();
 
 	buildTrainingSet();
 }
@@ -80,51 +87,13 @@ OCRWrapper::stopProcessing( void )
 	}
 }
 
-void OCRWrapper::computeImageForShape(Auvsi_Ocr * theOCR, cv::Mat src, float **shapeDescriptor, String ^ filepath)
-{
-	if (src.size().width != 0)
-	{
-		theOCR->processTrainingImageForShape(src, shapeDescriptor, Util::managedToSTL(filepath));
-	}
-	else 
-	{
-		PRINT("ERROR: null image");
-	}
-}
-
-void OCRWrapper::computeImageForBoth(Auvsi_Ocr * chenOCR, cv::Mat src, wchar_t & letterChar, float **shapeDescriptor, String ^filepath)
-{
-	bool srcIsValid = src.size().width != 0;
-	if (srcIsValid) 
-	{
-		cv::Mat letterImg, shapeImg;
-		chenOCR->segmentImageIntoShapeAndLetter(src, letterImg, shapeImg, Util::managedToSTL(filepath));
-		return; // DEBUG: this will break ocr
-		chenOCR->computeFeatureDescriptor(shapeImg, shapeDescriptor);
-		bool letterIsValid = letterImg.rows > 0 && letterImg.cols > 0;
-		if (letterIsValid)
-		{
-			float conf;
-			letterChar = recognizeLetter(letterImg, conf);
-		}
-		else
-		{
-			letterChar = 0;
-		}
-	}
-	else 
-	{
-		PRINT("ERROR: null image");
-	}
-
-}
-
 void
 OCRWrapper::runTestingSet()
 {
 	// flags
+	// TODO: Fix this
 	bool testLetters = false;
-	bool testShapes = true;
+	bool testShapes = false;
 	bool testCombined = false;
 
 	if (testLetters)
@@ -141,67 +110,20 @@ OCRWrapper::runTestingSet()
 void OCRWrapper::testArtificialLetters()
 {
 	array<String^ >^ files = Directory::GetFiles(LETTER_TEST_DIRECTORY,"*.png");
-	float conf;
-
-	PRINT("Testing Letters...");
-	int numCorrect = 0;
-	int numFiles = files->Length;
-	for each(String^ filepath in files)
-	{
-		String^ filename = extractFilename(filepath);
-
-		const wchar_t truth = parseFilenameForLetter(filename);
-
-		wchar_t guess = recognizeLetter(filepath, conf);
-		guess = disambiguateLetter(guess);
-
-		if (guess == truth)
-		{
-			PRINT(filename + " -> Correct for " + guess);
-			numCorrect += 1;
-		}
-		else
-		{
-			PRINT(filename + " -> Error on " + filename + ", recognized " + guess);
-		}
-	}
-	PRINT("Letter accuracy: " + 100.0*(numCorrect/(float)numFiles) + "%");
+	LetterTester ^ letterTester = gcnew LetterTester(files, this);
+	letterTester->testAllFiles();
 }
 
 void OCRWrapper::testArtificialShapes()
 {
 	array<String^ >^ files = Directory::GetFiles(SHAPE_TEST_DIRECTORY,"*.png");
-	ShapeRecognizer ^ shapeRecognizer = gcnew ShapeRecognizer();
-	//float conf;
-	
-	PRINT("Testing Shapes...");
-	int numCorrect = 0;
-	int numFiles = files->Length;
-	for each(String^ filepath in files)
-	{
-		String^ filename = extractFilename(filepath);
-
-		String^ truth = parseFilenameForSeparateShape(filename);
-		//String^ guess = analyzeImageForShape(filepath, conf);
-		String ^ guess = shapeRecognizer->recognizeShape(filepath);
-
-		if (truth->Equals(guess))
-		{
-			PRINT(filename + " -> Correct for " + guess);
-			numCorrect += 1;
-		}
-		else
-		{
-			PRINT(filename + " -> Error on " + filename + ", recognized " + guess);
-		}
-	}
-	PRINT("Shape accuracy: " + 100.0*(numCorrect/(float)numFiles) + "%");
+	ShapeTester ^ shapeTester = gcnew ShapeTester(files);
+	shapeTester->testAllFiles();
 }
 
 void OCRWrapper::testRealImages()
 {
 	array<String^ >^ files = Directory::GetFiles(COMBINED_TEST_DIRECTORY,"*.png");
-	float conf;
 
 	PRINT("Testing Combined...");
 	int numCorrectLetters = 0;
@@ -212,15 +134,16 @@ void OCRWrapper::testRealImages()
 		String^ filename = extractFilename(filepath);
 
 		String^ shapeGuess;
-		wchar_t letterGuess;
-		analyzeImageForBoth(filepath, letterGuess, shapeGuess, conf, conf);
+		String ^ letterGuess;
+		//recognizeImage(filepath, letterGuess, shapeGuess);
+		// TODO: Fix this shit
 
-		wchar_t letterTruth = parseFilenameForLetter(filename);
+		String ^ letterTruth = parseFilenameForLetter(filename);
 		
 		letterGuess = disambiguateLetter(letterGuess);
 		letterTruth = disambiguateLetter(letterTruth);
 
-		if (letterGuess == 0)
+		if (letterGuess == nullptr)
 		{
 			PRINT("ERROR: missing letter from segmentation");
 		}
@@ -258,16 +181,16 @@ void OCRWrapper::testRealImages()
 void
 OCRWrapper::buildTrainingSet()
 {
-	OCRTrainer ^ trainer = gcnew OCRTrainer(this);
+	/*OCRTrainer ^ trainer = gcnew OCRTrainer(this);
 	trainer->BuildDatasets();
 	shapeDataset = trainer->getShapeDataset();
-
+	*/
 	runTestingSet();
 
 }
 
 
-wchar_t OCRWrapper::recognizeLetter(String^ const imageFilename, float & conf)
+String ^ OCRWrapper::recognizeLetter(String^ const imageFilename)
 {
 	ManagedIPL ^image = gcnew ManagedIPL(imageFilename, CV_LOAD_IMAGE_GRAYSCALE);
 	
@@ -275,86 +198,46 @@ wchar_t OCRWrapper::recognizeLetter(String^ const imageFilename, float & conf)
 	cv::Mat processedImage = chenOCR->prepareTrainingImage(image->img, false, Util::managedToSTL(imageFilename));
 	delete chenOCR;
 
-	return recognizeLetter(processedImage, conf);
+	return recognizeLetter(processedImage);
 }
 
-wchar_t OCRWrapper::recognizeLetter(cv::Mat image, float & conf)
+String ^ OCRWrapper::recognizeLetter(cv::Mat image)
 {
-	String ^ letterString = tessOCR->computeImage(image);
-	wchar_t letterChar = (wchar_t)letterString->ToLower()[0];
-	return letterChar;
+	String ^ letterString = targetRecognizer->recognizeLetter(image);
+	return letterString;
 }
 
-String^ OCRWrapper::analyzeImageForShape (String^ const imageFilename, float & conf) 
+String ^ OCRWrapper::recognizeColor(cv::Mat image)
 {
-	Auvsi_Ocr *chenOCR = new Auvsi_Ocr();
-	
-	
-	float *shapeFeatDesc;
-	ManagedIPL ^image = gcnew ManagedIPL(imageFilename, CV_LOAD_IMAGE_GRAYSCALE);
-	computeImageForShape(chenOCR, image->img, &shapeFeatDesc);
-	float responseShape = shapeDataset->testOn(shapeFeatDesc, SIZE_OF_FEATURE_VECTOR);
-	conf = 0.0f;
-
-	delete chenOCR;
-	return shapeFloatToString(responseShape);
+	//String ^ colorString = targetRecognizer->recognizeColor(image);
+	KeyValuePair<String^, String^> kvp = targetRecognizer->recognizeColor(image);
+	return kvp.Key;
 }
 
-void OCRWrapper::analyzeImageForBoth(String^ const imageFilename, wchar_t & letter, String ^ &shape, float & letterConf, float & shapeConf)
+TargetResult^ OCRWrapper::recognizeImage(cv::Mat image)
 {
-	ManagedIPL ^image = gcnew ManagedIPL(imageFilename, CV_LOAD_IMAGE_COLOR);
-	
-	//ColorBlobDetector ^ blobDetector = gcnew ColorBlobDetector();
-	//blobDetector->findBlobs(image->img, imageFilename);
-	ShapeFinder ^ shapeFinder = gcnew ShapeFinder();
-	shapeFinder->findShape(image->img, imageFilename);
-	//HistogramSegmenter ^histSeg = gcnew HistogramSegmenter();
-	//histSeg->segmentImage(image->img, imageFilename);
-
-	return; // DEBUG this breaks the OCR
-	recognizeImage(image->img, letter, shape, letterConf, shapeConf, imageFilename);
-}
-
-OCRWrapper::Results^ OCRWrapper::recognizeImage(cv::Mat image)
-{
-	wchar_t letter;
-	String^ shape;
-	float letterConf, shapeConf;
-	recognizeImage(image, letter, shape, letterConf, shapeConf);
-	return gcnew Results(letter,shape,letterConf,shapeConf);
-}
-
-void OCRWrapper::recognizeImage(cv::Mat image, wchar_t & letter, 
-				String ^ &shape, float & letterConf, float & shapeConf, String^ filename)
-{
-	Auvsi_Ocr *ocr = new Auvsi_Ocr();
-	
-	float *shapeFeatDesc;
-	wchar_t letterGuess;
-	computeImageForBoth(ocr, image, letterGuess, &shapeFeatDesc, filename);
-
-	String ^ shapeGuess;
-
-	if (shapeFeatDesc == NULL)
-	{
-		PRINT("ERROR: null shape descriptor in OCRWrapper::recognizeImage");
+	try {
+		TargetResult ^ result = targetRecognizer->recognizeTarget(image);
+		return result;
 	}
-	else
+	catch (TargetNotFound ^)
 	{
-		float responseShape = shapeDataset->testOn(shapeFeatDesc, SIZE_OF_FEATURE_VECTOR);
-		shapeGuess = shapeFloatToString(responseShape);
-		shapeConf = 0.0f;
-
-		bool letterIsValid = letterGuess != 0;
-		if (!letterIsValid)
-			letterConf = -1.0f;
-
-		// store results
-		shape = shapeGuess;
-		letter = letterGuess;
+		PRINT("Could not find a target");
+		return nullptr;
 	}
-	// clean up memory
-	delete ocr;
+}
+
+TargetResult^ OCRWrapper::recognizeImage(cv::Mat image, String ^ filepath)
+{
+	try {
+		TargetResult ^ result = targetRecognizer->recognizeTarget(image, filepath);
+		return result;
+	}
+	catch (TargetNotFound ^)
+	{
+		PRINT("Could not find a target");
+		return nullptr;
+	}
 }
 
 void OCRWrapper::ocrThread( void )
@@ -381,7 +264,7 @@ void OCRWrapper::ocrThread( void )
 		std::string filenameStr = Util::managedToSTL(filename);
 		cv::Mat image = cv::imread(filenameStr);
 
-		Results^ ocrGuesses = recognizeImage(image);
+		TargetResult^ ocrGuesses = recognizeImage(image);
 
 		System::Diagnostics::Trace::WriteLine("Shape: " + ocrGuesses->shape + " letter: " + ocrGuesses->letter);
 

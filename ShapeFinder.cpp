@@ -29,14 +29,14 @@ ShapeFinder::findShape(cv::Mat colorImg, String ^ filename)
 	if (!shape.empty())
 		saveImage(shape, filename + "_f_shape.jpg");
 
-	/*
+	
 	PRINT("Num large blobs:" + largeBlobs->Count);
 	PRINT("Num interior blobs:" + interiorBlobs->Count);
 	
-	//if (filename != nullptr)
-		//ColorBlobDetector::saveBlobsToFalseColorImage(largeBlobs, filename + "_d_big.jpg", colorImg.size());
-	//if (filename != nullptr)
-		//ColorBlobDetector::saveBlobsToFalseColorImage(interiorBlobs, filename + "_e_interior.jpg", colorImg.size());
+	/*if (filename != nullptr)
+		ColorBlobDetector::saveBlobsToFalseColorImage(largeBlobs, filename + "_d_big.jpg", colorImg.size());
+	if (filename != nullptr)
+		ColorBlobDetector::saveBlobsToFalseColorImage(interiorBlobs, filename + "_e_interior.jpg", colorImg.size());
 	*/
 
 	return shape;

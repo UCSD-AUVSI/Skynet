@@ -177,13 +177,13 @@ namespace Skynet {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Property;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Value;
 
-	private: System::Windows::Forms::TabControl^  metadataTabControl;
-	private: System::Windows::Forms::TabPage^  tabPage3;
+
+
 	private: System::Windows::Forms::DataGridView^  dataGridView1;
-	private: System::Windows::Forms::TabPage^  tabPage4;
-	private: System::Windows::Forms::TabPage^  tabPage5;
-	private: System::Windows::Forms::DataGridView^  dataGridView2;
-	private: System::Windows::Forms::DataGridView^  dataGridView3;
+
+
+
+
 
 
 	private: System::Windows::Forms::Timer^  videoSaveTimer;
@@ -237,10 +237,65 @@ private: System::Windows::Forms::Label^  label15;
 private: System::Windows::Forms::Label^  label16;
 private: System::Windows::Forms::Panel^  panel1;
 private: System::Diagnostics::Process^  process1;
-private: System::Windows::Forms::Panel^  gimbalHUDPanel;
+
 private: HUDControl^ gimbalHUDView;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public: System::Windows::Forms::PictureBox^  autosearchBox;
+public: System::Windows::Forms::PictureBox^  pathfinderBox;
+private: System::Windows::Forms::PictureBox^  Border;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  candidate_IDColumn;
+private: System::Windows::Forms::DataGridViewImageColumn^  candidate_ThumbnailColumn;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  candidate_LatitudeColumn;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  canidate_LongitudeColumn;
+private: System::Windows::Forms::DataGridViewCheckBoxColumn^  candidate_VerifiedColumn;
+private: System::Windows::Forms::DataGridViewCheckBoxColumn^  processed;
+
+private: System::Windows::Forms::Label^  waypointsLabel;
+private: System::Windows::Forms::Button^  sendWaypoints;
+
+private: System::Windows::Forms::ToolStripMenuItem^  wifiToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  stopToolStripMenuItem1;
+private: System::Windows::Forms::Button^  generateMapButton;
+
+private: System::Windows::Forms::TextBox^  mapBoundariesTextBox;
+
+private: System::Windows::Forms::Label^  label17;
+private: System::Windows::Forms::Button^  loadBoundariesFromFileButton;
+private: System::Windows::Forms::PictureBox^  imageView;
+private: System::Windows::Forms::ToolStripMenuItem^  frameByFrameMenuItem;
+private: System::Windows::Forms::TextBox^  pathWaypointsTextBox;
+
+
+private: System::Windows::Forms::TabControl^  metadataTabControl;
+private: System::Windows::Forms::TabPage^  tabPage3;
+private: System::Windows::Forms::TabPage^  tabPage4;
+private: System::Windows::Forms::DataGridView^  dataGridView2;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_IDColumn;
 private: System::Windows::Forms::DataGridViewImageColumn^  unverified_ThumbnailColumn;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_LatitudeColumn;
@@ -253,8 +308,8 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_Shape;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_ShapeColor;
 private: System::Windows::Forms::DataGridViewCheckBoxColumn^  unverified_ProcessedColumn;
 private: System::Windows::Forms::DataGridViewCheckBoxColumn^  unverified_TargetLock;
-
-
+private: System::Windows::Forms::TabPage^  tabPage5;
+private: System::Windows::Forms::DataGridView^  dataGridView3;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_IDColumn;
 private: System::Windows::Forms::DataGridViewImageColumn^  confirmed_ThumbnailColumn;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LatitudeColumn;
@@ -266,28 +321,8 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LetterCol
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LetterColor;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  targetid_column;
 private: System::Windows::Forms::DataGridViewCheckBoxColumn^  verified_lockon;
-public: System::Windows::Forms::PictureBox^  autosearchBox;
-public: System::Windows::Forms::PictureBox^  pathfinderBox;
-private: System::Windows::Forms::PictureBox^  Border;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  candidate_IDColumn;
-private: System::Windows::Forms::DataGridViewImageColumn^  candidate_ThumbnailColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  candidate_LatitudeColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  canidate_LongitudeColumn;
-private: System::Windows::Forms::DataGridViewCheckBoxColumn^  candidate_VerifiedColumn;
-private: System::Windows::Forms::DataGridViewCheckBoxColumn^  processed;
-private: System::Windows::Forms::CheckedListBox^  gpsCheckboxList;
-private: System::Windows::Forms::Label^  waypointsLabel;
-private: System::Windows::Forms::Button^  sendWaypointsButton;
-private: System::Windows::Forms::ToolStripMenuItem^  wifiToolStripMenuItem;
-private: System::Windows::Forms::ToolStripMenuItem^  stopToolStripMenuItem1;
-private: System::Windows::Forms::Button^  generateMapButton;
+private: System::Windows::Forms::Panel^  gimbalHUDPanel;
 
-private: System::Windows::Forms::TextBox^  mapBoundariesTextBox;
-
-private: System::Windows::Forms::Label^  label17;
-private: System::Windows::Forms::Button^  loadBoundariesFromFileButton;
-private: System::Windows::Forms::PictureBox^  imageView;
-private: System::Windows::Forms::ToolStripMenuItem^  frameByFrameMenuItem;
 
 private: System::Windows::Forms::Button^  button5;
 
@@ -471,10 +506,10 @@ public:
 			this->resetToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->simulatorToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->realtimeSimulationMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->frameByFrameMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->wifiToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->stopToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openGLTimer = (gcnew System::Windows::Forms::Timer(this->components));
-			this->gimbalHUDPanel = (gcnew System::Windows::Forms::Panel());
 			this->errorLogTextBox = (gcnew System::Windows::Forms::RichTextBox());
 			this->metadataTable = (gcnew System::Windows::Forms::DataGridView());
 			this->Property = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -483,8 +518,6 @@ public:
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->vidOptChangeDirBrowserDialog = (gcnew System::Windows::Forms::FolderBrowserDialog());
-			this->metadataTabControl = (gcnew System::Windows::Forms::TabControl());
-			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 			this->candidate_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->candidate_ThumbnailColumn = (gcnew System::Windows::Forms::DataGridViewImageColumn());
@@ -492,6 +525,35 @@ public:
 			this->canidate_LongitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->candidate_VerifiedColumn = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 			this->processed = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
+			this->videoSaveTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->mapUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->mapMenuStrip = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
+			this->mapLookGPSToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->simReadVidDialog = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->label9 = (gcnew System::Windows::Forms::Label());
+			this->label10 = (gcnew System::Windows::Forms::Label());
+			this->label13 = (gcnew System::Windows::Forms::Label());
+			this->label14 = (gcnew System::Windows::Forms::Label());
+			this->label15 = (gcnew System::Windows::Forms::Label());
+			this->label16 = (gcnew System::Windows::Forms::Label());
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->process1 = (gcnew System::Diagnostics::Process());
+			this->autosearchBox = (gcnew System::Windows::Forms::PictureBox());
+			this->Border = (gcnew System::Windows::Forms::PictureBox());
+			this->pathfinderBox = (gcnew System::Windows::Forms::PictureBox());
+			this->waypointsLabel = (gcnew System::Windows::Forms::Label());
+			this->sendWaypoints = (gcnew System::Windows::Forms::Button());
+			this->mapBoundariesTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->generateMapButton = (gcnew System::Windows::Forms::Button());
+			this->label17 = (gcnew System::Windows::Forms::Label());
+			this->loadBoundariesFromFileButton = (gcnew System::Windows::Forms::Button());
+			this->button5 = (gcnew System::Windows::Forms::Button());
+			this->imageView = (gcnew System::Windows::Forms::PictureBox());
+			this->pathWaypointsTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->metadataTabControl = (gcnew System::Windows::Forms::TabControl());
+			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
 			this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
 			this->dataGridView2 = (gcnew System::Windows::Forms::DataGridView());
 			this->unverified_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -519,48 +581,21 @@ public:
 			this->confirmed_LetterColor = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->targetid_column = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->verified_lockon = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
-			this->videoSaveTimer = (gcnew System::Windows::Forms::Timer(this->components));
-			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->mapUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
-			this->mapMenuStrip = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
-			this->mapLookGPSToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->simReadVidDialog = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->button4 = (gcnew System::Windows::Forms::Button());
-			this->label9 = (gcnew System::Windows::Forms::Label());
-			this->label10 = (gcnew System::Windows::Forms::Label());
-			this->label13 = (gcnew System::Windows::Forms::Label());
-			this->label14 = (gcnew System::Windows::Forms::Label());
-			this->label15 = (gcnew System::Windows::Forms::Label());
-			this->label16 = (gcnew System::Windows::Forms::Label());
-			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->process1 = (gcnew System::Diagnostics::Process());
-			this->autosearchBox = (gcnew System::Windows::Forms::PictureBox());
-			this->Border = (gcnew System::Windows::Forms::PictureBox());
-			this->pathfinderBox = (gcnew System::Windows::Forms::PictureBox());
-			this->gpsCheckboxList = (gcnew System::Windows::Forms::CheckedListBox());
-			this->waypointsLabel = (gcnew System::Windows::Forms::Label());
-			this->sendWaypointsButton = (gcnew System::Windows::Forms::Button());
-			this->mapBoundariesTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->generateMapButton = (gcnew System::Windows::Forms::Button());
-			this->label17 = (gcnew System::Windows::Forms::Label());
-			this->loadBoundariesFromFileButton = (gcnew System::Windows::Forms::Button());
-			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->imageView = (gcnew System::Windows::Forms::PictureBox());
-			this->frameByFrameMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->gimbalHUDPanel = (gcnew System::Windows::Forms::Panel());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
-			this->metadataTabControl->SuspendLayout();
-			this->tabPage3->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
-			this->tabPage4->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->BeginInit();
-			this->tabPage5->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->BeginInit();
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->Border))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
+			this->metadataTabControl->SuspendLayout();
+			this->tabPage3->SuspendLayout();
+			this->tabPage4->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->BeginInit();
+			this->tabPage5->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// menuStrip1
@@ -571,7 +606,7 @@ public:
 				this->wifiToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(3587, 24);
+			this->menuStrip1->Size = System::Drawing::Size(1834, 24);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -709,7 +744,7 @@ public:
 			// resetToolStripMenuItem
 			// 
 			this->resetToolStripMenuItem->Name = L"resetToolStripMenuItem";
-			this->resetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->resetToolStripMenuItem->Size = System::Drawing::Size(102, 22);
 			this->resetToolStripMenuItem->Text = L"Reset";
 			this->resetToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::resetToolStripMenuItem_Click);
 			// 
@@ -728,6 +763,12 @@ public:
 			this->realtimeSimulationMenuItem->Text = L"Realtime";
 			this->realtimeSimulationMenuItem->Click += gcnew System::EventHandler(this, &Form1::choosePathToolStripMenuItem_Click);
 			// 
+			// frameByFrameMenuItem
+			// 
+			this->frameByFrameMenuItem->Name = L"frameByFrameMenuItem";
+			this->frameByFrameMenuItem->Size = System::Drawing::Size(163, 22);
+			this->frameByFrameMenuItem->Text = L"Frame-By-Frame";
+			// 
 			// wifiToolStripMenuItem
 			// 
 			this->wifiToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->stopToolStripMenuItem1});
@@ -740,14 +781,6 @@ public:
 			this->stopToolStripMenuItem1->Name = L"stopToolStripMenuItem1";
 			this->stopToolStripMenuItem1->Size = System::Drawing::Size(98, 22);
 			this->stopToolStripMenuItem1->Text = L"Stop";
-			// 
-			// gimbalHUDPanel
-			// 
-			this->gimbalHUDPanel->BackColor = System::Drawing::Color::Transparent;
-			this->gimbalHUDPanel->Location = System::Drawing::Point(550, 790);
-			this->gimbalHUDPanel->Name = L"gimbalHUDPanel";
-			this->gimbalHUDPanel->Size = System::Drawing::Size(134, 134);
-			this->gimbalHUDPanel->TabIndex = 34;
 			// 
 			// errorLogTextBox
 			// 
@@ -855,28 +888,6 @@ public:
 			// 
 			this->vidOptChangeDirBrowserDialog->Description = L"Select Video Output Directory";
 			// 
-			// metadataTabControl
-			// 
-			this->metadataTabControl->Controls->Add(this->tabPage3);
-			this->metadataTabControl->Controls->Add(this->tabPage4);
-			this->metadataTabControl->Controls->Add(this->tabPage5);
-			this->metadataTabControl->Location = System::Drawing::Point(1698, 627);
-			this->metadataTabControl->Name = L"metadataTabControl";
-			this->metadataTabControl->SelectedIndex = 0;
-			this->metadataTabControl->Size = System::Drawing::Size(1274, 307);
-			this->metadataTabControl->TabIndex = 10;
-			// 
-			// tabPage3
-			// 
-			this->tabPage3->Controls->Add(this->dataGridView1);
-			this->tabPage3->Location = System::Drawing::Point(4, 22);
-			this->tabPage3->Name = L"tabPage3";
-			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage3->Size = System::Drawing::Size(1266, 281);
-			this->tabPage3->TabIndex = 0;
-			this->tabPage3->Text = L"Candidate Regions";
-			this->tabPage3->UseVisualStyleBackColor = true;
-			// 
 			// dataGridView1
 			// 
 			this->dataGridView1->AllowUserToAddRows = false;
@@ -885,11 +896,12 @@ public:
 			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->candidate_IDColumn, 
 				this->candidate_ThumbnailColumn, this->candidate_LatitudeColumn, this->canidate_LongitudeColumn, this->candidate_VerifiedColumn, 
 				this->processed});
-			this->dataGridView1->Location = System::Drawing::Point(6, 6);
+			this->dataGridView1->Location = System::Drawing::Point(-4, 0);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowTemplate->Height = 64;
-			this->dataGridView1->Size = System::Drawing::Size(1254, 269);
+			this->dataGridView1->Size = System::Drawing::Size(804, 269);
 			this->dataGridView1->TabIndex = 0;
+			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView1_CellContentClick);
 			this->dataGridView1->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView1_CellDoubleClick);
 			// 
 			// candidate_IDColumn
@@ -930,203 +942,6 @@ public:
 			this->processed->HeaderText = L"Processed";
 			this->processed->Name = L"processed";
 			// 
-			// tabPage4
-			// 
-			this->tabPage4->Controls->Add(this->dataGridView2);
-			this->tabPage4->Location = System::Drawing::Point(4, 22);
-			this->tabPage4->Name = L"tabPage4";
-			this->tabPage4->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage4->Size = System::Drawing::Size(1266, 281);
-			this->tabPage4->TabIndex = 1;
-			this->tabPage4->Text = L"Unconfirmed Targets";
-			this->tabPage4->UseVisualStyleBackColor = true;
-			// 
-			// dataGridView2
-			// 
-			this->dataGridView2->AllowUserToAddRows = false;
-			this->dataGridView2->AllowUserToDeleteRows = false;
-			this->dataGridView2->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView2->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(12) {this->unverified_IDColumn, 
-				this->unverified_ThumbnailColumn, this->unverified_LatitudeColumn, this->unverified_LongitudeColumn, this->unverified_HeadingColumn, 
-				this->unverified_CenterPixel, this->unverfied_LetterColumn, this->unverified_LetterColor, this->unverified_Shape, this->unverified_ShapeColor, 
-				this->unverified_ProcessedColumn, this->unverified_TargetLock});
-			this->dataGridView2->Location = System::Drawing::Point(6, 6);
-			this->dataGridView2->Name = L"dataGridView2";
-			this->dataGridView2->RowTemplate->Height = 64;
-			this->dataGridView2->Size = System::Drawing::Size(1254, 269);
-			this->dataGridView2->TabIndex = 0;
-			this->dataGridView2->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView2_CellDoubleClick);
-			// 
-			// unverified_IDColumn
-			// 
-			this->unverified_IDColumn->HeaderText = L"ID";
-			this->unverified_IDColumn->Name = L"unverified_IDColumn";
-			this->unverified_IDColumn->ReadOnly = true;
-			this->unverified_IDColumn->Width = 70;
-			// 
-			// unverified_ThumbnailColumn
-			// 
-			this->unverified_ThumbnailColumn->HeaderText = L"Thumbnail";
-			this->unverified_ThumbnailColumn->Name = L"unverified_ThumbnailColumn";
-			this->unverified_ThumbnailColumn->ReadOnly = true;
-			this->unverified_ThumbnailColumn->Width = 64;
-			// 
-			// unverified_LatitudeColumn
-			// 
-			this->unverified_LatitudeColumn->HeaderText = L"Latitude";
-			this->unverified_LatitudeColumn->Name = L"unverified_LatitudeColumn";
-			this->unverified_LatitudeColumn->ReadOnly = true;
-			// 
-			// unverified_LongitudeColumn
-			// 
-			this->unverified_LongitudeColumn->HeaderText = L"Longitude";
-			this->unverified_LongitudeColumn->Name = L"unverified_LongitudeColumn";
-			this->unverified_LongitudeColumn->ReadOnly = true;
-			// 
-			// unverified_HeadingColumn
-			// 
-			this->unverified_HeadingColumn->HeaderText = L"Heading";
-			this->unverified_HeadingColumn->Name = L"unverified_HeadingColumn";
-			this->unverified_HeadingColumn->ReadOnly = true;
-			// 
-			// unverified_CenterPixel
-			// 
-			this->unverified_CenterPixel->HeaderText = L"Center Pixel";
-			this->unverified_CenterPixel->Name = L"unverified_CenterPixel";
-			this->unverified_CenterPixel->ReadOnly = true;
-			// 
-			// unverfied_LetterColumn
-			// 
-			this->unverfied_LetterColumn->HeaderText = L"Letter";
-			this->unverfied_LetterColumn->Name = L"unverfied_LetterColumn";
-			this->unverfied_LetterColumn->ReadOnly = true;
-			// 
-			// unverified_LetterColor
-			// 
-			this->unverified_LetterColor->HeaderText = L"Letter Color";
-			this->unverified_LetterColor->Name = L"unverified_LetterColor";
-			this->unverified_LetterColor->ReadOnly = true;
-			// 
-			// unverified_Shape
-			// 
-			this->unverified_Shape->HeaderText = L"Shape";
-			this->unverified_Shape->Name = L"unverified_Shape";
-			this->unverified_Shape->ReadOnly = true;
-			// 
-			// unverified_ShapeColor
-			// 
-			this->unverified_ShapeColor->HeaderText = L"Shape Color";
-			this->unverified_ShapeColor->Name = L"unverified_ShapeColor";
-			this->unverified_ShapeColor->ReadOnly = true;
-			// 
-			// unverified_ProcessedColumn
-			// 
-			this->unverified_ProcessedColumn->HeaderText = L"Processed";
-			this->unverified_ProcessedColumn->Name = L"unverified_ProcessedColumn";
-			this->unverified_ProcessedColumn->ReadOnly = true;
-			// 
-			// unverified_TargetLock
-			// 
-			this->unverified_TargetLock->HeaderText = L"Lock-On";
-			this->unverified_TargetLock->Name = L"unverified_TargetLock";
-			this->unverified_TargetLock->ReadOnly = true;
-			// 
-			// tabPage5
-			// 
-			this->tabPage5->Controls->Add(this->dataGridView3);
-			this->tabPage5->Location = System::Drawing::Point(4, 22);
-			this->tabPage5->Name = L"tabPage5";
-			this->tabPage5->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage5->Size = System::Drawing::Size(1266, 281);
-			this->tabPage5->TabIndex = 2;
-			this->tabPage5->Text = L"Confirmed Targets";
-			this->tabPage5->UseVisualStyleBackColor = true;
-			// 
-			// dataGridView3
-			// 
-			this->dataGridView3->AllowUserToAddRows = false;
-			this->dataGridView3->AllowUserToDeleteRows = false;
-			this->dataGridView3->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView3->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(11) {this->confirmed_IDColumn, 
-				this->confirmed_ThumbnailColumn, this->confirmed_LatitudeColumn, this->confirmed_LongitudeColumn, this->confirmed_HeadingColumn, 
-				this->confirmed_Shape, this->confirmed_ShapeColor, this->confirmed_LetterColumn, this->confirmed_LetterColor, this->targetid_column, 
-				this->verified_lockon});
-			this->dataGridView3->Location = System::Drawing::Point(6, 6);
-			this->dataGridView3->MultiSelect = false;
-			this->dataGridView3->Name = L"dataGridView3";
-			this->dataGridView3->RowTemplate->Height = 64;
-			this->dataGridView3->Size = System::Drawing::Size(1254, 269);
-			this->dataGridView3->TabIndex = 0;
-			this->dataGridView3->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView3_CellDoubleClick);
-			// 
-			// confirmed_IDColumn
-			// 
-			this->confirmed_IDColumn->HeaderText = L"ID";
-			this->confirmed_IDColumn->Name = L"confirmed_IDColumn";
-			this->confirmed_IDColumn->ReadOnly = true;
-			this->confirmed_IDColumn->Width = 70;
-			// 
-			// confirmed_ThumbnailColumn
-			// 
-			this->confirmed_ThumbnailColumn->HeaderText = L"Thumbnail";
-			this->confirmed_ThumbnailColumn->Name = L"confirmed_ThumbnailColumn";
-			this->confirmed_ThumbnailColumn->ReadOnly = true;
-			this->confirmed_ThumbnailColumn->Width = 64;
-			// 
-			// confirmed_LatitudeColumn
-			// 
-			this->confirmed_LatitudeColumn->HeaderText = L"Latitude";
-			this->confirmed_LatitudeColumn->Name = L"confirmed_LatitudeColumn";
-			this->confirmed_LatitudeColumn->ReadOnly = true;
-			// 
-			// confirmed_LongitudeColumn
-			// 
-			this->confirmed_LongitudeColumn->HeaderText = L"Longitude";
-			this->confirmed_LongitudeColumn->Name = L"confirmed_LongitudeColumn";
-			this->confirmed_LongitudeColumn->ReadOnly = true;
-			// 
-			// confirmed_HeadingColumn
-			// 
-			this->confirmed_HeadingColumn->HeaderText = L"Orientation";
-			this->confirmed_HeadingColumn->Name = L"confirmed_HeadingColumn";
-			this->confirmed_HeadingColumn->ReadOnly = true;
-			// 
-			// confirmed_Shape
-			// 
-			this->confirmed_Shape->HeaderText = L"Shape";
-			this->confirmed_Shape->Name = L"confirmed_Shape";
-			this->confirmed_Shape->ReadOnly = true;
-			// 
-			// confirmed_ShapeColor
-			// 
-			this->confirmed_ShapeColor->HeaderText = L"Shape Color";
-			this->confirmed_ShapeColor->Name = L"confirmed_ShapeColor";
-			this->confirmed_ShapeColor->ReadOnly = true;
-			// 
-			// confirmed_LetterColumn
-			// 
-			this->confirmed_LetterColumn->HeaderText = L"Letter";
-			this->confirmed_LetterColumn->Name = L"confirmed_LetterColumn";
-			this->confirmed_LetterColumn->ReadOnly = true;
-			// 
-			// confirmed_LetterColor
-			// 
-			this->confirmed_LetterColor->HeaderText = L"Letter Color";
-			this->confirmed_LetterColor->Name = L"confirmed_LetterColor";
-			this->confirmed_LetterColor->ReadOnly = true;
-			// 
-			// targetid_column
-			// 
-			this->targetid_column->HeaderText = L"Candidate ID";
-			this->targetid_column->Name = L"targetid_column";
-			this->targetid_column->ReadOnly = true;
-			// 
-			// verified_lockon
-			// 
-			this->verified_lockon->HeaderText = L"Lock On";
-			this->verified_lockon->Name = L"verified_lockon";
-			this->verified_lockon->ReadOnly = true;
-			// 
 			// tableLayoutPanel1
 			// 
 			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
@@ -1136,7 +951,7 @@ public:
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent, 
 				50)));
 			this->tableLayoutPanel1->GrowStyle = System::Windows::Forms::TableLayoutPanelGrowStyle::FixedSize;
-			this->tableLayoutPanel1->Location = System::Drawing::Point(3571, 586);
+			this->tableLayoutPanel1->Location = System::Drawing::Point(1818, 586);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
@@ -1159,12 +974,13 @@ public:
 			// 
 			// button4
 			// 
-			this->button4->Location = System::Drawing::Point(1266, 30);
+			this->button4->Location = System::Drawing::Point(960, 27);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(100, 23);
 			this->button4->TabIndex = 18;
 			this->button4->Text = L"Connect";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &Form1::button4_Click);
 			// 
 			// label9
 			// 
@@ -1264,7 +1080,7 @@ public:
 			// 
 			// autosearchBox
 			// 
-			this->autosearchBox->Location = System::Drawing::Point(384, 790);
+			this->autosearchBox->Location = System::Drawing::Point(245, 695);
 			this->autosearchBox->Name = L"autosearchBox";
 			this->autosearchBox->Size = System::Drawing::Size(134, 134);
 			this->autosearchBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
@@ -1275,7 +1091,7 @@ public:
 			// Border
 			// 
 			this->Border->BackgroundImage = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"Border.BackgroundImage")));
-			this->Border->Location = System::Drawing::Point(382, 788);
+			this->Border->Location = System::Drawing::Point(241, 691);
 			this->Border->Name = L"Border";
 			this->Border->Size = System::Drawing::Size(138, 138);
 			this->Border->TabIndex = 36;
@@ -1284,53 +1100,46 @@ public:
 			// pathfinderBox
 			// 
 			this->pathfinderBox->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->pathfinderBox->Location = System::Drawing::Point(1698, 31);
+			this->pathfinderBox->Location = System::Drawing::Point(988, 55);
 			this->pathfinderBox->Name = L"pathfinderBox";
-			this->pathfinderBox->Size = System::Drawing::Size(587, 592);
+			this->pathfinderBox->Size = System::Drawing::Size(260, 573);
 			this->pathfinderBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pathfinderBox->TabIndex = 37;
 			this->pathfinderBox->TabStop = false;
-			// 
-			// gpsCheckboxList
-			// 
-			this->gpsCheckboxList->FormattingEnabled = true;
-			this->gpsCheckboxList->Location = System::Drawing::Point(2724, 77);
-			this->gpsCheckboxList->Name = L"gpsCheckboxList";
-			this->gpsCheckboxList->Size = System::Drawing::Size(299, 409);
-			this->gpsCheckboxList->TabIndex = 38;
 			// 
 			// waypointsLabel
 			// 
 			this->waypointsLabel->AutoSize = true;
 			this->waypointsLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->waypointsLabel->Location = System::Drawing::Point(2812, 36);
+			this->waypointsLabel->Location = System::Drawing::Point(1314, 24);
 			this->waypointsLabel->Name = L"waypointsLabel";
 			this->waypointsLabel->Size = System::Drawing::Size(135, 24);
 			this->waypointsLabel->TabIndex = 39;
 			this->waypointsLabel->Text = L"Path waypoints";
 			// 
-			// sendWaypointsButton
+			// sendWaypoints
 			// 
-			this->sendWaypointsButton->Location = System::Drawing::Point(2793, 517);
-			this->sendWaypointsButton->Name = L"sendWaypointsButton";
-			this->sendWaypointsButton->Size = System::Drawing::Size(154, 69);
-			this->sendWaypointsButton->TabIndex = 40;
-			this->sendWaypointsButton->Text = L"Send checked waypoints to virtual cockpit";
-			this->sendWaypointsButton->UseVisualStyleBackColor = true;
-			this->sendWaypointsButton->Click += gcnew System::EventHandler(this, &Form1::sendWaypointsButton_Click);
+			this->sendWaypoints->Location = System::Drawing::Point(1540, 517);
+			this->sendWaypoints->Name = L"sendWaypoints";
+			this->sendWaypoints->Size = System::Drawing::Size(154, 69);
+			this->sendWaypoints->TabIndex = 40;
+			this->sendWaypoints->Text = L"Send waypoints ";
+			this->sendWaypoints->UseVisualStyleBackColor = true;
+			this->sendWaypoints->Click += gcnew System::EventHandler(this, &Form1::sendWaypointsButton_Click);
 			// 
 			// mapBoundariesTextBox
 			// 
-			this->mapBoundariesTextBox->Location = System::Drawing::Point(2346, 77);
+			this->mapBoundariesTextBox->Location = System::Drawing::Point(1277, 235);
 			this->mapBoundariesTextBox->Multiline = true;
 			this->mapBoundariesTextBox->Name = L"mapBoundariesTextBox";
-			this->mapBoundariesTextBox->Size = System::Drawing::Size(317, 409);
+			this->mapBoundariesTextBox->Size = System::Drawing::Size(225, 211);
 			this->mapBoundariesTextBox->TabIndex = 41;
+			this->mapBoundariesTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::mapBoundariesTextBox_TextChanged);
 			// 
 			// generateMapButton
 			// 
-			this->generateMapButton->Location = System::Drawing::Point(2437, 539);
+			this->generateMapButton->Location = System::Drawing::Point(1300, 557);
 			this->generateMapButton->Name = L"generateMapButton";
 			this->generateMapButton->Size = System::Drawing::Size(149, 52);
 			this->generateMapButton->TabIndex = 42;
@@ -1343,7 +1152,7 @@ public:
 			this->label17->AutoSize = true;
 			this->label17->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label17->Location = System::Drawing::Point(2433, 36);
+			this->label17->Location = System::Drawing::Point(1301, 197);
 			this->label17->Name = L"label17";
 			this->label17->Size = System::Drawing::Size(148, 24);
 			this->label17->TabIndex = 43;
@@ -1351,7 +1160,7 @@ public:
 			// 
 			// loadBoundariesFromFileButton
 			// 
-			this->loadBoundariesFromFileButton->Location = System::Drawing::Point(2437, 492);
+			this->loadBoundariesFromFileButton->Location = System::Drawing::Point(1300, 492);
 			this->loadBoundariesFromFileButton->Name = L"loadBoundariesFromFileButton";
 			this->loadBoundariesFromFileButton->Size = System::Drawing::Size(149, 41);
 			this->loadBoundariesFromFileButton->TabIndex = 44;
@@ -1361,7 +1170,7 @@ public:
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(718, 795);
+			this->button5->Location = System::Drawing::Point(614, 702);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(143, 127);
 			this->button5->TabIndex = 45;
@@ -1373,16 +1182,246 @@ public:
 			// 
 			this->imageView->Location = System::Drawing::Point(252, 55);
 			this->imageView->Name = L"imageView";
-			this->imageView->Size = System::Drawing::Size(1288, 720);
+			this->imageView->Size = System::Drawing::Size(702, 554);
 			this->imageView->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->imageView->TabIndex = 47;
 			this->imageView->TabStop = false;
 			// 
-			// frameByFrameMenuItem
+			// pathWaypointsTextBox
 			// 
-			this->frameByFrameMenuItem->Name = L"frameByFrameMenuItem";
-			this->frameByFrameMenuItem->Size = System::Drawing::Size(163, 22);
-			this->frameByFrameMenuItem->Text = L"Frame-By-Frame";
+			this->pathWaypointsTextBox->Location = System::Drawing::Point(1277, 55);
+			this->pathWaypointsTextBox->Multiline = true;
+			this->pathWaypointsTextBox->Name = L"pathWaypointsTextBox";
+			this->pathWaypointsTextBox->Size = System::Drawing::Size(225, 126);
+			this->pathWaypointsTextBox->TabIndex = 48;
+			this->pathWaypointsTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
+			// 
+			// metadataTabControl
+			// 
+			this->metadataTabControl->Controls->Add(this->tabPage3);
+			this->metadataTabControl->Controls->Add(this->tabPage4);
+			this->metadataTabControl->Controls->Add(this->tabPage5);
+			this->metadataTabControl->Location = System::Drawing::Point(849, 660);
+			this->metadataTabControl->Name = L"metadataTabControl";
+			this->metadataTabControl->SelectedIndex = 0;
+			this->metadataTabControl->Size = System::Drawing::Size(845, 239);
+			this->metadataTabControl->TabIndex = 49;
+			// 
+			// tabPage3
+			// 
+			this->tabPage3->Controls->Add(this->dataGridView1);
+			this->tabPage3->Location = System::Drawing::Point(4, 22);
+			this->tabPage3->Name = L"tabPage3";
+			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage3->Size = System::Drawing::Size(837, 213);
+			this->tabPage3->TabIndex = 0;
+			this->tabPage3->Text = L"Candidate Regions";
+			this->tabPage3->UseVisualStyleBackColor = true;
+			this->tabPage3->Click += gcnew System::EventHandler(this, &Form1::tabPage3_Click);
+			// 
+			// tabPage4
+			// 
+			this->tabPage4->Controls->Add(this->dataGridView2);
+			this->tabPage4->Location = System::Drawing::Point(4, 22);
+			this->tabPage4->Name = L"tabPage4";
+			this->tabPage4->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage4->Size = System::Drawing::Size(837, 213);
+			this->tabPage4->TabIndex = 1;
+			this->tabPage4->Text = L"Unconfirmed Targets";
+			this->tabPage4->UseVisualStyleBackColor = true;
+			// 
+			// dataGridView2
+			// 
+			this->dataGridView2->AllowUserToAddRows = false;
+			this->dataGridView2->AllowUserToDeleteRows = false;
+			this->dataGridView2->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridView2->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(12) {this->unverified_IDColumn, 
+				this->unverified_ThumbnailColumn, this->unverified_LatitudeColumn, this->unverified_LongitudeColumn, this->unverified_HeadingColumn, 
+				this->unverified_CenterPixel, this->unverfied_LetterColumn, this->unverified_LetterColor, this->unverified_Shape, this->unverified_ShapeColor, 
+				this->unverified_ProcessedColumn, this->unverified_TargetLock});
+			this->dataGridView2->Location = System::Drawing::Point(6, 6);
+			this->dataGridView2->Name = L"dataGridView2";
+			this->dataGridView2->RowTemplate->Height = 64;
+			this->dataGridView2->Size = System::Drawing::Size(1254, 269);
+			this->dataGridView2->TabIndex = 0;
+			// 
+			// unverified_IDColumn
+			// 
+			this->unverified_IDColumn->HeaderText = L"ID";
+			this->unverified_IDColumn->Name = L"unverified_IDColumn";
+			this->unverified_IDColumn->ReadOnly = true;
+			this->unverified_IDColumn->Width = 70;
+			// 
+			// unverified_ThumbnailColumn
+			// 
+			this->unverified_ThumbnailColumn->HeaderText = L"Thumbnail";
+			this->unverified_ThumbnailColumn->Name = L"unverified_ThumbnailColumn";
+			this->unverified_ThumbnailColumn->ReadOnly = true;
+			this->unverified_ThumbnailColumn->Width = 64;
+			// 
+			// unverified_LatitudeColumn
+			// 
+			this->unverified_LatitudeColumn->HeaderText = L"Latitude";
+			this->unverified_LatitudeColumn->Name = L"unverified_LatitudeColumn";
+			this->unverified_LatitudeColumn->ReadOnly = true;
+			// 
+			// unverified_LongitudeColumn
+			// 
+			this->unverified_LongitudeColumn->HeaderText = L"Longitude";
+			this->unverified_LongitudeColumn->Name = L"unverified_LongitudeColumn";
+			this->unverified_LongitudeColumn->ReadOnly = true;
+			// 
+			// unverified_HeadingColumn
+			// 
+			this->unverified_HeadingColumn->HeaderText = L"Heading";
+			this->unverified_HeadingColumn->Name = L"unverified_HeadingColumn";
+			this->unverified_HeadingColumn->ReadOnly = true;
+			// 
+			// unverified_CenterPixel
+			// 
+			this->unverified_CenterPixel->HeaderText = L"Center Pixel";
+			this->unverified_CenterPixel->Name = L"unverified_CenterPixel";
+			this->unverified_CenterPixel->ReadOnly = true;
+			// 
+			// unverfied_LetterColumn
+			// 
+			this->unverfied_LetterColumn->HeaderText = L"Letter";
+			this->unverfied_LetterColumn->Name = L"unverfied_LetterColumn";
+			this->unverfied_LetterColumn->ReadOnly = true;
+			// 
+			// unverified_LetterColor
+			// 
+			this->unverified_LetterColor->HeaderText = L"Letter Color";
+			this->unverified_LetterColor->Name = L"unverified_LetterColor";
+			this->unverified_LetterColor->ReadOnly = true;
+			// 
+			// unverified_Shape
+			// 
+			this->unverified_Shape->HeaderText = L"Shape";
+			this->unverified_Shape->Name = L"unverified_Shape";
+			this->unverified_Shape->ReadOnly = true;
+			// 
+			// unverified_ShapeColor
+			// 
+			this->unverified_ShapeColor->HeaderText = L"Shape Color";
+			this->unverified_ShapeColor->Name = L"unverified_ShapeColor";
+			this->unverified_ShapeColor->ReadOnly = true;
+			// 
+			// unverified_ProcessedColumn
+			// 
+			this->unverified_ProcessedColumn->HeaderText = L"Processed";
+			this->unverified_ProcessedColumn->Name = L"unverified_ProcessedColumn";
+			this->unverified_ProcessedColumn->ReadOnly = true;
+			// 
+			// unverified_TargetLock
+			// 
+			this->unverified_TargetLock->HeaderText = L"Lock-On";
+			this->unverified_TargetLock->Name = L"unverified_TargetLock";
+			this->unverified_TargetLock->ReadOnly = true;
+			// 
+			// tabPage5
+			// 
+			this->tabPage5->Controls->Add(this->dataGridView3);
+			this->tabPage5->Location = System::Drawing::Point(4, 22);
+			this->tabPage5->Name = L"tabPage5";
+			this->tabPage5->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage5->Size = System::Drawing::Size(837, 213);
+			this->tabPage5->TabIndex = 2;
+			this->tabPage5->Text = L"Confirmed Targets";
+			this->tabPage5->UseVisualStyleBackColor = true;
+			// 
+			// dataGridView3
+			// 
+			this->dataGridView3->AllowUserToAddRows = false;
+			this->dataGridView3->AllowUserToDeleteRows = false;
+			this->dataGridView3->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridView3->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(11) {this->confirmed_IDColumn, 
+				this->confirmed_ThumbnailColumn, this->confirmed_LatitudeColumn, this->confirmed_LongitudeColumn, this->confirmed_HeadingColumn, 
+				this->confirmed_Shape, this->confirmed_ShapeColor, this->confirmed_LetterColumn, this->confirmed_LetterColor, this->targetid_column, 
+				this->verified_lockon});
+			this->dataGridView3->Location = System::Drawing::Point(6, 6);
+			this->dataGridView3->MultiSelect = false;
+			this->dataGridView3->Name = L"dataGridView3";
+			this->dataGridView3->RowTemplate->Height = 64;
+			this->dataGridView3->Size = System::Drawing::Size(1254, 269);
+			this->dataGridView3->TabIndex = 0;
+			// 
+			// confirmed_IDColumn
+			// 
+			this->confirmed_IDColumn->HeaderText = L"ID";
+			this->confirmed_IDColumn->Name = L"confirmed_IDColumn";
+			this->confirmed_IDColumn->ReadOnly = true;
+			this->confirmed_IDColumn->Width = 70;
+			// 
+			// confirmed_ThumbnailColumn
+			// 
+			this->confirmed_ThumbnailColumn->HeaderText = L"Thumbnail";
+			this->confirmed_ThumbnailColumn->Name = L"confirmed_ThumbnailColumn";
+			this->confirmed_ThumbnailColumn->ReadOnly = true;
+			this->confirmed_ThumbnailColumn->Width = 64;
+			// 
+			// confirmed_LatitudeColumn
+			// 
+			this->confirmed_LatitudeColumn->HeaderText = L"Latitude";
+			this->confirmed_LatitudeColumn->Name = L"confirmed_LatitudeColumn";
+			this->confirmed_LatitudeColumn->ReadOnly = true;
+			// 
+			// confirmed_LongitudeColumn
+			// 
+			this->confirmed_LongitudeColumn->HeaderText = L"Longitude";
+			this->confirmed_LongitudeColumn->Name = L"confirmed_LongitudeColumn";
+			this->confirmed_LongitudeColumn->ReadOnly = true;
+			// 
+			// confirmed_HeadingColumn
+			// 
+			this->confirmed_HeadingColumn->HeaderText = L"Orientation";
+			this->confirmed_HeadingColumn->Name = L"confirmed_HeadingColumn";
+			this->confirmed_HeadingColumn->ReadOnly = true;
+			// 
+			// confirmed_Shape
+			// 
+			this->confirmed_Shape->HeaderText = L"Shape";
+			this->confirmed_Shape->Name = L"confirmed_Shape";
+			this->confirmed_Shape->ReadOnly = true;
+			// 
+			// confirmed_ShapeColor
+			// 
+			this->confirmed_ShapeColor->HeaderText = L"Shape Color";
+			this->confirmed_ShapeColor->Name = L"confirmed_ShapeColor";
+			this->confirmed_ShapeColor->ReadOnly = true;
+			// 
+			// confirmed_LetterColumn
+			// 
+			this->confirmed_LetterColumn->HeaderText = L"Letter";
+			this->confirmed_LetterColumn->Name = L"confirmed_LetterColumn";
+			this->confirmed_LetterColumn->ReadOnly = true;
+			// 
+			// confirmed_LetterColor
+			// 
+			this->confirmed_LetterColor->HeaderText = L"Letter Color";
+			this->confirmed_LetterColor->Name = L"confirmed_LetterColor";
+			this->confirmed_LetterColor->ReadOnly = true;
+			// 
+			// targetid_column
+			// 
+			this->targetid_column->HeaderText = L"Candidate ID";
+			this->targetid_column->Name = L"targetid_column";
+			this->targetid_column->ReadOnly = true;
+			// 
+			// verified_lockon
+			// 
+			this->verified_lockon->HeaderText = L"Lock On";
+			this->verified_lockon->Name = L"verified_lockon";
+			this->verified_lockon->ReadOnly = true;
+			// 
+			// gimbalHUDPanel
+			// 
+			this->gimbalHUDPanel->BackColor = System::Drawing::Color::Transparent;
+			this->gimbalHUDPanel->Location = System::Drawing::Point(424, 695);
+			this->gimbalHUDPanel->Name = L"gimbalHUDPanel";
+			this->gimbalHUDPanel->Size = System::Drawing::Size(134, 134);
+			this->gimbalHUDPanel->TabIndex = 34;
+			this->gimbalHUDPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::gimbalHUDPanel_Paint);
 			// 
 			// Form1
 			// 
@@ -1390,24 +1429,24 @@ public:
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoValidate = System::Windows::Forms::AutoValidate::EnableAllowFocusChange;
 			this->BackColor = System::Drawing::Color::DimGray;
-			this->ClientSize = System::Drawing::Size(3587, 946);
+			this->ClientSize = System::Drawing::Size(1834, 946);
 			this->Controls->Add(this->imageView);
-			this->Controls->Add(this->button5);
+			this->Controls->Add(this->metadataTabControl);
+			this->Controls->Add(this->pathWaypointsTextBox);
 			this->Controls->Add(this->loadBoundariesFromFileButton);
 			this->Controls->Add(this->label17);
 			this->Controls->Add(this->mapBoundariesTextBox);
-			this->Controls->Add(this->sendWaypointsButton);
-			this->Controls->Add(this->generateMapButton);
-			this->Controls->Add(this->gpsCheckboxList);
-			this->Controls->Add(this->waypointsLabel);
-			this->Controls->Add(this->autosearchBox);
-			this->Controls->Add(this->gimbalHUDPanel);
+			this->Controls->Add(this->button5);
 			this->Controls->Add(this->panel1);
-			this->Controls->Add(this->pathfinderBox);
-			this->Controls->Add(this->button4);
+			this->Controls->Add(this->generateMapButton);
+			this->Controls->Add(this->sendWaypoints);
+			this->Controls->Add(this->autosearchBox);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->metadataTabControl);
+			this->Controls->Add(this->button4);
+			this->Controls->Add(this->waypointsLabel);
+			this->Controls->Add(this->gimbalHUDPanel);
 			this->Controls->Add(this->label6);
+			this->Controls->Add(this->pathfinderBox);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->metadataTable);
 			this->Controls->Add(this->startRecordButton);
@@ -1417,26 +1456,25 @@ public:
 			this->Location = System::Drawing::Point(250, 0);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"Form1";
-			this->Text = L"UCSD Skynet";
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form1::Form1_KeyDown);
 			this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &Form1::Form1_KeyPress);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->EndInit();
-			this->metadataTabControl->ResumeLayout(false);
-			this->tabPage3->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->EndInit();
-			this->tabPage4->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->EndInit();
-			this->tabPage5->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->EndInit();
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->Border))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->EndInit();
+			this->metadataTabControl->ResumeLayout(false);
+			this->tabPage3->ResumeLayout(false);
+			this->tabPage4->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->EndInit();
+			this->tabPage5->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1474,6 +1512,14 @@ private: System::Void consoleMessage( String ^ message, Color col )
 
 		 	 return;
 		 }
+public: System::Void setWayPointsText(String ^ text)
+		{
+			if (!pathWaypointsTextBox->InvokeRequired){
+				pathWaypointsTextBox->Text=text;
+			} else {
+				this->Invoke(gcnew Delegates::stringToVoid(this,&Form1::setWayPointsText), (Object^)text);
+			}
+		}
 public:  System::Void doNothing() {
 			 System::Diagnostics::Trace::WriteLine("Doing nothing");
 		 }
@@ -1749,7 +1795,7 @@ public: System::Void insertUnverifiedData( Database::UnverifiedRowData ^ data)
 
 		}
 
-public: System::Void fillGpsCheckboxList ( array<Communications::Waypoint ^>^ waypoints )
+/*public: System::Void fillGpsCheckboxList ( array<Communications::Waypoint ^>^ waypoints )
 		{
 			auto gpsCheckboxList = this->gpsCheckboxList;
 			if ( gpsCheckboxList->InvokeRequired ){
@@ -1762,8 +1808,8 @@ public: System::Void fillGpsCheckboxList ( array<Communications::Waypoint ^>^ wa
 					gpsListItems->Add(waypoints[i],true);
 				}
 			}
-		}
 
+			*/
 public: System::Void insertVerifiedTargetData( Database::VerifiedRowData ^ data) 
 		{
 			if (data == nullptr) {
@@ -2349,11 +2395,8 @@ private: System::Void sendWaypointsButton_Click(System::Object^  sender, System:
 		 }
 
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
-		if ( appController->getIntelligenceController() == nullptr){
-			appController->createIntelligenceController(mapBoundariesTextBox->Lines);		 
-		}else{
-			appController->restartIntelligenceController(mapBoundariesTextBox->Lines);
-		}
+		array<System::String^>^ lines = mapBoundariesTextBox->Lines;
+		appController->startIntelligenceController(lines);
 }
 
 private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -2375,6 +2418,24 @@ private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender,
 		 }
 private: System::Void button5_Click_1(System::Object^  sender, System::EventArgs^  e) {
 			appController->saveCurrentFrameAsUnverified();		 
+		 }
+private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+						
+
+		 }
+private: System::Void mapBoundariesTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+		
+
+
+		 }
+
+private: System::Void dataGridView1_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+		 }
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void gimbalHUDPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+		 }
+private: System::Void tabPage3_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }

@@ -1,11 +1,95 @@
-32.879676,-117.231487
-32.880135,-117.231199
-32.880135,-117.230830
-32.880378,-117.230560
-32.880540,-117.230155
-32.880594,-117.229642
-32.880135,-117.229597
-32.880135,-117.229930
-32.880135,-117.230290
-32.879892,-117.230560
-32.879721,-117.230974
+ID: 0 I: 7 J: 0 X: 457 Y: 30 Children: 
+ID: 2 I: 6 J: 1 X: 427 Y: 91 Children: 
+ID: 7 I: 6 J: 2 X: 396 Y: 152 Children: 
+ID: 6 I: 5 J: 2 X: 335 Y: 152 Children: 
+ID: 12 I: 4 J: 3 X: 305 Y: 213 Children: 
+ID: 21 I: 4 J: 4 X: 274 Y: 274 Children: 
+ID: 20 I: 3 J: 4 X: 213 Y: 274 Children: 
+ID: 30 I: 2 J: 5 X: 183 Y: 335 Children: 
+ID: 43 I: 2 J: 6 X: 152 Y: 396 Children: 
+ID: 42 I: 1 J: 6 X: 91 Y: 396 Children: 
+ID: 56 I: 0 J: 7 X: 61 Y: 457 Children: 
+ID: 72 I: 0 J: 8 X: 30 Y: 518 Children: 
+ID: 89 I: 0 J: 9 X: 61 Y: 579 Children: 
+ID: 73 I: 1 J: 8 X: 91 Y: 518 Children: 
+ID: 57 I: 1 J: 7 X: 122 Y: 457 Children: 
+ID: 74 I: 2 J: 8 X: 152 Y: 518 Children: 
+ID: 58 I: 2 J: 7 X: 183 Y: 457 Children: 
+ID: 44 I: 3 J: 6 X: 213 Y: 396 Children: 
+ID: 31 I: 3 J: 5 X: 244 Y: 335 Children: 
+ID: 45 I: 4 J: 6 X: 274 Y: 396 Children: 
+ID: 32 I: 4 J: 5 X: 305 Y: 335 Children: 
+ID: 22 I: 5 J: 4 X: 335 Y: 274 Children: 
+ID: 13 I: 5 J: 3 X: 366 Y: 213 Children: 
+ID: 23 I: 6 J: 4 X: 396 Y: 274 Children: 
+ID: 14 I: 6 J: 3 X: 427 Y: 213 Children: 
+ID: 8 I: 7 J: 2 X: 457 Y: 152 Children: 
+ID: 3 I: 7 J: 1 X: 488 Y: 91 Children: 
+ID: 1 I: 8 J: 0 X: 518 Y: 30 Children: 
+ID: 4 I: 8 J: 1 X: 549 Y: 91 Children: 
+ID: 9 I: 8 J: 2 X: 518 Y: 152 Children: 
+ID: 15 I: 7 J: 3 X: 488 Y: 213 Children: 
+ID: 24 I: 7 J: 4 X: 457 Y: 274 Children: 
+ID: 34 I: 6 J: 5 X: 427 Y: 335 Children: 
+ID: 33 I: 5 J: 5 X: 366 Y: 335 Children: 
+ID: 46 I: 5 J: 6 X: 335 Y: 396 Children: 
+ID: 60 I: 4 J: 7 X: 305 Y: 457 Children: 
+ID: 59 I: 3 J: 7 X: 244 Y: 457 Children: 
+ID: 75 I: 3 J: 8 X: 213 Y: 518 Children: 
+ID: 91 I: 2 J: 9 X: 183 Y: 579 Children: 
+ID: 90 I: 1 J: 9 X: 122 Y: 579 Children: 
+ID: 104 I: 2 J: 10 X: 152 Y: 640 Children: 
+ID: 117 I: 2 J: 11 X: 183 Y: 701 Children: 
+ID: 105 I: 3 J: 10 X: 213 Y: 640 Children: 
+ID: 92 I: 3 J: 9 X: 244 Y: 579 Children: 
+ID: 76 I: 4 J: 8 X: 274 Y: 518 Children: 
+ID: 93 I: 4 J: 9 X: 305 Y: 579 Children: 
+ID: 77 I: 5 J: 8 X: 335 Y: 518 Children: 
+ID: 61 I: 5 J: 7 X: 366 Y: 457 Children: 
+ID: 47 I: 6 J: 6 X: 396 Y: 396 Children: 
+ID: 62 I: 6 J: 7 X: 427 Y: 457 Children: 
+ID: 48 I: 7 J: 6 X: 457 Y: 396 Children: 
+ID: 35 I: 7 J: 5 X: 488 Y: 335 Children: 
+ID: 25 I: 8 J: 4 X: 518 Y: 274 Children: 
+ID: 16 I: 8 J: 3 X: 549 Y: 213 Children: 
+ID: 10 I: 9 J: 2 X: 579 Y: 152 Children: 
+ID: 5 I: 9 J: 1 X: 610 Y: 91 Children: 
+ID: 11 I: 10 J: 2 X: 640 Y: 152 Children: 
+ID: 17 I: 9 J: 3 X: 610 Y: 213 Children: 
+ID: 26 I: 9 J: 4 X: 579 Y: 274 Children: 
+ID: 36 I: 8 J: 5 X: 549 Y: 335 Children: 
+ID: 49 I: 8 J: 6 X: 518 Y: 396 Children: 
+ID: 63 I: 7 J: 7 X: 488 Y: 457 Children: 
+ID: 79 I: 7 J: 8 X: 457 Y: 518 Children: 
+ID: 78 I: 6 J: 8 X: 396 Y: 518 Children: 
+ID: 94 I: 5 J: 9 X: 366 Y: 579 Children: 
+ID: 107 I: 5 J: 10 X: 335 Y: 640 Children: 
+ID: 106 I: 4 J: 10 X: 274 Y: 640 Children: 
+ID: 118 I: 3 J: 11 X: 244 Y: 701 Children: 
+ID: 128 I: 4 J: 12 X: 274 Y: 762 Children: 
+ID: 119 I: 4 J: 11 X: 305 Y: 701 Children: 
+ID: 129 I: 5 J: 12 X: 335 Y: 762 Children: 
+ID: 120 I: 5 J: 11 X: 366 Y: 701 Children: 
+ID: 108 I: 6 J: 10 X: 396 Y: 640 Children: 
+ID: 95 I: 6 J: 9 X: 427 Y: 579 Children: 
+ID: 109 I: 7 J: 10 X: 457 Y: 640 Children: 
+ID: 96 I: 7 J: 9 X: 488 Y: 579 Children: 
+ID: 80 I: 8 J: 8 X: 518 Y: 518 Children: 
+ID: 64 I: 8 J: 7 X: 549 Y: 457 Children: 
+ID: 50 I: 9 J: 6 X: 579 Y: 396 Children: 
+ID: 37 I: 9 J: 5 X: 610 Y: 335 Children: 
+ID: 27 I: 10 J: 4 X: 640 Y: 274 Children: 
+ID: 18 I: 10 J: 3 X: 671 Y: 213 Children: 
+ID: 28 I: 11 J: 4 X: 701 Y: 274 Children: 
+ID: 19 I: 11 J: 3 X: 732 Y: 213 Children: 
+ID: 29 I: 12 J: 4 X: 762 Y: 274 Children: 
+ID: 39 I: 11 J: 5 X: 732 Y: 335 Children: 
+ID: 38 I: 10 J: 5 X: 671 Y: 335 Children: 
+ID: 51 I: 10 J: 6 X: 640 Y: 396 Children: 
+ID: 65 I: 9 J: 7 X: 610 Y: 457 Children: 
+ID: 81 I: 9 J: 8 X: 579 Y: 518 Children: 
+ID: 97 I: 8 J: 9 X: 549 Y: 579 Children: 
+ID: 110 I: 8 J: 10 X: 518 Y: 640 Children: 
+ID: 122 I: 7 J: 11 X: 488 Y: 701 Children: 
+ID: 121 I: 6 J: 11 X: 427 Y: 701 Children: 
+ID: 130 I: 6 J: 12 X: 396 Y: 762 Chi

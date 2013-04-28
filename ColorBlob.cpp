@@ -3,6 +3,7 @@
 #include "Util.h"
 #include "VisionUtil.h"
 #include <cmath>
+#include "BlobResult.h"
 
 using namespace Vision;
 using namespace Util;
@@ -167,6 +168,8 @@ ColorBlob::setBlobColor(PixelColor color)
 bool 
 ColorBlob::isInterior()
 {
+	cv::Mat bigBlobMask = clonedMaskWithNoSmallBlobs();
+
 	cv::Mat edgeMask = cv::Mat(mask->size(), CV_8UC1);
 	edgeMask.setTo(0);
 	edgeMask.col(0).setTo(1);
@@ -174,10 +177,34 @@ ColorBlob::isInterior()
 	edgeMask.col(mask->cols-1).setTo(1);
 	edgeMask.row(mask->rows-1).setTo(1);
 	cv::Mat valuesOnEdges;
-	mask->copyTo(valuesOnEdges, edgeMask);
+	bigBlobMask.copyTo(valuesOnEdges, edgeMask);
 	int numPixelsOnBorder = cv::countNonZero(valuesOnEdges);
 	bool edgesAreOff = numPixelsOnBorder == 0;
 	return edgesAreOff;
+}
+
+cv::Mat
+ColorBlob::clonedMaskWithNoSmallBlobs()
+{
+	cv::Mat clonedMask = mask->clone();
+
+	int minimumBlobSize = 10;
+
+	CBlobResult blobs;
+	CBlob * currentBlob;
+	IplImage binaryIpl = clonedMask;
+	blobs = CBlobResult( &binaryIpl, NULL, 0 );
+	
+	blobs.Filter( blobs, B_EXCLUDE, CBlobGetArea(), B_GREATER_OR_EQUAL, minimumBlobSize );
+	for (int i = 0; i < blobs.GetNumBlobs(); i++ )
+	{
+    	currentBlob = blobs.GetBlob(i);
+		currentBlob->FillBlob( &binaryIpl, cvScalar(0));
+	}
+
+	//clonedMask = binaryIpl;
+
+	return clonedMask;
 }
 
 unsigned char 

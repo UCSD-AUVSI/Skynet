@@ -147,7 +147,7 @@ public:
 	//! Gets the total number of blobs
 	int GetNumBlobs() const 
 	{ 
-		return(m_blobs.size()); 
+		return (int)(m_blobs.size()); 
 	}
 
 

@@ -8,6 +8,10 @@
 #include "Util.h"
 #include "PlaneWatcher.h"
 #include "DatabaseStructures.h"
+#include "TargetRecognizer.h"
+#include "ShapeTester.h"
+#include "LetterTester.h"
+#include "ShapeSegmentationTester.h"
 
 using namespace Vision;
 using namespace System;
@@ -19,7 +23,7 @@ using namespace Database;
 VisionController::VisionController(SkynetController ^ skynetCtrl):
 	width(0), height(0), paused(false), skynetController(skynetCtrl)
 {
-	frameQueue = gcnew Queue(60);
+	frameQueue = gcnew Collections::Queue(60);
 
 
 	// make and init DuplicateResolver,Saliency,OCR
@@ -44,6 +48,43 @@ VisionController::initImagingPathway()
 	duplicateResolver = gcnew DuplicateResolver(skynetController);
 	saliency = gcnew Saliency(this);
 	ocr = gcnew OCRWrapper(this);
+
+	/**
+	 * TIM: Put testing code here
+	 */
+
+	//ShapeTester::runTest( "C:\\Users\\ucsd_auvsi\\Dropbox\\AUVSI\\Technical\\Software\\OCR testing data\\ShapeTestSet\\" );
+	//LetterTester::runTest( "C:\\Users\\ucsd_auvsi\\Dropbox\\AUVSI\\Technical\\Software\\OCR testing data\\LetterTestSet\\", ocr );
+	//ShapeSegmentationTester::runTest( "C:\\Users\\ucsd_auvsi\\Dropbox\\AUVSI\\Technical\\Software\\OCR testing data\\CombinedPlywood\\", ocr );
+	//throw gcnew Exception();
+
+	/*
+	System::Collections::IEnumerator^ files = fileEntries->GetEnumerator();
+    while ( files->MoveNext() )
+    {
+       String^ fileName = safe_cast<String^>(files->Current);
+       PRINT( "found: " + fileName );
+    }
+	*/
+
+	/*
+	array<String^ >^ theFiles = gcnew array<String^ > (1);
+	theFiles[0] = "C:\\test\\timtest\\circ.png";
+	ShapeTester^ tester = gcnew ShapeTester( theFiles );
+	tester->testAllFiles();
+	*/
+	
+	
+	// saliency->runTestOnImageNamed("C:\\46000.jpg");
+	// outputs to: C:\\Saliency_Test_Output
+	
+	/*
+	TargetResult^ result = ocr->targetRecognizer->recognizeTarget("C:\\test\\timtest\\a_circ_2_orig.png");
+	PRINT(result->shape +", " + result->letter);
+	throw gcnew Exception();
+	*/
+
+	
 }
 
 void 
@@ -118,11 +159,14 @@ VisionController::processSaliencyCandidate(CandidateRowData^ candidate)
 			return false;
 		}
 	}
-	OCRWrapper::Results ^ ocrData = ocr->recognizeImage(cv::imread(managedToSTL(HTTP_SERVER_TARGET_PATH + candidate->imageName)));
+	TargetResult ^ ocrData = ocr->recognizeImage(cv::imread(managedToSTL(HTTP_SERVER_TARGET_PATH + candidate->imageName)), HTTP_SERVER_TARGET_PATH + candidate->imageName);
 
 	//// handle data
 	unverified->description->shape = ocrData->shape;
-	unverified->description->letter = gcnew String(""+ocrData->letter);
+	unverified->description->letter = ocrData->letter;
+	unverified->description->shapeColor = ocrData->shapeColor;
+	unverified->description->letterColor = ocrData->letterColor;
+	unverified->description->heading = ocrData->getHeadingString();
 		
 	/* TODO: Implement SkynetController::upsertUnverified */
 	if (unverified->targetid == 0){

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
 #include "Recognizer.h"
-#include "Auvsi_Ocr.h"
+#include "Auvsi_OCRWrapper.h"
 #include "Auvsi_Radon.h"
 #include "Auvsi_DualTree.h"
 #include "Auvsi_Fft.h"

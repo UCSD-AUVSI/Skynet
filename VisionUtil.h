@@ -13,7 +13,7 @@ namespace Vision {
 	#define PTSTR(pt) "(" + pt.x + "," + pt.y + ")"
 	#define VEC2STR(pt) "(" + pt[0] + "," + pt[1] + ")"
 
-	typedef unsigned char uchar;
+	//typedef unsigned char uchar;
 	typedef cv::Vec<float, 3> PixelColor;
 	
 	using namespace System;
@@ -80,10 +80,10 @@ namespace Vision {
 	System::String ^ shapeFloatToString(float input);
 	int shapeStrToInt(String ^ const shape);
 
-	wchar_t parseFilenameForLetter(String^ const filename);
+	String ^ parseFilenameForLetter(String^ const filename);
 	String^ parseFilenameForShape( String^ const filename);
 	String^ parseFilenameForSeparateShape(String^ const filename);
-	wchar_t disambiguateLetter(wchar_t input);
+	String ^ disambiguateLetter(String ^ input);
 
 	PixelColor blackPixelColor();
 
@@ -97,15 +97,15 @@ namespace Vision {
 	cv::Mat outsideFill(cv::Mat input, unsigned char color);
 	cv::Mat centerFill(cv::Mat input, unsigned char color);
 	float farthestPixelFromCenter(cv::Mat input, unsigned char color);
+	
+	float ratioOfBlobToWhole(cv::Mat img);
 
-	float radians(float deg) { return deg*PI/180.0f; }
-	float degrees(float rad) { return rad*180.0f/PI; }
+	float radians(float deg);
+	float degrees(float rad);
 
 	float distanceBetweenAngles(float angleARadians, float angleBRadians, float overflowLocationRadians);
-	float distanceBetweenAngles(float angleARadians, float angleBRadians)
-	{
-		return distanceBetweenAngles(angleRadians, angleBRadians, PI);
-	}
+	float distanceBetweenAngles(float angleARadians, float angleBRadians);
+
 	float shiftAngleToPositive(float angleRadians, float overflowLocationRadians);
 
 	float pythagoreanDistance(float x, float y);

@@ -29,7 +29,7 @@ Auvsi_Radon::Auvsi_Radon()
 	// allocate lines, and set angle of each one (0:180 in numLines steps)
 	lines = new float[numLines];
 	for (int i = 0; i < numLines; i++) {
-		lines[i] = PI*((float)i)/((float)numLines);
+		lines[i] = (float)PI*((float)i)/((float)numLines);
 		//std::printf("%f\t", lines[i]);
 
 	}
@@ -51,6 +51,7 @@ Auvsi_Radon::clearImage()
 }
 
 // sets a new image for taking radon transform
+/* Expects an 8-bit image, where the region of interest is 255 */
 void 
 Auvsi_Radon::setImage(cv::Mat inputImage)
 {

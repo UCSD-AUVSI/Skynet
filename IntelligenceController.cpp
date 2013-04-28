@@ -10,55 +10,54 @@ using namespace System;
 using namespace System::Threading;
 using namespace System::Collections::Generic;
 using namespace System::Linq;
+using namespace System::Diagnostics;
 
-IntelligenceController::IntelligenceController(SkynetController^ skynetController)
+ProcessStartInfo^ IntelligenceController::getPathfinderProcessInfo()
 {
-	this->skynetController = skynetController;
-	autosearch = gcnew Autosearch("D:\\Skynet Files\\Field Boundaries.txt",this);
-	startPathfinderThread();
+	ProcessStartInfo ^processInfo = gcnew ProcessStartInfo(PYTHON_EXECUTABLE_PATH, PATHFINDER_SCRIPT_PATH);
+	processInfo->UseShellExecute = false;
+	processInfo->RedirectStandardOutput = true;
+	processInfo->RedirectStandardInput = true;
+	return processInfo;
 }
 
-void IntelligenceController::restart()
-{
-	autosearch->abortUpdaterThread();
-	autosearch = gcnew Autosearch("D:\\Skynet Files\\Field Boundaries.txt",this);
-	startPathfinderThread();
-}
-
-void IntelligenceController::startPathfinderThread(){
-	Thread^ pathfinderThread = gcnew Thread(gcnew ThreadStart(this,&Intelligence::IntelligenceController::startPathfinder));
-	pathfinderThread->Name = "Pathfinder Thread";
-	pathfinderThread->Start();
-}
-
- void IntelligenceController::startPathfinder()
-{
-	try {
-		skynetController->printConsoleMessageInGreen("Starting Pathfinder...");
-	} 
-	catch (InvalidOperationException ^ e) 
-	{
-		PRINT("ERROR in IntelligenceController::startPathfinder: " + e);
+String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInfo, array<String^>^ fieldBoundaries) {
+	Diagnostics::Process ^finder = Diagnostics::Process::Start(processInfo);
+	for each (String^ line in fieldBoundaries){
+		finder->StandardInput->WriteLine(line);
 	}
-	
-	Pathfinder^ finder = gcnew Pathfinder();
-	finder->buildPath(autosearch);
-
-	
-	try {
-		autosearch->updateImage();
-		skynetController->pathfinderComplete(gcnew Bitmap(gcnew Bitmap("C:\\Users\\ucsd_auvsi\\Dropbox\\Skynet\\Skynet\\map_dotnet_fix.bmp")));
-	    autosearch->startUpdaterThread();
-	} 
-	catch (InvalidOperationException ^ e) 
-	{
-		PRINT("ERROR in IntelligenceController::startPathfinder: " + e);
-	}
-	
-	
-	skynetController->printConsoleMessageInGreen("Path created.");
+	finder->StandardInput->Close();
+	return finder->StandardOutput->ReadToEnd();
 }
 
+IntelligenceController::IntelligenceController(array<String^>^ fieldBoundaries, SkynetController^ skynetController):
+	skynetController(skynetController)
+{
+	autosearch = createAutosearch(fieldBoundaries);
+	autosearch->startUpdaterThread();
+	startPathfinderThread(fieldBoundaries);
+}
+
+Autosearch^ IntelligenceController::createAutosearch(array<String^>^ fieldBoundaries) {
+	return gcnew Autosearch(fieldBoundaries, this);
+}
+
+void IntelligenceController::startPathfinderThread(array<String^>^ fieldBoundaries) {
+	ParameterizedThreadStart^ threadStart = gcnew ParameterizedThreadStart(this, &IntelligenceController::doPathfinding);
+	Thread^ thread = gcnew Thread(threadStart);
+	thread->Start(fieldBoundaries);
+}
+
+void IntelligenceController::doPathfinding(Object^ fieldBoundariesObj) {
+	array<String^>^ fieldBoundaries = (array<String^>^) fieldBoundariesObj;
+	ProcessStartInfo^ pathfinderProcess = getPathfinderProcessInfo();
+	String^ pathfinderResult = getPathfinderResult(pathfinderProcess, fieldBoundaries);
+	handlePathfinderResult(pathfinderResult);
+}
+
+void IntelligenceController::handlePathfinderResult(String^ result) {
+	skynetController->handlePathfinderResult(result);
+}
 
 void IntelligenceController::setPlaneWatcher(PlaneWatcher^ planeWatcher)
 {

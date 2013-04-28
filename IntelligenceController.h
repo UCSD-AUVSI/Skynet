@@ -16,18 +16,21 @@ using namespace Communications;
 namespace Intelligence
 {
 	ref class Autosearch;
-    public ref class IntelligenceController
+	public ref class IntelligenceController
     {
 	public:
-		IntelligenceController(SkynetController ^ skynetController);
-	void restart();
+		IntelligenceController(array<System::String^>^ fieldBoundaries, SkynetController ^ skynetController);
     void setPlaneWatcher(PlaneWatcher ^ planeWatcher);
 		void displayAutosearchImage(System::Drawing::Bitmap^ image);
-		void startPathfinder();
-		void startPathfinderThread();
 		SkynetController ^ skynetController;
 		Autosearch ^ autosearch;
-        
+	private:
+		System::Diagnostics::ProcessStartInfo^ getPathfinderProcessInfo();
+		System::String^ getPathfinderResult(System::Diagnostics::ProcessStartInfo^ processInfo, array<System::String^>^ coordinates);
+		Autosearch^ createAutosearch(array<System::String^>^ fieldBoundaries);
+		void startPathfinderThread(array<System::String^>^ fieldBoundaries);
+		void doPathfinding(System::Object^ fieldBoundariesObj);
+		void handlePathfinderResult(System::String^ result);
         
     };
 }

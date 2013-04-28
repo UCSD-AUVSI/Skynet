@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "VisionUtil.h"
 #include "Util.h"
+#include <Windows.h>
 
 using namespace Vision;
 using namespace Util;
@@ -46,7 +47,7 @@ String ^ Vision::shapeFloatToString(float input)
 		retVal = "Pent";
 		break;
 	case 7:
-		retVal = "Semi";
+		retVal = "Semi"; //semi circle
 		break;
 	case 8:
 		retVal = "Star";
@@ -61,7 +62,7 @@ String ^ Vision::shapeFloatToString(float input)
 		retVal = "Tria";
 		break;
 	case 12:
-		retVal = "Quar";
+		retVal = "Quar"; //quarter circle
 		break;
 	default:
 		retVal = "Unknown";
@@ -107,9 +108,9 @@ int Vision::shapeStrToInt(String ^ const shape)
 }
 
 
-wchar_t Vision::parseFilenameForLetter(String^ const filename)
+String ^ Vision::parseFilenameForLetter(String^ const filename)
 {
-	wchar_t letter = filename->ToLower()->ToCharArray()[0];
+	String ^ letter = filename->ToLower()->Substring(0,1);
 	letter = disambiguateLetter(letter);
 	return letter;
 }
@@ -124,12 +125,14 @@ String^ Vision::parseFilenameForSeparateShape(String^ const filename)
 	return filename->Substring(0,4)->ToLower();
 }
 
-wchar_t Vision::disambiguateLetter(wchar_t input)
+String ^ Vision::disambiguateLetter(String ^ input)
 {
-	if (input == 'o')
-		input = '0';
-	if (input == '6')
-		input = '9';
+	if (input == nullptr)
+		return nullptr;
+	if (input->Equals("o"))
+		input = "0";
+	if (input->Equals("6"))
+		input = "9";
 	return input;
 }
 
@@ -176,7 +179,7 @@ cv::MatND Vision::calcHistogramOfImage(cv::Mat img, int numBins, cv::Mat mask)
 	cv::MatND hist;
 	int channels[] = {0, 1, 2};
 	int histSize[] = {numBins, numBins, numBins};
-    float channelRanges[] = { 0, MAX_RGB_COLOR_VALUE };
+    float channelRanges[] = { 0, MAX_RGB_COLOR_VALUE+1 };
     const float* ranges[] = { channelRanges, channelRanges, channelRanges };
 	cv::calcHist(&img, 1, channels, mask, hist, 3, histSize, ranges);
 
@@ -222,7 +225,7 @@ cv::Mat Vision::centerFill(cv::Mat input, unsigned char color)
 float Vision::farthestPixelFromCenter(cv::Mat input, unsigned char color)
 {
 	cv::Point center = cv::Point(input.cols/2, input.rows/2);
-	cv::Mat masked = input == cv::Scalar(color);
+	cv::Mat masked = input == color;
 	float farthestDistance = 0.0f;
 	for (int x = 0; x < input.cols; ++x)
 	{
@@ -231,7 +234,7 @@ float Vision::farthestPixelFromCenter(cv::Mat input, unsigned char color)
 			bool pixelIsOn = masked.at<cv::Vec<uchar, 1>>(y,x)[0] > 0;
 			if (pixelIsOn)
 			{
-				float thisDistance = pythagoreanDistance(x-center.x, y-center.y);
+				float thisDistance = pythagoreanDistance((float)x-center.x, (float)y-center.y);
 				farthestDistance = std::max(farthestDistance, thisDistance);
 			}
 		}
@@ -239,6 +242,20 @@ float Vision::farthestPixelFromCenter(cv::Mat input, unsigned char color)
 	return farthestDistance;
 }
 
+float Vision::radians(float deg) 
+{ 
+	return (float)(deg*PI/180.0f); 
+}
+
+float Vision::degrees(float rad) 
+{ 
+	return (float)(rad*180.0f/PI); 
+}
+
+float Vision::distanceBetweenAngles(float angleARadians, float angleBRadians)
+{
+	return distanceBetweenAngles(angleARadians, angleBRadians, (float)PI);
+}
 
 float Vision::distanceBetweenAngles(float angleARadians, float angleBRadians, float overflowLocationRadians)
 {
@@ -269,4 +286,13 @@ float Vision::shiftAngleToPositive(float angleRadians, float overflowLocationRad
 float Vision::pythagoreanDistance(float x, float y)
 {
 	return std::sqrt(std::pow(x,2) + std::pow(y,2));
+}
+
+
+
+float Vision::ratioOfBlobToWhole(cv::Mat img)
+{
+	int sizeOfImg = img.rows * img.cols;
+	int sizeOfShape = cv::countNonZero(img);
+	return sizeOfShape/(float)sizeOfImg;
 }

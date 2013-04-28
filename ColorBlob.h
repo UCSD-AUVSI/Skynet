@@ -63,6 +63,7 @@ namespace Vision {
 		cv::Mat *mask;
 		ColorBlobStatistics ^ stats;
 
+		cv::Mat clonedMaskWithNoSmallBlobs();
 		PixelColor getARandomPixel(cv::Mat img);
 		cv::MatND calcHistogram(cv::Mat img);
 		PixelColor getHistogramPeak(cv::MatND hist);

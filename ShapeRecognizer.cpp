@@ -4,6 +4,7 @@
 #include "Util.h"
 #include "VisionUtil.h"
 #include "Auvsi_Ocr.h"
+#include "ShapeClassifier.h"
 #include <math.h>
 
 using namespace Vision;
@@ -13,6 +14,7 @@ using namespace System::Collections::Generic;
 
 ShapeRecognizer::ShapeRecognizer(void)
 {
+	classifier = gcnew ShapeClassifier(this);
 }
 
 
@@ -23,22 +25,23 @@ ShapeRecognizer::recognizeShape(String ^ testShapeFilename)
 	
 	cv::Mat binaryImg = Auvsi_Ocr::prepareTrainingImage(image->img);
 
-	return recognizeShape(binaryImg, testShapeFilename);
+	return recognizeShape(binaryImg, nullptr);//testShapeFilename);
 }
 
 String ^ 
-ShapeRecognizer::recognizeShape(cv::Mat binaryShapeImg, String ^ filename)
+ShapeRecognizer::recognizeShape(cv::Mat binaryShapeImg, String ^ theFilename)
 {
 	if (binaryShapeImg.size().width != binaryShapeImg.size().height)
 		throw gcnew Exception("ShapeRecognizer requires Square image - pad to square");
 
-	setImageWithPreprocessing(binaryShapeImg);
-	List<Line ^> ^ lines = findLines(filename);
-	List<Circle ^> ^ circles = findCircles(filename);
-	String ^ classification = classifyShape(lines, circles);
+	filename = theFilename;
 
-	if (filename != nullptr)
-		saveImage(mImage->o(), filename + "_a_start.jpg");
+	setImageWithPreprocessing(binaryShapeImg);
+	List<Line ^> ^ lines = findLines();
+	String ^ classification = classifier->classifyShape(lines, mEdges->o().rows);
+
+	//if (filename != nullptr)
+		//saveImage(mEdges->o(), filename + "_a_start.jpg");
 
 	return classification;
 }
@@ -46,23 +49,24 @@ ShapeRecognizer::recognizeShape(cv::Mat binaryShapeImg, String ^ filename)
 void 
 ShapeRecognizer::setImageWithPreprocessing(cv::Mat img)
 {
-	Canny(img, img, 5, 200, 3);
-	mImage = gcnew MRef<cv::Mat>(img);
+	//if (filename != nullptr)
+		//saveImage(img, filename + "_0_resize.jpg");
+	cv::Mat edges;
+	Canny(img, edges, 5, 200, 3); // 5,200,3 = good
+	mEdges = gcnew MRef<cv::Mat>(edges);
+	mOriginalImage = gcnew MRef<cv::Mat>(img);
 }
 
 List<Line ^> ^ 
-ShapeRecognizer::findLines(String ^ filename)
+ShapeRecognizer::findLines()
 {
 	std::vector<cv::Vec2f> lines = runHoughLines();
 	lines = combineCloseLines(lines);
 	lines = combineCloseLines(lines); // do two passes to merge all lines
 	lines = filterSmallLines(lines);
+	List<Line ^> ^ lineList = managedLinesFromStandard(lines);
 
-	List<Line ^> ^ lineList = gcnew List<Line ^>(lines.size());
-	for (int i = 0; i < lines.size(); ++i)
-		lineList->Add(gcnew Line(lines[i]));
-
-	cv::Mat output = printLinesToImage(lines, 128);
+	cv::Mat output = printLinesToImage(lines, 128, false);
 	
 	if (filename != nullptr)
 		saveImage(output, filename + "_b_lines.jpg");
@@ -74,7 +78,7 @@ std::vector<cv::Vec2f>
 ShapeRecognizer::runHoughLines()
 {
 	std::vector<cv::Vec2f> lines;
-	cv::Mat input = mImage->o().clone();
+	cv::Mat input = mEdges->o().clone();
 	double distResolution = 1;
 	double angleResolution = CV_PI/180; // 180 is best
 	cv::HoughLines(input, lines, distResolution, angleResolution, (int)HOUGH_LINE_THRESHOLD);
@@ -133,9 +137,9 @@ bool
 ShapeRecognizer::linesAreClose(cv::Vec2f leftLine, cv::Vec2f rightLine)
 {	
 	float locationDistance = calcDistanceBetweenLines(leftLine, rightLine);
-	float angleDistance = distanceBetweenAngles(leftLine[1], rightLine[1], PI);
+	float angleDistance = distanceBetweenAngles(leftLine[1], rightLine[1], (float)PI);
 
-	bool angleIsClose = angleDistance < radians<float>(MIN_DISTANCE_BETWEEN_ANGLES_DEGREES);
+	bool angleIsClose = angleDistance < radians(MIN_DISTANCE_BETWEEN_ANGLES_DEGREES);
 	bool locationIsClose = locationDistance < MIN_DISTANCE_BETWEEN_LINES;
 	
 	/*PRINT("linesAreClose left(d,theta):" + VEC2STR(leftLine) + 
@@ -167,7 +171,7 @@ ShapeRecognizer::calcDistanceBetweenLines(cv::Vec2f leftLine, cv::Vec2f rightLin
 bool 
 ShapeRecognizer::linesIntersect(cv::Vec2f leftLine, cv::Vec2f rightLine)
 {
-	cv::Mat mainImage = mImage->o();
+	cv::Mat mainImage = mEdges->o();
 	cv::Mat leftImage = cv::Mat::zeros(mainImage.size(), CV_8UC1);
 	cv::Mat rightImage = cv::Mat::zeros(mainImage.size(), CV_8UC1);
 	
@@ -201,15 +205,26 @@ ShapeRecognizer::leftLineIsBetter(cv::Vec2f leftLine, cv::Vec2f rightLine)
 }
 
 cv::Mat 
-ShapeRecognizer::printLinesToImage(std::vector<cv::Vec2f> lines, uchar color)
+ShapeRecognizer::printLinesToImage(std::vector<cv::Vec2f> lines, uchar color, bool freshImage)
 {
-	cv::Mat input = mImage->o();
-	cv::Mat output = input.clone();//cv::Mat::zeros(mImage->o().size(), CV_8UC1);
+	return printLinesToImage(lines, color, freshImage, 2);
+}
+
+cv::Mat 
+ShapeRecognizer::printLinesToImage(std::vector<cv::Vec2f> lines, uchar color, bool freshImage, int lineThickness)
+{
+	cv::Mat input = mEdges->o();
+	cv::Mat output;
+	if (freshImage)
+		output = cv::Mat::zeros(mEdges->o().size(), CV_8UC1);
+	else
+		output = input.clone();
+
 	// taken from OpenCV hough tutorial
 	for( size_t i = 0; i < lines.size(); i++ )
 	{
 		try {
-			drawLineInImage(lines[i], output, color);
+			drawLineInImage(lines[i], output, color, lineThickness);
 			
 		}
 		catch (BadLineException ^) { PRINT("BADLINE AHHH"); }
@@ -220,9 +235,15 @@ ShapeRecognizer::printLinesToImage(std::vector<cv::Vec2f> lines, uchar color)
 void 
 ShapeRecognizer::drawLineInImage(cv::Vec2f line, cv::Mat image, uchar color)
 {
+	drawLineInImage(line, image, color, 1);
+}
+
+void 
+ShapeRecognizer::drawLineInImage(cv::Vec2f line, cv::Mat image, uchar color, int lineThickness)
+{
 	cv::Point start, end;
 	determineStartAndEnd(line, start, end);
-	cv::line(image, start, end, cv::Scalar(color), 1, 4);
+	cv::line(image, start, end, cv::Scalar(color), lineThickness, 4);
 }
 
 float 
@@ -303,7 +324,7 @@ ShapeRecognizer::calcLineCoordinate(float x0, float y0, float a, float b, float 
 bool 
 ShapeRecognizer::coordinateIsWithinImage(float x, float y)
 {
-	int imageSize = mImage->o().size().width;
+	int imageSize = mEdges->o().size().width;
 	int borderSize = 2;
 	return x > borderSize && x < imageSize-borderSize && y > borderSize && y < imageSize-borderSize;
 }
@@ -311,7 +332,7 @@ ShapeRecognizer::coordinateIsWithinImage(float x, float y)
 float 
 ShapeRecognizer::calcLineStrength(cv::Point start, cv::Point end)
 {
-	cv::Mat input = mImage->o();
+	cv::Mat input = mEdges->o();
 	cv::Mat mask = cv::Mat::zeros(input.size(), CV_8UC1);
 	int lineThickness = 1; // set to 2,8 if we are missing a lot of lines
 	int lineType = 4;
@@ -352,7 +373,14 @@ ShapeRecognizer::getSizeOfBiggestBlobs(cv::Mat mask)
 std::vector<cv::Vec2f>  
 ShapeRecognizer::filterSmallLines(std::vector<cv::Vec2f> lines)
 {
-	float minLineStrength = HOUGH_LINE_THRESHOLD;
+	float maxStrength = 0.0f;
+	for (int i = 0; i < lines.size(); ++i)
+	{
+		float lineStrength = calcLineStrength(lines[i]);
+		maxStrength = std::max(maxStrength, lineStrength);
+	}
+
+	float minLineStrength = maxStrength*MIN_LINE_STRENGTH_RATIO;//HOUGH_LINE_THRESHOLD;
 	std::vector<cv::Vec2f> newLines;
 	for (int i = 0; i < lines.size(); ++i)
 	{
@@ -369,58 +397,71 @@ ShapeRecognizer::filterSmallLines(std::vector<cv::Vec2f> lines)
 	return newLines;
 }
 
-List<Circle ^> ^ 
-ShapeRecognizer::findCircles(String ^ filename)
-{
-	
-	return nullptr;
-}
-
-String ^ 
-ShapeRecognizer::classifyShape(List<Line ^> ^ lines, List<Circle ^> ^ circles)
-{
-	// TODO: check for circles
-
-	int numLines = lines->Count;
-	PRINT("numLines:" + numLines);
-	switch (numLines)
-	{
-	case 3:
-		return "tria";
-	case 4:
-		return classifyQuadrilateral(lines);
-	case 5:
-		return classifyPentShape(lines);
-	case 6:
-		return classifyHexaShape(lines);
-	case 8:
-		return "octa";
-	}
-	return "----";
-}
-
 float
 ShapeRecognizer::maxDistanceForDrawLinesAndCenterFill(List<Line ^> ^ lines)
 {
 	std::vector<cv::Vec2f> stdLines = standardLinesFromManaged(lines);
 
 	uchar grayColor = 128;
-	char whiteColor = 255;
+	uchar whiteColor = 255;
 
-	cv::Mat image = printLinesToImage(stdLines, grayColor);
+	cv::Mat image = printLinesToImage(stdLines, grayColor, true);
 	image = centerFill(image, whiteColor);
 	float maxDistance = farthestPixelFromCenter(image, whiteColor);
+
+	if (filename != nullptr)
+	{
+		//PRINT("max from center:" + maxDistance);
+		//saveImage(image, filename + "_b_crosFilled.jpg");
+	}
 
 	return maxDistance;
 }
 
-sdt::vector<cv::Vec2f>
+std::vector<cv::Vec2f>
 ShapeRecognizer::standardLinesFromManaged(List<Line ^> ^ lines)
 {
-	sdt::vector<cv::Vec2f> stdLines;
+	std::vector<cv::Vec2f> stdLines;
 	for each (Line ^ line in lines)
 		stdLines.push_back(line->standardLine());
 	return stdLines;
 }
 
+List<Line ^> ^ 
+ShapeRecognizer::managedLinesFromStandard(std::vector<cv::Vec2f> lines)
+{
+	List<Line ^> ^ lineList = gcnew List<Line ^>((int)(lines.size()));
+	for (int i = 0; i < lines.size(); ++i)
+	{
+		cv::Vec2f stdLine = lines[i];
+		Line ^ newLine = gcnew Line(stdLine);
+		newLine->strength = calcLineStrength(stdLine);
+		lineList->Add(newLine);
+		//PRINT("line:" + VEC2STR(stdLine) + " - " + newLine->strength);
+	}
+	return lineList;
+}
 
+
+float 
+ShapeRecognizer::calcPercentageLineCoverage(List<Line ^> ^ lines, int lineThickness)
+{
+	// count pixels in line image
+	cv::Mat edges = mEdges->o();
+	float numEdgePixels = (float)cv::countNonZero(edges);
+	
+	std::vector<cv::Vec2f> stdLines = standardLinesFromManaged(lines);
+	uchar whiteColor = 255;
+	cv::Mat foundLines = printLinesToImage(stdLines, whiteColor, true);
+
+	cv::Mat overlap = foundLines & edges;
+	float numFoundPixels = (float)cv::countNonZero(overlap);
+	float percentCoverage = numFoundPixels/numEdgePixels*100.0f;;
+
+
+	//if (filename != nullptr)
+		//saveImage(overlap, filename + "_g_overlap.jpg");
+
+	
+	return percentCoverage;
+}
