@@ -107,14 +107,7 @@
     <None Include="IntelligenceController.h">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_C.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_CXX.bin">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="ClassDiagram3.cd" />
-    <None Include="..\..\..\Desktop\Skynet\SalientGreenCUDA\Release\SalientGreenCUDA.pch" />
     <None Include="ClassDiagram4.cd" />
     <None Include="OCR\_Resampler.so">
       <Filter>Header Files\Vision\OCR\Computation</Filter>
@@ -187,12 +180,6 @@
     <ClCompile Include="SaveImage.cpp">
       <Filter>Source Files\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdC\CMakeCCompilerId.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Pathfinding\Pathfinder.cpp">
-      <Filter>Source Files\Pathfinding</Filter>
-    </ClCompile>
     <ClCompile Include="..\Pathfinding\AdjacencyList.cpp">
       <Filter>Source Files\Pathfinding</Filter>
     </ClCompile>
@@ -201,9 +188,6 @@
     </ClCompile>
     <ClCompile Include="..\Pathfinding\Node.cpp">
       <Filter>Source Files\Pathfinding</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdCXX\CMakeCXXCompilerId.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cvBlob\cvcolor.cpp">
       <Filter>Source Files</Filter>
@@ -317,10 +301,13 @@
       <Filter>Source Files\Vision\OCR\TargetRecognition</Filter>
     </ClCompile>
     <ClCompile Include="ShapeSegmentationTester.cpp">
-      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ColorUtil.cpp">
-      <Filter>Source Files\Vision\OCR\ShapeDetection</Filter>
+    <ClCompile Include="ImageWithPlaneData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetsForm.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -396,43 +383,10 @@
     <ClInclude Include="Saliency.h">
       <Filter>Header Files\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\cvBlob\cvblob.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Timer.H">
-      <Filter>Header Files\SalientGreenCUDA</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\config.h">
-      <Filter>Header Files\SalientGreenCUDA</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H">
-      <Filter>Header Files\SalientGreenCUDA</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H">
-      <Filter>Header Files\SalientGreenCUDA\Normalization</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H">
-      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H">
-      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LowPass.H">
-      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H">
-      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H">
-      <Filter>Header Files\SalientGreenCUDA\Cuda</Filter>
-    </ClInclude>
     <ClInclude Include="..\Pathfinding\Autosearch.h">
       <Filter>Header Files\Pathfinding</Filter>
     </ClInclude>
     <ClInclude Include="..\Pathfinding\Node.h">
-      <Filter>Header Files\Pathfinding</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Pathfinding\Pathfinder.h">
       <Filter>Header Files\Pathfinding</Filter>
     </ClInclude>
     <ClInclude Include="..\Pathfinding\AdjacencyList.h">
@@ -552,14 +506,8 @@
     <ClInclude Include="TargetRecognizer.h">
       <Filter>Header Files\Vision\OCR\TargetOCR</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeSegmentationTester.h">
-      <Filter>Header Files\Vision\OCR\Analysis</Filter>
-    </ClInclude>
-    <ClInclude Include="VisionRuntimeException.h">
-      <Filter>Header Files\Vision\OCR\Analysis</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorUtil.h">
-      <Filter>Header Files\Vision\OCR\ShapeDetection</Filter>
+    <ClInclude Include="TargetsForm.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -574,8 +522,5 @@
     <EmbeddedResource Include="Form1.resX">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="Saliency_New.lib" />
   </ItemGroup>
 </Project>

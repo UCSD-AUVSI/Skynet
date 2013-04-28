@@ -344,7 +344,7 @@ void SkynetController::addUnverified(UnverifiedRowData ^ unverified)
 {	
 	try {
 		theDatabase->addUnverified(unverified);
-		form1View->Invoke(gcnew unverifiedRowDataToVoid( form1View, &Skynet::Form1::modifyUnverifiedInTable), unverified  );
+		form1View->Invoke(gcnew unverifiedRowDataToVoid( form1View, &Skynet::Form1::insertUnverifiedData), unverified  );
 	}
 	catch(Exception ^ e) {
 		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::saveCandidate(): Failed to save imageS - " + e);
@@ -432,12 +432,8 @@ void SkynetController::addVerifiedTargetToGUITable(VerifiedRowData ^ data)
 
 void SkynetController::removeVerifiedTargetForID(String ^ id)
 {
-	if (id == nullptr)
-		return;
-	
 	theDatabase->removeVerified(id);
-	form1View->removeVerifiedTargetFromTable(id);
-
+	// TODO: form1View->removeVerified(id);
 }
 
 //bool SkynetController::addVote(Database::VoteRowData ^ data)
@@ -515,48 +511,12 @@ void SkynetController::removeUnverified(Database::UnverifiedRowData ^ data)
 void SkynetController::removeUnverified(String ^ id)
 {
 	PRINT("SkynetController::removeTarget() REMOVED");
-	theDatabase->removeUnverified(id);
-
-	Delegates::stringToVoid ^ blahdelegate = gcnew Delegates::stringToVoid((Form1 ^)form1View, &Form1::removeUnverifiedFromTable );
-
-	try {
-		((Form1 ^)form1View)->Invoke( blahdelegate, gcnew array<Object ^>{id} );
-	}
-	catch(Exception ^ e) {
-		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::removeTarget(): Failed to remove target from GUI table - " + e);
-	}
 }
 
-
-//void SkynetController::modifyCandidate(Database::CandidateRowData ^ data)
-//{
-//	theDatabase->modifyCandidate(data);
-//
-//	auto blahdelegate = gcnew Delegates::candidateRowDataToVoid((Form1 ^)form1View, &Form1::modifyCandidateInTable );
-//
-//	try {
-//		((Form1 ^)form1View)->Invoke( blahdelegate, gcnew array<Object ^>{data} );
-//	}
-//	catch(Exception ^ e) {
-//		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::modifyCandidate(): Failed to modify candidate in GUI table - " + e);
-//	}
-//}
 
 void SkynetController::modifyUnverified(Database::UnverifiedRowData ^ data)
 {
 	PRINT("SkynetController::modifyTarget() REMOVED");
-	return;
-
-	theDatabase->modifyUnverified(data);
-
-	auto blahdelegate = gcnew Delegates::unverifiedRowDataToVoid((Form1 ^)form1View, &Form1::modifyUnverifiedInTable );
-
-	try {
-		((Form1 ^)form1View)->Invoke( blahdelegate, gcnew array<Object ^>{data} );
-	}
-	catch(Exception ^ e) {
-		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::modifyUnverified(): Failed to modify target in GUI table - " + e);
-	}
 }
 
 void SkynetController::displayAutosearchImage(Image ^ image)

@@ -35,6 +35,7 @@ Add the following to the end of those files
 #endif
 
 #include "TargetDialog.h"
+#include "TargetsForm.h"
 #include "HUDControl.h"
 #include "Saliency.h"
 #include "OCRWrapper.h"
@@ -114,6 +115,7 @@ namespace Skynet {
 		Delegates::dataGridViewRowToVoid ^ ocrDelegate;
 		Delegates::voidToVoid ^ saveImageDelegate;
 	protected:
+		TargetsForm^ targetsForm;
 		SkynetController ^				appController;
 		// Database::DatabaseConnection ^	db;
 		TargetDialog ^					imageDialog;
@@ -179,7 +181,7 @@ namespace Skynet {
 
 
 
-	private: System::Windows::Forms::DataGridView^  dataGridView1;
+
 
 
 
@@ -188,11 +190,11 @@ namespace Skynet {
 
 	private: System::Windows::Forms::Timer^  videoSaveTimer;
 
-	private: System::Windows::Forms::ToolStripMenuItem^  mapToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  providerToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  mapnikToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  osmarenderToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  cyclemapToolStripMenuItem;
+
+
+
+
+
 
 
 
@@ -204,15 +206,15 @@ private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator3;
 private: System::Windows::Forms::ToolStripMenuItem^  databaseToolStripMenuItem;
 private: System::Windows::Forms::ToolStripMenuItem^  resetToolStripMenuItem;
 private: System::Windows::Forms::Timer^  mapUpdateTimer;
-private: System::Windows::Forms::ToolStripMenuItem^  lockToolStripMenuItem;
-private: System::Windows::Forms::ToolStripMenuItem^  downloadToolStripMenuItem;
+
+
 private: System::Windows::Forms::ContextMenuStrip^  mapMenuStrip;
 private: System::Windows::Forms::ToolStripMenuItem^  mapLookGPSToolStripMenuItem;
 
 
 
-private: System::Windows::Forms::ToolStripMenuItem^  simulatorToolStripMenuItem;
-private: System::Windows::Forms::ToolStripMenuItem^  realtimeSimulationMenuItem;
+
+
 
 
 
@@ -222,7 +224,7 @@ private: System::Windows::Forms::OpenFileDialog^  simReadVidDialog;
 
 
 
-private: System::Windows::Forms::Button^  button4;
+
 
 
 
@@ -269,18 +271,18 @@ private: HUDControl^ gimbalHUDView;
 public: System::Windows::Forms::PictureBox^  autosearchBox;
 public: System::Windows::Forms::PictureBox^  pathfinderBox;
 private: System::Windows::Forms::PictureBox^  Border;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  candidate_IDColumn;
-private: System::Windows::Forms::DataGridViewImageColumn^  candidate_ThumbnailColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  candidate_LatitudeColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  canidate_LongitudeColumn;
-private: System::Windows::Forms::DataGridViewCheckBoxColumn^  candidate_VerifiedColumn;
-private: System::Windows::Forms::DataGridViewCheckBoxColumn^  processed;
+
+
+
+
+
+
 private: System::Windows::Forms::CheckedListBox^  gpsCheckboxList;
 private: System::Windows::Forms::Label^  waypointsLabel;
-private: System::Windows::Forms::Button^  sendWaypoints;
 
-private: System::Windows::Forms::ToolStripMenuItem^  wifiToolStripMenuItem;
-private: System::Windows::Forms::ToolStripMenuItem^  stopToolStripMenuItem1;
+
+
+
 private: System::Windows::Forms::Button^  generateMapButton;
 
 private: System::Windows::Forms::TextBox^  mapBoundariesTextBox;
@@ -288,39 +290,39 @@ private: System::Windows::Forms::TextBox^  mapBoundariesTextBox;
 private: System::Windows::Forms::Label^  label17;
 private: System::Windows::Forms::Button^  loadBoundariesFromFileButton;
 private: System::Windows::Forms::PictureBox^  imageView;
-private: System::Windows::Forms::ToolStripMenuItem^  frameByFrameMenuItem;
+
 private: System::Windows::Forms::TextBox^  pathWaypointsTextBox;
 
 
-private: System::Windows::Forms::TabControl^  metadataTabControl;
-private: System::Windows::Forms::TabPage^  tabPage3;
-private: System::Windows::Forms::TabPage^  tabPage4;
-private: System::Windows::Forms::DataGridView^  dataGridView2;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_IDColumn;
-private: System::Windows::Forms::DataGridViewImageColumn^  unverified_ThumbnailColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_LatitudeColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_LongitudeColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_HeadingColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_CenterPixel;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverfied_LetterColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_LetterColor;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_Shape;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  unverified_ShapeColor;
-private: System::Windows::Forms::DataGridViewCheckBoxColumn^  unverified_ProcessedColumn;
-private: System::Windows::Forms::DataGridViewCheckBoxColumn^  unverified_TargetLock;
-private: System::Windows::Forms::TabPage^  tabPage5;
-private: System::Windows::Forms::DataGridView^  dataGridView3;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_IDColumn;
-private: System::Windows::Forms::DataGridViewImageColumn^  confirmed_ThumbnailColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LatitudeColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LongitudeColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_HeadingColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_Shape;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_ShapeColor;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LetterColumn;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LetterColor;
-private: System::Windows::Forms::DataGridViewTextBoxColumn^  targetid_column;
-private: System::Windows::Forms::DataGridViewCheckBoxColumn^  verified_lockon;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 private: System::Windows::Forms::Panel^  gimbalHUDPanel;
 private: System::Windows::Forms::Button^  sendWaypointsButton;
 
@@ -396,13 +398,6 @@ public:
 			this->metadataTable->Rows->Add("Video Data", "---");
 			this->metadataTable->Rows->Add("    Zoom");
 
-			// Delegates
-			imageDialogDelegate = gcnew Delegates::twointThreedoubleToVoid( this, &Form1::imageDialogCallback );
-
-			ocrDelegate = gcnew Delegates::dataGridViewRowToVoid( this, &Form1::ocrUpdateData );
-
-			isconnected = false;
-			isConnecting = false;
 
 			redImage = Image::FromFile( RED_IMAGE_PATH );
 			yellowImage = Image::FromFile( YELLOW_IMAGE_PATH );
@@ -412,6 +407,8 @@ public:
 			
 			gimbalHUDView->BringToFront();
 
+			targetsForm = gcnew TargetsForm(appController);
+			targetsForm->Show();
 			appController->loadAllTablesFromDisk();
 
 
@@ -423,6 +420,7 @@ public:
 			Thread^ verifiedTableUpdaterThread = gcnew Thread (threadDelegate);
 			verifiedTableUpdaterThread->Name = "Verified Table Updater Thread";
 			verifiedTableUpdaterThread->Start(5000);
+
 
 			return; 
 			StreamReader^ gpsListStream = gcnew StreamReader(SKYNET_FILES_DIR + "\\Field Boundaries.txt");
@@ -455,15 +453,15 @@ public:
 	public: System::Windows::Forms::DataGridView^  metadataTable;
 
 
-	private: System::Windows::Forms::ToolStripMenuItem^  serialCommunicationsToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  connectToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator1;
+
+
+
 
 	
-	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator2;
-	private: System::Windows::Forms::ToolStripMenuItem^  disconnectToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripComboBox^  comPortStripComboBox;
-	private: System::Windows::Forms::ToolStripComboBox^  baudRateStripComboBox;
+
+
+
+
 
 	private: System::ComponentModel::IContainer^  components;
 
@@ -490,27 +488,8 @@ public:
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->serialCommunicationsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->connectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->comPortStripComboBox = (gcnew System::Windows::Forms::ToolStripComboBox());
-			this->baudRateStripComboBox = (gcnew System::Windows::Forms::ToolStripComboBox());
-			this->toolStripSeparator2 = (gcnew System::Windows::Forms::ToolStripSeparator());
-			this->disconnectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->mapToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->providerToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->mapnikToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->osmarenderToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->cyclemapToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->lockToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->downloadToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->databaseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->resetToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->simulatorToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->realtimeSimulationMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->frameByFrameMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->wifiToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->stopToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openGLTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->errorLogTextBox = (gcnew System::Windows::Forms::RichTextBox());
 			this->metadataTable = (gcnew System::Windows::Forms::DataGridView());
@@ -520,20 +499,12 @@ public:
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->vidOptChangeDirBrowserDialog = (gcnew System::Windows::Forms::FolderBrowserDialog());
-			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
-			this->candidate_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->candidate_ThumbnailColumn = (gcnew System::Windows::Forms::DataGridViewImageColumn());
-			this->candidate_LatitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->canidate_LongitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->candidate_VerifiedColumn = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
-			this->processed = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 			this->videoSaveTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->mapUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->mapMenuStrip = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 			this->mapLookGPSToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->simReadVidDialog = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->label13 = (gcnew System::Windows::Forms::Label());
@@ -547,7 +518,6 @@ public:
 			this->pathfinderBox = (gcnew System::Windows::Forms::PictureBox());
 			this->gpsCheckboxList = (gcnew System::Windows::Forms::CheckedListBox());
 			this->waypointsLabel = (gcnew System::Windows::Forms::Label());
-			this->sendWaypoints = (gcnew System::Windows::Forms::Button());
 			this->mapBoundariesTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->generateMapButton = (gcnew System::Windows::Forms::Button());
 			this->label17 = (gcnew System::Windows::Forms::Label());
@@ -555,59 +525,22 @@ public:
 			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->imageView = (gcnew System::Windows::Forms::PictureBox());
 			this->pathWaypointsTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->metadataTabControl = (gcnew System::Windows::Forms::TabControl());
-			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
-			this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
-			this->dataGridView2 = (gcnew System::Windows::Forms::DataGridView());
-			this->unverified_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_ThumbnailColumn = (gcnew System::Windows::Forms::DataGridViewImageColumn());
-			this->unverified_LatitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_LongitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_HeadingColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_CenterPixel = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverfied_LetterColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_LetterColor = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_Shape = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_ShapeColor = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->unverified_ProcessedColumn = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
-			this->unverified_TargetLock = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
-			this->tabPage5 = (gcnew System::Windows::Forms::TabPage());
-			this->dataGridView3 = (gcnew System::Windows::Forms::DataGridView());
-			this->confirmed_IDColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->confirmed_ThumbnailColumn = (gcnew System::Windows::Forms::DataGridViewImageColumn());
-			this->confirmed_LatitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->confirmed_LongitudeColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->confirmed_HeadingColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->confirmed_Shape = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->confirmed_ShapeColor = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->confirmed_LetterColumn = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->confirmed_LetterColor = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->targetid_column = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->verified_lockon = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 			this->gimbalHUDPanel = (gcnew System::Windows::Forms::Panel());
 			this->sendWaypointsButton = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->Border))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
-			this->metadataTabControl->SuspendLayout();
-			this->tabPage3->SuspendLayout();
-			this->tabPage4->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->BeginInit();
-			this->tabPage5->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// menuStrip1
 			// 
 			this->menuStrip1->BackColor = System::Drawing::Color::Gray;
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->toolStripMenuItem1, 
-				this->serialCommunicationsToolStripMenuItem, this->mapToolStripMenuItem, this->databaseToolStripMenuItem, this->simulatorToolStripMenuItem, 
-				this->wifiToolStripMenuItem});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->toolStripMenuItem1, 
+				this->databaseToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Size = System::Drawing::Size(1444, 24);
@@ -642,102 +575,6 @@ public:
 			this->exitToolStripMenuItem->Text = L"&Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::exitToolStripMenuItem_Click);
 			// 
-			// serialCommunicationsToolStripMenuItem
-			// 
-			this->serialCommunicationsToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->connectToolStripMenuItem, 
-				this->toolStripSeparator1, this->comPortStripComboBox, this->baudRateStripComboBox, this->toolStripSeparator2, this->disconnectToolStripMenuItem});
-			this->serialCommunicationsToolStripMenuItem->Name = L"serialCommunicationsToolStripMenuItem";
-			this->serialCommunicationsToolStripMenuItem->Size = System::Drawing::Size(24, 20);
-			this->serialCommunicationsToolStripMenuItem->Text = L"-";
-			this->serialCommunicationsToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::serialCommunicationsToolStripMenuItem_Click);
-			// 
-			// connectToolStripMenuItem
-			// 
-			this->connectToolStripMenuItem->Name = L"connectToolStripMenuItem";
-			this->connectToolStripMenuItem->Size = System::Drawing::Size(181, 22);
-			this->connectToolStripMenuItem->Text = L"Connect";
-			// 
-			// toolStripSeparator1
-			// 
-			this->toolStripSeparator1->Name = L"toolStripSeparator1";
-			this->toolStripSeparator1->Size = System::Drawing::Size(178, 6);
-			// 
-			// comPortStripComboBox
-			// 
-			this->comPortStripComboBox->Name = L"comPortStripComboBox";
-			this->comPortStripComboBox->Size = System::Drawing::Size(121, 23);
-			this->comPortStripComboBox->Text = L"Com Port";
-			// 
-			// baudRateStripComboBox
-			// 
-			this->baudRateStripComboBox->Items->AddRange(gcnew cli::array< System::Object^  >(8) {L"2400", L"4800", L"9600", L"19200", 
-				L"38400", L"57600", L"115200", L"31250"});
-			this->baudRateStripComboBox->Name = L"baudRateStripComboBox";
-			this->baudRateStripComboBox->Size = System::Drawing::Size(121, 23);
-			this->baudRateStripComboBox->Text = L"Baud Rate";
-			// 
-			// toolStripSeparator2
-			// 
-			this->toolStripSeparator2->Name = L"toolStripSeparator2";
-			this->toolStripSeparator2->Size = System::Drawing::Size(178, 6);
-			// 
-			// disconnectToolStripMenuItem
-			// 
-			this->disconnectToolStripMenuItem->Name = L"disconnectToolStripMenuItem";
-			this->disconnectToolStripMenuItem->Size = System::Drawing::Size(181, 22);
-			this->disconnectToolStripMenuItem->Text = L"Disconnect";
-			// 
-			// mapToolStripMenuItem
-			// 
-			this->mapToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->providerToolStripMenuItem, 
-				this->lockToolStripMenuItem, this->downloadToolStripMenuItem});
-			this->mapToolStripMenuItem->Name = L"mapToolStripMenuItem";
-			this->mapToolStripMenuItem->Size = System::Drawing::Size(43, 20);
-			this->mapToolStripMenuItem->Text = L"Map";
-			// 
-			// providerToolStripMenuItem
-			// 
-			this->providerToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->mapnikToolStripMenuItem, 
-				this->osmarenderToolStripMenuItem, this->cyclemapToolStripMenuItem});
-			this->providerToolStripMenuItem->Name = L"providerToolStripMenuItem";
-			this->providerToolStripMenuItem->Size = System::Drawing::Size(128, 22);
-			this->providerToolStripMenuItem->Text = L"Provider";
-			// 
-			// mapnikToolStripMenuItem
-			// 
-			this->mapnikToolStripMenuItem->Name = L"mapnikToolStripMenuItem";
-			this->mapnikToolStripMenuItem->Size = System::Drawing::Size(139, 22);
-			this->mapnikToolStripMenuItem->Text = L"Mapnik";
-			this->mapnikToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::mapnikToolStripMenuItem_Click);
-			// 
-			// osmarenderToolStripMenuItem
-			// 
-			this->osmarenderToolStripMenuItem->Name = L"osmarenderToolStripMenuItem";
-			this->osmarenderToolStripMenuItem->Size = System::Drawing::Size(139, 22);
-			this->osmarenderToolStripMenuItem->Text = L"Osmarender";
-			this->osmarenderToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::osmarenderToolStripMenuItem_Click);
-			// 
-			// cyclemapToolStripMenuItem
-			// 
-			this->cyclemapToolStripMenuItem->Name = L"cyclemapToolStripMenuItem";
-			this->cyclemapToolStripMenuItem->Size = System::Drawing::Size(139, 22);
-			this->cyclemapToolStripMenuItem->Text = L"Cyclemap";
-			this->cyclemapToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::cyclemapToolStripMenuItem_Click);
-			// 
-			// lockToolStripMenuItem
-			// 
-			this->lockToolStripMenuItem->Name = L"lockToolStripMenuItem";
-			this->lockToolStripMenuItem->Size = System::Drawing::Size(128, 22);
-			this->lockToolStripMenuItem->Text = L"Lock";
-			this->lockToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::lockToolStripMenuItem_Click);
-			// 
-			// downloadToolStripMenuItem
-			// 
-			this->downloadToolStripMenuItem->Name = L"downloadToolStripMenuItem";
-			this->downloadToolStripMenuItem->Size = System::Drawing::Size(128, 22);
-			this->downloadToolStripMenuItem->Text = L"Download";
-			this->downloadToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::downloadToolStripMenuItem_Click);
-			// 
 			// databaseToolStripMenuItem
 			// 
 			this->databaseToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->resetToolStripMenuItem});
@@ -752,40 +589,6 @@ public:
 			this->resetToolStripMenuItem->Text = L"Reset";
 			this->resetToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::resetToolStripMenuItem_Click);
 			// 
-			// simulatorToolStripMenuItem
-			// 
-			this->simulatorToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->realtimeSimulationMenuItem, 
-				this->frameByFrameMenuItem});
-			this->simulatorToolStripMenuItem->Name = L"simulatorToolStripMenuItem";
-			this->simulatorToolStripMenuItem->Size = System::Drawing::Size(70, 20);
-			this->simulatorToolStripMenuItem->Text = L"Simulator";
-			// 
-			// realtimeSimulationMenuItem
-			// 
-			this->realtimeSimulationMenuItem->Name = L"realtimeSimulationMenuItem";
-			this->realtimeSimulationMenuItem->Size = System::Drawing::Size(163, 22);
-			this->realtimeSimulationMenuItem->Text = L"Realtime";
-			this->realtimeSimulationMenuItem->Click += gcnew System::EventHandler(this, &Form1::choosePathToolStripMenuItem_Click);
-			// 
-			// frameByFrameMenuItem
-			// 
-			this->frameByFrameMenuItem->Name = L"frameByFrameMenuItem";
-			this->frameByFrameMenuItem->Size = System::Drawing::Size(163, 22);
-			this->frameByFrameMenuItem->Text = L"Frame-By-Frame";
-			// 
-			// wifiToolStripMenuItem
-			// 
-			this->wifiToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->stopToolStripMenuItem1});
-			this->wifiToolStripMenuItem->Name = L"wifiToolStripMenuItem";
-			this->wifiToolStripMenuItem->Size = System::Drawing::Size(40, 20);
-			this->wifiToolStripMenuItem->Text = L"Wifi";
-			// 
-			// stopToolStripMenuItem1
-			// 
-			this->stopToolStripMenuItem1->Name = L"stopToolStripMenuItem1";
-			this->stopToolStripMenuItem1->Size = System::Drawing::Size(98, 22);
-			this->stopToolStripMenuItem1->Text = L"Stop";
-			// 
 			// errorLogTextBox
 			// 
 			this->errorLogTextBox->AutoWordSelection = true;
@@ -798,7 +601,6 @@ public:
 			this->errorLogTextBox->Size = System::Drawing::Size(227, 283);
 			this->errorLogTextBox->TabIndex = 2;
 			this->errorLogTextBox->Text = L"";
-			this->errorLogTextBox->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &Form1::errorLogTextBox_KeyPress);
 			// 
 			// metadataTable
 			// 
@@ -865,7 +667,7 @@ public:
 			// 
 			// startRecordButton
 			// 
-			this->startRecordButton->Location = System::Drawing::Point(0, 0);
+			this->startRecordButton->Location = System::Drawing::Point(376, 55);
 			this->startRecordButton->Name = L"startRecordButton";
 			this->startRecordButton->Size = System::Drawing::Size(75, 23);
 			this->startRecordButton->TabIndex = 46;
@@ -891,60 +693,6 @@ public:
 			// vidOptChangeDirBrowserDialog
 			// 
 			this->vidOptChangeDirBrowserDialog->Description = L"Select Video Output Directory";
-			// 
-			// dataGridView1
-			// 
-			this->dataGridView1->AllowUserToAddRows = false;
-			this->dataGridView1->AllowUserToDeleteRows = false;
-			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->candidate_IDColumn, 
-				this->candidate_ThumbnailColumn, this->candidate_LatitudeColumn, this->canidate_LongitudeColumn, this->candidate_VerifiedColumn, 
-				this->processed});
-			this->dataGridView1->Location = System::Drawing::Point(-4, 0);
-			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->RowTemplate->Height = 64;
-			this->dataGridView1->Size = System::Drawing::Size(804, 269);
-			this->dataGridView1->TabIndex = 0;
-			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView1_CellContentClick);
-			this->dataGridView1->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView1_CellDoubleClick);
-			// 
-			// candidate_IDColumn
-			// 
-			this->candidate_IDColumn->HeaderText = L"ID";
-			this->candidate_IDColumn->Name = L"candidate_IDColumn";
-			this->candidate_IDColumn->ReadOnly = true;
-			this->candidate_IDColumn->Width = 70;
-			// 
-			// candidate_ThumbnailColumn
-			// 
-			this->candidate_ThumbnailColumn->HeaderText = L"Thumbnail";
-			this->candidate_ThumbnailColumn->Name = L"candidate_ThumbnailColumn";
-			this->candidate_ThumbnailColumn->ReadOnly = true;
-			this->candidate_ThumbnailColumn->Width = 64;
-			// 
-			// candidate_LatitudeColumn
-			// 
-			this->candidate_LatitudeColumn->HeaderText = L"Latitude";
-			this->candidate_LatitudeColumn->Name = L"candidate_LatitudeColumn";
-			this->candidate_LatitudeColumn->ReadOnly = true;
-			// 
-			// canidate_LongitudeColumn
-			// 
-			this->canidate_LongitudeColumn->HeaderText = L"Longitude";
-			this->canidate_LongitudeColumn->Name = L"canidate_LongitudeColumn";
-			this->canidate_LongitudeColumn->ReadOnly = true;
-			// 
-			// candidate_VerifiedColumn
-			// 
-			this->candidate_VerifiedColumn->HeaderText = L"Verified";
-			this->candidate_VerifiedColumn->Name = L"candidate_VerifiedColumn";
-			this->candidate_VerifiedColumn->ReadOnly = true;
-			this->candidate_VerifiedColumn->Visible = false;
-			// 
-			// processed
-			// 
-			this->processed->HeaderText = L"Processed";
-			this->processed->Name = L"processed";
 			// 
 			// tableLayoutPanel1
 			// 
@@ -975,16 +723,6 @@ public:
 			// simReadVidDialog
 			// 
 			this->simReadVidDialog->FileName = L"simReadVidDialog";
-			// 
-			// button4
-			// 
-			this->button4->Location = System::Drawing::Point(960, 27);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(100, 23);
-			this->button4->TabIndex = 18;
-			this->button4->Text = L"Connect";
-			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Click += gcnew System::EventHandler(this, &Form1::button4_Click);
 			// 
 			// label9
 			// 
@@ -1130,13 +868,6 @@ public:
 			this->waypointsLabel->TabIndex = 39;
 			this->waypointsLabel->Text = L"Path waypoints";
 			// 
-			// sendWaypoints
-			// 
-			this->sendWaypoints->Location = System::Drawing::Point(0, 0);
-			this->sendWaypoints->Name = L"sendWaypoints";
-			this->sendWaypoints->Size = System::Drawing::Size(75, 23);
-			this->sendWaypoints->TabIndex = 50;
-			// 
 			// mapBoundariesTextBox
 			// 
 			this->mapBoundariesTextBox->Location = System::Drawing::Point(1277, 235);
@@ -1205,224 +936,6 @@ public:
 			this->pathWaypointsTextBox->TabIndex = 48;
 			this->pathWaypointsTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
 			// 
-			// metadataTabControl
-			// 
-			this->metadataTabControl->Controls->Add(this->tabPage3);
-			this->metadataTabControl->Controls->Add(this->tabPage4);
-			this->metadataTabControl->Controls->Add(this->tabPage5);
-			this->metadataTabControl->Location = System::Drawing::Point(849, 660);
-			this->metadataTabControl->Name = L"metadataTabControl";
-			this->metadataTabControl->SelectedIndex = 0;
-			this->metadataTabControl->Size = System::Drawing::Size(845, 239);
-			this->metadataTabControl->TabIndex = 49;
-			// 
-			// tabPage3
-			// 
-			this->tabPage3->Controls->Add(this->dataGridView1);
-			this->tabPage3->Location = System::Drawing::Point(4, 22);
-			this->tabPage3->Name = L"tabPage3";
-			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage3->Size = System::Drawing::Size(837, 213);
-			this->tabPage3->TabIndex = 0;
-			this->tabPage3->Text = L"Candidate Regions";
-			this->tabPage3->UseVisualStyleBackColor = true;
-			this->tabPage3->Click += gcnew System::EventHandler(this, &Form1::tabPage3_Click);
-			// 
-			// tabPage4
-			// 
-			this->tabPage4->Controls->Add(this->dataGridView2);
-			this->tabPage4->Location = System::Drawing::Point(4, 22);
-			this->tabPage4->Name = L"tabPage4";
-			this->tabPage4->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage4->Size = System::Drawing::Size(837, 213);
-			this->tabPage4->TabIndex = 1;
-			this->tabPage4->Text = L"Unconfirmed Targets";
-			this->tabPage4->UseVisualStyleBackColor = true;
-			// 
-			// dataGridView2
-			// 
-			this->dataGridView2->AllowUserToAddRows = false;
-			this->dataGridView2->AllowUserToDeleteRows = false;
-			this->dataGridView2->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView2->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(12) {this->unverified_IDColumn, 
-				this->unverified_ThumbnailColumn, this->unverified_LatitudeColumn, this->unverified_LongitudeColumn, this->unverified_HeadingColumn, 
-				this->unverified_CenterPixel, this->unverfied_LetterColumn, this->unverified_LetterColor, this->unverified_Shape, this->unverified_ShapeColor, 
-				this->unverified_ProcessedColumn, this->unverified_TargetLock});
-			this->dataGridView2->Location = System::Drawing::Point(6, 6);
-			this->dataGridView2->Name = L"dataGridView2";
-			this->dataGridView2->RowTemplate->Height = 64;
-			this->dataGridView2->Size = System::Drawing::Size(1254, 269);
-			this->dataGridView2->TabIndex = 0;
-			// 
-			// unverified_IDColumn
-			// 
-			this->unverified_IDColumn->HeaderText = L"ID";
-			this->unverified_IDColumn->Name = L"unverified_IDColumn";
-			this->unverified_IDColumn->ReadOnly = true;
-			this->unverified_IDColumn->Width = 70;
-			// 
-			// unverified_ThumbnailColumn
-			// 
-			this->unverified_ThumbnailColumn->HeaderText = L"Thumbnail";
-			this->unverified_ThumbnailColumn->Name = L"unverified_ThumbnailColumn";
-			this->unverified_ThumbnailColumn->ReadOnly = true;
-			this->unverified_ThumbnailColumn->Width = 64;
-			// 
-			// unverified_LatitudeColumn
-			// 
-			this->unverified_LatitudeColumn->HeaderText = L"Latitude";
-			this->unverified_LatitudeColumn->Name = L"unverified_LatitudeColumn";
-			this->unverified_LatitudeColumn->ReadOnly = true;
-			// 
-			// unverified_LongitudeColumn
-			// 
-			this->unverified_LongitudeColumn->HeaderText = L"Longitude";
-			this->unverified_LongitudeColumn->Name = L"unverified_LongitudeColumn";
-			this->unverified_LongitudeColumn->ReadOnly = true;
-			// 
-			// unverified_HeadingColumn
-			// 
-			this->unverified_HeadingColumn->HeaderText = L"Heading";
-			this->unverified_HeadingColumn->Name = L"unverified_HeadingColumn";
-			this->unverified_HeadingColumn->ReadOnly = true;
-			// 
-			// unverified_CenterPixel
-			// 
-			this->unverified_CenterPixel->HeaderText = L"Center Pixel";
-			this->unverified_CenterPixel->Name = L"unverified_CenterPixel";
-			this->unverified_CenterPixel->ReadOnly = true;
-			// 
-			// unverfied_LetterColumn
-			// 
-			this->unverfied_LetterColumn->HeaderText = L"Letter";
-			this->unverfied_LetterColumn->Name = L"unverfied_LetterColumn";
-			this->unverfied_LetterColumn->ReadOnly = true;
-			// 
-			// unverified_LetterColor
-			// 
-			this->unverified_LetterColor->HeaderText = L"Letter Color";
-			this->unverified_LetterColor->Name = L"unverified_LetterColor";
-			this->unverified_LetterColor->ReadOnly = true;
-			// 
-			// unverified_Shape
-			// 
-			this->unverified_Shape->HeaderText = L"Shape";
-			this->unverified_Shape->Name = L"unverified_Shape";
-			this->unverified_Shape->ReadOnly = true;
-			// 
-			// unverified_ShapeColor
-			// 
-			this->unverified_ShapeColor->HeaderText = L"Shape Color";
-			this->unverified_ShapeColor->Name = L"unverified_ShapeColor";
-			this->unverified_ShapeColor->ReadOnly = true;
-			// 
-			// unverified_ProcessedColumn
-			// 
-			this->unverified_ProcessedColumn->HeaderText = L"Processed";
-			this->unverified_ProcessedColumn->Name = L"unverified_ProcessedColumn";
-			this->unverified_ProcessedColumn->ReadOnly = true;
-			// 
-			// unverified_TargetLock
-			// 
-			this->unverified_TargetLock->HeaderText = L"Lock-On";
-			this->unverified_TargetLock->Name = L"unverified_TargetLock";
-			this->unverified_TargetLock->ReadOnly = true;
-			// 
-			// tabPage5
-			// 
-			this->tabPage5->Controls->Add(this->dataGridView3);
-			this->tabPage5->Location = System::Drawing::Point(4, 22);
-			this->tabPage5->Name = L"tabPage5";
-			this->tabPage5->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage5->Size = System::Drawing::Size(837, 213);
-			this->tabPage5->TabIndex = 2;
-			this->tabPage5->Text = L"Confirmed Targets";
-			this->tabPage5->UseVisualStyleBackColor = true;
-			// 
-			// dataGridView3
-			// 
-			this->dataGridView3->AllowUserToAddRows = false;
-			this->dataGridView3->AllowUserToDeleteRows = false;
-			this->dataGridView3->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView3->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(11) {this->confirmed_IDColumn, 
-				this->confirmed_ThumbnailColumn, this->confirmed_LatitudeColumn, this->confirmed_LongitudeColumn, this->confirmed_HeadingColumn, 
-				this->confirmed_Shape, this->confirmed_ShapeColor, this->confirmed_LetterColumn, this->confirmed_LetterColor, this->targetid_column, 
-				this->verified_lockon});
-			this->dataGridView3->Location = System::Drawing::Point(6, 6);
-			this->dataGridView3->MultiSelect = false;
-			this->dataGridView3->Name = L"dataGridView3";
-			this->dataGridView3->RowTemplate->Height = 64;
-			this->dataGridView3->Size = System::Drawing::Size(1254, 269);
-			this->dataGridView3->TabIndex = 0;
-			// 
-			// confirmed_IDColumn
-			// 
-			this->confirmed_IDColumn->HeaderText = L"ID";
-			this->confirmed_IDColumn->Name = L"confirmed_IDColumn";
-			this->confirmed_IDColumn->ReadOnly = true;
-			this->confirmed_IDColumn->Width = 70;
-			// 
-			// confirmed_ThumbnailColumn
-			// 
-			this->confirmed_ThumbnailColumn->HeaderText = L"Thumbnail";
-			this->confirmed_ThumbnailColumn->Name = L"confirmed_ThumbnailColumn";
-			this->confirmed_ThumbnailColumn->ReadOnly = true;
-			this->confirmed_ThumbnailColumn->Width = 64;
-			// 
-			// confirmed_LatitudeColumn
-			// 
-			this->confirmed_LatitudeColumn->HeaderText = L"Latitude";
-			this->confirmed_LatitudeColumn->Name = L"confirmed_LatitudeColumn";
-			this->confirmed_LatitudeColumn->ReadOnly = true;
-			// 
-			// confirmed_LongitudeColumn
-			// 
-			this->confirmed_LongitudeColumn->HeaderText = L"Longitude";
-			this->confirmed_LongitudeColumn->Name = L"confirmed_LongitudeColumn";
-			this->confirmed_LongitudeColumn->ReadOnly = true;
-			// 
-			// confirmed_HeadingColumn
-			// 
-			this->confirmed_HeadingColumn->HeaderText = L"Orientation";
-			this->confirmed_HeadingColumn->Name = L"confirmed_HeadingColumn";
-			this->confirmed_HeadingColumn->ReadOnly = true;
-			// 
-			// confirmed_Shape
-			// 
-			this->confirmed_Shape->HeaderText = L"Shape";
-			this->confirmed_Shape->Name = L"confirmed_Shape";
-			this->confirmed_Shape->ReadOnly = true;
-			// 
-			// confirmed_ShapeColor
-			// 
-			this->confirmed_ShapeColor->HeaderText = L"Shape Color";
-			this->confirmed_ShapeColor->Name = L"confirmed_ShapeColor";
-			this->confirmed_ShapeColor->ReadOnly = true;
-			// 
-			// confirmed_LetterColumn
-			// 
-			this->confirmed_LetterColumn->HeaderText = L"Letter";
-			this->confirmed_LetterColumn->Name = L"confirmed_LetterColumn";
-			this->confirmed_LetterColumn->ReadOnly = true;
-			// 
-			// confirmed_LetterColor
-			// 
-			this->confirmed_LetterColor->HeaderText = L"Letter Color";
-			this->confirmed_LetterColor->Name = L"confirmed_LetterColor";
-			this->confirmed_LetterColor->ReadOnly = true;
-			// 
-			// targetid_column
-			// 
-			this->targetid_column->HeaderText = L"Candidate ID";
-			this->targetid_column->Name = L"targetid_column";
-			this->targetid_column->ReadOnly = true;
-			// 
-			// verified_lockon
-			// 
-			this->verified_lockon->HeaderText = L"Lock On";
-			this->verified_lockon->Name = L"verified_lockon";
-			this->verified_lockon->ReadOnly = true;
-			// 
 			// gimbalHUDPanel
 			// 
 			this->gimbalHUDPanel->BackColor = System::Drawing::Color::Transparent;
@@ -1450,7 +963,6 @@ public:
 			this->ClientSize = System::Drawing::Size(1444, 881);
 			this->Controls->Add(this->sendWaypointsButton);
 			this->Controls->Add(this->imageView);
-			this->Controls->Add(this->metadataTabControl);
 			this->Controls->Add(this->pathWaypointsTextBox);
 			this->Controls->Add(this->loadBoundariesFromFileButton);
 			this->Controls->Add(this->label17);
@@ -1458,10 +970,8 @@ public:
 			this->Controls->Add(this->button5);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->generateMapButton);
-			this->Controls->Add(this->sendWaypoints);
 			this->Controls->Add(this->autosearchBox);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->button4);
 			this->Controls->Add(this->waypointsLabel);
 			this->Controls->Add(this->gimbalHUDPanel);
 			this->Controls->Add(this->label6);
@@ -1478,24 +988,15 @@ public:
 			this->Text = L"UCSD Skynet";
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->Click += gcnew System::EventHandler(this, &Form1::sendWaypointsButton_Click);
-			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form1::Form1_KeyDown);
-			this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &Form1::Form1_KeyPress);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->EndInit();
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->Border))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->EndInit();
-			this->metadataTabControl->ResumeLayout(false);
-			this->tabPage3->ResumeLayout(false);
-			this->tabPage4->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView2))->EndInit();
-			this->tabPage5->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView3))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1604,77 +1105,18 @@ private: bool isReadingData;
 
 public: System::Void setUnverifiedTableContents( array<Database::UnverifiedRowData ^> ^ contents )
 		{
-			if (contents == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::setUnverifiedTableContents(): data is null");
-				return;
-			}
-
-			if ( !this->dataGridView2->InvokeRequired )
-			{
-				this->dataGridView2->Rows->Clear();
-
-				for each(Database::UnverifiedRowData ^ data in contents)
-				{
-					insertUnverifiedData(data);
-				}
-			}
-			else
-			{
-				unverifiedTableContentsDelegate = gcnew Delegates::unverifiedRowDataArrayToVoid(this,&Form1::setUnverifiedTableContents);
-				array<Object ^>^ arr = {contents}; 
-				this->Invoke(unverifiedTableContentsDelegate,arr);
-			}
+			targetsForm->setUnverifiedTableContents(contents);
 		}
 
 public: System::Void setVerifiedTableContents( array<Database::VerifiedRowData ^> ^ contents )
 		{
-			if (contents == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::setVerifiedTableContents(): data is null");
-				return;
-			}
-			if ( !this->dataGridView3->InvokeRequired )
-			{
-				this->dataGridView3->Rows->Clear();
-
-				for each(Database::VerifiedRowData ^ data in contents)
-				{
-					if (data == nullptr)
-						continue;
-					insertVerifiedTargetData(data);
-				}
-			}
-			else
-			{
-				verifiedTableContentsDelegate = gcnew Delegates::verifiedRowDataArrayToVoid(this,&Form1::setVerifiedTableContents);
-				array<Object ^>^ arr = {contents}; 
-				this->Invoke(verifiedTableContentsDelegate,arr);
-			}
+			targetsForm->setVerifiedTableContents(contents);
 		}
 
 public: System::Void setCandidateTableContents( array<Database::CandidateRowData ^> ^ contents )
 		{
-			if (contents == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::setCandidateTableContents: data is null");
-				return;
-			}
-			if ( !this->dataGridView1->InvokeRequired )
-			{
+			targetsForm->setCandidateTableContents(contents);
 
-				this->dataGridView1->Rows->Clear();
-
-				for each(Database::CandidateRowData ^ data in contents)
-				{
-					if (data == nullptr)
-						continue;
-					insertCandidateData(data);
-				}
-			}
-			else
-			{
-				candidateTableContentsDelegate = gcnew Delegates::candidateRowDataArrayToVoid(this,&Form1::setCandidateTableContents);
-				array<Object ^>^ arr = {contents}; 
-				this->Invoke(candidateTableContentsDelegate,arr);
-			}
 		}
 
 private: bool findIntInArray( int num, array<int> ^ arr)
@@ -1685,188 +1127,21 @@ private: bool findIntInArray( int num, array<int> ^ arr)
 			 return false;
 		 }
 
-public: System::Void setProcessedForCandidates( array<int> ^ idsToSet )
-		{
-			DataGridView ^ grid = this->dataGridView1;
-			
-			int size = grid->Rows->Count;
-
-			for (int i = 0; i < size; i++)
-			{
-				int id = Int32::Parse(   (String ^)(grid->Rows[i]->Cells[0]->Value)    );
-				if (findIntInArray(id, idsToSet))
-					grid->Rows[i]->Cells[9]->Value = true;
-				else
-					grid->Rows[i]->Cells[9]->Value = false;
-			}
-
-		}
-
 public: System::Void insertCandidateData( Database::CandidateRowData ^ data) 
 		{
-			if (data == nullptr) {
-				
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::insertCandidateData(): data is null");
-				return;
-			}
-
-			try {
-				int num = data->candidateid;
-			} 
-			catch (Exception ^ ) {
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::insertCandidateData(): data is null");
-				return;
-			}
-			int rowNum;
-			DataGridView ^ grid = this->dataGridView1;
-			if ( !grid-> InvokeRequired )
-			{
-				rowNum = grid->Rows->Add();
-				grid->Rows[rowNum]->Cells[0]->Value = "" + data->candidateid;
-
-				Image ^ thumbnail;
-				try
-				{
-					String ^ path = data->imageName;
-					thumbnail = Image::FromFile( path ) ; 
-					thumbnail = thumbnail->GetThumbnailImage( 64, 64, nullptr, IntPtr::Zero );
-				}
-				catch( Exception ^ e)
-				{
-					System::Diagnostics::Trace::WriteLine("Failure to add image to table: " + e);
-				}
-
-
-				grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
-				grid->Rows[rowNum]->Cells[4]->Value = "0*";
-				grid->Rows[rowNum]->Cells[5]->Value = data->processed;
-				try {
-					double lat, lon, alt;
-					Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-					grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
-					grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
-				} catch (Vision::GeoReferenceException^){
-					grid->Rows[rowNum]->Cells[2]->Value = "Uncalculable";
-					grid->Rows[rowNum]->Cells[3]->Value = "Uncalculable";
-				}
-				//grid->Rows[rowNum]->Cells[5]->Value = data->letter;
-				//grid->Rows[rowNum]->Cells[6]->Value = data->letterColor;
-				//grid->Rows[rowNum]->Cells[7]->Value = data->shape;
-				//grid->Rows[rowNum]->Cells[8]->Value = data->shapeColor;
-			}
-			else
-			{
-				candidateTableUpdateDelegate = gcnew Delegates::candidateRowDataToVoid(this,&Form1::insertCandidateData);
-				this->Invoke(unverifiedTableUpdateDelegate,data);
-			}
+			targetsForm->insertCandidate(data);
 		}
 public: System::Void insertUnverifiedData( Database::UnverifiedRowData ^ data) 
 		{
-			if (data == nullptr) {
-				
-				//System::Diagnostics::Trace::WriteLine("ERROR in Form1::insertTargetData(): data is null");
-				return;
-			}
-
-			int rowNum;
-
-			DataGridView ^ grid = this->dataGridView2;
-			
-			if ( !grid-> InvokeRequired )
-			{
-				rowNum = grid->Rows->Add();
-				grid->Rows[rowNum]->Cells[0]->Value = "" + data->targetid;
-				Image ^ thumbnail;
-				try
-				{
-					String ^ path = data->candidate->imageName;
-					// thumbnail = Image::FromFile( path );
-					thumbnail = Image::FromFile( path );
-					thumbnail = thumbnail->GetThumbnailImage( 64, 64, nullptr, IntPtr::Zero );
-				}
-				catch( Exception ^ e)
-				{
-					System::Diagnostics::Trace::WriteLine("Failure to add image to table: " + e);
-				}
-
-
-				grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
-				try{
-					double lat, lon, alt;
-					Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-					grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
-					grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
-				} catch (Vision::GeoReferenceException^){
-					grid->Rows[rowNum]->Cells[2]->Value = "Uncalculable";
-					grid->Rows[rowNum]->Cells[3]->Value = "Uncalculable";
-				}
-				grid->Rows[rowNum]->Cells[4]->Value = "0*";
-				grid->Rows[rowNum]->Cells[5]->Value = "("+ data->description->targetX + "," + data->description->targetY+")";
-				grid->Rows[rowNum]->Cells[6]->Value = data->description->letter;
-				grid->Rows[rowNum]->Cells[7]->Value = data->description->letterColor;
-				grid->Rows[rowNum]->Cells[8]->Value = data->description->shape;
-				grid->Rows[rowNum]->Cells[9]->Value = data->description->shapeColor;
-				grid->Rows[rowNum]->Cells[10]->Value = true;
-			}
-			else
-			{
-				unverifiedTableUpdateDelegate = gcnew Delegates::unverifiedRowDataToVoid(this,&Form1::insertUnverifiedData);
-				this->Invoke(unverifiedTableUpdateDelegate,data);
-			}
-
+			targetsForm->insertUnverified(data);
 		}
 
 public: System::Void insertVerifiedTargetData( Database::VerifiedRowData ^ data) 
 		{
-			if (data == nullptr) {
-				
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::VerifiedRowData(): data is null");
-				return;
-			}
-
-			
-			int rowNum;
-
-			DataGridView ^ grid = this->dataGridView3;
-			
-			if ( !grid->InvokeRequired )
-			{
-				rowNum = grid->Rows->Add();
-				grid->Rows[rowNum]->Cells[0]->Value = "" + data->submitid;
-
-				Image ^ thumbnail;
-				try
-				{
-					if (data->target->candidate->imageName != nullptr) 
-					{
-						String ^ path = data->target->candidate->imageName;
-						thumbnail = Image::FromFile( path );
-						thumbnail = thumbnail->GetThumbnailImage( 64, 64, nullptr, IntPtr::Zero );
-					}
-				}
-				catch( Exception ^ e)
-				{
-					System::Diagnostics::Trace::WriteLine("Failure to add image to table: " + e);
-				}
-
-
-				grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
-				grid->Rows[rowNum]->Cells[2]->Value = data->centerGPS->lat;
-				grid->Rows[rowNum]->Cells[3]->Value = data->centerGPS->lon;
-				grid->Rows[rowNum]->Cells[4]->Value = data->target->description->heading;
-				grid->Rows[rowNum]->Cells[5]->Value = data->target->description->shape;
-				grid->Rows[rowNum]->Cells[6]->Value = data->target->description->shapeColor;
-				grid->Rows[rowNum]->Cells[7]->Value = data->target->description->letter;
-				grid->Rows[rowNum]->Cells[8]->Value = data->target->description->letterColor;
-				grid->Rows[rowNum]->Cells[9]->Value = "" + data->target->targetid;
-			}
-			else
-			{
-				verifiedTableUpdateDelegate = gcnew Delegates::verifiedRowDataToVoid(this,&Form1::insertVerifiedTargetData);
-				this->Invoke(verifiedTableUpdateDelegate,data);
-			}
+			targetsForm->insertVerified(data);
 		}
 
+/*
 public: System::Void modifyCandidateInTable( Database::CandidateRowData ^ data )
 		{
 			bool foundTarget = false;
@@ -2040,6 +1315,11 @@ public: System::Void removeVerifiedTargetFromTable(String ^ id)
 
 		}
 
+*/
+
+public:		System::Void removeCandidate(Database::CandidateRowData^ data){};
+public:		System::Void removeUnverified(Database::UnverifiedRowData^ data){};
+public:		System::Void removeVerified(Database::VerifiedRowData^ data){};
 
 private: void AddText( Stream^ fs, String^ value )
 {
@@ -2074,30 +1354,11 @@ public: System::Void updateTable(ImageWithPlaneData^ data)
 			gimbalHUDView->setGimbalPosition( (float)data->gimbalRoll, (float)data->gimbalPitch, false );
 		}
 
-private: System::Void mapnikToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 mapnikToolStripMenuItem->Checked = true;
-			 osmarenderToolStripMenuItem->Checked = false;
-			 cyclemapToolStripMenuItem->Checked = false;
-		 }
 
-private: System::Void osmarenderToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 mapnikToolStripMenuItem->Checked = false;
-			 osmarenderToolStripMenuItem->Checked = true;
-			 cyclemapToolStripMenuItem->Checked = false;
-		 }
-
-private: System::Void cyclemapToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 mapnikToolStripMenuItem->Checked = false;
-			 osmarenderToolStripMenuItem->Checked = false;
-			 cyclemapToolStripMenuItem->Checked = true;
-		 }
 
 private: System::Void resetToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 appController->clearAllTables();
-
-			 this->dataGridView1->Rows->Clear();
-			 this->dataGridView2->Rows->Clear();
-			 this->dataGridView3->Rows->Clear();
+			 targetsForm->removeAllTargets();
 		 }
 
 private: System::Void exportDataToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
@@ -2110,252 +1371,6 @@ private: System::Void exportDataToolStripMenuItem_Click(System::Object^  sender,
 				}
 
 			}
-
-private: System::Void lockToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if( lockToolStripMenuItem->Checked )
-			 {
-//				 mapView->SetUILocked( false ); DELETE MAP
-				 lockToolStripMenuItem->Checked = false;
-			 }
-			 else
-			 {
-//				mapView->SetUILocked( true ); DELETE MAP
-			 	lockToolStripMenuItem->Checked = true;
-			 }
-				
-
-		 }
-private: System::Void downloadToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 if( downloadToolStripMenuItem->Checked )
-			 {
-//				 mapView->SetDownload( false ); DELETE MAP
-				 downloadToolStripMenuItem->Checked = false;
-			 }
-			 else
-			 {
-//				mapView->SetDownload( true ); DELETE MAP
-			 	downloadToolStripMenuItem->Checked = true;
-			 }
-		 }
-
-private: System::Void mapView_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 	if( e->Button != ::MouseButtons::Right )
-					return;
-
-				mouseGPS = e->Location;
-//				mapMenuStrip->Show( mapView, mouseGPS ); DELETE MAP
-
-
-		 }
-		 
-private: System::Void dataGridView1_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 // if( e->ColumnIndex < 1 || e->ColumnIndex > 4 )
-			//	 return;
-
-			 if( e->RowIndex < 0 )
-				 return;
-
-			 String ^ id = Convert::ToString(dataGridView1->Rows[e->RowIndex]->Cells[0]->Value);
-			 
-			 viewCandidate(appController->candidateWithID(id));
-		 }
-
-		 
-private: System::Void dataGridView2_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 //if( e->ColumnIndex < 1 || e->ColumnIndex > 4 )
-			//	 return;
-
-			 if( e->RowIndex < 0 )
-				 return;
-
-			 if ( e->ColumnIndex == 11 ) {
-
-				 // get data
-				 String ^ id = Convert::ToString(dataGridView2->Rows[e->RowIndex]->Cells[0]->Value);
-				 Database::UnverifiedRowData ^ data = appController->unverifiedWithID(id);
-
-				 // initiate target lock
-				 double lat, lon, alt;
-				 Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-			 }
-
-			 else {
-				 // show dialog
-				 String ^ id = Convert::ToString(dataGridView2->Rows[e->RowIndex]->Cells[0]->Value);
-			 
-				 editUnverifiedTargetUsingDialog(appController->unverifiedWithID(id));
-			 }
-
-		 }
-private: System::Void dataGridView3_CellDoubleClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 if( e->RowIndex < 0 )
-				 return;
-
-			 if (e->ColumnIndex == VERIFIED_LOCK_ON_COLUMN) {
-				 
-				 String ^ id = Convert::ToString(dataGridView3->Rows[e->RowIndex]->Cells[targetid_VERIFIED_COL]->Value);
-				 Database::UnverifiedRowData ^ data = appController->unverifiedWithID(id);
-
-				 if (data == nullptr) {
-					 this->errorMessageUniversal("Could not find corresponding target to lock on to");
-					 return;
-				 }
-				 // initiate target lock
-				 double lat, lon, alt;
-				 Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-
-				 if (lat > 180 || lon > 180) {
-					 this->errorMessageUniversal("Could not calculate GPS to lock on to");
-					 return;
-				 }
-
-
-			 }
-			 else {
-				 String ^ id = Convert::ToString(dataGridView3->Rows[e->RowIndex]->Cells[0]->Value);
-			 
-				 viewCandidate(appController->verifiedWithID(id)->target->candidate);
-			 }
-		 }
-
-public: System::Void editUnverifiedTargetUsingDialog(Database::UnverifiedRowData ^ data) 
-		{
-			if (data == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR: editUnverifiedTargetUsingDialog(): data == nullptr.");
-				return;
-			}
-			imageDialog = gcnew TargetDialog(appController, data);
-			imageDialog->Show();
-		}
-
-
-public: System::Void viewCandidate(Database::CandidateRowData ^ data)
-{
-	if (data == nullptr) {
-		System::Diagnostics::Trace::WriteLine("ERROR: editUnverifiedTargetUsingDialog(): data == nullptr.");
-		return;
-	}
-	imageDialog = gcnew TargetDialog(appController, data);
-	imageDialog->Show();
-
-}
-
-
-public: System::Void editVerifiedTargetUsingDialog(Database::VerifiedRowData ^ theData) 
-		{
-			if (theData == nullptr) {
-				System::Diagnostics::Trace::WriteLine("ERROR: editVerifiedTargetUsingDialog(): data == nullptr.");
-				return;
-			}
-			imageDialog = gcnew TargetDialog(appController, theData);
-			imageDialog->Show();
-		}
-
-		 public: void ocrUpdateData( DataGridViewRow ^ row )
-		 {
-		 	DataGridViewCellCollection ^ cells = row->Cells;
-			String ^ id = Convert::ToString( cells[0]->Value );
-			
-			// Update all values in old entry in database
-			//db->updateValue( Database::tableCandidateRegions, "shape", Convert::ToString( cells[COL_SHAPE]->Value ), id );
-			//db->updateValue( Database::tableCandidateRegions, "letter", Convert::ToString( cells[COL_LETTER]->Value ), id );
-			//db->updateValue( Database::tableCandidateRegions, "processed", "TRUE", id );
-
-			// Move into unverified
-			// db->moveProcessed( Database::tableCandidateRegions, Database::tableUnverifiedTargets, "TRUE" );
-			dataGridView2->Rows->Add(row);
-		 }
-
-		
-		 public: void imageDialogCallback( int rowID, int tarID, double lat, double lon, double heading )
-		 {
-		 	/*DataGridViewCellCollection ^ row = dataGridView3->Rows[rowID]->Cells;
-
-			// Update table
-			row[2]->Value = Convert::ToString( lat );
-			row[3]->Value = Convert::ToString( lon );
-			row[4]->Value = Convert::ToString( heading );
-
-			// Update database
-			db->updateValue( Database::tableVerifiedTargets, "target_lat", Convert::ToString( lat ), Convert::ToString( tarID ) );
-			db->updateValue( Database::tableVerifiedTargets, "target_lon", Convert::ToString( lon ), Convert::ToString( tarID ) );
-			db->updateValue( Database::tableVerifiedTargets, "heading", Convert::ToString( heading ), Convert::ToString( tarID ) );
-
-			// Update target in map
-			mapView->AddTarget( lat, lon, tarID );*/
-		 }
-private: System::Void choosePathToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-
-			 // ask user for filename
-			String ^ temp;
-		 
-			System::Windows::Forms::DialogResult result = simReadVidDialog->ShowDialog();
-
-			if ( result == ::DialogResult::OK )
-			{
-				temp = simReadVidDialog->FileName;
-				
-				// theSimHandler->startPlayback(temp);
-
-				//vidOptOutputDirText->Text = temp;
-				System::Diagnostics::Trace::WriteLine( "Simulator input path changed to: " + temp);
-			}
-
-			// if user presses cancel, then DONT START VIDEO!
-		 }
-private: System::Void Form1_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-			
-			 System::Diagnostics::Trace::WriteLine( "form1 - keydown" );
-
-			array<System::Byte> ^ buffer = nullptr;
-
-
-			if (e->KeyCode == Keys::Q) {
-				// send zoom in packet
-				buffer = gcnew array<System::Byte>(6);
-				buffer[0] = 0x81;
-				buffer[0] = 0x01;
-				buffer[0] = 0x04;
-				buffer[0] = 0x07;
-				buffer[0] = 0x24;
-				buffer[0] = 0xFF;
-				System::Diagnostics::Trace::WriteLine( "zoom in" );
-			}
-
-			else if (e->KeyCode == Keys::A) {
-				// send stop zoom packet
-				buffer = gcnew array<System::Byte>(6);
-				buffer[0] = 0x81;
-				buffer[0] = 0x01;
-				buffer[0] = 0x04;
-				buffer[0] = 0x07;
-				buffer[0] = 0x00;
-				buffer[0] = 0xFF;
-
-			}
-
-			else if (e->KeyCode == Keys::Z) {
-				// send zoom out packet
-				buffer = gcnew array<System::Byte>(6);
-				buffer[0] = 0x81;
-				buffer[0] = 0x01;
-				buffer[0] = 0x04;
-				buffer[0] = 0x07;
-				buffer[0] = 0x34;
-				buffer[0] = 0xFF;
-
-			}
-
-			//if (buffer != nullptr) //theComport->writeRawData(buffer); // TODO: fix this
-
-		 }
-private: System::Void Form1_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
-			 System::Diagnostics::Trace::WriteLine( "form1 - keypress" );
-
-		 }
-private: System::Void errorLogTextBox_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
-			 System::Diagnostics::Trace::WriteLine( "errorlog - keypress" );
-		 }
 
 private: System::Void autosearchBox_LoadCompleted(System::Object^  sender, System::ComponentModel::AsyncCompletedEventArgs^  e) {
 			PRINT("AutosearchBox Load Completed");

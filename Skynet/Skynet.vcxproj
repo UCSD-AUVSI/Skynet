@@ -345,6 +345,7 @@
     <ClCompile Include="TargetRecognizer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="TargetsForm.cpp" />
     <ClCompile Include="TessWrapper.cpp" />
     <ClCompile Include="VisionUtil.cpp" />
     <ClCompile Include="OCRWrapper.cpp" />
@@ -475,6 +476,9 @@
     <ClInclude Include="TargetRecognizer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="TargetsForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="TelemetrySimulator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -501,6 +505,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TargetDialog.resx">
       <DependentUpon>TargetDialog.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TargetsForm.resx">
+      <DependentUpon>TargetsForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
