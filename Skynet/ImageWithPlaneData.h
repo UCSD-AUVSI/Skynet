@@ -2,6 +2,7 @@
 
 #include <cv.h>
 
+namespace Intelligence{ref struct GPSCoord;};
 public ref struct ImageWithPlaneData {
 public:
 	System::String ^ imageFilename;
@@ -17,7 +18,8 @@ public:
 	double xVelocity;
 	double yVelocity;
 	double zVelocity;
-	GPSCoord^ toGPSCoord();
+ 
+	Intelligence::GPSCoord^ toGPSCoord();
 	ImageWithPlaneData(System::String ^ imageFilename, System::String ^data);
 	ImageWithPlaneData(ImageWithPlaneData^ other);
 	ImageWithPlaneData(){};

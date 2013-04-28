@@ -5,6 +5,7 @@
 #include "SkynetController.h"
 #include "MasterHeader.h"
 #include "ImageWithPlaneData.h"
+#include "ImageWithPlaneData.cpp"
 
 using namespace Intelligence;
 using namespace System;
@@ -22,7 +23,7 @@ ProcessStartInfo^ IntelligenceController::getPathfinderProcessInfo()
 	return processInfo;
 }
 
-String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInfo, GPSCoord planeData, array<String^>^ fieldBoundaries) {
+String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInfo, GPSCoord^ planeData, array<String^>^ fieldBoundaries) {
 	Diagnostics::Process ^finder = Diagnostics::Process::Start(processInfo);
 	for each (String^ line in fieldBoundaries){
 		finder->StandardInput->WriteLine(line);
@@ -53,7 +54,8 @@ void IntelligenceController::startPathfinderThread(array<String^>^ fieldBoundari
 void IntelligenceController::doPathfinding(Object^ fieldBoundariesObj) {
 	array<String^>^ fieldBoundaries = (array<String^>^) fieldBoundariesObj;
 	ProcessStartInfo^ pathfinderProcess = getPathfinderProcessInfo();
-	String^ pathfinderResult = getPathfinderResult(pathfinderProcess, fieldBoundaries);
+	GPSCoord ^ planeCoord=toGPSCoord();
+	String^ pathfinderResult = getPathfinderResult(pathfinderProcess, planeCoord, fieldBoundaries);
 	handlePathfinderResult(pathfinderResult);
 }
 

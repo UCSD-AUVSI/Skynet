@@ -7,7 +7,7 @@ ref struct ImageWithPlaneData;
 
 namespace Intelligence
 {
-	ref class GPSCoord;
+	ref struct GPSCoord;
 	ref class Autosearch;
 	ref class IntelligenceController;
 }

@@ -16,7 +16,7 @@ namespace Communications
 namespace Intelligence {
 	ref class IntelligenceController;
 
-	public ref class GPSCoord
+	public ref struct GPSCoord
 	{
 	public:
 		double lon, lat, alt;
