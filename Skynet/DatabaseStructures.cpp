@@ -183,24 +183,6 @@ TelemetryRowData::TelemetryRowData(ImageWithPlaneData ^ planeState, int originXI
 
 }
 
-bool TelemetryRowData::Equals(TelemetryRowData ^ object)
-	{
-		if (!planeLocation->Equals(object->planeLocation)) return false;
-		if (originX != object->originX) return false;
-		if (originY != object->originY) return false;
-		if (!approxEqual(gimbalRoll,object->gimbalRoll)) return false;
-		if (!approxEqual(gimbalPitch, object->gimbalPitch)) return false;
-		if (!approxEqual(gimbalYaw, object->gimbalYaw)) return false;
-		if (gimbalZoom != object->gimbalZoom) return false;
-		if (!approxEqual(blurFactor, object->blurFactor)) return false;
-		if (widthPixels != object->widthPixels) return false;
-		if (heightPixels != object->heightPixels) return false;
-		if (!approxEqual(planeRoll, object->planeRoll)) return false;
-		if (!approxEqual(planePitch, object->planePitch)) return false;
-		if (!approxEqual(planeHeading, object->planeHeading)) return false;
-		return true;
-	}
-
 //TelemetryRowData::TelemetryRowData(ImageWithPlaneData ^ planeState)
 //{
 //	this->originX = 0;
@@ -239,15 +221,6 @@ void UnverifiedRowData::updateCandidate(CandidateRowData ^ candidate)
 	this->location = gcnew LocationRowData(this->candidate->telemetry);
 }
 
-bool UnverifiedRowData::Equals(UnverifiedRowData ^ object)
-{
-	if (!candidate->Equals(object->candidate)) return false;
-	if (!location->Equals(object->location)) return false;
-	if (!description->Equals(object->description)) return false;
-	if (processed != object->processed) return false;
-	if (revision != object->revision) return false;
-	return true;
-}
 
 VerifiedRowData::VerifiedRowData(UnverifiedRowData ^ unverified)
 {
@@ -268,12 +241,6 @@ UnverifiedRowData::UnverifiedRowData(CandidateRowData^ candidate, DialogEditingD
 	applyDialogData(dialogData);
 }
 
-bool VerifiedRowData::Equals(VerifiedRowData ^ object)
-{
-	if (!target->Equals(object->target)) return false;
-	if (!centerGPS->Equals(object->centerGPS)) return false;
-	return true;
-}
 
 GPSPositionRowData::GPSPositionRowData(UnverifiedRowData ^ unverified)
 {

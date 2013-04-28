@@ -8,6 +8,7 @@ class Auvsi_Ocr;
 namespace Vision
 {
 	#define SOFTWARE_DIRECTORY (DROPBOX_DIR + "AUVSI\\Technical\\Software\\")
+	#define SOFTWARE_DIRECTORY "C:\\Users\\ucsd_auvsi\\Dropbox\\AUVSI\\Technical\\Software\\"
 	#define TRAINING_DIRECTORY (SOFTWARE_DIRECTORY + "OCR training data\\")
 	#define TESTING_DIRECTORY (SOFTWARE_DIRECTORY + "OCR testing data\\")
 
@@ -22,14 +23,16 @@ namespace Vision
 	{
 		String ^ letter;
 		String ^ shape;
+		String ^ shapeColor;
+		String ^ letterColor;
 
 		/**
 		 * Orientation of the target, counterclockwise from due east.
 		 */
 		double targetOrientationDegrees;
 
-		TargetResult(String ^ letter, String ^ shape, double targetOrientationDegrees): 
-			letter(letter), shape(shape), targetOrientationDegrees(targetOrientationDegrees) {}
+		TargetResult(String ^ letter, String ^ shape, String ^ shapeColor, String ^ letterColor, double targetOrientationDegrees): 
+			letter(letter), shape(shape), shapeColor(shapeColor), letterColor(letterColor), targetOrientationDegrees(targetOrientationDegrees) {}
 
 		String^ getHeadingString(){
 			if (targetOrientationDegrees > 0 && targetOrientationDegrees < 22.5){
@@ -76,11 +79,13 @@ namespace Vision
  		void stopProcessing(void);
 
 		TargetResult^ recognizeImage(cv::Mat image);
+		TargetResult^ recognizeImage(cv::Mat image, String ^ filepath);
 
 		// compute feature descriptor for shape or both?
 		String ^ recognizeLetter(String^ const imageFilename);
 		String ^ recognizeLetter(cv::Mat image);
 
+		TargetRecognizer ^ targetRecognizer;
  	private:
 		Dataset ^ shapeDataset;
 		
@@ -94,6 +99,5 @@ namespace Vision
  		int _nThreads;
  		array<Thread ^> ^ _threads;
  		Object ^ _parent;
-		TargetRecognizer ^ targetRecognizer;
  	};
 }

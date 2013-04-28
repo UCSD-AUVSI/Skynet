@@ -220,6 +220,19 @@ TargetResult^ OCRWrapper::recognizeImage(cv::Mat image)
 	}
 }
 
+TargetResult^ OCRWrapper::recognizeImage(cv::Mat image, String ^ filepath)
+{
+	try {
+		TargetResult ^ result = targetRecognizer->recognizeTarget(image, filepath);
+		return result;
+	}
+	catch (TargetNotFound ^)
+	{
+		PRINT("Could not find a target");
+		return nullptr;
+	}
+}
+
 void OCRWrapper::ocrThread( void )
 {
 	return;

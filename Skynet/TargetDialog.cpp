@@ -33,7 +33,7 @@ TargetDialog::TargetDialog(SkynetController ^ appController, Database::TargetRow
 }
 
 
-void TargetDialog::loadUIWithData(DialogEditingData^ data)
+void TargetDialog::loadUIWithData(Database::DialogEditingData^ data)
 {
 
 	// reload text fields
@@ -57,26 +57,6 @@ void TargetDialog::loadUIWithData(DialogEditingData^ data)
 	else 
 		LETTER_COLOR->Text = data->letterColor;
 
-	/*
-	// change UI elements
-	switch (mode) {
-		case DialogEditingCandidate:
-			okButton->Text = "Vote";
-			clearVotingText();
-			break;
-		case DialogEditingUnverified:
-			okButton->Text = "Approve for Export";
-			buildVotingText();
-			break;
-		case DialogEditingVerified:
-			okButton->Text = "STOP: DO NOT MODIFY";
-			clearVotingText();
-			break;
-		default:
-			okButton->Text = "Shit, bro";
-			break;
-	}
-	*/
 
 	centerX = (float)data->targetX;
 	centerY = (float)data->targetY;
@@ -101,36 +81,6 @@ void TargetDialog::clearVotingText()
 void TargetDialog::setImage(String^ imageFilename)
 {
 	imageBox->Image = Image::FromFile(imageFilename);
-
-	/*
-	//System::Diagnostics::Trace::WriteLine("TargetDialog::setImage(): setting image: " + HTTP_SERVER_TARGET_PATH + data->imageName->Remove(0, 8));
-	try
-	{
-		String ^ path;
-		switch (mode) {
-			case DialogEditingCandidate:
-				path = HTTP_SERVER_TARGET_PATH + data->imageName;
-				break;
-			case DialogEditingUnverified:
-				path = HTTP_SERVER_TARGET_PATH + data->imageName;
-				buildVotingText();
-				break;
-			case DialogEditingVerified:
-				path = HTTP_SERVER_TARGET_PATH + data->imageName;
-				clearVotingText();
-				break;
-			default:
-				okButton->Text = "Shit, bro";
-				break;
-		}
-		_targetImage = Image::FromFile( path );
-		imageBox->Image = _targetImage;
-	}
-	catch( Exception ^ e)
-	{
-		System::Diagnostics::Trace::WriteLine("ERROR: TargetDialog::setImage(): failed to set image: " + e);
-	}
-	*/
 }
 
 
@@ -167,7 +117,6 @@ TargetDialog::okButton_Click(System::Object^  sender, System::EventArgs^  e)
 {
 	VerifiedRowData ^ verified = rowData->asVerified(getDataFromUI());
 	appController->addVerifiedTarget(verified);
-
 	open = false;
 	_markLat = false;
 	_markHeading = false;
@@ -177,7 +126,7 @@ TargetDialog::okButton_Click(System::Object^  sender, System::EventArgs^  e)
 System::Void 
 TargetDialog::button1_Click(System::Object^  sender, System::EventArgs^  e) 
 {
-	// TODO: Delete
+	// TODO
 
 	open = false;
 	_markLat = false;

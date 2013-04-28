@@ -288,8 +288,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="tessnet2_64, Version=2.0.4.0, Culture=neutral, PublicKeyToken=1550524b5ba07e29">
-      <HintPath>..\TessCompute\Release64\tessnet2_64.dll</HintPath>
+    <Reference Include="tessnet2_64">
+      <HintPath>..\..\..\..\..\tessnet2_64.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -316,7 +316,6 @@
     <ClCompile Include="..\Pathfinding\AdjacencyList.cpp" />
     <ClCompile Include="..\Pathfinding\Autosearch.cpp" />
     <ClCompile Include="..\Pathfinding\Node.cpp" />
-    <ClCompile Include="..\Pathfinding\Pathfinder.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="ColorBlob.cpp" />
     <ClCompile Include="ColorBlobDetector.cpp" />
@@ -330,6 +329,7 @@
     </ClCompile>
     <ClCompile Include="GeoReference.cpp" />
     <ClCompile Include="HistogramSegmenter.cpp" />
+    <ClCompile Include="ImageWithPlaneData.cpp" />
     <ClCompile Include="IntelligenceController.cpp" />
     <ClCompile Include="LetterTester.cpp" />
     <ClCompile Include="MapControl.cpp">
@@ -340,6 +340,7 @@
     <ClCompile Include="ShapeClassifier.cpp" />
     <ClCompile Include="ShapeFinder.cpp" />
     <ClCompile Include="ShapeRecognizer.cpp" />
+    <ClCompile Include="ShapeSegmentationTester.cpp" />
     <ClCompile Include="ShapeTester.cpp" />
     <ClCompile Include="TargetRecognizer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">false</ExcludedFromBuild>
@@ -410,7 +411,6 @@
     <ClInclude Include="..\Pathfinding\AdjacencyList.h" />
     <ClInclude Include="..\Pathfinding\Autosearch.h" />
     <ClInclude Include="..\Pathfinding\Node.h" />
-    <ClInclude Include="..\Pathfinding\Pathfinder.h" />
     <ClInclude Include="Autosearch.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">true</ExcludedFromBuild>
     </ClInclude>

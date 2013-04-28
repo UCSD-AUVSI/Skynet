@@ -277,7 +277,8 @@ private: System::Windows::Forms::DataGridViewCheckBoxColumn^  candidate_Verified
 private: System::Windows::Forms::DataGridViewCheckBoxColumn^  processed;
 private: System::Windows::Forms::CheckedListBox^  gpsCheckboxList;
 private: System::Windows::Forms::Label^  waypointsLabel;
-private: System::Windows::Forms::Button^  sendWaypointsButton;
+private: System::Windows::Forms::Button^  sendWaypoints;
+
 private: System::Windows::Forms::ToolStripMenuItem^  wifiToolStripMenuItem;
 private: System::Windows::Forms::ToolStripMenuItem^  stopToolStripMenuItem1;
 private: System::Windows::Forms::Button^  generateMapButton;
@@ -288,7 +289,9 @@ private: System::Windows::Forms::Label^  label17;
 private: System::Windows::Forms::Button^  loadBoundariesFromFileButton;
 private: System::Windows::Forms::PictureBox^  imageView;
 private: System::Windows::Forms::ToolStripMenuItem^  frameByFrameMenuItem;
-private: System::Windows::Forms::TextBox^  textBox1;
+private: System::Windows::Forms::TextBox^  pathWaypointsTextBox;
+
+
 private: System::Windows::Forms::TabControl^  metadataTabControl;
 private: System::Windows::Forms::TabPage^  tabPage3;
 private: System::Windows::Forms::TabPage^  tabPage4;
@@ -319,6 +322,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  confirmed_LetterCol
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  targetid_column;
 private: System::Windows::Forms::DataGridViewCheckBoxColumn^  verified_lockon;
 private: System::Windows::Forms::Panel^  gimbalHUDPanel;
+private: System::Windows::Forms::Button^  sendWaypointsButton;
 
 
 private: System::Windows::Forms::Button^  button5;
@@ -376,7 +380,7 @@ public:
 
 			// Logging			
 			DateTime timeTemp = DateTime::Now;
-			logFile = File::Create( "C:\\Skynet Logs\\" + timeTemp.ToString("o")->Replace(":", "-") + ".txt" );
+			logFile = File::Create( SKYNET_LOG_DIR + timeTemp.ToString("o")->Replace(":", "-") + ".txt" );
 
 			// Set up metadata Table
 			this->metadataTable->Rows->Add("Airplane Data", "---");
@@ -420,9 +424,10 @@ public:
 			verifiedTableUpdaterThread->Name = "Verified Table Updater Thread";
 			verifiedTableUpdaterThread->Start(5000);
 
-			// StreamReader^ gpsListStream = gcnew StreamReader("D:\\Skynet Files\\Field Boundaries.txt");
-			// String ^ gpsCoords = gpsListStream->ReadToEnd();
-			// mapBoundariesTextBox->Text = gpsCoords;
+			return; 
+			StreamReader^ gpsListStream = gcnew StreamReader(SKYNET_FILES_DIR + "\\Field Boundaries.txt");
+			String ^ gpsCoords = gpsListStream->ReadToEnd();
+			mapBoundariesTextBox->Text = gpsCoords;
 		}
 
 	public:
@@ -479,6 +484,7 @@ public:
 			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Form1::typeid));
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->toolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -541,14 +547,14 @@ public:
 			this->pathfinderBox = (gcnew System::Windows::Forms::PictureBox());
 			this->gpsCheckboxList = (gcnew System::Windows::Forms::CheckedListBox());
 			this->waypointsLabel = (gcnew System::Windows::Forms::Label());
-			this->sendWaypointsButton = (gcnew System::Windows::Forms::Button());
+			this->sendWaypoints = (gcnew System::Windows::Forms::Button());
 			this->mapBoundariesTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->generateMapButton = (gcnew System::Windows::Forms::Button());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->loadBoundariesFromFileButton = (gcnew System::Windows::Forms::Button());
 			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->imageView = (gcnew System::Windows::Forms::PictureBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->pathWaypointsTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->metadataTabControl = (gcnew System::Windows::Forms::TabControl());
 			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
 			this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
@@ -579,6 +585,7 @@ public:
 			this->targetid_column = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->verified_lockon = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 			this->gimbalHUDPanel = (gcnew System::Windows::Forms::Panel());
+			this->sendWaypointsButton = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
@@ -948,7 +955,7 @@ public:
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent, 
 				50)));
 			this->tableLayoutPanel1->GrowStyle = System::Windows::Forms::TableLayoutPanelGrowStyle::FixedSize;
-			this->tableLayoutPanel1->Location = System::Drawing::Point(1428, 586);
+			this->tableLayoutPanel1->Location = System::Drawing::Point(1038, 586);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
@@ -1087,6 +1094,7 @@ public:
 			// 
 			// Border
 			// 
+			this->Border->BackgroundImage = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"Border.BackgroundImage")));
 			this->Border->Location = System::Drawing::Point(241, 691);
 			this->Border->Name = L"Border";
 			this->Border->Size = System::Drawing::Size(138, 138);
@@ -1116,21 +1124,18 @@ public:
 			this->waypointsLabel->AutoSize = true;
 			this->waypointsLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->waypointsLabel->Location = System::Drawing::Point(1555, 24);
+			this->waypointsLabel->Location = System::Drawing::Point(1314, 24);
 			this->waypointsLabel->Name = L"waypointsLabel";
 			this->waypointsLabel->Size = System::Drawing::Size(135, 24);
 			this->waypointsLabel->TabIndex = 39;
 			this->waypointsLabel->Text = L"Path waypoints";
 			// 
-			// sendWaypointsButton
+			// sendWaypoints
 			// 
-			this->sendWaypointsButton->Location = System::Drawing::Point(1540, 517);
-			this->sendWaypointsButton->Name = L"sendWaypointsButton";
-			this->sendWaypointsButton->Size = System::Drawing::Size(154, 69);
-			this->sendWaypointsButton->TabIndex = 40;
-			this->sendWaypointsButton->Text = L"Send checked waypoints to virtual cockpit";
-			this->sendWaypointsButton->UseVisualStyleBackColor = true;
-			this->sendWaypointsButton->Click += gcnew System::EventHandler(this, &Form1::sendWaypointsButton_Click);
+			this->sendWaypoints->Location = System::Drawing::Point(0, 0);
+			this->sendWaypoints->Name = L"sendWaypoints";
+			this->sendWaypoints->Size = System::Drawing::Size(75, 23);
+			this->sendWaypoints->TabIndex = 50;
 			// 
 			// mapBoundariesTextBox
 			// 
@@ -1191,14 +1196,14 @@ public:
 			this->imageView->TabIndex = 47;
 			this->imageView->TabStop = false;
 			// 
-			// textBox1
+			// pathWaypointsTextBox
 			// 
-			this->textBox1->Location = System::Drawing::Point(1277, 55);
-			this->textBox1->Multiline = true;
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(225, 126);
-			this->textBox1->TabIndex = 48;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
+			this->pathWaypointsTextBox->Location = System::Drawing::Point(1277, 55);
+			this->pathWaypointsTextBox->Multiline = true;
+			this->pathWaypointsTextBox->Name = L"pathWaypointsTextBox";
+			this->pathWaypointsTextBox->Size = System::Drawing::Size(225, 126);
+			this->pathWaypointsTextBox->TabIndex = 48;
+			this->pathWaypointsTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
 			// 
 			// metadataTabControl
 			// 
@@ -1427,6 +1432,15 @@ public:
 			this->gimbalHUDPanel->TabIndex = 34;
 			this->gimbalHUDPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::gimbalHUDPanel_Paint);
 			// 
+			// sendWaypointsButton
+			// 
+			this->sendWaypointsButton->Location = System::Drawing::Point(1316, 631);
+			this->sendWaypointsButton->Name = L"sendWaypointsButton";
+			this->sendWaypointsButton->Size = System::Drawing::Size(75, 23);
+			this->sendWaypointsButton->TabIndex = 51;
+			this->sendWaypointsButton->Text = L"Send Waypoints to VC";
+			this->sendWaypointsButton->UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -1434,21 +1448,21 @@ public:
 			this->AutoValidate = System::Windows::Forms::AutoValidate::EnableAllowFocusChange;
 			this->BackColor = System::Drawing::Color::DimGray;
 			this->ClientSize = System::Drawing::Size(1444, 881);
+			this->Controls->Add(this->sendWaypointsButton);
 			this->Controls->Add(this->imageView);
 			this->Controls->Add(this->metadataTabControl);
-			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->label17);
+			this->Controls->Add(this->pathWaypointsTextBox);
 			this->Controls->Add(this->loadBoundariesFromFileButton);
+			this->Controls->Add(this->label17);
 			this->Controls->Add(this->mapBoundariesTextBox);
 			this->Controls->Add(this->button5);
 			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->generateMapButton);
-			this->Controls->Add(this->sendWaypointsButton);
-			this->Controls->Add(this->gpsCheckboxList);
+			this->Controls->Add(this->sendWaypoints);
 			this->Controls->Add(this->autosearchBox);
-			this->Controls->Add(this->waypointsLabel);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->button4);
+			this->Controls->Add(this->waypointsLabel);
 			this->Controls->Add(this->gimbalHUDPanel);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->pathfinderBox);
@@ -1463,6 +1477,7 @@ public:
 			this->Name = L"Form1";
 			this->Text = L"UCSD Skynet";
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
+			this->Click += gcnew System::EventHandler(this, &Form1::sendWaypointsButton_Click);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form1::Form1_KeyDown);
 			this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &Form1::Form1_KeyPress);
 			this->menuStrip1->ResumeLayout(false);
@@ -1518,6 +1533,14 @@ private: System::Void consoleMessage( String ^ message, Color col )
 
 		 	 return;
 		 }
+public: System::Void setWayPointsText(String ^ text)
+		{
+			if (!pathWaypointsTextBox->InvokeRequired){
+				pathWaypointsTextBox->Text=text;
+			} else {
+				this->Invoke(gcnew Delegates::stringToVoid(this,&Form1::setWayPointsText), (Object^)text);
+			}
+		}
 public:  System::Void doNothing() {
 			 System::Diagnostics::Trace::WriteLine("Doing nothing");
 		 }
@@ -1793,21 +1816,6 @@ public: System::Void insertUnverifiedData( Database::UnverifiedRowData ^ data)
 
 		}
 
-public: System::Void fillGpsCheckboxList ( array<Communications::Waypoint ^>^ waypoints )
-		{
-			auto gpsCheckboxList = this->gpsCheckboxList;
-			if ( gpsCheckboxList->InvokeRequired ){
-				checkboxListDelegate = gcnew Delegates::waypointArraytoVoid(this,&Form1::fillGpsCheckboxList);
-				this->Invoke(checkboxListDelegate,(Object ^)waypoints);
-			}else{
-				auto gpsListItems = this->gpsCheckboxList->Items;
-				gpsListItems->Clear();
-				for ( int i = 0; i < waypoints->Length; i++){
-					gpsListItems->Add(waypoints[i],true);
-				}
-			}
-		}
-
 public: System::Void insertVerifiedTargetData( Database::VerifiedRowData ^ data) 
 		{
 			if (data == nullptr) {
@@ -2039,13 +2047,6 @@ private: void AddText( Stream^ fs, String^ value )
    fs->Write( info, 0, info->Length );
 }
 
-//helper method to pass in arguments
-private: void PassInArguments(ImageWithPlaneData^ data){
-	double al = data->altitude;
-	double la = data->latitude;
-	double lo = data->longitude;
-	
-}
 public: System::Void updateIntendedGimbalPosition( float rollDegrees, float pitchDegrees )
 		{
 			if (rollDegrees > -360.0f && rollDegrees < 360.0f && pitchDegrees > -360.0f && pitchDegrees < 360.0f)
@@ -2236,6 +2237,7 @@ public: System::Void viewCandidate(Database::CandidateRowData ^ data)
 	}
 	imageDialog = gcnew TargetDialog(appController, data);
 	imageDialog->Show();
+
 }
 
 
@@ -2245,40 +2247,9 @@ public: System::Void editVerifiedTargetUsingDialog(Database::VerifiedRowData ^ t
 				System::Diagnostics::Trace::WriteLine("ERROR: editVerifiedTargetUsingDialog(): data == nullptr.");
 				return;
 			}
-
 			imageDialog = gcnew TargetDialog(appController, theData);
 			imageDialog->Show();
 		}
-
-		 //public: Vision::ocrItem ^ getCandidateData( void )
-		 //{
-		 //	DataGridViewCellCollection ^ row;
-			//try
-			//{
-			//	row = dataGridView1->Rows[0]->Cells;
-			//}
-			//catch( Exception ^ )
-			//{
-			//	// no data to take
-			//	return nullptr;
-			//}
-
-			//// Set up return value
-			//String ^ id = Convert::ToString( row[0]->Value );
-			//Vision::ocrItem ^ retVal = gcnew Vision::ocrItem();			
-			//retVal->_homography = db->getHomography( Database::tableCandidateRegions, id );
-			//retVal->_row = dataGridView1->Rows[0];
-			//retVal->_heading = Convert::ToDouble( row[4]->Value );
-			//retVal->_path = db->getField(Database::tableCandidateRegions, 1, id);
-
-			//// Remove row from this table
-			//dataGridView1->Rows->Remove( dataGridView1->Rows[0] );
-
-			////dataGridView3->Rows->Add(row);
-			////db->move( Database::tableUnverifiedTargets, Database::tableVerifiedTargets, value );
-
-			//return retVal;
-		 //}
 
 		 public: void ocrUpdateData( DataGridViewRow ^ row )
 		 {
@@ -2395,8 +2366,8 @@ private: System::Void sendWaypointsButton_Click(System::Object^  sender, System:
 		 }
 
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
-		// appController->startIntelligenceController(nullptr);
-
+		array<System::String^>^ lines = mapBoundariesTextBox->Lines;
+		appController->startIntelligenceController(lines);
 }
 
 private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -2420,7 +2391,6 @@ private: System::Void button5_Click_1(System::Object^  sender, System::EventArgs
 			appController->saveCurrentFrameAsUnverified();		 
 		 }
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-			
 
 		 }
 private: System::Void mapBoundariesTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {

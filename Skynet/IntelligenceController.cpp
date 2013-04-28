@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "IntelligenceController.h"
 #include "../Pathfinding/Autosearch.h"
-#include "../Pathfinding/Pathfinder.h"
 #include "SkynetController.h"
 #include "MasterHeader.h"
 #include "ImageWithPlaneData.h"
-#include "ImageWithPlaneData.cpp"
 
 using namespace Intelligence;
 using namespace System;
@@ -28,7 +26,6 @@ String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInf
 	for each (String^ line in fieldBoundaries){
 		finder->StandardInput->WriteLine(line);
 	}
-	
 	finder->StandardInput->Close();
 	return finder->StandardOutput->ReadToEnd();
 }
@@ -52,11 +49,13 @@ void IntelligenceController::startPathfinderThread(array<String^>^ fieldBoundari
 }
 
 void IntelligenceController::doPathfinding(Object^ fieldBoundariesObj) {
+	// TODO: Fix
+	/*
 	array<String^>^ fieldBoundaries = (array<String^>^) fieldBoundariesObj;
 	ProcessStartInfo^ pathfinderProcess = getPathfinderProcessInfo();
-	GPSCoord ^ planeCoord=toGPSCoord();
 	String^ pathfinderResult = getPathfinderResult(pathfinderProcess, planeCoord, fieldBoundaries);
 	handlePathfinderResult(pathfinderResult);
+	*/
 }
 
 void IntelligenceController::handlePathfinderResult(String^ result) {
@@ -71,9 +70,3 @@ void IntelligenceController::setPlaneWatcher(PlaneWatcher^ planeWatcher)
 void IntelligenceController::displayAutosearchImage(Drawing::Bitmap^ image){
 	skynetController->displayAutosearchImage(image);
 }
-
-/*void IntelligenceController::startPlaneDatathread(ImageWithPlaneData ^ data){
-	ParameterizedThreadStart^ threadStart = gcnew ParameterizedThreadStart(this, &IntelligenceController::doPathfinding);
-	Thread^ thread = gcnew Thread(threadStart);
-	thread->Start(data);
-}*/

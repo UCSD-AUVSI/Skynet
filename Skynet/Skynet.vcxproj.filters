@@ -1,0 +1,581 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files\UI Forms">
+      <UniqueIdentifier>{c91a6743-62eb-4847-bdda-41ed629445fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Simulation">
+      <UniqueIdentifier>{9dbdefc8-2a47-4581-b3be-21774bb20aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI Forms">
+      <UniqueIdentifier>{216ae6a7-fd89-48c2-a00a-76398991f182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Simulation">
+      <UniqueIdentifier>{c53f3436-9837-4f36-b9cc-1c7dafcb2008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vision">
+      <UniqueIdentifier>{8e211d03-e652-4f24-af8b-a4cbd8919888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vision">
+      <UniqueIdentifier>{0f54c5d6-bb12-4716-a3ff-657bacb08241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vision\OCR">
+      <UniqueIdentifier>{ecf09fb4-9a99-4e77-97ae-7e12580016f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vision\OCR">
+      <UniqueIdentifier>{feceb827-63f4-423f-9be0-0edbf44f9c31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pathfinding">
+      <UniqueIdentifier>{f98140f4-fe98-4287-92dc-649a7fb3f752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pathfinding">
+      <UniqueIdentifier>{913bb106-80b8-4a65-8624-f05eb5ad1860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PlaneDataReceivers">
+      <UniqueIdentifier>{d91d691f-d27b-4428-aeb0-ffaae14a71ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PlaneDataReceivers">
+      <UniqueIdentifier>{af7415a6-0ced-463c-be7d-316e6d02db81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vision\OCR\Computation">
+      <UniqueIdentifier>{db6dce3c-afad-45f0-b03c-099983b15e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vision\OCR\Analysis">
+      <UniqueIdentifier>{222d1df4-1c3e-4975-8626-282933962a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vision\OCR\Computation">
+      <UniqueIdentifier>{00d50b5b-2e03-4a9b-bc0d-180be112594b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vision\OCR\Analysis">
+      <UniqueIdentifier>{34c7216b-22b4-4ce5-a4cc-a682c7951b1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vision\OCR\ShapeDetection">
+      <UniqueIdentifier>{ff4849f1-2364-4561-8525-dfb7a63dd1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vision\OCR\ShapeDetection">
+      <UniqueIdentifier>{546eb7d7-bf16-48cb-9fcb-4d554855275d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vision\OCR\ShapeRecognition">
+      <UniqueIdentifier>{9b0e2fe6-6c9c-464a-9632-01c294fe959e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vision\OCR\ShapeRecognition">
+      <UniqueIdentifier>{8aaf8788-e5cf-496c-80f4-b9642c0b0bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenCUDA">
+      <UniqueIdentifier>{4a556e98-0010-4a5e-a205-57dc944a415e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenCUDA\Cuda">
+      <UniqueIdentifier>{8f20ee39-a1f2-400e-8fd1-4ea0a171591e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenCUDA\Filters">
+      <UniqueIdentifier>{3be54e0f-7c39-45ea-88fd-034ae2eaa1e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SalientGreenCUDA\Normalization">
+      <UniqueIdentifier>{131273f9-887f-40ab-b52f-05ccc9376c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vision\OCR\TargetRecognition">
+      <UniqueIdentifier>{5ba6c07e-345f-4eba-b3ef-a4a5b1626065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vision\OCR\TargetOCR">
+      <UniqueIdentifier>{08bfea8e-b5fe-4f34-af8e-16d21b721eee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="airplane_icon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="app.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ReadMe.txt" />
+    <None Include="Saliency_New.exe" />
+    <None Include="Saliency_New.exp" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="IntelligenceController.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_C.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\SalientGreenGPU\compile\CMakeFiles\CMakeDetermineCompilerABI_CXX.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ClassDiagram3.cd" />
+    <None Include="..\..\..\Desktop\Skynet\SalientGreenCUDA\Release\SalientGreenCUDA.pch" />
+    <None Include="ClassDiagram4.cd" />
+    <None Include="OCR\_Resampler.so">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </None>
+    <None Include="OCR\Resampler.i">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skynet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeoReference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneWatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkynetController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetDialog.cpp">
+      <Filter>Source Files\UI Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="MapControl.cpp">
+      <Filter>Source Files\UI Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="SimHandler.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="TelemetrySimulator.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoReader.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoSimulator.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="GEarthHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VoteCounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IntelligenceController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseStructures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Saliency.cpp">
+      <Filter>Source Files\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionController.cpp">
+      <Filter>Source Files\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="DuplicateResolver.cpp">
+      <Filter>Source Files\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveImage.cpp">
+      <Filter>Source Files\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdC\CMakeCCompilerId.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Pathfinding\Pathfinder.cpp">
+      <Filter>Source Files\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Pathfinding\AdjacencyList.cpp">
+      <Filter>Source Files\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Pathfinding\Autosearch.cpp">
+      <Filter>Source Files\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Pathfinding\Node.cpp">
+      <Filter>Source Files\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SalientGreenGPU\compile\CMakeFiles\CompilerIdCXX\CMakeCXXCompilerId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cvBlob\cvcolor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cvBlob\cvcontour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cvBlob\cvlabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cvBlob\cvtrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cvBlob\cvaux.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cvBlob\cvblob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Form1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatorPlaneDataReceiver.cpp">
+      <Filter>Source Files\PlaneDataReceivers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneDataReceiver.cpp">
+      <Filter>Source Files\PlaneDataReceivers</Filter>
+    </ClCompile>
+    <ClCompile Include="RealPlaneDataReceiver.cpp">
+      <Filter>Source Files\PlaneDataReceivers</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_cvUtil.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Recognizer.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_DualTree.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Fft.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Ocr.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Radon.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\Auvsi_Recognize.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\blob.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\BlobContour.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\BlobOperators.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\BlobResult.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCR\ComponentLabeling.cpp">
+      <Filter>Source Files\Vision\OCR\Computation</Filter>
+    </ClCompile>
+    <ClCompile Include="OCRWrapper.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Dataset.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionUtil.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="TessWrapper.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorBlobDetector.cpp">
+      <Filter>Source Files\Vision\OCR\ShapeDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorBlob.cpp">
+      <Filter>Source Files\Vision\OCR\ShapeDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeFinder.cpp">
+      <Filter>Source Files\Vision\OCR\ShapeDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="HistogramSegmenter.cpp">
+      <Filter>Source Files\Vision\OCR\ShapeDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeRecognizer.cpp">
+      <Filter>Source Files\Vision\OCR\ShapeRecognition</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeClassifier.cpp">
+      <Filter>Source Files\Vision\OCR\ShapeRecognition</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeTester.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="OCRTester.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="LetterTester.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetRecognizer.cpp">
+      <Filter>Source Files\Vision\OCR\TargetRecognition</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeSegmentationTester.cpp">
+      <Filter>Source Files\Vision\OCR\Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorUtil.cpp">
+      <Filter>Source Files\Vision\OCR\ShapeDetection</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Delegates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneWatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapControl.h">
+      <Filter>Header Files\UI Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="SimHandler.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="TelemetrySimulator.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoSimulator.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoReader.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="SkynetController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDControl.h">
+      <Filter>Header Files\UI Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="SkynetControllerInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GEarthHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Autosearch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoReference.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DuplicateResolver.h">
+      <Filter>Header Files\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionController.h">
+      <Filter>Header Files\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveImage.h">
+      <Filter>Header Files\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="Saliency.h">
+      <Filter>Header Files\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\cvBlob\cvblob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Timer.H">
+      <Filter>Header Files\SalientGreenCUDA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\config.h">
+      <Filter>Header Files\SalientGreenCUDA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\SalientGreenGPU.H">
+      <Filter>Header Files\SalientGreenCUDA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Normalization\Normalization.H">
+      <Filter>Header Files\SalientGreenCUDA\Normalization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Gaussian.H">
+      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LogGabor.H">
+      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\LowPass.H">
+      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Filters\Utility.H">
+      <Filter>Header Files\SalientGreenCUDA\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SalientGreenGPU\include\SalientGreenGPU\Cuda\dcAdjust.H">
+      <Filter>Header Files\SalientGreenCUDA\Cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Pathfinding\Autosearch.h">
+      <Filter>Header Files\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Pathfinding\Node.h">
+      <Filter>Header Files\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Pathfinding\Pathfinder.h">
+      <Filter>Header Files\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Pathfinding\AdjacencyList.h">
+      <Filter>Header Files\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cvBlob\cvblob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Waypoint.h">
+      <Filter>Header Files\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Form1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLForm.h.old">
+      <Filter>Header Files\UI Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RealPlaneDataReceiver.h">
+      <Filter>Header Files\PlaneDataReceivers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneDataReceiver.h">
+      <Filter>Header Files\PlaneDataReceivers</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatorPlaneDataReceiver.h">
+      <Filter>Header Files\PlaneDataReceivers</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageWithPlaneData.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_cvUtil.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_DualTree.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Fft.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Ocr.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Radon.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Auvsi_Recognize.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\blob.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobContour.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobLibraryConfiguration.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobOperators.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\BlobResult.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\ComponentLabeling.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Recognizer.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCR\Resampler.h">
+      <Filter>Header Files\Vision\OCR\Computation</Filter>
+    </ClInclude>
+    <ClInclude Include="OCRWrapper.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Dataset.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionUtil.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="TessWrapper.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorBlobDetector.h">
+      <Filter>Header Files\Vision\OCR\ShapeDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorBlob.h">
+      <Filter>Header Files\Vision\OCR\ShapeDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeFinder.h">
+      <Filter>Header Files\Vision\OCR\ShapeDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="HistogramSegmenter.h">
+      <Filter>Header Files\Vision\OCR\ShapeDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="Segmenter.h">
+      <Filter>Header Files\Vision\OCR\ShapeDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeRecognizer.h">
+      <Filter>Header Files\Vision\OCR\ShapeRecognition</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeClassifier.h">
+      <Filter>Header Files\Vision\OCR\ShapeRecognition</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeTester.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="OCRTester.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterTester.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetRecognizer.h">
+      <Filter>Header Files\Vision\OCR\TargetOCR</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeSegmentationTester.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionRuntimeException.h">
+      <Filter>Header Files\Vision\OCR\Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorUtil.h">
+      <Filter>Header Files\Vision\OCR\ShapeDetection</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TargetDialog.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resX">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Saliency_New.lib" />
+  </ItemGroup>
+</Project>

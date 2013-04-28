@@ -65,7 +65,7 @@ TargetRecognizer::doRecognition()
 
 	double targetOrientationDegrees = calculateTargetOrientationDegrees();
 	
-	return gcnew TargetResult(letter, shape, targetOrientationDegrees);
+	return nullptr; //gcnew TargetResult(letter, shape, targetOrientationDegrees);
 }
 
 void 

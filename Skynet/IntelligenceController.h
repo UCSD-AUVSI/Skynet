@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "ImageWithPlaneData.h"
 
 namespace Skynet
 {
@@ -10,6 +9,8 @@ namespace Communications
 {
 	ref class PlaneWatcher;
 }
+
+ref struct ImageWithPlaneData;
  
 using namespace Skynet;
 using namespace Communications;
@@ -17,6 +18,7 @@ using namespace Communications;
 namespace Intelligence
 {
 	ref class Autosearch;
+	ref struct GPSCoord;
 
 	public ref class IntelligenceController
     {
@@ -28,7 +30,7 @@ namespace Intelligence
 		Autosearch ^ autosearch;
 	private:
 		System::Diagnostics::ProcessStartInfo^ getPathfinderProcessInfo();
-		System::String^ getPathfinderResult(System::Diagnostics::ProcessStartInfo^ processInfo, GPSCoord planeData, array<System::String^>^ coordinates);
+		System::String^ getPathfinderResult(System::Diagnostics::ProcessStartInfo^ processInfo, Intelligence::GPSCoord^ planeData, array<System::String^>^ coordinates);
 		Autosearch^ createAutosearch(array<System::String^>^ fieldBoundaries);
 		void startPathfinderThread(array<System::String^>^ fieldBoundaries);
 		void doPathfinding(System::Object^ fieldBoundariesObj);

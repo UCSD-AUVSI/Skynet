@@ -10,6 +10,9 @@
 #include "MasterHeader.h"
 
 
+#ifdef SALIENCY_ENABLED
+#include "../SalientGreenCUDA/SalientGreenGPU.H"
+#endif
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
@@ -34,8 +37,15 @@ Saliency::Saliency(VisionController^ visionController):
 	visionController(visionController),
 	width(0), height(0), threshold(0.7f), frameCount(0), tempPause(false)
 {
-	/* Do nothing, for now */
+#ifdef SALIENCY_ENABLED
+	saliencyThread = gcnew Thread(gcnew ThreadStart(this, &Saliency::saliencyThreadFunction));
+	saliencyThread->Name = "Saliency Analysis Thread";
+	saliencyThread->Start();
 
+	saveImagesThread = gcnew Thread(gcnew ThreadStart(this, &Saliency::saveImagesThreadFunction));
+	saveImagesThread->Name = "Image Saving Thread";
+	saveImagesThread->Start(); 
+#endif
 }
 
 void Saliency::runTest()
@@ -52,7 +62,9 @@ void Saliency::runTestOnImageNamed(String ^ filename)
 
 	Frame ^ localFrame = gcnew Frame(image);
 	
-	// sg::SalientGreenGPU green;
+#ifdef SALIENCY_ENABLED
+	sg::SalientGreenGPU green;
+#endif
 
 	computeSaliencyForFrame(localFrame,true);
 
@@ -62,7 +74,6 @@ void Saliency::runTestOnImageNamed(String ^ filename)
 	// TODO: check for valid results
 }
 
-// sg::SalientGreenGPU green; // global variable, suck it
 
 cv::Mat Saliency::convertImageForSaliency(cv::Mat image) {
 	const double widthRatio = Saliency::MAX_IMAGE_WIDTH / (double)image.cols;
@@ -81,11 +92,12 @@ cv::Mat Saliency::convertImageForSaliency(cv::Mat image) {
 void
 Saliency::computeSaliencyForFrame(Frame ^ frame, bool debug)
 {
+#ifdef SALIENCY_ENABLED
 	static int saliencyframe = 0;
 	saliencyframe++;
 
-	// sg::SalientGreenGPU::labWeights lw;
-	// sg::SalientGreenGPU::Results results;
+	sg::SalientGreenGPU::labWeights lw;
+	sg::SalientGreenGPU::Results results;
 
 	cv::Mat frameImage = *frame->img;
 	cv::Mat inputImage = convertImageForSaliency(frameImage);
@@ -93,29 +105,28 @@ Saliency::computeSaliencyForFrame(Frame ^ frame, bool debug)
 	frame->saliencyImageWidth = inputImage.cols;
 	frame->saliencyImageHeight = inputImage.rows;
 
-	// results = green.computeSaliencyGPU( inputImage, &lw );
+	results = green.computeSaliencyGPU( inputImage, &lw );
 
 	// run connected components
 	cvb::CvBlobs blobs;
 
 	double threshold = 0.7;
 
-	// convert saliency output to 8bit
-	// cv::Mat labSaliency8bit(results.labSaliency.size(), CV_8UC1);
-	// results.labSaliency.convertTo(labSaliency8bit,CV_8UC1,1.0);
-	// cv::threshold(labSaliency8bit,labSaliency8bit,threshold*255,255.0,CV_THRESH_BINARY);
+	cv::Mat labSaliency8bit(results.labSaliency.size(), CV_8UC1);
+	results.labSaliency.convertTo(labSaliency8bit,CV_8UC1,1.0);
+	cv::threshold(labSaliency8bit,labSaliency8bit,threshold*255,255.0,CV_THRESH_BINARY);
 
 	// do labelling
-	// IplImage saliencyOutputImgIpl = labSaliency8bit;
-	// IplImage *bloblsOutputImgIpl = cvCreateImage(results.labSaliency.size(), IPL_DEPTH_LABEL, 1);
-	// unsigned int result = cvb::cvLabel(&saliencyOutputImgIpl, bloblsOutputImgIpl, blobs);
+	IplImage saliencyOutputImgIpl = labSaliency8bit;
+	IplImage *bloblsOutputImgIpl = cvCreateImage(results.labSaliency.size(), IPL_DEPTH_LABEL, 1);
+	unsigned int result = cvb::cvLabel(&saliencyOutputImgIpl, bloblsOutputImgIpl, blobs);
 
 	/**
 	 * Output image for rendering the blobs - debug only
 	 */
 	cv::Mat saliencyBlobImage;
 	if (debug){
-		// cv::cvtColor(results.labSaliency,saliencyBlobImage,CV_GRAY2RGB);
+		cv::cvtColor(results.labSaliency,saliencyBlobImage,CV_GRAY2RGB);
 	}
 
 	// store blob results in Frame object
@@ -133,17 +144,19 @@ Saliency::computeSaliencyForFrame(Frame ^ frame, bool debug)
 
 	if (debug){ 
 		cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyInput" + saliencyframe + ".jpg"),inputImage);
-		// cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyThreshold" + saliencyframe + ".jpg"),labSaliency8bit);
+		cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyThreshold" + saliencyframe + ".jpg"),labSaliency8bit);
 		cv::imwrite( managedToSTL("C:\\Saliency_Test_Output\\SaliencyBlobs" + saliencyframe + ".jpg"),saliencyBlobImage);
 		PRINT("Saliency: " + frame->saliencyBlobs->Count + " objects found");
 	}
 	cvReleaseBlobs(blobs);
-	// cvReleaseImage(&bloblsOutputImgIpl);
+	cvReleaseImage(&bloblsOutputImgIpl);
+#endif
 }
 
 void 
 Saliency::saliencyThreadFunction(void)
 {
+#ifdef SALIENCY_ENABLED
 	int saliencyCount = 0;
 	DateTime startTime = DateTime::Now;
 
@@ -183,6 +196,7 @@ Saliency::saliencyThreadFunction(void)
 		System::Diagnostics::Trace::WriteLine( "Exception in saliencyThread: " + theException);
 				
 	}
+#endif
 }
 
 void 

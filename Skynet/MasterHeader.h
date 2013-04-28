@@ -41,3 +41,4 @@
 
 #define SKYNET_LOG_DIR "C:\\Skynet Logs\\"
 #define DROPBOX_DIR "C:\\Users\\zgran_000\\Dropbox\\"
+#define SKYNET_FILES_DIR "C:\\Skynet Files\\"

@@ -12,6 +12,7 @@ namespace Skynet {
 
 	ref class SkynetController;
 
+
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -29,12 +30,12 @@ namespace Skynet {
 		void setImage(String^ imageFilename);
 		bool isOpen() { return open; }
 
+		Database::DialogEditingData^ getDataFromUI();
+
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		Database::DialogEditingData^ getDataFromUI();
-
 		~TargetDialog()
 		{
 			if (components)
@@ -388,10 +389,6 @@ private: System::Void latlonButton_Click(System::Object^  sender, System::EventA
 			instructionLabel->Text = "Click on center of target";
 		 }
 private: System::Void imageBox_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {			 			 
-			 /*
-			 if (!imageOpen)
-				 setImage();
-				*/
 
 			 if( _markHeading ) {
 				 
@@ -403,7 +400,6 @@ private: System::Void imageBox_MouseDown(System::Object^  sender, System::Window
 				 float boxWidth = (float)this->imageBox->Size.Width;
 				 float boxHeight = (float)this->imageBox->Size.Width;
 
-				 // TODO: Implement
 				 // float imWidth = (float)data->dataWidth;
 				 // float imHeight = (float)data->dataHeight;
 
@@ -425,7 +421,6 @@ private: System::Void imageBox_MouseDown(System::Object^  sender, System::Window
 				 float boxWidth = (float)this->imageBox->Size.Width;
 				 float boxHeight = (float)this->imageBox->Size.Width;
 
-				 // TODO: Implement
 				 // float imWidth = (float)data->dataWidth;
 				 // float imHeight = (float)data->dataHeight;
 
@@ -446,4 +441,4 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 
 };
 
-}
+};

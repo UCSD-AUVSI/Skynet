@@ -18,7 +18,6 @@ public:
 	double xVelocity;
 	double yVelocity;
 	double zVelocity;
- 
 	Intelligence::GPSCoord^ toGPSCoord();
 	ImageWithPlaneData(System::String ^ imageFilename, System::String ^data);
 	ImageWithPlaneData(ImageWithPlaneData^ other);

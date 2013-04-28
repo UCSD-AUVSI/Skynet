@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "VisionUtil.h"
 #include "Util.h"
+#include <Windows.h>
 
 using namespace Vision;
 using namespace Util;
@@ -46,7 +47,7 @@ String ^ Vision::shapeFloatToString(float input)
 		retVal = "Pent";
 		break;
 	case 7:
-		retVal = "Semi";
+		retVal = "Semi"; //semi circle
 		break;
 	case 8:
 		retVal = "Star";
@@ -61,7 +62,7 @@ String ^ Vision::shapeFloatToString(float input)
 		retVal = "Tria";
 		break;
 	case 12:
-		retVal = "Quar";
+		retVal = "Quar"; //quarter circle
 		break;
 	default:
 		retVal = "Unknown";

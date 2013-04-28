@@ -157,10 +157,7 @@ namespace Database
 		//TelemetryRowData(ImageWithPlaneData ^ planeState);
 		TelemetryRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
 	
-		
-		bool Equals(TelemetryRowData ^ object);
 	};
-
 
 	public ref struct UnverifiedRowData: public TargetRowData
 	{
@@ -179,7 +176,6 @@ namespace Database
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
 		void applyDialogData(DialogEditingData^ data);
 		void updateCandidate(CandidateRowData ^ candidate);
-		bool Equals(UnverifiedRowData ^ object);
 	};
 
 	public ref struct VerifiedRowData: public TargetRowData
@@ -194,7 +190,6 @@ namespace Database
 		virtual DialogEditingData^ toDialogData() override;
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
 		void applyDialogData(DialogEditingData^ data);
-		bool Equals(VerifiedRowData ^ object);
 	};
 
 	public ref struct DialogEditingData

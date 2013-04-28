@@ -34,7 +34,7 @@ SkynetController::SkynetController(Form1 ^ mainView):
 	appIsAlive = false;
 	cameraView = nullptr;
 	theWatcher = gcnew PlaneWatcher(this);
-	//visionController = gcnew VisionController(this);
+	visionController = gcnew VisionController(this);
 	receiver = gcnew SimulatorPlaneDataReceiver("C:\\good_flight_images1", theWatcher);
 	
 }
@@ -51,7 +51,6 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 void SkynetController::startIntelligenceController(array<String ^>^ fieldBoundaries)
 {
 		intelligenceController = gcnew IntelligenceController(fieldBoundaries, this,theWatcher->getState());
-
 }
 
 SkynetController::~SkynetController()
@@ -63,7 +62,7 @@ SkynetController::~SkynetController()
 
 void SkynetController::handlePathfinderResult(String^ result)
 {
-	//form1View->setWayPointsText(result);
+	form1View->setWayPointsText(result);
 	pathfinderComplete(gcnew Bitmap(gcnew Bitmap("output.jpg")));
 }
 

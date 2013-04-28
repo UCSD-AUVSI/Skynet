@@ -12,7 +12,7 @@ using namespace Communications;
 using namespace msclr;
 using namespace Vision;
 
-#define DATABASE_NAME	"postgres"
+#define DATABASE_NAME	"AUVSI_flightdata"
 #define CANDIDATE_QUERY_STRING (gcnew String(CANDIDATE_QUERY_CHAR_ARRAY))
 #define UNVERIFIED_QUERY_STRING (gcnew String(UNVERIFIED_QUERY_CHAR_ARRAY))
 #define VERIFIED_QUERY_STRING (gcnew String(VERIFIED_QUERY_CHAR_ARRAY))
@@ -687,7 +687,6 @@ DatabaseConnection::DatabaseConnection()
 
 	catch(Exception ^ e) {
 		System::Diagnostics::Trace::WriteLine("ERROR in DatabaseConnection::DatabaseConnection(): Could not connect to database - " + e);
-		throw gcnew Exception("WTF");
 	}
 }
 
