@@ -168,20 +168,6 @@ void SkynetController::gotVideo()
 		guiHasData = true;
 }
 
-void SkynetController::stopTargetLock()
-{
-}
-
-void SkynetController::intendedGimbalPositionUpdated( float rollDegrees, float pitchDegrees )
-{
-	((Form1 ^)form1View)->updateIntendedGimbalPosition( rollDegrees, pitchDegrees );
-}
-
-void SkynetController::intendedCameraZoomUpdated( float zoom )
-{
-	((Form1 ^)form1View)->updateIntendedCameraZoom( zoom );
-}
-
 
 String ^ SkynetController::saveCurrentFrameAsImage(String ^ basePath)
 {
@@ -521,6 +507,8 @@ void SkynetController::modifyUnverified(Database::UnverifiedRowData ^ data)
 
 void SkynetController::displayAutosearchImage(Image ^ image)
 {
+	/** TODO : This should open a new form **/
+	/*
 	try{
 		((Form1 ^)form1View)->autosearchBox->Image = image;
 		((Form1 ^)form1View)->pathfinderBox->BackgroundImage = image;
@@ -528,11 +516,13 @@ void SkynetController::displayAutosearchImage(Image ^ image)
 		
 	}
 	//image->Save("test.bmp");
+	*/
 }
 
 void SkynetController::displayPathfinderImage(Image ^ image)
 {
-	((Form1 ^)form1View)->pathfinderBox->Image = image;
+	//// TODO: This should open a new window
+ ///	((Form1 ^)form1View)->pathfinderBox->Image = image;
 	//image->Save("test.bmp");
 }
 

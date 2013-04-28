@@ -61,11 +61,6 @@ namespace Skynet
 
 		void exportData(System::String ^ basePath);
 
-		virtual void intendedGimbalPositionUpdated( float rollDegrees, float pitchDegrees );
-		virtual void intendedCameraZoomUpdated( float zoom );
-
-		virtual void stopTargetLock();
-
 		void loadAllTablesFromDisk();
 		void loadCandidateTableFromDisk();
 		void loadVerifiedTableFromDisk();

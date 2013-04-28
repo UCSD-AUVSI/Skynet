@@ -210,139 +210,20 @@ private: System::Windows::Forms::Timer^  mapUpdateTimer;
 
 private: System::Windows::Forms::ContextMenuStrip^  mapMenuStrip;
 private: System::Windows::Forms::ToolStripMenuItem^  mapLookGPSToolStripMenuItem;
-
-
-
-
-
-
-
-
-
-
 private: System::Windows::Forms::OpenFileDialog^  simReadVidDialog;
-
-
-
-
-
-
-
-
-
-
-private: System::Windows::Forms::Label^  label9;
-private: System::Windows::Forms::Label^  label10;
-private: System::Windows::Forms::Label^  label13;
-private: System::Windows::Forms::Label^  label14;
-private: System::Windows::Forms::Label^  label15;
-private: System::Windows::Forms::Label^  label16;
-private: System::Windows::Forms::Panel^  panel1;
 private: System::Diagnostics::Process^  process1;
-
 private: HUDControl^ gimbalHUDView;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public: System::Windows::Forms::PictureBox^  autosearchBox;
-public: System::Windows::Forms::PictureBox^  pathfinderBox;
-private: System::Windows::Forms::PictureBox^  Border;
-
-
-
-
-
-
 private: System::Windows::Forms::CheckedListBox^  gpsCheckboxList;
-private: System::Windows::Forms::Label^  waypointsLabel;
-
-
-
-
 private: System::Windows::Forms::Button^  generateMapButton;
-
-private: System::Windows::Forms::TextBox^  mapBoundariesTextBox;
-
 private: System::Windows::Forms::Label^  label17;
-private: System::Windows::Forms::Button^  loadBoundariesFromFileButton;
 private: System::Windows::Forms::PictureBox^  imageView;
-
-private: System::Windows::Forms::TextBox^  pathWaypointsTextBox;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-private: System::Windows::Forms::Panel^  gimbalHUDPanel;
-private: System::Windows::Forms::Button^  sendWaypointsButton;
-
-
+private: System::Windows::Forms::ToolStripMenuItem^  searchAreaToolStripMenuItem;
+private: System::Windows::Forms::DataGridView^  mapBoundariesDataGridView;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  Number;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_latitude;
+private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_longitude;
+private: System::Windows::Forms::ToolStripMenuItem^  loadMapFromTextFileToolStripMenuItem;
 private: System::Windows::Forms::Button^  button5;
-
-
-
-
-
-
-
-
-
-public: 
-
-public: 
-
-
-			 
 
 	public:
 		Form1(void)
@@ -352,29 +233,10 @@ public:
 			// Tester::runTests();
 			appController = gcnew SkynetController(this);
 
-			// Set up HUD
-			this->gimbalHUDView = gcnew HUDControl();
-			this->gimbalHUDView->Location = this->gimbalHUDPanel->Location;
-			this->gimbalHUDView->Name = L"gimbalHUDView";
-			this->gimbalHUDView->Size = this->gimbalHUDPanel->Size;
-			this->gimbalHUDView->Refresh();
-			this->gimbalHUDView->BackColor = System::Drawing::Color::Transparent;
 			
-			this->Controls->Add(this->gimbalHUDView);
-
-			//hide HUD
-			this->gimbalHUDPanel->Location = System::Drawing::Point(0, 0);
-			this->gimbalHUDPanel->Name = L"gimbalHUDPanel";
-			this->gimbalHUDPanel->Size = System::Drawing::Size(0, 0);
-
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
-
-			// Video options
-			vidOptFolderDialogOpen = false;
-			recording = false;
-			//fileExtensionVideo = ".avi";
 
 			// Image options
 			imageNumber = 0;
@@ -398,21 +260,11 @@ public:
 			this->metadataTable->Rows->Add("Video Data", "---");
 			this->metadataTable->Rows->Add("    Zoom");
 
-
-			redImage = Image::FromFile( RED_IMAGE_PATH );
-			yellowImage = Image::FromFile( YELLOW_IMAGE_PATH );
-			greenImage = Image::FromFile( GREEN_IMAGE_PATH );
-
 			consoleMessage("... Skynet online", Color::Orange);
 			
-			gimbalHUDView->BringToFront();
-
 			targetsForm = gcnew TargetsForm(appController);
 			targetsForm->Show();
 			appController->loadAllTablesFromDisk();
-
-
-
 
 
 			appController->comeAlive();
@@ -421,11 +273,6 @@ public:
 			verifiedTableUpdaterThread->Name = "Verified Table Updater Thread";
 			verifiedTableUpdaterThread->Start(5000);
 
-
-			return; 
-			StreamReader^ gpsListStream = gcnew StreamReader(SKYNET_FILES_DIR + "\\Field Boundaries.txt");
-			String ^ gpsCoords = gpsListStream->ReadToEnd();
-			mapBoundariesTextBox->Text = gpsCoords;
 		}
 
 	public:
@@ -453,16 +300,6 @@ public:
 	public: System::Windows::Forms::DataGridView^  metadataTable;
 
 
-
-
-
-
-	
-
-
-
-
-
 	private: System::ComponentModel::IContainer^  components;
 
 	private:
@@ -479,10 +316,9 @@ public:
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Form1::typeid));
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle5 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle6 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->toolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -505,42 +341,29 @@ public:
 			this->mapMenuStrip = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 			this->mapLookGPSToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->simReadVidDialog = (gcnew System::Windows::Forms::OpenFileDialog());
-			this->label9 = (gcnew System::Windows::Forms::Label());
-			this->label10 = (gcnew System::Windows::Forms::Label());
-			this->label13 = (gcnew System::Windows::Forms::Label());
-			this->label14 = (gcnew System::Windows::Forms::Label());
-			this->label15 = (gcnew System::Windows::Forms::Label());
-			this->label16 = (gcnew System::Windows::Forms::Label());
-			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->process1 = (gcnew System::Diagnostics::Process());
-			this->autosearchBox = (gcnew System::Windows::Forms::PictureBox());
-			this->Border = (gcnew System::Windows::Forms::PictureBox());
-			this->pathfinderBox = (gcnew System::Windows::Forms::PictureBox());
 			this->gpsCheckboxList = (gcnew System::Windows::Forms::CheckedListBox());
-			this->waypointsLabel = (gcnew System::Windows::Forms::Label());
-			this->mapBoundariesTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->generateMapButton = (gcnew System::Windows::Forms::Button());
 			this->label17 = (gcnew System::Windows::Forms::Label());
-			this->loadBoundariesFromFileButton = (gcnew System::Windows::Forms::Button());
 			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->imageView = (gcnew System::Windows::Forms::PictureBox());
-			this->pathWaypointsTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->gimbalHUDPanel = (gcnew System::Windows::Forms::Panel());
-			this->sendWaypointsButton = (gcnew System::Windows::Forms::Button());
+			this->mapBoundariesDataGridView = (gcnew System::Windows::Forms::DataGridView());
+			this->Number = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->boundary_latitude = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->boundary_longitude = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->searchAreaToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->loadMapFromTextFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
-			this->panel1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->Border))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mapBoundariesDataGridView))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// menuStrip1
 			// 
 			this->menuStrip1->BackColor = System::Drawing::Color::Gray;
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->toolStripMenuItem1, 
-				this->databaseToolStripMenuItem});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->toolStripMenuItem1, 
+				this->databaseToolStripMenuItem, this->searchAreaToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Size = System::Drawing::Size(1444, 24);
@@ -598,7 +421,7 @@ public:
 			this->errorLogTextBox->Location = System::Drawing::Point(12, 492);
 			this->errorLogTextBox->Name = L"errorLogTextBox";
 			this->errorLogTextBox->ReadOnly = true;
-			this->errorLogTextBox->Size = System::Drawing::Size(227, 283);
+			this->errorLogTextBox->Size = System::Drawing::Size(227, 377);
 			this->errorLogTextBox->TabIndex = 2;
 			this->errorLogTextBox->Text = L"";
 			// 
@@ -608,21 +431,21 @@ public:
 			this->metadataTable->AllowUserToDeleteRows = false;
 			this->metadataTable->AllowUserToResizeColumns = false;
 			this->metadataTable->AllowUserToResizeRows = false;
-			dataGridViewCellStyle1->BackColor = System::Drawing::Color::DimGray;
-			dataGridViewCellStyle1->ForeColor = System::Drawing::Color::White;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::Color::Black;
-			this->metadataTable->AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle4->BackColor = System::Drawing::Color::DimGray;
+			dataGridViewCellStyle4->ForeColor = System::Drawing::Color::White;
+			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::Color::Black;
+			this->metadataTable->AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
 			this->metadataTable->BackgroundColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle2->BackColor = System::Drawing::Color::DimGray;
-			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle5->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle5->BackColor = System::Drawing::Color::DimGray;
+			dataGridViewCellStyle5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle2->ForeColor = System::Drawing::Color::White;
-			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->metadataTable->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle5->ForeColor = System::Drawing::Color::White;
+			dataGridViewCellStyle5->SelectionBackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle5->SelectionForeColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle5->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->metadataTable->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
 			this->metadataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->metadataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->Property, 
 				this->Value});
@@ -631,15 +454,15 @@ public:
 			this->metadataTable->Location = System::Drawing::Point(12, 55);
 			this->metadataTable->Name = L"metadataTable";
 			this->metadataTable->ReadOnly = true;
-			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle3->BackColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle6->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle6->BackColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->metadataTable->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle6->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle6->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle6->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle6->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->metadataTable->RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
 			this->metadataTable->RowHeadersWidthSizeMode = System::Windows::Forms::DataGridViewRowHeadersWidthSizeMode::DisableResizing;
 			this->metadataTable->RowTemplate->DefaultCellStyle->BackColor = System::Drawing::Color::Black;
 			this->metadataTable->RowTemplate->DefaultCellStyle->ForeColor = System::Drawing::Color::White;
@@ -724,92 +547,6 @@ public:
 			// 
 			this->simReadVidDialog->FileName = L"simReadVidDialog";
 			// 
-			// label9
-			// 
-			this->label9->AutoSize = true;
-			this->label9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->label9->ForeColor = System::Drawing::Color::Chartreuse;
-			this->label9->Location = System::Drawing::Point(4, 5);
-			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(151, 13);
-			this->label9->TabIndex = 27;
-			this->label9->Text = L"Green = Running / Connected";
-			// 
-			// label10
-			// 
-			this->label10->AutoSize = true;
-			this->label10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->label10->ForeColor = System::Drawing::Color::Yellow;
-			this->label10->Location = System::Drawing::Point(4, 26);
-			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(109, 13);
-			this->label10->TabIndex = 28;
-			this->label10->Text = L"Yellow = Packet Loss";
-			// 
-			// label13
-			// 
-			this->label13->AutoSize = true;
-			this->label13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->label13->ForeColor = System::Drawing::Color::DarkRed;
-			this->label13->Location = System::Drawing::Point(4, 49);
-			this->label13->Name = L"label13";
-			this->label13->Size = System::Drawing::Size(176, 13);
-			this->label13->TabIndex = 29;
-			this->label13->Text = L"Red = Not Running / Disconnected";
-			// 
-			// label14
-			// 
-			this->label14->AutoSize = true;
-			this->label14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->label14->ForeColor = System::Drawing::SystemColors::ControlLightLight;
-			this->label14->Location = System::Drawing::Point(4, 96);
-			this->label14->Name = L"label14";
-			this->label14->Size = System::Drawing::Size(180, 13);
-			this->label14->TabIndex = 30;
-			this->label14->Text = L"Autopilot = Telemetry Data from UAV";
-			// 
-			// label15
-			// 
-			this->label15->AutoSize = true;
-			this->label15->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->label15->ForeColor = System::Drawing::SystemColors::ControlLightLight;
-			this->label15->Location = System::Drawing::Point(4, 119);
-			this->label15->Name = L"label15";
-			this->label15->Size = System::Drawing::Size(223, 13);
-			this->label15->TabIndex = 31;
-			this->label15->Text = L"Gimbal = Communications for Pointing Camera";
-			// 
-			// label16
-			// 
-			this->label16->AutoSize = true;
-			this->label16->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->label16->ForeColor = System::Drawing::SystemColors::ControlLightLight;
-			this->label16->Location = System::Drawing::Point(4, 72);
-			this->label16->Name = L"label16";
-			this->label16->Size = System::Drawing::Size(217, 13);
-			this->label16->TabIndex = 32;
-			this->label16->Text = L"Recording = Recording Telemetry and Video";
-			// 
-			// panel1
-			// 
-			this->panel1->BackColor = System::Drawing::Color::Black;
-			this->panel1->Controls->Add(this->label13);
-			this->panel1->Controls->Add(this->label9);
-			this->panel1->Controls->Add(this->label10);
-			this->panel1->Controls->Add(this->label16);
-			this->panel1->Controls->Add(this->label14);
-			this->panel1->Controls->Add(this->label15);
-			this->panel1->Location = System::Drawing::Point(12, 790);
-			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(227, 140);
-			this->panel1->TabIndex = 33;
-			// 
 			// process1
 			// 
 			this->process1->StartInfo->Domain = L"";
@@ -820,35 +557,6 @@ public:
 			this->process1->StartInfo->UserName = L"";
 			this->process1->SynchronizingObject = this;
 			// 
-			// autosearchBox
-			// 
-			this->autosearchBox->Location = System::Drawing::Point(245, 695);
-			this->autosearchBox->Name = L"autosearchBox";
-			this->autosearchBox->Size = System::Drawing::Size(134, 134);
-			this->autosearchBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
-			this->autosearchBox->TabIndex = 35;
-			this->autosearchBox->TabStop = false;
-			this->autosearchBox->LoadCompleted += gcnew System::ComponentModel::AsyncCompletedEventHandler(this, &Form1::autosearchBox_LoadCompleted);
-			// 
-			// Border
-			// 
-			this->Border->BackgroundImage = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"Border.BackgroundImage")));
-			this->Border->Location = System::Drawing::Point(241, 691);
-			this->Border->Name = L"Border";
-			this->Border->Size = System::Drawing::Size(138, 138);
-			this->Border->TabIndex = 36;
-			this->Border->TabStop = false;
-			// 
-			// pathfinderBox
-			// 
-			this->pathfinderBox->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->pathfinderBox->Location = System::Drawing::Point(988, 55);
-			this->pathfinderBox->Name = L"pathfinderBox";
-			this->pathfinderBox->Size = System::Drawing::Size(260, 573);
-			this->pathfinderBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
-			this->pathfinderBox->TabIndex = 37;
-			this->pathfinderBox->TabStop = false;
-			// 
 			// gpsCheckboxList
 			// 
 			this->gpsCheckboxList->FormattingEnabled = true;
@@ -857,33 +565,13 @@ public:
 			this->gpsCheckboxList->Size = System::Drawing::Size(183, 409);
 			this->gpsCheckboxList->TabIndex = 38;
 			// 
-			// waypointsLabel
-			// 
-			this->waypointsLabel->AutoSize = true;
-			this->waypointsLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->waypointsLabel->Location = System::Drawing::Point(1314, 24);
-			this->waypointsLabel->Name = L"waypointsLabel";
-			this->waypointsLabel->Size = System::Drawing::Size(135, 24);
-			this->waypointsLabel->TabIndex = 39;
-			this->waypointsLabel->Text = L"Path waypoints";
-			// 
-			// mapBoundariesTextBox
-			// 
-			this->mapBoundariesTextBox->Location = System::Drawing::Point(1277, 235);
-			this->mapBoundariesTextBox->Multiline = true;
-			this->mapBoundariesTextBox->Name = L"mapBoundariesTextBox";
-			this->mapBoundariesTextBox->Size = System::Drawing::Size(225, 211);
-			this->mapBoundariesTextBox->TabIndex = 41;
-			this->mapBoundariesTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::mapBoundariesTextBox_TextChanged);
-			// 
 			// generateMapButton
 			// 
-			this->generateMapButton->Location = System::Drawing::Point(1300, 557);
+			this->generateMapButton->Location = System::Drawing::Point(1090, 699);
 			this->generateMapButton->Name = L"generateMapButton";
-			this->generateMapButton->Size = System::Drawing::Size(149, 52);
+			this->generateMapButton->Size = System::Drawing::Size(342, 160);
 			this->generateMapButton->TabIndex = 42;
-			this->generateMapButton->Text = L"Generate Map";
+			this->generateMapButton->Text = L"Calculate Path";
 			this->generateMapButton->UseVisualStyleBackColor = true;
 			this->generateMapButton->Click += gcnew System::EventHandler(this, &Form1::button5_Click);
 			// 
@@ -892,27 +580,17 @@ public:
 			this->label17->AutoSize = true;
 			this->label17->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label17->Location = System::Drawing::Point(1312, 24);
+			this->label17->Location = System::Drawing::Point(1165, 36);
 			this->label17->Name = L"label17";
-			this->label17->Size = System::Drawing::Size(148, 24);
+			this->label17->Size = System::Drawing::Size(216, 24);
 			this->label17->TabIndex = 43;
-			this->label17->Text = L"Map Boundaries";
-			// 
-			// loadBoundariesFromFileButton
-			// 
-			this->loadBoundariesFromFileButton->Location = System::Drawing::Point(1300, 492);
-			this->loadBoundariesFromFileButton->Name = L"loadBoundariesFromFileButton";
-			this->loadBoundariesFromFileButton->Size = System::Drawing::Size(149, 41);
-			this->loadBoundariesFromFileButton->TabIndex = 44;
-			this->loadBoundariesFromFileButton->Text = L"Load map boundaries from file";
-			this->loadBoundariesFromFileButton->UseVisualStyleBackColor = true;
-			this->loadBoundariesFromFileButton->Click += gcnew System::EventHandler(this, &Form1::loadWaypointsFromFileButton_Click);
+			this->label17->Text = L"Search Area Boundaries";
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(614, 702);
+			this->button5->Location = System::Drawing::Point(564, 708);
 			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(143, 127);
+			this->button5->Size = System::Drawing::Size(184, 151);
 			this->button5->TabIndex = 45;
 			this->button5->Text = L"Target Visible";
 			this->button5->UseVisualStyleBackColor = true;
@@ -922,37 +600,49 @@ public:
 			// 
 			this->imageView->Location = System::Drawing::Point(252, 55);
 			this->imageView->Name = L"imageView";
-			this->imageView->Size = System::Drawing::Size(702, 554);
+			this->imageView->Size = System::Drawing::Size(818, 638);
 			this->imageView->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->imageView->TabIndex = 47;
 			this->imageView->TabStop = false;
 			// 
-			// pathWaypointsTextBox
+			// mapBoundariesDataGridView
 			// 
-			this->pathWaypointsTextBox->Location = System::Drawing::Point(1277, 55);
-			this->pathWaypointsTextBox->Multiline = true;
-			this->pathWaypointsTextBox->Name = L"pathWaypointsTextBox";
-			this->pathWaypointsTextBox->Size = System::Drawing::Size(225, 126);
-			this->pathWaypointsTextBox->TabIndex = 48;
-			this->pathWaypointsTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
+			this->mapBoundariesDataGridView->AllowUserToOrderColumns = true;
+			this->mapBoundariesDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->mapBoundariesDataGridView->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {this->Number, 
+				this->boundary_latitude, this->boundary_longitude});
+			this->mapBoundariesDataGridView->Location = System::Drawing::Point(1090, 79);
+			this->mapBoundariesDataGridView->Name = L"mapBoundariesDataGridView";
+			this->mapBoundariesDataGridView->Size = System::Drawing::Size(342, 614);
+			this->mapBoundariesDataGridView->TabIndex = 48;
 			// 
-			// gimbalHUDPanel
+			// Number
 			// 
-			this->gimbalHUDPanel->BackColor = System::Drawing::Color::Transparent;
-			this->gimbalHUDPanel->Location = System::Drawing::Point(424, 695);
-			this->gimbalHUDPanel->Name = L"gimbalHUDPanel";
-			this->gimbalHUDPanel->Size = System::Drawing::Size(134, 134);
-			this->gimbalHUDPanel->TabIndex = 34;
-			this->gimbalHUDPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::gimbalHUDPanel_Paint);
+			this->Number->HeaderText = L"Order";
+			this->Number->Name = L"Number";
 			// 
-			// sendWaypointsButton
+			// boundary_latitude
 			// 
-			this->sendWaypointsButton->Location = System::Drawing::Point(1316, 631);
-			this->sendWaypointsButton->Name = L"sendWaypointsButton";
-			this->sendWaypointsButton->Size = System::Drawing::Size(75, 23);
-			this->sendWaypointsButton->TabIndex = 51;
-			this->sendWaypointsButton->Text = L"Send Waypoints to VC";
-			this->sendWaypointsButton->UseVisualStyleBackColor = true;
+			this->boundary_latitude->HeaderText = L"Latitude";
+			this->boundary_latitude->Name = L"boundary_latitude";
+			// 
+			// boundary_longitude
+			// 
+			this->boundary_longitude->HeaderText = L"Longitude";
+			this->boundary_longitude->Name = L"boundary_longitude";
+			// 
+			// searchAreaToolStripMenuItem
+			// 
+			this->searchAreaToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->loadMapFromTextFileToolStripMenuItem});
+			this->searchAreaToolStripMenuItem->Name = L"searchAreaToolStripMenuItem";
+			this->searchAreaToolStripMenuItem->Size = System::Drawing::Size(81, 20);
+			this->searchAreaToolStripMenuItem->Text = L"Search Area";
+			// 
+			// loadMapFromTextFileToolStripMenuItem
+			// 
+			this->loadMapFromTextFileToolStripMenuItem->Name = L"loadMapFromTextFileToolStripMenuItem";
+			this->loadMapFromTextFileToolStripMenuItem->Size = System::Drawing::Size(204, 22);
+			this->loadMapFromTextFileToolStripMenuItem->Text = L"Load Map From Text File";
 			// 
 			// Form1
 			// 
@@ -961,27 +651,18 @@ public:
 			this->AutoValidate = System::Windows::Forms::AutoValidate::EnableAllowFocusChange;
 			this->BackColor = System::Drawing::Color::DimGray;
 			this->ClientSize = System::Drawing::Size(1444, 881);
-			this->Controls->Add(this->sendWaypointsButton);
+			this->Controls->Add(this->mapBoundariesDataGridView);
 			this->Controls->Add(this->imageView);
-			this->Controls->Add(this->pathWaypointsTextBox);
-			this->Controls->Add(this->loadBoundariesFromFileButton);
 			this->Controls->Add(this->label17);
-			this->Controls->Add(this->mapBoundariesTextBox);
 			this->Controls->Add(this->button5);
-			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->generateMapButton);
-			this->Controls->Add(this->autosearchBox);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->waypointsLabel);
-			this->Controls->Add(this->gimbalHUDPanel);
 			this->Controls->Add(this->label6);
-			this->Controls->Add(this->pathfinderBox);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->metadataTable);
 			this->Controls->Add(this->startRecordButton);
 			this->Controls->Add(this->errorLogTextBox);
 			this->Controls->Add(this->menuStrip1);
-			this->Controls->Add(this->Border);
 			this->Location = System::Drawing::Point(250, 0);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"Form1";
@@ -991,12 +672,8 @@ public:
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->EndInit();
-			this->panel1->ResumeLayout(false);
-			this->panel1->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->autosearchBox))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->Border))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pathfinderBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mapBoundariesDataGridView))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1036,11 +713,16 @@ private: System::Void consoleMessage( String ^ message, Color col )
 		 }
 public: System::Void setWayPointsText(String ^ text)
 		{
+			/**
+			 TODO: Re-Implement
+			 **/
+			/*
 			if (!pathWaypointsTextBox->InvokeRequired){
 				pathWaypointsTextBox->Text=text;
 			} else {
 				this->Invoke(gcnew Delegates::stringToVoid(this,&Form1::setWayPointsText), (Object^)text);
 			}
+			*/
 		}
 public:  System::Void doNothing() {
 			 System::Diagnostics::Trace::WriteLine("Doing nothing");
@@ -1327,19 +1009,6 @@ private: void AddText( Stream^ fs, String^ value )
    fs->Write( info, 0, info->Length );
 }
 
-public: System::Void updateIntendedGimbalPosition( float rollDegrees, float pitchDegrees )
-		{
-			if (rollDegrees > -360.0f && rollDegrees < 360.0f && pitchDegrees > -360.0f && pitchDegrees < 360.0f)
-				gimbalHUDView->setIntendedGimbalPosition( rollDegrees, pitchDegrees, true);
-			
-		}
-
-public: System::Void updateIntendedCameraZoom( float zoom )
-		{
-			if (zoom > -0.01f)
-				gimbalHUDView->setIntendedCameraZoom( zoom, true);
-		}
-		 
 public: System::Void updateTable(ImageWithPlaneData^ data) 
 		{
 			this->metadataTable[1, G_ROLL]->Value = "" + data->gimbalRoll + "*";
@@ -1351,7 +1020,6 @@ public: System::Void updateTable(ImageWithPlaneData^ data)
 			this->metadataTable[1, A_ROLL]->Value = "" + data->roll + "*"; // roll;
 			this->metadataTable[1, A_PITCH]->Value = "" + data->pitch + "*"; //pitch;
 			
-			gimbalHUDView->setGimbalPosition( (float)data->gimbalRoll, (float)data->gimbalPitch, false );
 		}
 
 
@@ -1381,8 +1049,13 @@ private: System::Void sendWaypointsButton_Click(System::Object^  sender, System:
 		 }
 
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+		/**
+		 * TODO: Re-Implement
+		 */
+	/*
 		array<System::String^>^ lines = mapBoundariesTextBox->Lines;
 		appController->startIntelligenceController(lines);
+	*/
 }
 
 private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -1398,29 +1071,13 @@ private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender,
 				 {
 					 StreamReader ^ fileReader = gcnew StreamReader(boundariesFile);
 					 String^ boundaries = fileReader->ReadToEnd();
-					 mapBoundariesTextBox->Text = boundaries;
+					 // TODO: Re-Implement
+					 //mapBoundariesTextBox->Text = boundaries;
 				 }
 			 }
 		 }
 private: System::Void button5_Click_1(System::Object^  sender, System::EventArgs^  e) {
 			appController->saveCurrentFrameAsUnverified();		 
-		 }
-private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-
-		 }
-private: System::Void mapBoundariesTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-		
-
-
-		 }
-
-private: System::Void dataGridView1_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-		 }
-private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
-		 }
-private: System::Void gimbalHUDPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-		 }
-private: System::Void tabPage3_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }
