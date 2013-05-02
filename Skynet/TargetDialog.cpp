@@ -116,7 +116,7 @@ System::Void
 TargetDialog::okButton_Click(System::Object^  sender, System::EventArgs^  e) 
 {
 	VerifiedRowData ^ verified = rowData->asVerified(getDataFromUI());
-	appController->addVerifiedTarget(verified);
+	appController->upsertVerified(verified);
 	open = false;
 	_markLat = false;
 	_markHeading = false;

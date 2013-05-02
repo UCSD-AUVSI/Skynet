@@ -828,19 +828,19 @@ const int Candidate_Table = 2;
 void 
 DatabaseConnection::clearCandidatesTable()
 {
-	runQuery("DELETE FROM candidates");
+	runQuery("TRUNCATE candidates CASCADE");
 }
 
 void 
 DatabaseConnection::clearUnverifiedTable()
 {
-	runQuery("DELETE FROM unverified_targets");
+	runQuery("TRUNCATE unverified_targets CASCADE");
 }
 
 void 
 DatabaseConnection::clearVerifiedTable()
 {
-	runQuery("DELETE FROM verified_targets");
+	runQuery("TRUNCATE verified_targets CASCADE");
 }
 
 //////////// Add Rows ///////////////
@@ -999,6 +999,17 @@ DatabaseConnection::addUnverified( UnverifiedRowData ^ data)
 	return data->targetid;
 }
 
+int
+DatabaseConnection::upsertVerified( VerifiedRowData^ data) 
+{
+	if (data->submitid) {
+		modifyVerified(data);
+		return data->submitid;
+	} else {
+		return addVerified(data);
+	}
+}
+
 int 
 DatabaseConnection::addVerified( VerifiedRowData ^ data)
 {
@@ -1020,6 +1031,8 @@ DatabaseConnection::addVerified( VerifiedRowData ^ data)
 						"VALUES (" + targetid + "," +
 								   + center_gps_id + ") "
 						"RETURNING submitid";
+
+	modifyUnverified(data->target); // Update the unverified 
 	auto result = runQuery(query);
 	result->Read();
 	data->submitid = result->GetInt32(0);

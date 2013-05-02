@@ -2,6 +2,7 @@
 
 #include "DatabaseStructures.h"
 
+// TODO: This shouldn't be defined here
 #define PI 3.14159265358979323846
 
 namespace Database {

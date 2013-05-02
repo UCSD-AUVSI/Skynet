@@ -79,7 +79,7 @@ namespace Skynet
 
 		void addCandidate(Database::CandidateRowData ^ data);
 		void addUnverified(Database::UnverifiedRowData ^ data);
-		void addVerifiedTarget(Database::VerifiedRowData ^ data);
+		void upsertVerified(Database::VerifiedRowData ^ data);
 		void addVerifiedTargetWithDialogData(Database::DialogEditingData ^ data);
 		void addVerifiedTargetToGUITable(Database::VerifiedRowData ^ data);
 		

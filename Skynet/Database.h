@@ -85,6 +85,8 @@ namespace Database
 		UnverifiedRowData ^ unverifiedWithID(System::String ^ id);
 		VerifiedRowData ^ verifiedWithID(System::String ^ id);
 
+		int upsertVerified( VerifiedRowData ^ data);
+
 		bool connect(void);
 		
 	protected:

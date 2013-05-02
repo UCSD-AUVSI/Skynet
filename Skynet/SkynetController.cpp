@@ -337,44 +337,11 @@ void SkynetController::addUnverified(UnverifiedRowData ^ unverified)
 	}
 }
 
-//bool SkynetController::addTarget(Database::TargetRowData ^ data)
-//{	
-//	PRINT("SkynetController::addTarget() REMOVED AND SHOULD NOT BE USED");
-//	return false;
-//
-//	//if (theDatabase == nullptr) {
-//	//	System::Diagnostics::Trace::WriteLine("SkynetController::addTarget() ran, but theDatabase == nullptr");
-//	//	return false;
-//	//}
-//
-//	//if (data == nullptr) {
-//	//	System::Diagnostics::Trace::WriteLine("SkynetController::addTarget() ran, but data == nullptr");
-//	//	return false;
-//	//}
-//	//try {
-//	//	theDatabase->saveNewTarget(data);
-//
-//	//	TimerCallback^ tcb =
-// //          gcnew TimerCallback(this, &SkynetController::addTargetToGUITable);
-//	//	Threading::Timer^ addTargetTimer = gcnew Threading::Timer(tcb,  gcnew array<TargetRowData ^>{data}, 250, Timeout::Infinite);
-//
-//	//	//stateTimer->Start();
-//	//}
-//	//catch(Exception ^ e) {
-//	//	System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::addTarget(): Failed to save imageS - " + e);
-//	//	return false;
-//	//}
-//
-//	//return true;
-//}
 
-void SkynetController::addVerifiedTarget(VerifiedRowData ^ data) // not yet
+void SkynetController::upsertVerified(VerifiedRowData ^ data)
 {
-	if (data == nullptr)
-		return;
 
-
-	int result = theDatabase->addVerified(data);
+	int result = theDatabase->upsertVerified(data);
 
 	if (!result)
 		form1View->errorMessageUniversal("Failed to save verified target");
