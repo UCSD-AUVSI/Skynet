@@ -1,6 +1,6 @@
 #pragma once
 #include "MasterHeader.h"
-using namespace System;
+
 
 namespace Communications
 {
@@ -38,7 +38,7 @@ namespace Database
 	public ref struct CandidateRowData: public TargetRowData
 	{
 		int candidateid;
-		String ^ imageName;
+		System::String ^ imageName;
 		TelemetryRowData ^ telemetry;
 		bool processed;
 
@@ -56,11 +56,11 @@ namespace Database
 		int description_id;
 		int targetX;
 		int targetY;
-		String ^ shape;
-		String ^ shapeColor;
-		String ^ letter;
-		String ^ letterColor;
-		String ^ heading;
+		System::String ^ shape;
+		System::String ^ shapeColor;
+		System::String ^ letter;
+		System::String ^ letterColor;
+		System::String ^ heading;
 		DescriptionRowData();
 		
 		void applyDialogEditingData(DialogEditingData^ data);
@@ -199,12 +199,12 @@ namespace Database
 		DialogEditingData(UnverifiedRowData ^ data);
 		DialogEditingData(CandidateRowData ^ data);
 		
-		String ^ imageName;
+		System::String ^ imageName;
 
-		String ^ shape;
-		String ^ shapeColor;
-		String ^ letter;
-		String ^ letterColor;
+		System::String ^ shape;
+		System::String ^ shapeColor;
+		System::String ^ letter;
+		System::String ^ letterColor;
 		
 		int id;
 
@@ -218,6 +218,6 @@ namespace Database
 		int topOfTargetY;
 
 		bool Equals(DialogEditingData ^ object);
-		String^ getHeadingString();
+		System::String^ getHeadingString();
 	};
 }
