@@ -4,6 +4,7 @@
 #include "GeoReference.h"
 #include "MasterHeader.h"
 #include <msclr/lock.h>
+#include "Util.h"
 
 using namespace System;
 using namespace System::Data::Odbc;
@@ -537,9 +538,9 @@ void DatabaseConnection::TestDatabase()
 	/////////////////////////
 
 	// test submission data, visually check output
-	String ^ tabData = db->getTabDelimitedVerifiedTargetDataForSubmission();
+	//String ^ tabData = db->getTabDelimitedVerifiedTargetDataForSubmission();
 	
-	PRINT("TAB DELIMITED DATA:\n" + tabData);
+	//PRINT("TAB DELIMITED DATA:\n" + tabData);
 
 	
 	
@@ -841,6 +842,12 @@ void
 DatabaseConnection::clearVerifiedTable()
 {
 	runQuery("TRUNCATE verified_targets CASCADE");
+}
+
+void
+DatabaseConnection::removeTarget(TargetRowData^ target)
+{
+	runQuery(target->deleteSQL());
 }
 
 //////////// Add Rows ///////////////
@@ -1152,7 +1159,8 @@ DatabaseConnection::modifyVerified( VerifiedRowData ^ data)
 }
 
 //////////// Remove Rows ///////////////
-
+//////////// Deprecated  ///////////////
+// TODO: Remove
 void 
 DatabaseConnection::removeCandidate( String ^ id )
 {
@@ -1582,53 +1590,3 @@ CandidateRowData ^ DatabaseConnection::candidateFromReader(OdbcDataReader ^ theR
 }
 
 
-String ^ DatabaseConnection::getTabDelimitedVerifiedTargetDataForSubmission()
-{
-	String ^ retval = "";
-
-//	9 fields, tab delimited, new target on each line
-//Field 1: Target Number, two digits, starting at 01 and increment by one for each additional
-//target.
-//Example: 01, 02, 03, etc.
-//Field 2: Latitude in the following format, first character N or S, two digit degrees (use leading
-//zeros if necessary), followed by space, two digit minutes, followed by space, two digit seconds
-//followed by decimal point and up to 3 digits (thousandths of a second)
-//Example N30 35 34.123
-//Field 3: Longitude if the following format, first character E or W, three digit degrees (use
-//leading zeros if necessary), followed by space, two digit minutes, followed by space, tow digit
-//seconds followed by decimal point and up to 3 digits (thousandths of a second)
-//Example W075 48 47.123
-//Field 4: Target orientation, up to two characters: N, NE, E, SE, S, SW, W, NW
-//Field 5 Target shape, list geometric shape as appropriate:
-//Example, rectangle, square, isosolese triangle
-//Field 6: Target color, as appropriate.
-//Example: Red, Orange, Yellow, etc.
-//Field 7: Alphanumeric, as appropriate
-//Example: A, b, 2, &
-//Field 8: Alphanumeric color, as appropriate
-//Example: Red, Orange, Yellow, etc.
-//Field 9: Name of jpeg file with image of target
-//Example for two targets
-//01 N30 35 34.123 W075 48 47.123 N rectangle red A orange
-//target1.jpg
-//02 S34 00 12.345 E002 01 12.345 SE square orange 4 yellow
-//target2.jpg
-
-	array<VerifiedRowData ^> ^ verifiedRows = getAllVerified();
-	int i = 1;
-
-	for each (VerifiedRowData ^ row in verifiedRows){
-		retval += Int32(i).ToString("00")+"\t"; // 1
-		array<String^>^ latLon = GeoReference::latLonToDMS(row->centerGPS->lat,row->centerGPS->lon);
-		retval += latLon[0] + "\t" + latLon[1] + "\t"; // 2, 3
-		retval += row->target->description->heading + "\t"; // 4
-		retval += row->target->description->shape + "\t"; // 5
-		retval += row->target->description->shapeColor + "\t"; // 6
-		retval += row->target->description->letter + "\t"; // 7
-		retval += row->target->description->letterColor + "\t"; // 8
-		retval += row->target->candidate->imageName + "\n"; // 9
-	}
-
-	PRINT("Finished building tab-delimited data:" + retval);
-	return retval;
-}

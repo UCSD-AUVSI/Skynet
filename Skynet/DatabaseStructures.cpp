@@ -13,6 +13,18 @@ String^ DialogEditingData::getHeadingString() {
 	return nullptr;
 }
 
+String^ CandidateRowData::deleteSQL(){
+	return "DELETE FROM candidates WHERE candidateid = " + candidateid + ";";
+}
+
+String^ UnverifiedRowData::deleteSQL(){
+	return "DELETE FROM unverified_targets WHERE targetid = " + targetid + ";";
+}
+
+String^ VerifiedRowData::deleteSQL(){
+	return "DELETE FROM verified_targets WHERE submitid = " + submitid + ";";
+}
+
 DialogEditingData^ CandidateRowData::toDialogData() {
 	return gcnew DialogEditingData(this);
 }
@@ -244,20 +256,21 @@ UnverifiedRowData::UnverifiedRowData(CandidateRowData^ candidate, DialogEditingD
 
 GPSPositionRowData::GPSPositionRowData(UnverifiedRowData ^ unverified)
 {
-	double latGeoref, lonGeoref, altGeoref;
+	double lat, lon, alt;
 
 	/**
 	 * TODO: Output args shouldn't be passed in as inputs
 	 */
 	try {
-		GeoReference::getTargetGPS(unverified, latGeoref, lonGeoref, altGeoref);
-	} catch (Vision::GeoReferenceException^) {
-		latGeoref = lonGeoref = altGeoref = -1;
+		GeoReference::getTargetGPS(unverified, lat, lon, alt);
+	} catch (Vision::GeoReferenceException^) {	
+		lat = unverified->candidate->telemetry->planeLocation->lat;
+		lon = unverified->candidate->telemetry->planeLocation->lon;
+		alt = unverified->candidate->telemetry->planeLocation->alt;
 	}
-
-	this->lat = latGeoref;
-	this->lon = lonGeoref;
-	this->alt = altGeoref;
+	this->lat = lat;
+	this->lon = lon;
+	this->alt = alt;
 }
 
 double GPSPositionRowData::distanceTo(GPSPositionRowData ^ gps)

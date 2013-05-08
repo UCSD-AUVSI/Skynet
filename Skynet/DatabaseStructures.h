@@ -1,6 +1,6 @@
 #pragma once
 #include "MasterHeader.h"
-using namespace System;
+
 
 namespace Communications
 {
@@ -21,8 +21,13 @@ namespace Database
 	ref struct VerifiedRowData;
 	ref struct DialogEditingData;
 
-	public ref struct TargetRowData {
+	public ref struct TargetRowData abstract {
 	public:
+		virtual System::String^ deleteSQL(){
+			PRINT("WARNING: deleteSQL is not implemented");
+			return nullptr;
+		}
+
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData){
 			PRINT("WARNING: asVerified() is not implemented");
 			return nullptr;
@@ -32,13 +37,13 @@ namespace Database
 			PRINT("WARNING: toDialogData() is not implemented");
 			return nullptr;
 		}
-		
+
 	};
 	
 	public ref struct CandidateRowData: public TargetRowData
 	{
 		int candidateid;
-		String ^ imageName;
+		System::String ^ imageName;
 		TelemetryRowData ^ telemetry;
 		bool processed;
 
@@ -46,6 +51,7 @@ namespace Database
 		CandidateRowData(ImageWithPlaneData ^ planeState, int originX, int originY, int widthPixels, int heightPixels);
 	
 		virtual DialogEditingData^ toDialogData() override;
+		virtual System::String^ deleteSQL() override;
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
 		bool Equals(CandidateRowData ^ object);
 	};
@@ -56,11 +62,11 @@ namespace Database
 		int description_id;
 		int targetX;
 		int targetY;
-		String ^ shape;
-		String ^ shapeColor;
-		String ^ letter;
-		String ^ letterColor;
-		String ^ heading;
+		System::String ^ shape;
+		System::String ^ shapeColor;
+		System::String ^ letter;
+		System::String ^ letterColor;
+		System::String ^ heading;
 		DescriptionRowData();
 		
 		void applyDialogEditingData(DialogEditingData^ data);
@@ -172,6 +178,7 @@ namespace Database
 		UnverifiedRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
 		UnverifiedRowData(CandidateRowData^ candidate, DialogEditingData^ extra);
 
+		virtual System::String^ deleteSQL() override;
 		virtual DialogEditingData^ toDialogData() override;
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
 		void applyDialogData(DialogEditingData^ data);
@@ -187,6 +194,7 @@ namespace Database
 		VerifiedRowData(UnverifiedRowData ^ unverified);
 		VerifiedRowData(CandidateRowData ^ candindate, DialogEditingData^ dialogData);
 		
+		virtual System::String^ deleteSQL() override;
 		virtual DialogEditingData^ toDialogData() override;
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
 		void applyDialogData(DialogEditingData^ data);
@@ -199,12 +207,12 @@ namespace Database
 		DialogEditingData(UnverifiedRowData ^ data);
 		DialogEditingData(CandidateRowData ^ data);
 		
-		String ^ imageName;
+		System::String ^ imageName;
 
-		String ^ shape;
-		String ^ shapeColor;
-		String ^ letter;
-		String ^ letterColor;
+		System::String ^ shape;
+		System::String ^ shapeColor;
+		System::String ^ letter;
+		System::String ^ letterColor;
 		
 		int id;
 
@@ -218,6 +226,6 @@ namespace Database
 		int topOfTargetY;
 
 		bool Equals(DialogEditingData ^ object);
-		String^ getHeadingString();
+		System::String^ getHeadingString();
 	};
 }

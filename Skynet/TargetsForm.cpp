@@ -69,14 +69,15 @@ System::Void TargetsForm::insertCandidate( Database::CandidateRowData ^ data) {
 		grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
 		grid->Rows[rowNum]->Cells[4]->Value = "0*";
 		grid->Rows[rowNum]->Cells[5]->Value = data->processed;
+		double lat, lon, alt;
 		try {
-			double lat, lon, alt;
 			Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
+		} catch (Vision::GeoReferenceException^){
+			lat = data->telemetry->planeLocation->lat;
+			lon = data->telemetry->planeLocation->lon;
+		} finally {
 			grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
 			grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
-		} catch (Vision::GeoReferenceException^){
-			grid->Rows[rowNum]->Cells[2]->Value = "Uncalculable";
-			grid->Rows[rowNum]->Cells[3]->Value = "Uncalculable";
 		}
 	}
 	else {
@@ -110,14 +111,17 @@ System::Void TargetsForm::insertUnverified( Database::UnverifiedRowData ^ data)
 
 
 		grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
+
+		// TODO: Code Duplication
+		double lat, lon, alt;
 		try{
-			double lat, lon, alt;
 			Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
+		} catch (Vision::GeoReferenceException^){
+			lat = data->candidate->telemetry->planeLocation->lat;
+			lon = data->candidate->telemetry->planeLocation->lon;
+		} finally {
 			grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
 			grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
-		} catch (Vision::GeoReferenceException^){
-			grid->Rows[rowNum]->Cells[2]->Value = "Uncalculable";
-			grid->Rows[rowNum]->Cells[3]->Value = "Uncalculable";
 		}
 		grid->Rows[rowNum]->Cells[4]->Value = "0*";
 		grid->Rows[rowNum]->Cells[5]->Value = "("+ data->description->targetX + "," + data->description->targetY+")";

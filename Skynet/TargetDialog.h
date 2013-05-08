@@ -1,17 +1,13 @@
 #pragma once
 
 #include "DatabaseStructures.h"
+#include "SkynetController.h"
 
 // TODO: This shouldn't be defined here
 #define PI 3.14159265358979323846
 
-namespace Database {
-	ref struct TargetRowData;
-}
 
 namespace Skynet {
-
-	ref class SkynetController;
 
 
 	using namespace System;
@@ -24,12 +20,18 @@ namespace Skynet {
 
 	public ref class TargetDialog : public System::Windows::Forms::Form
 	{
+
+		enum class TargetEditingMode {
+			MarkingTop,
+			MarkingCenter,
+			NotMarking,
+			TargetMarked
+		};
 	public:
-		TargetDialog(SkynetController ^ skynetController, Database::TargetRowData^ candidate);
+		TargetDialog(Skynet::SkynetController ^ skynetController, Database::TargetRowData^ candidate);
 
 		void loadUIWithData(Database::DialogEditingData^ data);
 		void setImage(String^ imageFilename);
-		bool isOpen() { return open; }
 
 		Database::DialogEditingData^ getDataFromUI();
 
@@ -44,9 +46,6 @@ namespace Skynet {
 				delete components;
 			}
 		}
-
-		void buildVotingText();
-		void clearVotingText();
 
 		double atan3( double x, double y )
 		{
@@ -77,41 +76,48 @@ namespace Skynet {
 
 	protected:
 
-		float centerX, centerY;
-		float topOfTargetX, topOfTargetY;
-		bool _markLat, _markHeading;
-		bool open, imageOpen;
+		double centerX, centerY;
+		double topOfTargetX, topOfTargetY;
 		Database::TargetRowData^ rowData;
 		Image ^ _targetImage;
 		Object ^ _parent;
 		Database::DialogEditingData^ dialogData;
-		SkynetController ^ appController;
+		Skynet::SkynetController ^ appController;
+		TargetEditingMode currentMode;
 
 
 	private: System::Windows::Forms::PictureBox^  imageBox;
+	private: System::Windows::Forms::Button^  markTargetButton;
 
-	private: System::Windows::Forms::Button^  latlonButton;
 
-	private: System::Windows::Forms::Button^  headingButton;
+
+
 
 	private: System::Windows::Forms::Button^  okButton;
 
 private: System::Windows::Forms::Label^  instructionLabel;
-private: System::Windows::Forms::TextBox^  textBox1;
-private: System::Windows::Forms::TextBox^  textBox2;
-private: System::Windows::Forms::Label^  label1;
-private: System::Windows::Forms::Label^  label2;
-private: System::Windows::Forms::Label^  label3;
-private: System::Windows::Forms::Label^  label4;
-private: System::Windows::Forms::Label^  label5;
-private: System::Windows::Forms::Label^  label6;
-private: System::Windows::Forms::TextBox^  textBox3;
-private: System::Windows::Forms::TextBox^  textBox4;
-private: System::Windows::Forms::Button^  button1;
-private: System::Windows::Forms::Label^  centerVoteLabel;
-private: System::Windows::Forms::Label^  headingVoteLabel;
-private: System::Windows::Forms::Label^  shapeVoteResults;
-private: System::Windows::Forms::Label^  letterVoteResults;
+	private: System::Windows::Forms::TextBox^  shapeColorTextBox;
+	private: System::Windows::Forms::TextBox^  shapeTextBox;
+
+
+	private: System::Windows::Forms::Label^  shapeLabel;
+	private: System::Windows::Forms::Label^  shapeColorLabel;
+	private: System::Windows::Forms::Label^  shapeEntryLabel;
+	private: System::Windows::Forms::Label^  letterLabel;
+	private: System::Windows::Forms::Label^  letterColor;
+
+
+
+
+
+
+	private: System::Windows::Forms::Label^  alphanumericLabel;
+	private: System::Windows::Forms::TextBox^  letterTextBox;
+
+
+	private: System::Windows::Forms::TextBox^  letterColorTextBox;
+
+	private: System::Windows::Forms::Button^  deleteButton;
 
 
 	protected: 
@@ -130,25 +136,20 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 		void InitializeComponent(void)
 		{
 			this->imageBox = (gcnew System::Windows::Forms::PictureBox());
-			this->latlonButton = (gcnew System::Windows::Forms::Button());
-			this->headingButton = (gcnew System::Windows::Forms::Button());
+			this->markTargetButton = (gcnew System::Windows::Forms::Button());
 			this->okButton = (gcnew System::Windows::Forms::Button());
 			this->instructionLabel = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->label6 = (gcnew System::Windows::Forms::Label());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->centerVoteLabel = (gcnew System::Windows::Forms::Label());
-			this->headingVoteLabel = (gcnew System::Windows::Forms::Label());
-			this->shapeVoteResults = (gcnew System::Windows::Forms::Label());
-			this->letterVoteResults = (gcnew System::Windows::Forms::Label());
+			this->shapeColorTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->shapeTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->shapeLabel = (gcnew System::Windows::Forms::Label());
+			this->shapeColorLabel = (gcnew System::Windows::Forms::Label());
+			this->shapeEntryLabel = (gcnew System::Windows::Forms::Label());
+			this->letterLabel = (gcnew System::Windows::Forms::Label());
+			this->letterColor = (gcnew System::Windows::Forms::Label());
+			this->alphanumericLabel = (gcnew System::Windows::Forms::Label());
+			this->letterTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->letterColorTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->deleteButton = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -161,35 +162,24 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 			this->imageBox->TabIndex = 0;
 			this->imageBox->TabStop = false;
 			this->imageBox->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &TargetDialog::imageBox_MouseDown);
-			this->imageBox->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &TargetDialog::imageBox_MouseUp);
 			// 
-			// latlonButton
+			// markTargetButton
 			// 
-			this->latlonButton->Location = System::Drawing::Point(12, 597);
-			this->latlonButton->Name = L"latlonButton";
-			this->latlonButton->Size = System::Drawing::Size(97, 23);
-			this->latlonButton->TabIndex = 1;
-			this->latlonButton->Text = L"Mark Center";
-			this->latlonButton->UseVisualStyleBackColor = true;
-			this->latlonButton->Click += gcnew System::EventHandler(this, &TargetDialog::latlonButton_Click);
-			// 
-			// headingButton
-			// 
-			this->headingButton->Location = System::Drawing::Point(115, 597);
-			this->headingButton->Name = L"headingButton";
-			this->headingButton->Size = System::Drawing::Size(96, 23);
-			this->headingButton->TabIndex = 2;
-			this->headingButton->Text = L"Mark Heading";
-			this->headingButton->UseVisualStyleBackColor = true;
-			this->headingButton->Click += gcnew System::EventHandler(this, &TargetDialog::headingButton_Click);
+			this->markTargetButton->Location = System::Drawing::Point(15, 580);
+			this->markTargetButton->Name = L"markTargetButton";
+			this->markTargetButton->Size = System::Drawing::Size(196, 53);
+			this->markTargetButton->TabIndex = 2;
+			this->markTargetButton->Text = L"Mark Target";
+			this->markTargetButton->UseVisualStyleBackColor = true;
+			this->markTargetButton->Click += gcnew System::EventHandler(this, &TargetDialog::markTargetButton_Click);
 			// 
 			// okButton
 			// 
 			this->okButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->okButton->Location = System::Drawing::Point(549, 568);
+			this->okButton->Location = System::Drawing::Point(540, 579);
 			this->okButton->Name = L"okButton";
-			this->okButton->Size = System::Drawing::Size(109, 52);
+			this->okButton->Size = System::Drawing::Size(191, 52);
 			this->okButton->TabIndex = 3;
 			this->okButton->Text = L"Move to Verified";
 			this->okButton->UseVisualStyleBackColor = true;
@@ -198,143 +188,107 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 			// instructionLabel
 			// 
 			this->instructionLabel->AutoSize = true;
-			this->instructionLabel->Location = System::Drawing::Point(12, 558);
+			this->instructionLabel->Location = System::Drawing::Point(12, 647);
 			this->instructionLabel->Name = L"instructionLabel";
 			this->instructionLabel->Size = System::Drawing::Size(61, 13);
 			this->instructionLabel->TabIndex = 5;
 			this->instructionLabel->Text = L"Instructions";
 			// 
-			// textBox1
+			// shapeColorTextBox
 			// 
-			this->textBox1->Location = System::Drawing::Point(259, 574);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(100, 20);
-			this->textBox1->TabIndex = 6;
+			this->shapeColorTextBox->Location = System::Drawing::Point(259, 574);
+			this->shapeColorTextBox->Name = L"shapeColorTextBox";
+			this->shapeColorTextBox->Size = System::Drawing::Size(100, 20);
+			this->shapeColorTextBox->TabIndex = 6;
 			// 
-			// textBox2
+			// shapeTextBox
 			// 
-			this->textBox2->Location = System::Drawing::Point(259, 600);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(100, 20);
-			this->textBox2->TabIndex = 7;
+			this->shapeTextBox->Location = System::Drawing::Point(259, 613);
+			this->shapeTextBox->Name = L"shapeTextBox";
+			this->shapeTextBox->Size = System::Drawing::Size(100, 20);
+			this->shapeTextBox->TabIndex = 7;
 			// 
-			// label1
+			// shapeLabel
 			// 
-			this->label1->AutoSize = true;
-			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+			this->shapeLabel->AutoSize = true;
+			this->shapeLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label1->Location = System::Drawing::Point(281, 555);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(53, 16);
-			this->label1->TabIndex = 10;
-			this->label1->Text = L"Shape";
+			this->shapeLabel->Location = System::Drawing::Point(281, 555);
+			this->shapeLabel->Name = L"shapeLabel";
+			this->shapeLabel->Size = System::Drawing::Size(53, 16);
+			this->shapeLabel->TabIndex = 10;
+			this->shapeLabel->Text = L"Shape";
 			// 
-			// label2
+			// shapeColorLabel
 			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(224, 580);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(31, 13);
-			this->label2->TabIndex = 11;
-			this->label2->Text = L"Color";
+			this->shapeColorLabel->AutoSize = true;
+			this->shapeColorLabel->Location = System::Drawing::Point(224, 580);
+			this->shapeColorLabel->Name = L"shapeColorLabel";
+			this->shapeColorLabel->Size = System::Drawing::Size(31, 13);
+			this->shapeColorLabel->TabIndex = 11;
+			this->shapeColorLabel->Text = L"Color";
 			// 
-			// label3
+			// shapeEntryLabel
 			// 
-			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(224, 603);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(31, 13);
-			this->label3->TabIndex = 12;
-			this->label3->Text = L"Type";
+			this->shapeEntryLabel->AutoSize = true;
+			this->shapeEntryLabel->Location = System::Drawing::Point(224, 620);
+			this->shapeEntryLabel->Name = L"shapeEntryLabel";
+			this->shapeEntryLabel->Size = System::Drawing::Size(38, 13);
+			this->shapeEntryLabel->TabIndex = 12;
+			this->shapeEntryLabel->Text = L"Shape";
 			// 
-			// label4
+			// letterLabel
 			// 
-			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(388, 603);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(31, 13);
-			this->label4->TabIndex = 17;
-			this->label4->Text = L"Type";
+			this->letterLabel->AutoSize = true;
+			this->letterLabel->Location = System::Drawing::Point(388, 620);
+			this->letterLabel->Name = L"letterLabel";
+			this->letterLabel->Size = System::Drawing::Size(34, 13);
+			this->letterLabel->TabIndex = 17;
+			this->letterLabel->Text = L"Letter";
 			// 
-			// label5
+			// letterColor
 			// 
-			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(388, 580);
-			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(31, 13);
-			this->label5->TabIndex = 16;
-			this->label5->Text = L"Color";
+			this->letterColor->AutoSize = true;
+			this->letterColor->Location = System::Drawing::Point(388, 580);
+			this->letterColor->Name = L"letterColor";
+			this->letterColor->Size = System::Drawing::Size(31, 13);
+			this->letterColor->TabIndex = 16;
+			this->letterColor->Text = L"Color";
 			// 
-			// label6
+			// alphanumericLabel
 			// 
-			this->label6->AutoSize = true;
-			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+			this->alphanumericLabel->AutoSize = true;
+			this->alphanumericLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label6->Location = System::Drawing::Point(421, 555);
-			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(102, 16);
-			this->label6->TabIndex = 15;
-			this->label6->Text = L"Alphanumeric";
+			this->alphanumericLabel->Location = System::Drawing::Point(421, 555);
+			this->alphanumericLabel->Name = L"alphanumericLabel";
+			this->alphanumericLabel->Size = System::Drawing::Size(102, 16);
+			this->alphanumericLabel->TabIndex = 15;
+			this->alphanumericLabel->Text = L"Alphanumeric";
 			// 
-			// textBox3
+			// letterTextBox
 			// 
-			this->textBox3->Location = System::Drawing::Point(423, 600);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(100, 20);
-			this->textBox3->TabIndex = 14;
+			this->letterTextBox->Location = System::Drawing::Point(424, 613);
+			this->letterTextBox->Name = L"letterTextBox";
+			this->letterTextBox->Size = System::Drawing::Size(100, 20);
+			this->letterTextBox->TabIndex = 14;
 			// 
-			// textBox4
+			// letterColorTextBox
 			// 
-			this->textBox4->Location = System::Drawing::Point(423, 574);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(100, 20);
-			this->textBox4->TabIndex = 13;
+			this->letterColorTextBox->Location = System::Drawing::Point(423, 574);
+			this->letterColorTextBox->Name = L"letterColorTextBox";
+			this->letterColorTextBox->Size = System::Drawing::Size(100, 20);
+			this->letterColorTextBox->TabIndex = 13;
 			// 
-			// button1
+			// deleteButton
 			// 
-			this->button1->Location = System::Drawing::Point(665, 568);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 52);
-			this->button1->TabIndex = 18;
-			this->button1->Text = L"Delete";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &TargetDialog::button1_Click);
-			// 
-			// centerVoteLabel
-			// 
-			this->centerVoteLabel->AutoSize = true;
-			this->centerVoteLabel->Location = System::Drawing::Point(12, 623);
-			this->centerVoteLabel->Name = L"centerVoteLabel";
-			this->centerVoteLabel->Size = System::Drawing::Size(95, 13);
-			this->centerVoteLabel->TabIndex = 19;
-			this->centerVoteLabel->Text = L"Center vote results";
-			// 
-			// headingVoteLabel
-			// 
-			this->headingVoteLabel->AutoSize = true;
-			this->headingVoteLabel->Location = System::Drawing::Point(113, 623);
-			this->headingVoteLabel->Name = L"headingVoteLabel";
-			this->headingVoteLabel->Size = System::Drawing::Size(104, 13);
-			this->headingVoteLabel->TabIndex = 20;
-			this->headingVoteLabel->Text = L"Heading vote results";
-			// 
-			// shapeVoteResults
-			// 
-			this->shapeVoteResults->AutoSize = true;
-			this->shapeVoteResults->Location = System::Drawing::Point(256, 623);
-			this->shapeVoteResults->Name = L"shapeVoteResults";
-			this->shapeVoteResults->Size = System::Drawing::Size(101, 13);
-			this->shapeVoteResults->TabIndex = 21;
-			this->shapeVoteResults->Text = L"Shape Vote Results";
-			// 
-			// letterVoteResults
-			// 
-			this->letterVoteResults->AutoSize = true;
-			this->letterVoteResults->Location = System::Drawing::Point(421, 623);
-			this->letterVoteResults->Name = L"letterVoteResults";
-			this->letterVoteResults->Size = System::Drawing::Size(97, 13);
-			this->letterVoteResults->TabIndex = 22;
-			this->letterVoteResults->Text = L"Letter Vote Results";
+			this->deleteButton->Location = System::Drawing::Point(599, 673);
+			this->deleteButton->Name = L"deleteButton";
+			this->deleteButton->Size = System::Drawing::Size(75, 52);
+			this->deleteButton->TabIndex = 18;
+			this->deleteButton->Text = L"Delete";
+			this->deleteButton->UseVisualStyleBackColor = true;
+			this->deleteButton->Click += gcnew System::EventHandler(this, &TargetDialog::deleteButton_Click);
 			// 
 			// TargetDialog
 			// 
@@ -342,25 +296,20 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ControlDarkDark;
 			this->ClientSize = System::Drawing::Size(743, 737);
-			this->Controls->Add(this->letterVoteResults);
-			this->Controls->Add(this->shapeVoteResults);
-			this->Controls->Add(this->headingVoteLabel);
-			this->Controls->Add(this->centerVoteLabel);
-			this->Controls->Add(this->button1);
-			this->Controls->Add(this->label4);
-			this->Controls->Add(this->label5);
-			this->Controls->Add(this->label6);
-			this->Controls->Add(this->textBox3);
-			this->Controls->Add(this->textBox4);
-			this->Controls->Add(this->label3);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->label1);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->deleteButton);
+			this->Controls->Add(this->letterLabel);
+			this->Controls->Add(this->letterColor);
+			this->Controls->Add(this->alphanumericLabel);
+			this->Controls->Add(this->letterTextBox);
+			this->Controls->Add(this->letterColorTextBox);
+			this->Controls->Add(this->shapeEntryLabel);
+			this->Controls->Add(this->shapeColorLabel);
+			this->Controls->Add(this->shapeLabel);
+			this->Controls->Add(this->shapeTextBox);
+			this->Controls->Add(this->shapeColorTextBox);
 			this->Controls->Add(this->instructionLabel);
 			this->Controls->Add(this->okButton);
-			this->Controls->Add(this->headingButton);
-			this->Controls->Add(this->latlonButton);
+			this->Controls->Add(this->markTargetButton);
 			this->Controls->Add(this->imageBox);
 			this->MaximizeBox = false;
 			this->Name = L"TargetDialog";
@@ -373,72 +322,11 @@ private: System::Windows::Forms::Label^  letterVoteResults;
 #pragma endregion
 
 private: System::Void okButton_Click(System::Object^  sender, System::EventArgs^  e);
-	
+private: System::Void deleteButton_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void markTargetButton_Click(System::Object^  sender, System::EventArgs^  e);
+private: System::Void imageBox_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
+private: System::Void TargetDialog::switchToMode(TargetEditingMode mode);
 
-private: System::Void cancelButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			 open = false;
-			 this->Close();
-		 }
-private: System::Void headingButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			_markHeading = true;
-			_markLat = false;
-			instructionLabel->Text = "Click on top of target";
-		 }
-private: System::Void latlonButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			_markHeading = false;
-			_markLat = true;
-			instructionLabel->Text = "Click on center of target";
-		 }
-private: System::Void imageBox_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {			 			 
-
-			 if( _markHeading ) {
-				 
-				 Point location = e->Location;
-
-				 float x = (float)location.X;
-				 float y = (float)location.Y;
-
-				 float boxWidth = (float)this->imageBox->Size.Width;
-				 float boxHeight = (float)this->imageBox->Size.Width;
-
-				 // float imWidth = (float)data->dataWidth;
-				 // float imHeight = (float)data->dataHeight;
-
-				 // float newPointX = x/boxWidth*imWidth;
-				 // float newPointY = y/boxHeight*imHeight;
-
-				 // topOfTargetX = newPointX;
-				 // topOfTargetY = newPointY;
-
-			 }
-			 else if( _markLat )
-			 {
-				 
-				 Point location = e->Location;
-
-				 float x = (float)location.X;
-				 float y = (float)location.Y;
-
-				 float boxWidth = (float)this->imageBox->Size.Width;
-				 float boxHeight = (float)this->imageBox->Size.Width;
-
-				 // float imWidth = (float)data->dataWidth;
-				 // float imHeight = (float)data->dataHeight;
-
-				 // float newCenterX = x/boxWidth*imWidth;
-				 // float newCenterY = y/boxHeight*imHeight;
-
-				 // centerX = newCenterX;
-				 // centerY = newCenterY;
-
-			 }
-		 }
-private: System::Void imageBox_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 return;
-		 }
-
-private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
-		 // TODO: Delete
 
 };
 

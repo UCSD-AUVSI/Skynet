@@ -31,6 +31,7 @@ using namespace System::Collections::Generic;
 using namespace Communications;
 using namespace System::Threading;
 using namespace Util;
+using namespace System;
 
 cv::Mat testImage;
 Saliency::Saliency(VisionController^ visionController): 

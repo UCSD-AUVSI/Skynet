@@ -8,7 +8,7 @@ class Auvsi_Ocr;
 namespace Vision
 {
 	#define SOFTWARE_DIRECTORY (DROPBOX_DIR + "AUVSI\\Technical\\Software\\")
-	#define SOFTWARE_DIRECTORY "C:\\Users\\ucsd_auvsi\\Dropbox\\AUVSI\\Technical\\Software\\"
+//	#define SOFTWARE_DIRECTORY "C:\\Users\\ucsd_auvsi\\Dropbox\\AUVSI\\Technical\\Software\\"
 	#define TRAINING_DIRECTORY (SOFTWARE_DIRECTORY + "OCR training data\\")
 	#define TESTING_DIRECTORY (SOFTWARE_DIRECTORY + "OCR testing data\\")
 

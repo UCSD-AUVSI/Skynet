@@ -11,6 +11,7 @@ namespace Database
 	ref struct UnverifiedRowData;
 	ref struct VerifiedRowData;
 	ref struct DialogEditingData;
+	ref struct TargetRowData;
 
 	enum ColumnName
 	{
@@ -55,9 +56,9 @@ namespace Database
 		
 		// transfered to here
 
-		System::String ^ getTabDelimitedVerifiedTargetDataForSubmission();
-
 		System::String ^ imageNameForID(System::String ^ id);
+
+		void removeTarget(TargetRowData^ target);
 		
 		void clearCandidatesTable();
 		void clearUnverifiedTable();

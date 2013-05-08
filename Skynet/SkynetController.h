@@ -35,6 +35,7 @@ namespace Database
 	ref struct UnverifiedRowData;
 	ref struct VerifiedRowData;
 	ref struct DialogEditingData;
+	ref struct TargetRowData;
 }
 
 namespace Vision
@@ -69,6 +70,7 @@ namespace Skynet
 		void clearAllTables();
 		//void restartIntelligenceController(array<System::String ^>^ fieldBoundaries);
 		//void createIntelligenceController(array<System::String^>^ fieldBoundaries);
+		System::String^ getTabDelimitedVerifiedTargetDataForSubmission(array<Database::VerifiedRowData^>^ verifiedRows);
 
 		System::String ^ saveCurrentFrameAsImage();
 		System::String ^ saveCurrentFrameAsImage(System::String ^ basePath);
@@ -88,6 +90,7 @@ namespace Skynet
 		void removeUnverified(Database::UnverifiedRowData ^ data);
 		void removeUnverified(System::String ^ id);
 		void removeVerifiedTargetForID(System::String ^ id);
+		void removeTarget(Database::TargetRowData^ target);
 		void displayAutosearchImage(System::Drawing::Image ^ image);
 		void displayPathfinderImage(System::Drawing::Image ^ image);
 		void pathfinderComplete(System::Drawing::Image ^ image);

@@ -8,6 +8,7 @@
 #include "Delegates.h"
 #include "SaveImage.h"
 #include "SimulatorPlaneDataReceiver.h"
+#include "Util.h"
 
 
 using namespace System;
@@ -82,10 +83,67 @@ SkynetController::getSampleGPSCoords()
 	return coords;
 }
 
+String ^ SkynetController::getTabDelimitedVerifiedTargetDataForSubmission(array<VerifiedRowData^>^ verifiedRows)
+{
+	String ^ retval = "";
+
+//	9 fields, tab delimited, new target on each line
+//Field 1: Target Number, two digits, starting at 01 and increment by one for each additional
+//target.
+//Example: 01, 02, 03, etc.
+//Field 2: Latitude in the following format, first character N or S, two digit degrees (use leading
+//zeros if necessary), followed by space, two digit minutes, followed by space, two digit seconds
+//followed by decimal point and up to 3 digits (thousandths of a second)
+//Example N30 35 34.123
+//Field 3: Longitude if the following format, first character E or W, three digit degrees (use
+//leading zeros if necessary), followed by space, two digit minutes, followed by space, tow digit
+//seconds followed by decimal point and up to 3 digits (thousandths of a second)
+//Example W075 48 47.123
+//Field 4: Target orientation, up to two characters: N, NE, E, SE, S, SW, W, NW
+//Field 5 Target shape, list geometric shape as appropriate:
+//Example, rectangle, square, isosolese triangle
+//Field 6: Target color, as appropriate.
+//Example: Red, Orange, Yellow, etc.
+//Field 7: Alphanumeric, as appropriate
+//Example: A, b, 2, &
+//Field 8: Alphanumeric color, as appropriate
+//Example: Red, Orange, Yellow, etc.
+//Field 9: Name of jpeg file with image of target
+//Example for two targets
+//01 N30 35 34.123 W075 48 47.123 N rectangle red A orange
+//target1.jpg
+//02 S34 00 12.345 E002 01 12.345 SE square orange 4 yellow
+//target2.jpg
+
+	int i = 0;
+
+	for each (VerifiedRowData ^ row in verifiedRows){
+		i++;
+		String^ targetNumber = Int32(i).ToString("00");
+		array<String^>^ latLon = GeoReference::latLonToDMS(row->centerGPS->lat,row->centerGPS->lon);
+		if(String::IsNullOrWhiteSpace(row->target->description->heading)){
+			row->target->description->heading = "N";
+		}
+		String^ imageName = Util::extractFilename(row->target->candidate->imageName);
+		retval += targetNumber; // 1
+		retval += latLon[0] + "\t" + latLon[1] + "\t"; // 2, 3
+		retval += row->target->description->heading + "\t"; // 4
+		retval += row->target->description->shape + "\t"; // 5
+		retval += row->target->description->shapeColor + "\t"; // 6
+		retval += row->target->description->letter + "\t"; // 7
+		retval += row->target->description->letterColor + "\t"; // 8
+		retval += imageName + "\n"; // 9
+	}
+
+	PRINT("Finished building tab-delimited data:" + retval);
+	return retval;
+}
 void SkynetController::exportData(String ^ basePath)
 {
 	// get data
-	String ^ result = theDatabase->getTabDelimitedVerifiedTargetDataForSubmission();
+	array<VerifiedRowData^>^ verifiedRows = theDatabase->getAllVerified();
+	Util::copyImageFilesToPath(verifiedRows, basePath);
+	String ^ result = getTabDelimitedVerifiedTargetDataForSubmission(verifiedRows);
 
 	if (result == nullptr)
 	{
@@ -222,7 +280,7 @@ void SkynetController::saveCurrentFrameAsUnverified()
 		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::saveCurrentFrameAsCandidate(): Failed to add image to target - " + e);
 	}
 
-		((Form1 ^)form1View)->Invoke(gcnew Delegates::unverifiedRowDataToVoid( ((Form1 ^)form1View), &Skynet::Form1::insertUnverifiedData), unverified );
+	((Form1 ^)form1View)->Invoke(gcnew Delegates::unverifiedRowDataToVoid( ((Form1 ^)form1View), &Skynet::Form1::insertUnverifiedData), unverified );
 
 }
 
@@ -389,72 +447,11 @@ void SkynetController::removeVerifiedTargetForID(String ^ id)
 	// TODO: form1View->removeVerified(id);
 }
 
-//bool SkynetController::addVote(Database::VoteRowData ^ data)
-//{
-//	if (theDatabase == nullptr) {
-//		System::Diagnostics::Trace::WriteLine("SkynetController::addVote() ran, but theDatabase == nullptr");
-//		return false;
-//	}
-//
-//	if (data == nullptr) {
-//		System::Diagnostics::Trace::WriteLine("SkynetController::addVote() ran, but data == nullptr");
-//		return false;
-//	}
-//	try {
-//		theDatabase->addVote(data);
-//	}
-//	catch(Exception ^ e) {
-//		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::addVote(): Failed to add vote - " + e);
-//		return false;
-//	}
-//
-//	return true;
-//}
-
-
-//void SkynetController::removeVotesForID(String ^ id)
-//{
-//	
-//	if (theDatabase == nullptr) {
-//		System::Diagnostics::Trace::WriteLine("SkynetController::removeVotesForID() ran, but theDatabase == nullptr");
-//		return;
-//	}
-//
-//	if (id == nullptr) {
-//		System::Diagnostics::Trace::WriteLine("SkynetController::removeVotesForID() ran, but id == nullptr");
-//		return;
-//	}
-//
-//	try {
-//		theDatabase->removeVotesForId(id);
-//	}
-//	catch(Exception ^ e) {
-//		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::removeVotesForID(): Failed to add vote - " + e);
-//		return;
-//	}
-//
-//	return;
-//}
-
-//void SkynetController::removeUnverified(Database::UnverifiedRowData ^ data)
-//{
-//	removeUnverified("" + data->targetid);
-//}
-
-//void SkynetController::removeCandidate(String ^ id)
-//{	
-//	//theDatabase->removeCandidate(id);
-//
-//	auto blahdelegate = gcnew Delegates::stringToVoid((Form1 ^)form1View, &Form1::removeCandidateFromTable );
-//
-//	try {
-//		((Form1 ^)form1View)->Invoke( blahdelegate, gcnew array<Object ^>{id} );
-//	}
-//	catch(Exception ^ e) {
-//		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::removeUnveriefied(): Failed to remove unverified from GUI table - " + e);
-//	}
-//
-//}
+void SkynetController::removeTarget(TargetRowData^ target)
+{
+	theDatabase->removeTarget(target);
+	// TODO: form1View->removeTarget(target);
+}
 
 void SkynetController::removeUnverified(Database::UnverifiedRowData ^ data)
 {
@@ -510,15 +507,9 @@ Database::UnverifiedRowData ^ SkynetController::unverifiedWithID(String ^ id)
 }
 
 
-//Database::VotesOnCandidate ^ SkynetController::votesForID(String ^ id)
-//{
-//	return theDatabase->votesForID(id);
-//}
 
 Database::VerifiedRowData ^ SkynetController::verifiedWithID(String ^ id) // not yet
 {
-	//System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::verifiedTargetWithID(): not implemented");
-
 	return theDatabase->verifiedWithID(id);
 }
 
