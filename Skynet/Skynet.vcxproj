@@ -78,6 +78,9 @@
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\..\..\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.0\extras\visual_studio_integration\MSBuildExtensions\CUDA 5.0.props" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -99,9 +102,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\opencv\include\opencv;C:\opencv\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\opencv\include\opencv;C:\opencv\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -111,8 +116,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>OCR;C:\opencv_src\build\include\opencv;C:\opencv_src\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\opencv\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>SalientGreenGPU\cvBlob;SalientGreenGPU\include;C:\opencv\build\install\include;C:\opencv\build\install\include\opencv;OCR;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv_src\build\include\opencv;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;C:\opencv\build\install\lib;C:\Users\ucsd_auvsi\Desktop\Skynet-NoSaliency;$(LibraryPath)</LibraryPath>
     <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">
@@ -129,11 +134,11 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\opencv\include\opencv;C:\opencv\include\opencv2</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyDebug>true</AssemblyDebug>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
@@ -148,6 +153,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsManaged>true</CompileAsManaged>
+      <AdditionalIncludeDirectories>C:\opencv\include\opencv;C:\opencv\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -198,16 +204,16 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsManaged>true</CompileAsManaged>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\opencv\include;C:\opencv\include\opencv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\include;C:\opencv\build\include;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenGPU\cvBlob;C:\opencv\include;opencv\modules\core\include\opencv2\core;C:\Users\ucsd_auvsi\Dropbox\Skynet\SalientGreenCUDA;C:\opencv\include\opencv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>comsuppw.lib;opengl32.lib;glu32.lib;opencv_core244.lib;opencv_highgui244.lib;opencv_video244.lib;opencv_ml244.lib;opencv_legacy244.lib;opencv_imgproc244.lib;opencv_objdetect244.lib;opencv_gpu244.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppw.lib;opengl32.lib;glu32.lib;opencv_core240.lib;opencv_highgui240.lib;opencv_video240.lib;opencv_ml240.lib;opencv_legacy240.lib;opencv_imgproc240.lib;opencv_objdetect240.lib;opencv_gpu240.lib;SalientGreenCUDA2012.lib;cudart.lib;winmm.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <AdditionalLibraryDirectories>C:\opencv\lib\Release;..\Skynet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\opencv\build\x86\vc9\lib;C:\opencv\modules\core\include\opencv2\core;C:\opencv\build\include;C:\opencv\include\opencv2;C:\opencv\build\install\bin;C:\opencv\include\opencv;C:\opencv\lib\Release;..\Skynet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ForceSymbolReferences>%(ForceSymbolReferences)</ForceSymbolReferences>
     </Link>
     <Midl>
@@ -234,6 +240,9 @@
     <PostBuildEvent>
       <Command>copy app.config "$(TargetPath).config"</Command>
     </PostBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ZDebug|X64'">
     <ClCompile>
@@ -289,7 +298,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="tessnet2_64">
-      <HintPath>..\..\..\..\..\tessnet2_64.dll</HintPath>
+      <HintPath>..\tessnet2_64.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -470,6 +479,7 @@
     <ClInclude Include="SkynetController.h" />
     <ClInclude Include="SkynetControllerInterface.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SystemSettings.h" />
     <ClInclude Include="TargetDialog.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -511,4 +521,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\..\..\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v5.0\extras\visual_studio_integration\MSBuildExtensions\CUDA 5.0.targets" />
+  </ImportGroup>
 </Project>

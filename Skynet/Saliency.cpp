@@ -8,10 +8,12 @@
 #include "GeoReference.h"
 #include "Util.h"
 #include "MasterHeader.h"
+#include "SystemSettings.h"
 
 
 #ifdef SALIENCY_ENABLED
 #include "../SalientGreenCUDA/SalientGreenGPU.H"
+//#using<SalientGreenCUDA.dll>
 #endif
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -32,6 +34,10 @@ using namespace Communications;
 using namespace System::Threading;
 using namespace Util;
 using namespace System;
+
+#ifdef SALIENCY_ENABLED
+sg::SalientGreenGPU green; // global variable, suck it
+#endif
 
 cv::Mat testImage;
 Saliency::Saliency(VisionController^ visionController): 

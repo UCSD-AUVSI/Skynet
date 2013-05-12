@@ -47,7 +47,7 @@ VisionController::initImagingPathway()
 {
 	duplicateResolver = gcnew DuplicateResolver(skynetController);
 	saliency = gcnew Saliency(this);
-	ocr = gcnew OCRWrapper(this);
+	//ocr = gcnew OCRWrapper(this);
 
 	/**
 	 * TIM: Put testing code here
