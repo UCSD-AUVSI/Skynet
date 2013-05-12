@@ -5,6 +5,9 @@
 #include "../Pathfinding/Autosearch.h"
 #include "PlaneDataReceiver.h"
 #include "Util.h"
+#include "GPSCoord.h"
+
+using Intelligence::GPSCoord;
 
 ImageWithPlaneData::ImageWithPlaneData(ImageWithPlaneData^ other) :
 	imageFilename(other->imageFilename),
@@ -42,5 +45,12 @@ ImageWithPlaneData::ImageWithPlaneData(String ^ imageFilename, String ^data) {
 
 Intelligence::GPSCoord^ ImageWithPlaneData::toGPSCoord()
 {
-	return gcnew Intelligence::GPSCoord(longitude, latitude, altitude);
+	return gcnew GPSCoord(longitude, latitude, altitude);
+}
+
+void ImageWithPlaneData::setPosition(GPSCoord^ coord)
+{
+	altitude = coord->alt;
+	latitude = coord->lat;
+	longitude = coord->lon;
 }

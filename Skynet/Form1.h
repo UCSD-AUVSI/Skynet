@@ -46,6 +46,7 @@ Add the following to the end of those files
 #include "Waypoint.h"
 #include "PlaneDataReceiver.h"
 #include "ImageWithPlaneData.h"
+#include "GPSLocationForm.h"
 
 #include <math.h>
 #include "Tester.h"
@@ -223,6 +224,9 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  Number;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_latitude;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_longitude;
 private: System::Windows::Forms::ToolStripMenuItem^  loadMapFromTextFileToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  lockPlaneCoordinatesToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  loadSimulatedDataToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  unlockPlaneCoordinatesToolStripMenuItem;
 private: System::Windows::Forms::Button^  button5;
 
 	public:
@@ -316,16 +320,20 @@ private: System::Windows::Forms::Button^  button5;
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle5 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle6 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->toolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->lockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->loadSimulatedDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->databaseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->resetToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->searchAreaToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->loadMapFromTextFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openGLTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->errorLogTextBox = (gcnew System::Windows::Forms::RichTextBox());
 			this->metadataTable = (gcnew System::Windows::Forms::DataGridView());
@@ -351,8 +359,7 @@ private: System::Windows::Forms::Button^  button5;
 			this->Number = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->boundary_latitude = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->boundary_longitude = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->searchAreaToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->loadMapFromTextFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->unlockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
@@ -372,7 +379,8 @@ private: System::Windows::Forms::Button^  button5;
 			// 
 			// toolStripMenuItem1
 			// 
-			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->exportDataToolStripMenuItem, 
+			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->exportDataToolStripMenuItem, 
+				this->lockPlaneCoordinatesToolStripMenuItem, this->unlockPlaneCoordinatesToolStripMenuItem, this->loadSimulatedDataToolStripMenuItem, 
 				this->toolStripSeparator3, this->exitToolStripMenuItem});
 			this->toolStripMenuItem1->Name = L"toolStripMenuItem1";
 			this->toolStripMenuItem1->Size = System::Drawing::Size(37, 20);
@@ -381,20 +389,33 @@ private: System::Windows::Forms::Button^  button5;
 			// exportDataToolStripMenuItem
 			// 
 			this->exportDataToolStripMenuItem->Name = L"exportDataToolStripMenuItem";
-			this->exportDataToolStripMenuItem->Size = System::Drawing::Size(143, 22);
+			this->exportDataToolStripMenuItem->Size = System::Drawing::Size(210, 22);
 			this->exportDataToolStripMenuItem->Text = L"Export &Data...";
 			this->exportDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::exportDataToolStripMenuItem_Click);
+			// 
+			// lockPlaneCoordinatesToolStripMenuItem
+			// 
+			this->lockPlaneCoordinatesToolStripMenuItem->Name = L"lockPlaneCoordinatesToolStripMenuItem";
+			this->lockPlaneCoordinatesToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->lockPlaneCoordinatesToolStripMenuItem->Text = L"Lock Plane Coordinates";
+			this->lockPlaneCoordinatesToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::lockPlaneCoordinatesToolStripMenuItem_Click);
+			// 
+			// loadSimulatedDataToolStripMenuItem
+			// 
+			this->loadSimulatedDataToolStripMenuItem->Name = L"loadSimulatedDataToolStripMenuItem";
+			this->loadSimulatedDataToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->loadSimulatedDataToolStripMenuItem->Text = L"Load Simulated Data";
 			// 
 			// toolStripSeparator3
 			// 
 			this->toolStripSeparator3->Name = L"toolStripSeparator3";
-			this->toolStripSeparator3->Size = System::Drawing::Size(140, 6);
+			this->toolStripSeparator3->Size = System::Drawing::Size(207, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
 			this->exitToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Alt | System::Windows::Forms::Keys::F4));
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(143, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(210, 22);
 			this->exitToolStripMenuItem->Text = L"&Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::exitToolStripMenuItem_Click);
 			// 
@@ -411,6 +432,19 @@ private: System::Windows::Forms::Button^  button5;
 			this->resetToolStripMenuItem->Size = System::Drawing::Size(102, 22);
 			this->resetToolStripMenuItem->Text = L"Reset";
 			this->resetToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::resetToolStripMenuItem_Click);
+			// 
+			// searchAreaToolStripMenuItem
+			// 
+			this->searchAreaToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->loadMapFromTextFileToolStripMenuItem});
+			this->searchAreaToolStripMenuItem->Name = L"searchAreaToolStripMenuItem";
+			this->searchAreaToolStripMenuItem->Size = System::Drawing::Size(81, 20);
+			this->searchAreaToolStripMenuItem->Text = L"Search Area";
+			// 
+			// loadMapFromTextFileToolStripMenuItem
+			// 
+			this->loadMapFromTextFileToolStripMenuItem->Name = L"loadMapFromTextFileToolStripMenuItem";
+			this->loadMapFromTextFileToolStripMenuItem->Size = System::Drawing::Size(204, 22);
+			this->loadMapFromTextFileToolStripMenuItem->Text = L"Load Map From Text File";
 			// 
 			// errorLogTextBox
 			// 
@@ -431,21 +465,21 @@ private: System::Windows::Forms::Button^  button5;
 			this->metadataTable->AllowUserToDeleteRows = false;
 			this->metadataTable->AllowUserToResizeColumns = false;
 			this->metadataTable->AllowUserToResizeRows = false;
-			dataGridViewCellStyle4->BackColor = System::Drawing::Color::DimGray;
-			dataGridViewCellStyle4->ForeColor = System::Drawing::Color::White;
-			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::Color::Black;
-			this->metadataTable->AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1->BackColor = System::Drawing::Color::DimGray;
+			dataGridViewCellStyle1->ForeColor = System::Drawing::Color::White;
+			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::Color::Black;
+			this->metadataTable->AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this->metadataTable->BackgroundColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle5->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle5->BackColor = System::Drawing::Color::DimGray;
-			dataGridViewCellStyle5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle2->BackColor = System::Drawing::Color::DimGray;
+			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle5->ForeColor = System::Drawing::Color::White;
-			dataGridViewCellStyle5->SelectionBackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle5->SelectionForeColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle5->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->metadataTable->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle2->ForeColor = System::Drawing::Color::White;
+			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->metadataTable->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this->metadataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->metadataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->Property, 
 				this->Value});
@@ -454,15 +488,15 @@ private: System::Windows::Forms::Button^  button5;
 			this->metadataTable->Location = System::Drawing::Point(12, 55);
 			this->metadataTable->Name = L"metadataTable";
 			this->metadataTable->ReadOnly = true;
-			dataGridViewCellStyle6->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle6->BackColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle3->BackColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle6->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle6->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle6->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle6->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->metadataTable->RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->metadataTable->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this->metadataTable->RowHeadersWidthSizeMode = System::Windows::Forms::DataGridViewRowHeadersWidthSizeMode::DisableResizing;
 			this->metadataTable->RowTemplate->DefaultCellStyle->BackColor = System::Drawing::Color::Black;
 			this->metadataTable->RowTemplate->DefaultCellStyle->ForeColor = System::Drawing::Color::White;
@@ -631,18 +665,12 @@ private: System::Windows::Forms::Button^  button5;
 			this->boundary_longitude->HeaderText = L"Longitude";
 			this->boundary_longitude->Name = L"boundary_longitude";
 			// 
-			// searchAreaToolStripMenuItem
+			// unlockPlaneCoordinatesToolStripMenuItem
 			// 
-			this->searchAreaToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->loadMapFromTextFileToolStripMenuItem});
-			this->searchAreaToolStripMenuItem->Name = L"searchAreaToolStripMenuItem";
-			this->searchAreaToolStripMenuItem->Size = System::Drawing::Size(81, 20);
-			this->searchAreaToolStripMenuItem->Text = L"Search Area";
-			// 
-			// loadMapFromTextFileToolStripMenuItem
-			// 
-			this->loadMapFromTextFileToolStripMenuItem->Name = L"loadMapFromTextFileToolStripMenuItem";
-			this->loadMapFromTextFileToolStripMenuItem->Size = System::Drawing::Size(204, 22);
-			this->loadMapFromTextFileToolStripMenuItem->Text = L"Load Map From Text File";
+			this->unlockPlaneCoordinatesToolStripMenuItem->Name = L"unlockPlaneCoordinatesToolStripMenuItem";
+			this->unlockPlaneCoordinatesToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->unlockPlaneCoordinatesToolStripMenuItem->Text = L"Unlock Plane Coordinates";
+			this->unlockPlaneCoordinatesToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::unlockPlaneCoordinatesToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -1078,6 +1106,12 @@ private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender,
 		 }
 private: System::Void button5_Click_1(System::Object^  sender, System::EventArgs^  e) {
 			appController->saveCurrentFrameAsUnverified();		 
+		 }
+private: System::Void lockPlaneCoordinatesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			(gcnew GPSLocationForm(appController))->Show();
+		 }
+private: System::Void unlockPlaneCoordinatesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 appController->unlockPosition();
 		 }
 };
 }

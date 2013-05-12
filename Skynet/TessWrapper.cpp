@@ -9,10 +9,6 @@
 #include <highgui.h>
 #include <stdio.h>
 
-#define SKYNET_EXE_PATH (DROPBOX_DIR + "Skynet\\X64\\Release\\Skynet.exe")
-#define TESSDATA_DIRECTORY (DROPBOX_DIR + "Skynet\\X64\\Release\\tessdata")
-#define SKYNET_DIRECTORY (DROPBOX_DIR + "Skynet\\X64\\Release\\")
-
 using namespace Vision;
 using namespace Util;
 using namespace System;
@@ -31,6 +27,7 @@ TessWrapper::TessWrapper(void)
 	ocr->SetVariable("unlv_tilde_crunching", false);
 	ocr->SetVariable("tessedit_zero_rejection", true);
 	ocr->SetVariable("tessedit_zero_kelvin_rejection", true);
+	// TODO: Fail cleanly is TESSDATA_DIR does not exist
 	ocr->Init(TESSDATA_DIRECTORY, lang, false);
 }
 

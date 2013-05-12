@@ -62,6 +62,9 @@ namespace Skynet
 
 		void exportData(System::String ^ basePath);
 
+		void lockPosition(Intelligence::GPSCoord^ coordinate);
+		void unlockPosition();
+
 		void loadAllTablesFromDisk();
 		void loadCandidateTableFromDisk();
 		void loadVerifiedTableFromDisk();

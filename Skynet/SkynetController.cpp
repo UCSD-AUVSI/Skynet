@@ -8,6 +8,7 @@
 #include "Delegates.h"
 #include "SaveImage.h"
 #include "SimulatorPlaneDataReceiver.h"
+#include "GPSCoord.h"
 #include "Util.h"
 
 
@@ -48,10 +49,20 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 }
 
 
+void SkynetController::lockPosition(Intelligence::GPSCoord^ coordinate)
+{
+	theWatcher->lockPosition(coordinate);
+}
+
+void SkynetController::unlockPosition()
+{
+	theWatcher->unlockPosition();
+}
+
 
 void SkynetController::startIntelligenceController(array<String ^>^ fieldBoundaries)
 {
-		intelligenceController = gcnew IntelligenceController(fieldBoundaries, this,theWatcher->getState());
+	intelligenceController = gcnew IntelligenceController(fieldBoundaries, this,theWatcher->getState());
 }
 
 SkynetController::~SkynetController()

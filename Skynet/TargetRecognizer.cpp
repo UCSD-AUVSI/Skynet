@@ -65,7 +65,7 @@ TargetRecognizer::doRecognition()
 
 	double targetOrientationDegrees = calculateTargetOrientationDegrees();
 	
-	return nullptr; //gcnew TargetResult(letter, shape, targetOrientationDegrees);
+	return gcnew TargetResult(letter, shape, "", "", targetOrientationDegrees);
 }
 
 void 
@@ -80,6 +80,7 @@ TargetRecognizer::segmentShape()
 
 	if (filename != nullptr)
 		saveImage(shape, filename + "_a_shape.jpg");
+
 }
 
 bool 
