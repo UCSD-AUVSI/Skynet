@@ -25,7 +25,7 @@ namespace Vision
 {
 	ref class Saliency;
 	ref class DuplicateResolver;
-	ref class OCRWrapper;
+	ref class TargetRecognizer;
 
 	public ref struct Box
 	{
@@ -124,7 +124,7 @@ namespace Vision
 		System::Collections::Queue ^ frameQueue;
         DuplicateResolver			^ duplicateResolver;
         Saliency					^ saliency;
-		OCRWrapper					^ ocr;
+		TargetRecognizer			^ recognizer;
         System::Threading::Thread	^ runLoopThread;
         int width, height;
 		bool paused;

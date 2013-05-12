@@ -4,6 +4,7 @@
 #include "VisionUtil.h"
 #include "MasterHeader.h"
 //#include "OCRTrainer.h"
+#include "SystemSettings.h"
 #include <cv.h>
 #include <highgui.h>
 #include <stdio.h>

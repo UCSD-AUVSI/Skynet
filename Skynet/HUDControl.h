@@ -14,6 +14,7 @@ using namespace System::Drawing;
 
 #include "Delegates.h"
 #include "MasterHeader.h"
+#include "SystemSettings.h"
 
 namespace Skynet {
 
