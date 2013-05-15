@@ -1,8 +1,9 @@
+
 #pragma once
 #include "Tester.h"
 
 namespace Testing {
-	public ref class SaliencyTester : Tester {
+	public ref class PlaneWatcherTester : Tester {
 	public:
 		bool testCanFindTargetsInGoodImage();
 		bool testDoesNotFindTargetsInBadImage();

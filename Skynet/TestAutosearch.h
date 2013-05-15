@@ -1,10 +1,12 @@
-
 #pragma once
 #include "Tester.h"
 
 namespace Testing {
-	public ref class TestAutosearch: Tester {
-		void testCanGenerateMap();
-		void testCanMarkAreaAsSeen();
+	public ref class AutosearchTester: Tester {
+	public:
+		AutosearchTester();
+		bool testCanGenerateMap();
+		bool testCanMarkAreaAsSeen();
+		virtual bool runTests() override;
 	};
 }

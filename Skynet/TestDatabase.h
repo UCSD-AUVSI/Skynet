@@ -10,60 +10,72 @@ namespace Testing {
 
 	public ref class CandidateTester: Tester {
 	public:
-		void testInsertAndRetrieveCandidate();
-		void testUpdateCandidate();
-		void testDeleteCandidate();
-		void testGetAllCandidate();
-		void testGetCandidateById();
-		void testCanTransformIntoVerified();
-		void testCanTransformIntoUnverified();
-		void testToDialogData();
-		virtual void runTests() override;
+		CandidateTester();
+		bool testInsertAndRetrieveCandidate();
+		bool testUpdateCandidate();
+		bool testDeleteCandidate();
+		bool testGetAllCandidates();
+		bool testGetCandidateById();
+		bool testToVerified();
+		bool testToUnverified();
+		bool testToDialogData();
+		virtual bool runTests() override;
 	};
 
 	public ref class UnverifiedTester: Tester {
 	public:
-		void testInsertAndRetrieveUnverified();
-		void testUpdateUnverified();
-		void testDeleteUnverified();
-		void testGetAllUnverified();
-		void testGetUnverifiedById();
-		void testCanTransformIntoVerified();
-		void testApplyDialogData();
-		virtual void runTests() override;
+		UnverifiedTester();
+		bool testInsertAndRetrieveUnverified();
+		bool testUpdateUnverified();
+		bool testDeleteUnverified();
+		bool testGetAllUnverified();
+		bool testGetUnverifiedById();
+		bool testToVerified();
+		bool testToDialogData();
+		virtual bool runTests() override;
 	};
 	
 	public ref class VerifiedTester: Tester {
 	public:
-		void testInsertAndRetrieveVerified();
-		void testUpdateVerified();
-		void testDeleteVerified();
-		void testGetAllVerified();
-		void testGetVerifiedById();
-		virtual void runTests() override;
+		VerifiedTester();
+		bool testInsertAndRetrieveVerified();
+		bool testUpdateVerified();
+		bool testDeleteVerified();
+		bool testGetAllVerified();
+		bool testGetVerifiedById();
+		bool testToVerified();
+		bool testToDialogData();
+		virtual bool runTests() override;
 	};
 
 	public ref class GPSPositionTester: Tester {
 	public:
-		void testInsertAndRetrieveGPS();
-		void testUpdateGPS();
-		void testDeleteGPS();
-		virtual void runTests() override;
+		GPSPositionTester();
+		bool testInsertAndRetrieveGPS();
+		bool testUpdateGPS();
+		bool testDeleteGPS();
+		virtual bool runTests() override;
 	};
 
 	public ref class DescriptionTester: Tester {
 	public:
-		void testInsertAndRetrieveDescription();
-		void testUpdateDescription();
-		void testDeleteDescription();
-		void testApplyDialogData();
-		void testToDialogData();
-		virtual void runTests() override;
+		DescriptionTester();
+		bool testInsertAndRetrieveDescription();
+		bool testUpdateDescription();
+		bool testDeleteDescription();
+		bool testApplyDialogData();
+		bool testToDialogData();
+		virtual bool runTests() override;
 	};
 
 	public ref class DatabaseTester: Tester {
 	public:
-		virtual void runTests() override;
-
+		DatabaseTester();
+		CandidateTester^ candidateTester;
+		UnverifiedTester^ unverifiedTester;
+		VerifiedTester^ verifiedTester;
+		GPSPositionTester^ gpsPositionTester;
+		DescriptionTester^ descriptionTester;
+		virtual bool runTests() override;
 	};
 }

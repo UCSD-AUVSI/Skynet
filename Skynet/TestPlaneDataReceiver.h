@@ -3,13 +3,15 @@
 #include "Tester.h"
 
 namespace Testing {
-	public ref class TestPlaneDataReceiver : Tester {
-		void testInformsPlaneWatcher();
-		void testCanListenToDirectory();
-		void testCanGetImage();
-		void testCanLoadTelemetry();
-		void testCanRunSimulation();
-		void testImagenameToDataFilename();
-		void testCanExtractFilename();
+	public ref class PlaneDataReceiverTester : Tester {
+	public:
+		bool testInformsPlaneWatcher();
+		bool testCanListenToDirectory();
+		bool testCanGetImage();
+		bool testCanLoadTelemetry();
+		bool testCanRunSimulation();
+		bool testImagenameToDataFilename();
+		bool testCanExtractFilename();
+		virtual bool runTests() override;
 	};
 }
