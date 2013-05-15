@@ -37,8 +37,6 @@ SkynetController::SkynetController(Form1 ^ mainView):
 	cameraView = nullptr;
 	theWatcher = gcnew PlaneWatcher(this);
 	visionController = gcnew VisionController(this);
-	receiver = gcnew SimulatorPlaneDataReceiver("C:\\good_flight_images1", theWatcher);
-	
 }
 
 void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
@@ -556,4 +554,8 @@ try {
 	delete data;*/
 	// for testing:
 	//theDatabase->displayLastImageInCandidate();
+}
+
+void SkynetController::startSimulation(String^ folder){
+	receiver = gcnew SimulatorPlaneDataReceiver(folder, theWatcher);
 }

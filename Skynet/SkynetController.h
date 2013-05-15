@@ -111,6 +111,8 @@ namespace Skynet
 		{
 			this->simHandler = simHandler;
 		}
+
+		void startSimulation(System::String^ folder);
 		Simulator::SimHandler ^ getSimHandler() { return simHandler; }
 		System::String ^ imageNameForID(System::String ^ id);
 		Database::DatabaseConnection ^ getDatabase();
