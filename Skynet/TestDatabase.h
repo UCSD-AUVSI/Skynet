@@ -15,6 +15,9 @@ namespace Testing {
 		void testDeleteCandidate();
 		void testGetAllCandidate();
 		void testGetCandidateById();
+		void testCanTransformIntoVerified();
+		void testCanTransformIntoUnverified();
+		void testToDialogData();
 		virtual void runTests() override;
 	};
 
@@ -25,6 +28,8 @@ namespace Testing {
 		void testDeleteUnverified();
 		void testGetAllUnverified();
 		void testGetUnverifiedById();
+		void testCanTransformIntoVerified();
+		void testApplyDialogData();
 		virtual void runTests() override;
 	};
 	
@@ -40,14 +45,21 @@ namespace Testing {
 
 	public ref class GPSPositionTester: Tester {
 	public:
-		void testInsertAndRetrieveVerified();
-		void testUpdateVerified();
-		void testDeleteVerified();
-		void testGetAllVerified();
-		void testGetVerifiedById();
+		void testInsertAndRetrieveGPS();
+		void testUpdateGPS();
+		void testDeleteGPS();
 		virtual void runTests() override;
 	};
 
+	public ref class DescriptionTester: Tester {
+	public:
+		void testInsertAndRetrieveDescription();
+		void testUpdateDescription();
+		void testDeleteDescription();
+		void testApplyDialogData();
+		void testToDialogData();
+		virtual void runTests() override;
+	};
 
 	public ref class DatabaseTester: Tester {
 	public:

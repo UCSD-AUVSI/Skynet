@@ -103,6 +103,9 @@ namespace Database
 		bool Equals(GPSPositionRowData ^ object);
 	};
 
+	/**
+	 * TODO: This should be removed, it is not necessary.
+	 */
 	public ref struct LocationRowData
 	{
 		int loc_id;
@@ -143,6 +146,9 @@ namespace Database
 		bool Equals(LocationRowData ^ object);
 	};
 
+	/**
+	 * TODO: This should be removed, it is not necessary
+	 */
 	public ref struct TelemetryRowData
 	{
 		int telemetry_id;
