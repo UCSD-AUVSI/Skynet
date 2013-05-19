@@ -1132,7 +1132,7 @@ private: System::Void generateMapButton_click(System::Object^  sender, System::E
 			double latVal = Double::Parse(lat);
 			double lonVal = Double::Parse(lon);
 			list->Add(gcnew GPSCoord(latVal, lonVal));
-		} catch ( FormatException^ e ){}
+		} catch ( FormatException^ ){}
 	}
 
 	appController->startIntelligenceController(list->ToArray());
