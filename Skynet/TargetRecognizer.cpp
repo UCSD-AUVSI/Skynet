@@ -7,7 +7,7 @@
 #include "Auvsi_Recognize.h"
 #include "VisionUtil.h"
 #include "OCRWrapper.h"
-//#include "Color_Util.h"
+#include "ColorRecognition_Util.h"
 
 using namespace Vision;
 using namespace System;
@@ -61,11 +61,12 @@ TargetRecognizer::doRecognition()
 	segmentLetter();
 	String ^ letter = recognizeLetter();
 
-    String ^ color = "TODO";//recognizeColor(mColorImg->o());
+	String ^ shapeColor = recognizeColor(mColorImg->o(), mShapeImg->o());
+	String ^ letterColor = recognizeColor(mColorImg->o(), mLetterImg->o());
 
 	double targetOrientationDegrees = calculateTargetOrientationDegrees();
 	
-	return nullptr; //gcnew TargetResult(letter, shape, targetOrientationDegrees);
+	return gcnew TargetResult(letter, shape, shapeColor, letterColor, targetOrientationDegrees);
 }
 
 void 
@@ -80,6 +81,7 @@ TargetRecognizer::segmentShape()
 
 	if (filename != nullptr)
 		saveImage(shape, filename + "_a_shape.jpg");
+
 }
 
 bool 
@@ -147,86 +149,36 @@ TargetRecognizer::recognizeLetter(cv::Mat img)
 		return "" + letter;
 }
 
-/*
 String ^
-TargetRecognizer::recognizeColor(cv::Mat img)
+TargetRecognizer::recognizeColor(cv::Mat colorImg, cv::Mat img)
 {
-    return countColors(img);
+	float r_sum = 0, g_sum = 0, b_sum = 0;
+	int count = 0;
+
+	cv::Vec3b white(255, 255, 255);
+	for (int i = 0; i < img.rows; i++)
+	{
+		for (int j = 0; j < img.cols; j++)
+		{
+			cv::Vec3b pixel = img.at<cv::Vec3b>(i,j);
+
+			if (pixel == white)
+			{
+				cv::Vec3b coloredPixel = colorImg.at<cv::Vec3b>(i,j);
+
+				r_sum += coloredPixel.val[2];
+				g_sum += coloredPixel.val[1];
+				b_sum += coloredPixel.val[0];
+
+				++count;
+			}
+		}
+	}
+
+	int red = r_sum/count;
+	int green = g_sum/count;
+	int blue = b_sum/count;
+
+	String ^ color = gcnew String(ColorRecognition_Util::mapToColorName(red, green, blue).c_str());
+	return color;
 }
-
-String ^
-TargetRecognizer::countColors(cv::Mat img) {
-    std::vector<Color_Util::Pix> colors;
-    bool found = false;
-    for(int i = 0; i < img.size().height; i++) {
-        for(int j = 0; j < img.size().width; j++) {
-            cv::Vec3b current = img.at<cv::Vec3b>(i, j);
-
-            for(int k = 0; k < colors.size(); k++) {
-                if(colors[k].color == current) {
-                    colors[k].count++;
-                    found = true;
-                }
-            }
-
-            if(!found)
-                colors.push_back(Color_Util::Pix(current));
-
-            found = false;
-        }
-    }
-
-    return averageColors(colors);
-}
-
-String ^
-TargetRecognizer::averageColors(const std::vector<Color_Util::Pix>& colors) {
-    unsigned int bsum = 0;
-    unsigned int rsum = 0;
-    unsigned int gsum = 0;
-    int count = 0;
-    
-    // skip the first element since the most common element is the background
-    for(int i = 1; i < colors.size(); i++) {
-        bsum += colors[i].color.val[0];
-        gsum += colors[i].color.val[1];
-        rsum += colors[i].color.val[2];
-        ++count;
-    }
-
-    double average_red = rsum/count;
-    double average_green = gsum/count;
-    double average_blue = bsum/count;
-
-    return mapToName(average_red, average_green, average_blue);
-}
-
-String ^
-TargetRecognizer::mapToName(double avgRed, double avgGreen, double avgBlue) {
-    double avgHue, avgSat, avgLight;
-    Color_Util::toHSV(avgRed, avgGreen, avgBlue, avgHue, avgSat, avgLight);
-
-    std::vector<Color_Util::Color> colorDict;
-    Color_Util::setColorDict(colorDict);
-
-    double temp = std::numeric_limits<double>::max();
-    int index = 0;
-
-    for(int i = 0; i < colorDict.size(); i++) {
-        double hue, sat, light;
-        int red = colorDict[i].red;
-        int green = colorDict[i].green;
-        int blue = colorDict[i].blue;
-        Color_Util::toHSV(red, green, blue, hue, sat, light);
-
-        double temp2 = abs(hue-ahue) + abs(sat-asat) + abs(light-alight);
-
-        if(temp2 < temp) {
-            temp = temp2;
-            index = i;
-        }
-    }
-
-    return colorDict[index].name;
-}
-*/

@@ -18,6 +18,7 @@ public:
 	double xVelocity;
 	double yVelocity;
 	double zVelocity;
+	void setPosition(Intelligence::GPSCoord^ coord);
 	Intelligence::GPSCoord^ toGPSCoord();
 	ImageWithPlaneData(System::String ^ imageFilename, System::String ^data);
 	ImageWithPlaneData(ImageWithPlaneData^ other);

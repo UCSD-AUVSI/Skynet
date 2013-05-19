@@ -231,7 +231,7 @@ private: System::Windows::Forms::Label^  instructionLabel;
 			// shapeEntryLabel
 			// 
 			this->shapeEntryLabel->AutoSize = true;
-			this->shapeEntryLabel->Location = System::Drawing::Point(224, 620);
+			this->shapeEntryLabel->Location = System::Drawing::Point(217, 620);
 			this->shapeEntryLabel->Name = L"shapeEntryLabel";
 			this->shapeEntryLabel->Size = System::Drawing::Size(38, 13);
 			this->shapeEntryLabel->TabIndex = 12;

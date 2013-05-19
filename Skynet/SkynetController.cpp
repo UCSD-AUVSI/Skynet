@@ -8,6 +8,7 @@
 #include "Delegates.h"
 #include "SaveImage.h"
 #include "SimulatorPlaneDataReceiver.h"
+#include "GPSCoord.h"
 #include "Util.h"
 
 
@@ -36,8 +37,6 @@ SkynetController::SkynetController(Form1 ^ mainView):
 	cameraView = nullptr;
 	theWatcher = gcnew PlaneWatcher(this);
 	visionController = gcnew VisionController(this);
-	receiver = gcnew SimulatorPlaneDataReceiver("C:\\good_flight_images1", theWatcher);
-	
 }
 
 void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){

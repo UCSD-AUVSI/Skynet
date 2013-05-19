@@ -5,16 +5,9 @@
 using namespace std;
 using namespace System;
 
-#define NUM_GPS_DATA 100
-#define NUM_TELEM_DATA 100
-#define NUM_GIMBAL_DATA 100
-
-#define CAMERA_LATENCY 125
-
 namespace Intelligence
 {
-	ref class Autosearch;
-	ref class IntelligenceController;
+	ref struct GPSCoord;
 }
 
 ref struct ImageWithPlaneData;
@@ -30,6 +23,8 @@ namespace Communications
 	public:
 		PlaneWatcher(Skynet::SkynetController ^ skynetController);
 
+		void lockPosition(Intelligence::GPSCoord^ coordinate);
+		void unlockPosition();
 		void updateInfo(ImageWithPlaneData ^ data);
 		
 		double gimbalRollInDegrees();
@@ -38,6 +33,7 @@ namespace Communications
 		ImageWithPlaneData^ getState();
 
 	private:
+		Intelligence::GPSCoord^ lockedPosition;
 		ImageWithPlaneData^ state;
 		Skynet::SkynetController ^ const skynetController;
 	};

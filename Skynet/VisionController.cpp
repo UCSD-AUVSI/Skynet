@@ -12,6 +12,7 @@
 #include "ShapeTester.h"
 #include "LetterTester.h"
 #include "ShapeSegmentationTester.h"
+#include "TessWrapper.h"
 
 using namespace Vision;
 using namespace System;
@@ -47,7 +48,7 @@ VisionController::initImagingPathway()
 {
 	duplicateResolver = gcnew DuplicateResolver(skynetController);
 	saliency = gcnew Saliency(this);
-	ocr = gcnew OCRWrapper(this);
+	recognizer = gcnew TargetRecognizer();
 
 	/**
 	 * TIM: Put testing code here
@@ -159,7 +160,7 @@ VisionController::processSaliencyCandidate(CandidateRowData^ candidate)
 			return false;
 		}
 	}
-	TargetResult ^ ocrData = ocr->recognizeImage(cv::imread(managedToSTL(candidate->imageName)));
+	TargetResult ^ ocrData = recognizer->recognizeTarget(cv::imread(managedToSTL(candidate->imageName)));
 
 	//// handle data
 	unverified->description->shape = ocrData->shape;

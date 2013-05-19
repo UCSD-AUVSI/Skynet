@@ -17,6 +17,9 @@ PlaneWatcher::PlaneWatcher(Skynet::SkynetController^ skynetController): skynetCo
 void PlaneWatcher::updateInfo (ImageWithPlaneData ^ data) {
 	if ( data != nullptr && skynetController != nullptr){
 		state = data;
+		if(lockedPosition) {
+			state->setPosition(lockedPosition);
+		}
 		skynetController->processPlaneData(data);
 	}
 }
@@ -37,4 +40,14 @@ double PlaneWatcher::gimbalRollInDegrees()
 double PlaneWatcher::gimbalPitchInDegrees()
 {
 	return state->gimbalPitch;
+}
+
+void PlaneWatcher::lockPosition(GPSCoord^ position)
+{
+	lockedPosition = position;
+}
+
+void PlaneWatcher::unlockPosition()
+{
+	lockedPosition = nullptr;
 }

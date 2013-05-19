@@ -8,10 +8,12 @@
 #include "GeoReference.h"
 #include "Util.h"
 #include "MasterHeader.h"
+#include "SystemSettings.h"
 
 
 #ifdef SALIENCY_ENABLED
 #include "../SalientGreenCUDA/SalientGreenGPU.H"
+//#using<SalientGreenCUDA.dll>
 #endif
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -32,6 +34,10 @@ using namespace Communications;
 using namespace System::Threading;
 using namespace Util;
 using namespace System;
+
+#ifdef SALIENCY_ENABLED
+sg::SalientGreenGPU green; // global variable, suck it
+#endif
 
 cv::Mat testImage;
 Saliency::Saliency(VisionController^ visionController): 
@@ -54,7 +60,7 @@ void Saliency::runTest()
 	runTestOnImageNamed("C:\\Users\\ucsd_auvsi\\Desktop\\saliency_test2.jpg");
 }
 
-void Saliency::runTestOnImageNamed(String ^ filename)
+void Saliency::runTestOnImageNamed(System::String ^ filename)
 {
 	using namespace Util;
 
@@ -79,7 +85,7 @@ void Saliency::runTestOnImageNamed(String ^ filename)
 cv::Mat Saliency::convertImageForSaliency(cv::Mat image) {
 	const double widthRatio = Saliency::MAX_IMAGE_WIDTH / (double)image.cols;
 	const double heightRatio = Saliency::MAX_IMAGE_HEIGHT / (double)image.rows;
-	const double ratio = Math::Min(widthRatio, heightRatio);
+	const double ratio = System::Math::Min(widthRatio, heightRatio);
 	if ( ratio < 1.0 ) {
 		cv::Mat result;
 		cv::resize(image,result,cv::Size(0,0),ratio,ratio);
@@ -321,13 +327,13 @@ Saliency::analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool debug
 		cv::cvtColor(blobImg,blobImg,CV_BGR2RGB);
 
 		if (debug){
-			String ^ path = "C:\\Saliency_Test_Output\\Image"+analyzeframe+"_"+i+".bmp";
+			System::String ^ path = "C:\\Saliency_Test_Output\\Image"+analyzeframe+"_"+i+".bmp";
 			cv::imwrite(managedToSTL(path),blobImg);
 		}
 		else
 		{
-			String ^imageName =  frameCount + "_" + i + ".bmp";
-			String ^path = HTTP_SERVER_TARGET_PATH + imageName;
+			System::String ^imageName =  frameCount + "_" + i + ".bmp";
+			System::String ^path = HTTP_SERVER_TARGET_PATH + imageName;
 
 			CandidateRowData ^ candidateData = gcnew CandidateRowData(state,leftCorner,topCorner,blobWidth,blobHeight);
 			candidateData->imageName = path;
@@ -337,7 +343,7 @@ Saliency::analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool debug
 			try {
 				visionController->processSaliencyCandidate(candidateData);
 			}
-			catch (Exception ^ e) {		
+			catch (System::Exception ^ e) {		
 				System::Diagnostics::Trace::WriteLine( "WARNING: Saliency exception: " + e);
 			}
 

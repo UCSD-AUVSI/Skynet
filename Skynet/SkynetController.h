@@ -64,6 +64,9 @@ namespace Skynet
 
 		void exportData(System::String ^ basePath);
 
+		void lockPosition(Intelligence::GPSCoord^ coordinate);
+		void unlockPosition();
+
 		void loadAllTablesFromDisk();
 		void loadCandidateTableFromDisk();
 		void loadVerifiedTableFromDisk();
@@ -101,6 +104,8 @@ namespace Skynet
 		{
 			this->simHandler = simHandler;
 		}
+
+		void startSimulation(System::String^ folder);
 		Simulator::SimHandler ^ getSimHandler() { return simHandler; }
 		System::String ^ imageNameForID(System::String ^ id);
 		Database::DatabaseConnection ^ getDatabase();

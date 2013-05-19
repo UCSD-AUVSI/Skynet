@@ -23,6 +23,8 @@
 #include "PlaneDataReceiver.h"
 #include "ImageWithPlaneData.h"
 #include "MapView.h"
+#include "GPSLocationForm.h"
+
 #include <math.h>
 #include "Tester.h"
 
@@ -212,9 +214,6 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBox
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn3;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_latitude;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_longitude;
-
-
-
 private: System::Windows::Forms::Button^  button5;
 
 	public:
@@ -314,6 +313,9 @@ private: System::Windows::Forms::Button^  button5;
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->toolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->lockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->unlockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->runSimulationDataToolStripItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->databaseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -369,7 +371,8 @@ private: System::Windows::Forms::Button^  button5;
 			// 
 			// toolStripMenuItem1
 			// 
-			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->exportDataToolStripMenuItem, 
+			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->exportDataToolStripMenuItem, 
+				this->lockPlaneCoordinatesToolStripMenuItem, this->unlockPlaneCoordinatesToolStripMenuItem, this->runSimulationDataToolStripItem, 
 				this->toolStripSeparator3, this->exitToolStripMenuItem});
 			this->toolStripMenuItem1->Name = L"toolStripMenuItem1";
 			this->toolStripMenuItem1->Size = System::Drawing::Size(37, 20);
@@ -378,20 +381,41 @@ private: System::Windows::Forms::Button^  button5;
 			// exportDataToolStripMenuItem
 			// 
 			this->exportDataToolStripMenuItem->Name = L"exportDataToolStripMenuItem";
-			this->exportDataToolStripMenuItem->Size = System::Drawing::Size(143, 22);
+			this->exportDataToolStripMenuItem->Size = System::Drawing::Size(210, 22);
 			this->exportDataToolStripMenuItem->Text = L"Export &Data...";
 			this->exportDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::exportDataToolStripMenuItem_Click);
+			// 
+			// lockPlaneCoordinatesToolStripMenuItem
+			// 
+			this->lockPlaneCoordinatesToolStripMenuItem->Name = L"lockPlaneCoordinatesToolStripMenuItem";
+			this->lockPlaneCoordinatesToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->lockPlaneCoordinatesToolStripMenuItem->Text = L"Lock Plane Coordinates";
+			this->lockPlaneCoordinatesToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::lockPlaneCoordinatesToolStripMenuItem_Click);
+			// 
+			// unlockPlaneCoordinatesToolStripMenuItem
+			// 
+			this->unlockPlaneCoordinatesToolStripMenuItem->Name = L"unlockPlaneCoordinatesToolStripMenuItem";
+			this->unlockPlaneCoordinatesToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->unlockPlaneCoordinatesToolStripMenuItem->Text = L"Unlock Plane Coordinates";
+			this->unlockPlaneCoordinatesToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::unlockPlaneCoordinatesToolStripMenuItem_Click);
+			// 
+			// runSimulationDataToolStripItem
+			// 
+			this->runSimulationDataToolStripItem->Name = L"runSimulationDataToolStripItem";
+			this->runSimulationDataToolStripItem->Size = System::Drawing::Size(210, 22);
+			this->runSimulationDataToolStripItem->Text = L"Run Simulation";
+			this->runSimulationDataToolStripItem->Click += gcnew System::EventHandler(this, &Form1::runSimulationDataToolStripItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this->toolStripSeparator3->Name = L"toolStripSeparator3";
-			this->toolStripSeparator3->Size = System::Drawing::Size(140, 6);
+			this->toolStripSeparator3->Size = System::Drawing::Size(207, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
 			this->exitToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Alt | System::Windows::Forms::Keys::F4));
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(143, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(210, 22);
 			this->exitToolStripMenuItem->Text = L"&Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::exitToolStripMenuItem_Click);
 			// 
@@ -1155,6 +1179,19 @@ public: System::Void displayPathfinderImage(String^ pathfinderImageFilename){
 
 private: System::Void targetVisibleButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			appController->saveCurrentFrameAsUnverified();		 
+		 }
+private: System::Void lockPlaneCoordinatesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			(gcnew GPSLocationForm(appController))->Show();
+		 }
+private: System::Void unlockPlaneCoordinatesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 appController->unlockPosition();
+		 }
+private: System::Void runSimulationDataToolStripItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 FolderBrowserDialog^ fileDialog = gcnew FolderBrowserDialog();
+			 if ( fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			 {
+				 appController->startSimulation(fileDialog->SelectedPath);
+			 }
 		 }
 };
 }
