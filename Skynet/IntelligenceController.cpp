@@ -2,15 +2,19 @@
 #include "IntelligenceController.h"
 #include "../Pathfinding/Autosearch.h"
 #include "SkynetController.h"
+#include "PlaneWatcher.h"
 #include "MasterHeader.h"
 #include "ImageWithPlaneData.h"
 
-using namespace Intelligence;
 using namespace System;
+using namespace System::Drawing;
 using namespace System::Threading;
 using namespace System::Collections::Generic;
 using namespace System::Linq;
 using namespace System::Diagnostics;
+using namespace Intelligence;
+using namespace Skynet;
+
 
 ProcessStartInfo^ IntelligenceController::getPathfinderProcessInfo()
 {
@@ -21,52 +25,61 @@ ProcessStartInfo^ IntelligenceController::getPathfinderProcessInfo()
 	return processInfo;
 }
 
-String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInfo, GPSCoord^ planeData, array<String^>^ fieldBoundaries) {
+void IntelligenceController::processPlaneData(ImageWithPlaneData^ planeData){
+	autosearch->update(planeData);
+}
+
+String^ IntelligenceController::getPathfinderResult(ProcessStartInfo^ processInfo, GPSCoord^ planeData, array<GPSCoord^>^ fieldBoundaries) {
+	return "12.3456, 104.2132\n12.345214, 93.3490\n";
 	Diagnostics::Process ^finder = Diagnostics::Process::Start(processInfo);
-	for each (String^ line in fieldBoundaries){
+	for each (GPSCoord^ line in fieldBoundaries){
 		finder->StandardInput->WriteLine(line);
 	}
+	finder->StandardInput->WriteLine(planeData);
 	finder->StandardInput->Close();
+
 	return finder->StandardOutput->ReadToEnd();
 }
 
-IntelligenceController::IntelligenceController(array<String^>^ fieldBoundaries, SkynetController^ skynetController,ImageWithPlaneData ^ data):
+IntelligenceController::IntelligenceController(array<GPSCoord^>^ fieldBoundaries, SkynetController^ skynetController):
 	skynetController(skynetController)
 {
-	autosearch = createAutosearch(fieldBoundaries);
-	autosearch->startUpdaterThread();
+	autosearch = gcnew Autosearch(fieldBoundaries, this);
 	startPathfinderThread(fieldBoundaries);
 }
 
-Autosearch^ IntelligenceController::createAutosearch(array<String^>^ fieldBoundaries) {
-	return gcnew Autosearch(fieldBoundaries, this);
-}
-
-void IntelligenceController::startPathfinderThread(array<String^>^ fieldBoundaries) {
+void IntelligenceController::startPathfinderThread(array<GPSCoord^>^ fieldBoundaries) {
 	ParameterizedThreadStart^ threadStart = gcnew ParameterizedThreadStart(this, &IntelligenceController::doPathfinding);
 	Thread^ thread = gcnew Thread(threadStart);
 	thread->Start(fieldBoundaries);
 }
 
 void IntelligenceController::doPathfinding(Object^ fieldBoundariesObj) {
-	// TODO: Fix
-	/*
-	array<String^>^ fieldBoundaries = (array<String^>^) fieldBoundariesObj;
+	array<GPSCoord^>^ fieldBoundaries = (array<GPSCoord^>^) fieldBoundariesObj;
 	ProcessStartInfo^ pathfinderProcess = getPathfinderProcessInfo();
+	GPSCoord^ planeCoord = skynetController->getPlaneWatcher()->getState()->toGPSCoord();
 	String^ pathfinderResult = getPathfinderResult(pathfinderProcess, planeCoord, fieldBoundaries);
 	handlePathfinderResult(pathfinderResult);
-	*/
+}
+
+array<GPSCoord^>^ IntelligenceController::parsePathfinderResultString(String^ result){
+	List<GPSCoord^>^ list = gcnew List<GPSCoord^>();
+	array<String^>^ lines = result->Split((gcnew String("\n"))->ToCharArray(),StringSplitOptions::RemoveEmptyEntries);
+	for each(String^ line in lines){
+		array<String^>^ latAndLon = line->Split(',');
+		double lat = Double::Parse(latAndLon[0]);
+		double lon = Double::Parse(latAndLon[1]);
+		list->Add(gcnew GPSCoord(lat, lon));
+	}
+	return list->ToArray();
 }
 
 void IntelligenceController::handlePathfinderResult(String^ result) {
-	skynetController->handlePathfinderResult(result);
+	array<GPSCoord^>^ coords = parsePathfinderResultString(result);
+	IntelligenceResult^ intelligence = gcnew IntelligenceResult(coords, "C:/output.jpg");
+	skynetController->handleIntelligenceResult(intelligence);
 }
 
-void IntelligenceController::setPlaneWatcher(PlaneWatcher^ planeWatcher)
-{
-    autosearch->setPlaneWatcher(planeWatcher);
-}
-
-void IntelligenceController::displayAutosearchImage(Drawing::Bitmap^ image){
-	skynetController->displayAutosearchImage(image);
+void IntelligenceController::updateAutosearchImage(Image^ image) {
+	skynetController->updateAutosearchImage(image);
 }

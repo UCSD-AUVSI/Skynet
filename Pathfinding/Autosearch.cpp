@@ -8,9 +8,11 @@
 #include "../Skynet/TelemetryStructures.h"
 #include <limits.h>
 #include <math.h>
-#define MAX_MARKABLE_AREA 15000
 #include "Autosearch.h"
 #using <System.Drawing.dll>
+#define OUT_OF_BOUNDS 0
+#define NEEDS_TO_BE_SEEN 1
+#define SEEN 2
 using namespace System;
 using namespace System::Threading;
 using namespace System::IO;
@@ -114,7 +116,6 @@ Autosearch::Autosearch(array<GPSCoord ^> ^coords,Intelligence::IntelligenceContr
 
 void Autosearch::construct(array<GPSCoord ^> ^coords, Intelligence::IntelligenceController^ controller){
 	intelligenceController = controller;
-	planeWatcher = controller->skynetController->getPlaneWatcher();
 	BORDER = GPSCoord::metersToGPS(3); // Map border is three meters.
 
 	// Get the boundaries of the map (GPS)
@@ -136,11 +137,12 @@ void Autosearch::construct(array<GPSCoord ^> ^coords, Intelligence::Intelligence
 	map = gcnew array<int>(height*width);
 	for(int y = 0; y < height; y++)
 		for (int x = 0; x < width; x++)
-				map[y * width + x] = 0;
+				map[y * width + x] = OUT_OF_BOUNDS;
 
 
 	// Outline the area of the map that needs to be searched
-	markPolygon(coords,1);
+	markPolygon(coords,NEEDS_TO_BE_SEEN);
+	updateImage();
 }
 
 /** searchAround */
@@ -154,7 +156,7 @@ bool Autosearch::searchAround(int x, int y, int size)
 				{
                 for (int i = minX; i < maxX; i++)
 								{
-                                if ( map[j * width + i] == NOT_SEEN)
+                                if ( map[j * width + i] == NEEDS_TO_BE_SEEN)
                                         return true;
 								}
 				}
@@ -349,9 +351,6 @@ void Autosearch::markPolygon(array<GPSCoord^> ^coords, short value)
 		aCoords[i] = gpsToArrayCoord(coords[i]);
 	}
 
-	if (value == 2 && area(aCoords) > MAX_MARKABLE_AREA){
-		return;
-	}
 	// Get the center of the polygon
 	ArrayCoord ^center = gcnew ArrayCoord(ArrayCoord::getCenterCoord(aCoords));
 	if ( center->x < 0 || center->x >= width || center->y < 0 || center->y >= height){
@@ -414,106 +413,32 @@ void Autosearch::updateImage()
 	for (int y = 0; y < height; y++){
 		for (int x  = 0; x < width; x++){
 			switch(map[y * width + x]){
-			case 0:
-				// Does not need to be seen
+			case OUT_OF_BOUNDS:
 				image->SetPixel(x,height - y - 1,Color::DimGray);
 				break;
-			case 1:
-				// Needs to be seen
+			case NEEDS_TO_BE_SEEN:
 				image->SetPixel(x,height - y - 1,Color::White);
 				break;
-			case 2:
-				// Seen
+			case SEEN:
 				image->SetPixel(x, height - y - 1,Color::Black);
 				break;
 			}
 		}
 	}
-	if (intelligenceController != nullptr)
-	{
-		intelligenceController->displayAutosearchImage(image);
-	}
-	else
-	{
-		PRINT("ERROR: in Autosearch::updateImage(): intelligenceController is null");
-	}
+	intelligenceController->updateAutosearchImage(image);
 }
 
-void Autosearch::queryCameraAndUpdateMapAndImage()
-{
-	try{
-		while (!shouldDie)
-		{
-			Thread::Sleep(500);
-
-			if (planeWatcher == nullptr)
-			{
-				PRINT("ERROR in Autosearch::queryCameraAndUpdateMapAndImage() planeWatcher is null");
-				continue;
-			}
-
-			ImageWithPlaneData ^ planeState = planeWatcher->getState();
-
-			double BLLat, BLLon, BRLat, BRLon, TRLat, TRLon, TLLat, TLLon;
-			GeoReference::getCorners(planeState, BLLat,  BLLon,  BRLat,  BRLon,  TRLat,  TRLon, TLLat,  TLLon);
-			array<GPSCoord ^> ^ coords = gcnew array<GPSCoord ^>(4);
-			coords[0] = gcnew GPSCoord(BLLat,BLLon);
-			coords[1] = gcnew GPSCoord(BRLat,BRLon);
-			coords[2] = gcnew GPSCoord(TRLat,TRLon);
-			coords[3] = gcnew GPSCoord(TLLat,TLLon);
-			markPolygon(coords,2);
-			updateImage();
-
-		}
-	}catch(Exception ^e){
-		PRINT("EXCEPTION IN Autosearch .... ");
-		throw e;
-	}
-	PRINT("Autosearch updater thread ended");
+void Autosearch::update(ImageWithPlaneData^ planeState) {
+	double BLLat, BLLon, BRLat, BRLon, TRLat, TRLon, TLLat, TLLon;
+	GeoReference::getCorners(planeState, BLLat,  BLLon,  BRLat,  BRLon,  TRLat,  TRLon, TLLat,  TLLon);
+	array<GPSCoord ^> ^ coords = gcnew array<GPSCoord ^>(4);
+	coords[0] = gcnew GPSCoord(BLLat,BLLon);
+	coords[1] = gcnew GPSCoord(BRLat,BRLon);
+	coords[2] = gcnew GPSCoord(TRLat,TRLon);
+	coords[3] = gcnew GPSCoord(TLLat,TLLon);
+	markPolygon(coords,2);
+	updateImage();
 }
-
-//array<array<int>^>^ getPositionsWithValue(int value){
-//	ArrayList^ coordList = gcnew ArrayList(20);
-//	for (int y = 0; y < height; y++){
-//		for (int x  = 0; x < width; x++){
-//			if (map[y * width + x] == value){
-//				coords->Add(array<int>{x,y});
-//			}
-//		}
-//	}
-//	array<array<int>^>^ coords = gcnew array<array<int>^
-//	return Enumurable::ToArray(coords);
-//}
-
-
-void Autosearch::startUpdaterThread()
-{
-	updaterThread = gcnew Thread(gcnew ThreadStart(this,&Autosearch::queryCameraAndUpdateMapAndImage));
-	updaterThread->Name = "Autosearch Updater Thread";
-	updaterThread->Start();
-}
-
-void Autosearch::abortUpdaterThread()
-{
-	shouldDie = true;
-}
-
-/**
- * Saves the image to a file
- *
- * @param filename	The name of the file that this image will be saved to.
- */
-//void Autosearch::saveImage(String ^ filename)
-//{
-//	// Save the bitmap
-//	image->Save(filename);
-//}
-
-void Autosearch::setPlaneWatcher (PlaneWatcher ^ planeWatcher)
-{
-	this->planeWatcher = planeWatcher;
-}
-
 
 
 /////////////////// BELOW HERE GOOD //////////////////////

@@ -6,6 +6,8 @@
 #include "PlaneDataReceiver.h"
 #include "Util.h"
 
+using namespace System;
+
 ImageWithPlaneData::ImageWithPlaneData(ImageWithPlaneData^ other) :
 	imageFilename(other->imageFilename),
 	image(other->image),

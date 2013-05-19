@@ -12,8 +12,14 @@ namespace Database
 	ref struct VerifiedRowData;
 }
 
+namespace Intelligence 
+{
+	ref struct GPSCoord;
+}
+
 namespace Delegates
 {
+	public delegate void gpsCoordArrayToVoid(array<Intelligence::GPSCoord^>^);
 	public delegate void twointThreedoubleToVoid( int a, int b, double c, double d, double e );
 	public delegate void dataGridViewRowToVoid( System::Windows::Forms::DataGridViewRow ^ row );
 	public delegate void voidToVoid( void );

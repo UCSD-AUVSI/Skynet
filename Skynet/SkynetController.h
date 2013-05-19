@@ -10,6 +10,7 @@ namespace Intelligence
 	ref struct GPSCoord;
 	ref class Autosearch;
 	ref class IntelligenceController;
+	ref struct IntelligenceResult;
 }
 
 ref class PlaneDataReceiver;
@@ -46,14 +47,15 @@ namespace Vision
 namespace Skynet
 {
 	ref class Form1;
-	
+
 	public ref class SkynetController : public SkynetControllerInterface
 	{
 	public:
 		SkynetController(Form1 ^ mainView);
 		~SkynetController(void);
 
-		void startIntelligenceController(array<System::String^> ^fieldBoundaries);
+		void startIntelligenceController(array<Intelligence::GPSCoord^> ^fieldBoundaries);
+		Intelligence::IntelligenceController ^ getIntelligenceController();
 		void comeAlive(); // called when the GUI is all set up, and Skynet is ready to begin flight ops
 
 		void setCameraView(System::Windows::Forms::PictureBox ^ cameraView);
@@ -68,15 +70,12 @@ namespace Skynet
 		void updateVerifiedTableFromDatabaseAtInterval(Object ^ interval);
 		void loadUnverifiedTableFromDisk();
 		void clearAllTables();
-		//void restartIntelligenceController(array<System::String ^>^ fieldBoundaries);
-		//void createIntelligenceController(array<System::String^>^ fieldBoundaries);
 		System::String^ getTabDelimitedVerifiedTargetDataForSubmission(array<Database::VerifiedRowData^>^ verifiedRows);
 
 		System::String ^ saveCurrentFrameAsImage();
 		System::String ^ saveCurrentFrameAsImage(System::String ^ basePath);
 
 		virtual void saveCurrentFrameAsUnverified();	 // call this anywhere, any thread, any time
-		void saveUnverified(float * data, int width, int height, int numChannels, int originX, int originY, ImageWithPlaneData ^ stateOfPlane);
 		void addUnverifiedToGUITable(Object ^ theObject);
 
 		void addCandidate(Database::CandidateRowData ^ data);
@@ -91,19 +90,13 @@ namespace Skynet
 		void removeUnverified(System::String ^ id);
 		void removeVerifiedTargetForID(System::String ^ id);
 		void removeTarget(Database::TargetRowData^ target);
-		void displayAutosearchImage(System::Drawing::Image ^ image);
-		void displayPathfinderImage(System::Drawing::Image ^ image);
-		void pathfinderComplete(System::Drawing::Image ^ image);
+		void updateAutosearchImage(System::Drawing::Image ^ image);
 		void processPlaneData(ImageWithPlaneData^ imageWithPlaneData);
-
-		void handlePathfinderResult(System::String^ result);
 
 		array<Database::UnverifiedRowData ^>^ getAllUnverified();
 		Database::CandidateRowData ^ candidateWithID(System::String ^ id);
 		Database::UnverifiedRowData ^ unverifiedWithID(System::String ^ id);
 		Database::VerifiedRowData ^ verifiedWithID(System::String ^ id);
-		// Intelligence::Autosearch ^ getAutosearch();
-		//Intelligence::IntelligenceController ^ getIntelligenceController();
 		void setSimHandler(Simulator::SimHandler ^ simHandler)
 		{
 			this->simHandler = simHandler;
@@ -121,6 +114,8 @@ namespace Skynet
 		bool guiHasData;
 		bool appIsAlive;
 		int frameCount;
+
+		void handleIntelligenceResult(Intelligence::IntelligenceResult^ result);
 
 
 	protected:

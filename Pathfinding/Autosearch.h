@@ -1,7 +1,6 @@
 /* Autosearch Header File */
 #pragma once
 #define NOT_SEEN 1
-using namespace System;
 
 namespace Skynet
 {
@@ -43,40 +42,32 @@ namespace Intelligence {
 	{
 	public:
 		array<int>^ map;
-		Autosearch(String ^ filename,Intelligence::IntelligenceController^ controller);
-		Autosearch(array<String^> ^ coords,Intelligence::IntelligenceController^ controller);
-		Autosearch(array<GPSCoord ^> ^coords,Intelligence::IntelligenceController^ controller);
-		void updateImage();
-		void queryCameraAndUpdateMapAndImage();
-		//void saveImage(String^ filename);
-		void setPlaneWatcher(Communications::PlaneWatcher ^ planeWatcher);
-		void Autosearch::markPolygon(array<GPSCoord ^> ^coords, short value);
-		void Autosearch::startUpdaterThread();
-		void Autosearch::abortUpdaterThread();
-		String^ toString();
-		static double area(array<ArrayCoord ^> ^coords);
+		Autosearch(System::String ^ filename,Intelligence::IntelligenceController^ controller);
+		Autosearch(array<System::String^> ^ coords,Intelligence::IntelligenceController^ controller);
+		Autosearch(array<Intelligence::GPSCoord ^> ^coords,Intelligence::IntelligenceController^ controller);
+		void update(ImageWithPlaneData^ data);
+		void Autosearch::markPolygon(array<Intelligence::GPSCoord ^> ^coords, short value);
+		System::String^ toString();
+		static double area(array<Intelligence::ArrayCoord ^> ^coords);
 
 		bool searchAround(int x, int y, int size);
-		GPSCoord^ arrayCoordToGPS(ArrayCoord^ coord);
+		Intelligence::GPSCoord^ arrayCoordToGPS(Intelligence::ArrayCoord^ coord);
 		int width,height;
 
 	private:
-		DateTime ^ lastImageUpdateTime;		
-		//Drawing::Bitmap^ image;
 		Intelligence::IntelligenceController ^ intelligenceController;
 		Communications::PlaneWatcher ^ planeWatcher;
 
-		ArrayCoord^ gpsToArrayCoord(GPSCoord^ coord);
-		array<double>^ getBounds(array<GPSCoord ^> ^coords);
+		Intelligence::ArrayCoord^ gpsToArrayCoord(Intelligence::GPSCoord^ coord);
+		array<double>^ getBounds(array<Intelligence::GPSCoord ^> ^coords);
 
-		void construct(array<GPSCoord ^> ^coords, Intelligence::IntelligenceController^ controller);
-		void connectLines(array<GPSCoord^> ^coords, short value);
-		void drawLine(ArrayCoord ^ start, ArrayCoord ^ stop, short  value);
+		void construct(array<Intelligence::GPSCoord ^> ^coords, Intelligence::IntelligenceController^ controller);
+		void connectLines(array<Intelligence::GPSCoord^> ^coords, short value);
+		void drawLine(Intelligence::ArrayCoord ^ start, Intelligence::ArrayCoord ^ stop, short  value);
 		void fill(int x, int y, short value);
 		double bottomBound, leftBound, topBound,rightBound,widthGPS,heightGPS;
 		double widthMeters, heightMeters, BORDER;
-		bool shouldDie;
-		System::Threading::Thread ^ updaterThread;
+		void updateImage();
 	};
 
 }
