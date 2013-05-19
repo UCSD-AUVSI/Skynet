@@ -5,10 +5,12 @@
 #include "GeoReference.h"
 #include "PlaneDataReceiver.h"
 #include "ImageWithPlaneData.h"
+#include "GPSCoord.h"
 
 using namespace Communications;
 using namespace msclr;
 using namespace System::Runtime::InteropServices;
+using namespace Intelligence;
 
 #define MAX_INT_32 2147483647
 

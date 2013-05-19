@@ -24,9 +24,9 @@
 #include "ImageWithPlaneData.h"
 #include "MapView.h"
 #include "GPSLocationForm.h"
+#include "GPSCoord.h"
 
 #include <math.h>
-#include "Tester.h"
 
 #define GREEN_IMAGE_PATH (DROPBOX_DIR + "Skynet\\Skynet\\greenled.png")
 #define RED_IMAGE_PATH (DROPBOX_DIR + "Skynet\\Skynet\\redled.png")
@@ -57,6 +57,7 @@ namespace Skynet {
 	using namespace System::IO;
 	using namespace System::Text;
 	using namespace System::Linq;
+	using namespace Intelligence;
 
 
 	const int COL_ID = 0;
@@ -214,6 +215,10 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBox
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBoxColumn3;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_latitude;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_longitude;
+private: System::Windows::Forms::ToolStripMenuItem^  lockPlaneCoordinatesToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  runSimulationDataToolStripItem;
+
+private: System::Windows::Forms::ToolStripMenuItem^  unlockPlaneCoordinatesToolStripMenuItem;
 private: System::Windows::Forms::Button^  button5;
 
 	public:

@@ -1,3 +1,5 @@
+#pragma once
+
 namespace Intelligence {
 
 	public ref struct GPSCoord

@@ -9,6 +9,7 @@
 #include <limits.h>
 #include <math.h>
 #include "Autosearch.h"
+#include "../GPSCoord.h"
 #using <System.Drawing.dll>
 #define OUT_OF_BOUNDS 0
 #define NEEDS_TO_BE_SEEN 1

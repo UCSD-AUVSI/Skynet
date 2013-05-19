@@ -45,7 +45,18 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 	}
 	form1View->displayPlaneData(imageWithPlaneData);
 }
+void SkynetController::startSimulation(String^ folder){
+	receiver = gcnew SimulatorPlaneDataReceiver(folder, theWatcher);
+}
+void SkynetController::lockPosition(Intelligence::GPSCoord^ coordinate)
+{
+	theWatcher->lockPosition(coordinate);
+}
 
+void SkynetController::unlockPosition()
+{
+	theWatcher->unlockPosition();
+}
 void SkynetController::startIntelligenceController(array<GPSCoord^>^ fieldBoundaries)
 {
 	intelligenceController = gcnew IntelligenceController(fieldBoundaries, this);

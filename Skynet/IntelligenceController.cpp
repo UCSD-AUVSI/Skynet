@@ -5,6 +5,7 @@
 #include "PlaneWatcher.h"
 #include "MasterHeader.h"
 #include "ImageWithPlaneData.h"
+#include "GPSCoord.h"
 
 using namespace System;
 using namespace System::Drawing;

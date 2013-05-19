@@ -30,6 +30,7 @@ namespace Intelligence
 		IntelligenceController(array<Intelligence::GPSCoord^>^ fieldBoundaries, Skynet::SkynetController ^ skynetController);
 		void updateAutosearchImage(System::Drawing::Image^ image);
 		void processPlaneData(ImageWithPlaneData^ planeData);
+		Skynet::SkynetController ^ skynetController;
 	private:
 		System::Diagnostics::ProcessStartInfo^ getPathfinderProcessInfo();
 		System::String^ getPathfinderResult(System::Diagnostics::ProcessStartInfo^ processInfo, Intelligence::GPSCoord^ planeData, array<Intelligence::GPSCoord^>^ coordinates);
@@ -38,7 +39,6 @@ namespace Intelligence
 		void handlePathfinderResult(System::String^ result);
 		array<Intelligence::GPSCoord^>^ parsePathfinderResultString(System::String^ result);
         
-		Skynet::SkynetController ^ skynetController;
 		Intelligence::Autosearch ^ autosearch;
     };
 }
