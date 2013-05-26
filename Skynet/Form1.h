@@ -6,10 +6,7 @@
 #include "Database.h"
 #include "Delegates.h"
 
-#ifndef OPENCV_DISABLED
 #include "GeoReference.h"
-#endif
-
 #include "TargetDialog.h"
 #include "TargetsForm.h"
 #include "HUDControl.h"
@@ -219,6 +216,7 @@ private: System::Windows::Forms::ToolStripMenuItem^  lockPlaneCoordinatesToolStr
 private: System::Windows::Forms::ToolStripMenuItem^  runSimulationDataToolStripItem;
 
 private: System::Windows::Forms::ToolStripMenuItem^  unlockPlaneCoordinatesToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  startMissionToolStripMenuItem;
 private: System::Windows::Forms::Button^  button5;
 
 	public:
@@ -312,9 +310,9 @@ private: System::Windows::Forms::Button^  button5;
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle5 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle6 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->toolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -356,6 +354,7 @@ private: System::Windows::Forms::Button^  button5;
 			this->dataGridViewTextBoxColumn3 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->startMissionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
@@ -376,9 +375,9 @@ private: System::Windows::Forms::Button^  button5;
 			// 
 			// toolStripMenuItem1
 			// 
-			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->exportDataToolStripMenuItem, 
-				this->lockPlaneCoordinatesToolStripMenuItem, this->unlockPlaneCoordinatesToolStripMenuItem, this->runSimulationDataToolStripItem, 
-				this->toolStripSeparator3, this->exitToolStripMenuItem});
+			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {this->exportDataToolStripMenuItem, 
+				this->lockPlaneCoordinatesToolStripMenuItem, this->unlockPlaneCoordinatesToolStripMenuItem, this->startMissionToolStripMenuItem, 
+				this->runSimulationDataToolStripItem, this->toolStripSeparator3, this->exitToolStripMenuItem});
 			this->toolStripMenuItem1->Name = L"toolStripMenuItem1";
 			this->toolStripMenuItem1->Size = System::Drawing::Size(37, 20);
 			this->toolStripMenuItem1->Text = L"&File";
@@ -434,7 +433,7 @@ private: System::Windows::Forms::Button^  button5;
 			// resetToolStripMenuItem
 			// 
 			this->resetToolStripMenuItem->Name = L"resetToolStripMenuItem";
-			this->resetToolStripMenuItem->Size = System::Drawing::Size(102, 22);
+			this->resetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->resetToolStripMenuItem->Text = L"Reset";
 			this->resetToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::resetToolStripMenuItem_Click);
 			// 
@@ -470,21 +469,21 @@ private: System::Windows::Forms::Button^  button5;
 			this->metadataTable->AllowUserToDeleteRows = false;
 			this->metadataTable->AllowUserToResizeColumns = false;
 			this->metadataTable->AllowUserToResizeRows = false;
-			dataGridViewCellStyle4->BackColor = System::Drawing::Color::DimGray;
-			dataGridViewCellStyle4->ForeColor = System::Drawing::Color::White;
-			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::Color::Black;
-			this->metadataTable->AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1->BackColor = System::Drawing::Color::DimGray;
+			dataGridViewCellStyle1->ForeColor = System::Drawing::Color::White;
+			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::Color::Black;
+			this->metadataTable->AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this->metadataTable->BackgroundColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle5->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle5->BackColor = System::Drawing::Color::DimGray;
-			dataGridViewCellStyle5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle2->BackColor = System::Drawing::Color::DimGray;
+			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle5->ForeColor = System::Drawing::Color::White;
-			dataGridViewCellStyle5->SelectionBackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle5->SelectionForeColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle5->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->metadataTable->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle2->ForeColor = System::Drawing::Color::White;
+			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->metadataTable->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this->metadataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->metadataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {this->Property, 
 				this->Value});
@@ -493,15 +492,15 @@ private: System::Windows::Forms::Button^  button5;
 			this->metadataTable->Location = System::Drawing::Point(12, 55);
 			this->metadataTable->Name = L"metadataTable";
 			this->metadataTable->ReadOnly = true;
-			dataGridViewCellStyle6->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle6->BackColor = System::Drawing::Color::Black;
-			dataGridViewCellStyle6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle3->BackColor = System::Drawing::Color::Black;
+			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle6->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle6->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle6->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle6->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->metadataTable->RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->metadataTable->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this->metadataTable->RowHeadersWidthSizeMode = System::Windows::Forms::DataGridViewRowHeadersWidthSizeMode::DisableResizing;
 			this->metadataTable->RowTemplate->DefaultCellStyle->BackColor = System::Drawing::Color::Black;
 			this->metadataTable->RowTemplate->DefaultCellStyle->ForeColor = System::Drawing::Color::White;
@@ -657,15 +656,15 @@ private: System::Windows::Forms::Button^  button5;
 			// 
 			// boundary_latitude
 			// 
+			this->boundary_latitude->DataPropertyName = L"lat";
 			this->boundary_latitude->HeaderText = L"Latitude";
 			this->boundary_latitude->Name = L"boundary_latitude";
-			this->boundary_latitude->DataPropertyName = "lat";
-			// y
+			// 
 			// boundary_longitude
 			// 
+			this->boundary_longitude->DataPropertyName = L"lon";
 			this->boundary_longitude->HeaderText = L"Longitude";
 			this->boundary_longitude->Name = L"boundary_longitude";
-			this->boundary_longitude->DataPropertyName = "lon";
 			// 
 			// pathDataGridView
 			// 
@@ -707,6 +706,13 @@ private: System::Windows::Forms::Button^  button5;
 			this->button1->TabIndex = 51;
 			this->button1->Text = L"Send Path to VC";
 			this->button1->UseVisualStyleBackColor = true;
+			// 
+			// startMissionToolStripMenuItem
+			// 
+			this->startMissionToolStripMenuItem->Name = L"startMissionToolStripMenuItem";
+			this->startMissionToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->startMissionToolStripMenuItem->Text = L"Start Mission";
+			this->startMissionToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::startMissionToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -899,181 +905,6 @@ public: System::Void insertVerifiedTargetData( Database::VerifiedRowData ^ data)
 			targetsForm->insertVerified(data);
 		}
 
-/*
-public: System::Void modifyCandidateInTable( Database::CandidateRowData ^ data )
-		{
-			bool foundTarget = false;
-			if (data == nullptr) {
-				
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::modifyCandidateInTable(): data is null");
-				return;
-			}
-
-			try {
-				int num = data->candidateid;
-			} 
-			catch (Exception ^ ) {
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::modifyCandidateInTable(): data is null");
-				return;
-			}
-
-			DataGridView ^ grid = this->dataGridView1;
-
-			for (int i = 0; i < grid->Rows->Count; i++) {
-				if (grid->Rows[i]->Cells[0]->Value->Equals("" + data->candidateid)) {
-					foundTarget = true;
-					// modify row
-					int rowNum = i;
-					grid->Rows[rowNum]->Cells[0]->Value = "" + data->candidateid;
-
-					Image ^ thumbnail;
-					try
-					{
-						String ^ path = data->imageName;
-						thumbnail = Image::FromFile( path );
-						thumbnail = thumbnail->GetThumbnailImage( 64, 64, nullptr, IntPtr::Zero );
-					}
-					catch( Exception ^ e)
-					{
-						System::Diagnostics::Trace::WriteLine("Form1::modifyCandidateInTable(): Failed to add image to table: " + e);
-					}
-
-					double lat, lon, alt;
-					Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-
-					grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
-					grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
-					grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
-					grid->Rows[rowNum]->Cells[4]->Value = "0*";
-					//grid->Rows[rowNum]->Cells[5]->Value = data->letter;
-					//grid->Rows[rowNum]->Cells[6]->Value = data->letterColor;
-					//grid->Rows[rowNum]->Cells[7]->Value = data->shape;
-					//grid->Rows[rowNum]->Cells[8]->Value = data->shapeColor;
-					grid->Rows[rowNum]->Cells[9]->Value = true;
-
-
-				}
-			}
-
-			if (!foundTarget) 
-				System::Diagnostics::Trace::WriteLine("Form1::modifyCandidateInTable() ERROR couldn't find corresponding row");
-
-		} 
-
-public: System::Void modifyUnverifiedInTable( Database::UnverifiedRowData ^ data )
-		{
-			bool foundTarget = false;
-			if (data == nullptr) {
-				
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::modifyTargetInTable(): data is null");
-				return;
-			}
-
-			try {
-				int num = data->targetid;
-			} 
-			catch (Exception ^ ) {
-				System::Diagnostics::Trace::WriteLine("ERROR in Form1::modifyTargetInTable(): data is null");
-				return;
-			}
-
-			DataGridView ^ grid = this->dataGridView2;
-
-			for (int i = 0; i < grid->Rows->Count; i++) {
-				if (grid->Rows[i]->Cells[0]->Value->Equals("" + data->targetid)) {
-					foundTarget = true;
-					System::Diagnostics::Trace::WriteLine("Form1::modifyTargetInTable() found target: " + data->description->letterColor);
-
-					// modify row
-					int rowNum = i;
-					grid->Rows[rowNum]->Cells[0]->Value = "" + data->targetid;
-
-					Image ^ thumbnail;
-					try
-					{
-						String ^ path = data->candidate->imageName;
-						thumbnail = Image::FromFile( path );
-						thumbnail = thumbnail->GetThumbnailImage( 64, 64, nullptr, IntPtr::Zero );
-					}
-					catch( Exception ^ e)
-					{
-						System::Diagnostics::Trace::WriteLine("Form1::modifyTargetInTable(): Failed to add image to table: " + e);
-					}
-
-					double lat, lon, alt;
-					Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-
-					grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
-					grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
-					grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
-					grid->Rows[rowNum]->Cells[4]->Value = "0*";
-					grid->Rows[rowNum]->Cells[5]->Value = "("+ data->description->targetX + "," + data->description->targetY + ")";
-					grid->Rows[rowNum]->Cells[6]->Value = data->description->letter;
-					grid->Rows[rowNum]->Cells[7]->Value = data->description->letterColor;
-					grid->Rows[rowNum]->Cells[8]->Value = data->description->shape;
-					grid->Rows[rowNum]->Cells[9]->Value = data->description->shapeColor;
-					grid->Rows[rowNum]->Cells[10]->Value = true;
-
-
-				}
-			}
-
-			if (!foundTarget) 
-				System::Diagnostics::Trace::WriteLine("Form1::modifyTargetInTable() ERROR couldn't find corresponding row");
-
-		}
-
-public: System::Void removeUnverifiedFromTable(String ^ id)
-		{
-			DataGridView ^ grid = this->dataGridView1;
-
-			for (int i = 0; i < grid->Rows->Count; i++) {
-				if (grid->Rows[i]->Cells[0]->Value->Equals(id)) {
-					// remove row
-					grid->Rows->RemoveAt(i);
-				}
-			}
-
-		}
-public: System::Void removeUnverifiedFromTable(Database::CandidateRowData ^ data)
-		{
-			removeUnverifiedFromTable("" + data->candidateid);
-		}
-
-public: System::Void removeTargetFromTable(String ^ id)
-		{
-			DataGridView ^ grid = this->dataGridView2;
-
-			for (int i = 0; i < grid->Rows->Count; i++) {
-				if (grid->Rows[i]->Cells[0]->Value->Equals(id)) {
-					// remove row
-					grid->Rows->RemoveAt(i);
-				}
-			}
-
-		}
-public: System::Void removeTargetFromTable(Database::UnverifiedRowData ^ data)
-		{
-			removeTargetFromTable("" + data->targetid);
-		}
-#define targetid_VERIFIED_COL 9
-public: System::Void removeVerifiedTargetFromTable(String ^ id)
-		{
-			if (BADSTRING(id))
-				return;
-
-			DataGridView ^ grid = this->dataGridView3;
-
-			for (int i = 0; i < grid->Rows->Count; i++) {
-				if (grid->Rows[i]->Cells[targetid_VERIFIED_COL]->Value->Equals(id)) {
-					// remove row
-					grid->Rows->RemoveAt(i);
-				}
-			}
-
-		}
-
-*/
 
 public:		System::Void removeCandidate(Database::CandidateRowData^ data){};
 public:		System::Void removeUnverified(Database::UnverifiedRowData^ data){};
@@ -1196,6 +1027,13 @@ private: System::Void runSimulationDataToolStripItem_Click(System::Object^  send
 			 if ( fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 			 {
 				 appController->startSimulation(fileDialog->SelectedPath);
+			 }
+		 }
+private: System::Void startMissionToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 FolderBrowserDialog^ fileDialog = gcnew FolderBrowserDialog();
+			 if ( fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			 {
+				 appController->startMission(fileDialog->SelectedPath);
 			 }
 		 }
 };

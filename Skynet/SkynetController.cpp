@@ -8,6 +8,7 @@
 #include "Delegates.h"
 #include "SaveImage.h"
 #include "SimulatorPlaneDataReceiver.h"
+#include "RealPlaneDataReceiver.h"
 #include "GPSCoord.h"
 #include "Util.h"
 
@@ -45,8 +46,13 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 	}
 	form1View->displayPlaneData(imageWithPlaneData);
 }
+
 void SkynetController::startSimulation(String^ folder){
 	receiver = gcnew SimulatorPlaneDataReceiver(folder, theWatcher);
+}
+
+void SkynetController::startMission(String^ folder){
+	receiver = gcnew RealPlaneDataReceiver(folder, theWatcher);
 }
 void SkynetController::lockPosition(Intelligence::GPSCoord^ coordinate)
 {
