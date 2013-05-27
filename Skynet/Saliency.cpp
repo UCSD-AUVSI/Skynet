@@ -13,7 +13,6 @@
 
 #ifdef SALIENCY_ENABLED
 #include "../SalientGreenCUDA/SalientGreenGPU.H"
-//#using<SalientGreenCUDA.dll>
 #endif
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -25,7 +24,6 @@
 
 #define BORDER_PADDING	10 // in pixels
 
-//#define IMAGE_SAVE_BASE_PATH HTTP_SERVER_IMAGERY_PATH//"D:\\Skynet Files\\Candidates\\bb"
 
 using namespace Vision;
 using namespace Database;
@@ -324,7 +322,6 @@ Saliency::analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool debug
 
 
 		cv::Mat blobImg = cv::Mat(*frame->img, cv::Rect(leftCorner, topCorner, blobWidth, blobHeight));
-		cv::cvtColor(blobImg,blobImg,CV_BGR2RGB);
 
 		if (debug){
 			System::String ^ path = "C:\\Saliency_Test_Output\\Image"+analyzeframe+"_"+i+".bmp";
