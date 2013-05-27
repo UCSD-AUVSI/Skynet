@@ -11,6 +11,7 @@ using namespace Communications;
 using namespace Intelligence;
 using namespace msclr;
 using namespace System::Runtime::InteropServices;
+using namespace Intelligence;
 
 #define MAX_INT_32 2147483647
 

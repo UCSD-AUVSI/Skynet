@@ -9,6 +9,8 @@
 
 using Intelligence::GPSCoord;
 
+using namespace System;
+
 ImageWithPlaneData::ImageWithPlaneData(ImageWithPlaneData^ other) :
 	imageFilename(other->imageFilename),
 	image(other->image),

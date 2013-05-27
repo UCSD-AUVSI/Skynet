@@ -8,6 +8,7 @@
 #include "Delegates.h"
 #include "SaveImage.h"
 #include "SimulatorPlaneDataReceiver.h"
+#include "RealPlaneDataReceiver.h"
 #include "GPSCoord.h"
 #include "Util.h"
 #include "RealPlaneDataReceiver.h"
@@ -47,7 +48,13 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 	form1View->displayPlaneData(imageWithPlaneData);
 }
 
+void SkynetController::startSimulation(String^ folder){
+	receiver = gcnew SimulatorPlaneDataReceiver(folder, theWatcher);
+}
 
+void SkynetController::startMission(String^ folder){
+	receiver = gcnew RealPlaneDataReceiver(folder, theWatcher);
+}
 void SkynetController::lockPosition(Intelligence::GPSCoord^ coordinate)
 {
 	theWatcher->lockPosition(coordinate);
@@ -57,24 +64,32 @@ void SkynetController::unlockPosition()
 {
 	theWatcher->unlockPosition();
 }
-
-
-void SkynetController::startIntelligenceController(array<String ^>^ fieldBoundaries)
+void SkynetController::startIntelligenceController(array<GPSCoord^>^ fieldBoundaries)
 {
-	intelligenceController = gcnew IntelligenceController(fieldBoundaries, this,theWatcher->getState());
+	intelligenceController = gcnew IntelligenceController(fieldBoundaries, this);
 }
+
+void SkynetController::handleIntelligenceResult(IntelligenceResult^ result)
+{
+	form1View->setPath(result->path);
+	form1View->displayPathfinderImage(result->imageFilename);
+}
+IntelligenceController^ SkynetController::getIntelligenceController()
+{
+	return intelligenceController;
+}
+
+void SkynetController::updateAutosearchImage(Image^ image) {
+	form1View->updateAutosearchImage(image);
+}
+
+
 
 SkynetController::~SkynetController()
 {
 	form1View = nullptr;
 	cameraView = nullptr;
 	theDatabase = nullptr;
-}
-
-void SkynetController::handlePathfinderResult(String^ result)
-{
-	form1View->setWayPointsText(result);
-	pathfinderComplete(gcnew Bitmap(gcnew Bitmap("output.jpg")));
 }
 
 array<GPSCoord^>^ 
@@ -479,33 +494,6 @@ void SkynetController::modifyUnverified(Database::UnverifiedRowData ^ data)
 	PRINT("SkynetController::modifyTarget() REMOVED");
 }
 
-void SkynetController::displayAutosearchImage(Image ^ image)
-{
-	/** TODO : This should open a new form **/
-	/*
-	try{
-		((Form1 ^)form1View)->autosearchBox->Image = image;
-		((Form1 ^)form1View)->pathfinderBox->BackgroundImage = image;
-	}catch(InvalidOperationException ^){
-		
-	}
-	//image->Save("test.bmp");
-	*/
-}
-
-void SkynetController::displayPathfinderImage(Image ^ image)
-{
-	//// TODO: This should open a new window
- ///	((Form1 ^)form1View)->pathfinderBox->Image = image;
-	//image->Save("test.bmp");
-}
-
-void SkynetController::pathfinderComplete(Image ^ image){
-	displayPathfinderImage(image);
-	// array <Waypoint ^>^ waypoints = intelligenceController->getWaypoints();
-	// ((Form1 ^)form1View)->fillGpsCheckboxList(waypoints);
-}
-
 Database::CandidateRowData ^ SkynetController::candidateWithID(String ^ id)
 {
 	return theDatabase->candidateWithID(id);
@@ -516,47 +504,7 @@ Database::UnverifiedRowData ^ SkynetController::unverifiedWithID(String ^ id)
 	return theDatabase->unverifiedWithID(id);
 }
 
-
-
 Database::VerifiedRowData ^ SkynetController::verifiedWithID(String ^ id) // not yet
 {
 	return theDatabase->verifiedWithID(id);
-}
-
-
-void SkynetController::saveUnverified(float * data, int width, int height, int numChannels, int originX, int originY, ImageWithPlaneData ^ stateOfPlane)
-{
-	System::Diagnostics::Trace::WriteLine("ERROR SkynetController::saveUnverified() not implemented");
-	return;
-	/*
-	if (theDatabase == nullptr) {
-		System::Diagnostics::Trace::WriteLine("SkynetController::saveCandidate() ran, but theDatabase == nullptr");
-		return;
-	}
-
-	if (width < 0 || height < 0 || originX < 0 || originY < 0) {
-		System::Diagnostics::Trace::WriteLine("SkynetController::saveCandidate() ran, but (width < 0 || height < 0 || originX < 0 || originY < 0)");
-		return;
-	}
-
-
-	
-	// TODO: get plane information
-	// save current image to a file
-	// insert data into database
-
-try {
-		theDatabase->saveNewCandidate(data, width, height, numChannels, originX, originY, stateOfPlane);
-	}
-	catch(Exception ^ e) {
-		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::saveCandidate(): Failed to save imageS - " + e);
-	}
-
-	delete data;*/
-	// for testing:
-	//theDatabase->displayLastImageInCandidate();
-}
-
-void SkynetController::startSimulation(String^ folder){
-	receiver = gcnew RealPlaneDataReceiver(folder, theWatcher);
 }
