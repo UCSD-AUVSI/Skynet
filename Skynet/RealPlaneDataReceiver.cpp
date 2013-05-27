@@ -2,6 +2,7 @@
 using System::IO::FileSystemEventHandler;
 using System::IO::FileSystemEventArgs;
 using System::IO::FileSystemWatcher;
+using namespace System::IO;
 using System::String;
 
 RealPlaneDataReceiver::RealPlaneDataReceiver(String ^ directory,
@@ -11,14 +12,19 @@ PlaneDataReceiver(directory, planeWatcher){ run(); }
 void RealPlaneDataReceiver::run() {
 	System::Diagnostics::Trace::WriteLine("Starting PlaneDataReceiver...");
 	FileSystemWatcher ^ watcher = gcnew FileSystemWatcher(directory);
+	watcher->Renamed += gcnew RenamedEventHandler(this,&RealPlaneDataReceiver::fileRenamed);
 	watcher->Created += gcnew FileSystemEventHandler(this,&RealPlaneDataReceiver::fileAdded);
 	watcher->EnableRaisingEvents = true;
 }
 
-void RealPlaneDataReceiver::fileAdded(Object ^ sender, FileSystemEventArgs ^ e){
+void RealPlaneDataReceiver::fileRenamed(Object ^ sender, RenamedEventArgs ^ e){
+	System::Diagnostics::Trace::WriteLine("Renamed: "+ e->Name);
 	String ^ imageFilename = e->Name;
+	processFile(imageFilename);
+}
+
+void RealPlaneDataReceiver::processFile(String^ imageFilename){
 	auto split = imageFilename->Split('.');
-	System::Diagnostics::Trace::WriteLine("Candidate: "+ e->Name);
 	if (imageFilename[0] == '.') {
 		System::Diagnostics::Trace::WriteLine("Hidden file");
 		return;
@@ -34,4 +40,11 @@ void RealPlaneDataReceiver::fileAdded(Object ^ sender, FileSystemEventArgs ^ e){
 	System::Diagnostics::Trace::WriteLine("Image Added");
 	String ^ dataFilename = imageFilenameToDataFilename(imageFilename);
 	processImage(directory + "\\" + imageFilename,directory + "\\" + dataFilename);
+}
+
+
+void RealPlaneDataReceiver::fileAdded(Object ^ sender, FileSystemEventArgs ^ e){
+	System::Diagnostics::Trace::WriteLine("Added: "+ e->Name);
+	String ^ imageFilename = e->Name;
+	processFile(imageFilename);
 }

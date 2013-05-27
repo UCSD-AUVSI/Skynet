@@ -10,6 +10,7 @@
 #include "SimulatorPlaneDataReceiver.h"
 #include "GPSCoord.h"
 #include "Util.h"
+#include "RealPlaneDataReceiver.h"
 
 
 using namespace System;
@@ -557,5 +558,5 @@ try {
 }
 
 void SkynetController::startSimulation(String^ folder){
-	receiver = gcnew SimulatorPlaneDataReceiver(folder, theWatcher);
+	receiver = gcnew RealPlaneDataReceiver(folder, theWatcher);
 }

@@ -49,7 +49,7 @@ Add the following to the end of those files
 #include "GPSLocationForm.h"
 
 #include <math.h>
-#include "Tester.h"
+// #include "Tester.h"
 
 #define GREEN_IMAGE_PATH (DROPBOX_DIR + "Skynet\\Skynet\\greenled.png")
 #define RED_IMAGE_PATH (DROPBOX_DIR + "Skynet\\Skynet\\redled.png")

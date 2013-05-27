@@ -5,8 +5,10 @@
 #include "GeoReference.h"
 #include "PlaneDataReceiver.h"
 #include "ImageWithPlaneData.h"
+#include "GPSCoord.h"
 
 using namespace Communications;
+using namespace Intelligence;
 using namespace msclr;
 using namespace System::Runtime::InteropServices;
 

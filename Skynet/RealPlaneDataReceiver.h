@@ -10,4 +10,6 @@ protected:
 	virtual void run() override;
 private: 
 	void fileAdded(Object^ sender, System::IO::FileSystemEventArgs^ e);
+	void fileRenamed(Object^ sender, System::IO::RenamedEventArgs^ e);
+	void processFile(System::String^ imageFilename);
 };
