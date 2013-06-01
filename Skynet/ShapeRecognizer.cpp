@@ -61,9 +61,10 @@ List<Line ^> ^
 ShapeRecognizer::findLines()
 {
 	std::vector<cv::Vec2f> lines = runHoughLines();
-	lines = combineCloseLines(lines);
-	lines = combineCloseLines(lines); // do two passes to merge all lines
-	lines = filterSmallLines(lines);
+	// TODO: Re-Implement this
+	// lines = combineCloseLines(lines);
+	// lines = combineCloseLines(lines); // do two passes to merge all lines
+	// lines = filterSmallLines(lines);
 	List<Line ^> ^ lineList = managedLinesFromStandard(lines);
 
 	cv::Mat output = printLinesToImage(lines, 128, false);

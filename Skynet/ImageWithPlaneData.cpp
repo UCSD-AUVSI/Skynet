@@ -11,6 +11,18 @@ using Intelligence::GPSCoord;
 
 using namespace System;
 
+ImageWithPlaneData::~ImageWithPlaneData(){
+	clear();
+}
+
+ImageWithPlaneData::!ImageWithPlaneData(){
+	clear();
+}
+
+void ImageWithPlaneData::clear(){
+	delete image;
+}
+
 ImageWithPlaneData::ImageWithPlaneData(ImageWithPlaneData^ other) :
 	imageFilename(other->imageFilename),
 	image(other->image),
@@ -30,20 +42,32 @@ ImageWithPlaneData::ImageWithPlaneData(String ^ imageFilename, String ^data) {
 	std::string imageFilenameStd = Util::managedToSTL(imageFilename);
 	this->imageFilename = imageFilename;
 	image = new cv::Mat(cv::imread(imageFilenameStd));
-	image->addref();
+	// image->addref();
 	auto vars = data->Split(' ');
-	roll = Convert::ToDouble(vars[0]->Substring(1)) / 1000000.0;
-	pitch = Convert::ToDouble(vars[1]->Substring(1)) / 1000000.0;
-	yaw = Convert::ToDouble(vars[2]->Substring(1));
-	latitude = Convert::ToDouble(vars[3]);
-	longitude = Convert::ToDouble(vars[4]);
-	altitude = Convert::ToDouble(vars[5]) / 1000;
+	if (vars->Length >= 6){
+		roll = Convert::ToDouble(vars[0]->Substring(1)) / 1000.0;
+		pitch = Convert::ToDouble(vars[1]->Substring(1)) / 1000.0;
+		yaw = Convert::ToDouble(vars[2]->Substring(1));
+		latitude = Convert::ToDouble(vars[3]);
+		longitude = Convert::ToDouble(vars[4]);
+		altitude = Convert::ToDouble(vars[5]) / 1000;
+	} else {
+		roll = 0;
+		pitch = 0;
+		yaw = 0;
+		latitude = 0;
+		longitude = 0;
+		altitude = 0;
+	}
+
 	gimbalRoll = 0;
 	gimbalPitch = 0;
 	xVelocity = 0;
 	yVelocity = 0;
 	zVelocity = 0;
+
 }
+
 
 Intelligence::GPSCoord^ ImageWithPlaneData::toGPSCoord()
 {

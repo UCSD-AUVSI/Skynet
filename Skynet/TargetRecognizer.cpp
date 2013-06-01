@@ -22,6 +22,7 @@ using namespace msclr;
 TargetRecognizer::TargetRecognizer(void)
 {
 	filename = nullptr;
+	busy = false;
 	if (tessOCR == nullptr)
 		tessOCR = gcnew TessWrapper();
 }
@@ -45,21 +46,31 @@ TargetRecognizer::recognizeTarget(cv::Mat img)
 TargetResult ^ 
 TargetRecognizer::recognizeTarget(cv::Mat img, String ^ filepath)
 {
+	return nullptr; // NO OCR for Now
+	while(busy){
+		Thread::Sleep(200);
+	}
+	busy = true;
 	filename = filepath;
 
 	mColorImg = gcnew MRef<cv::Mat>(img);
 
-	return doRecognition();
+	TargetResult^ result = doRecognition();
+	busy = false;
+	return result;
 }
 
 TargetResult ^ 
 TargetRecognizer::doRecognition()
 {
+	PRINT("STARTING SEGMENTATION");
 	segmentShape();
 	String ^ shape = recognizeShape();
 
+	PRINT("SHAPE SEGMENTATION DONE");
 	segmentLetter();
 	String ^ letter = recognizeLetter();
+	PRINT("SEGMENTATION COMPLETE");
 
 	String ^ shapeColor = recognizeColor(mColorImg->o(), mShapeImg->o());
 	String ^ letterColor = recognizeColor(mColorImg->o(), mLetterImg->o());
@@ -72,13 +83,20 @@ TargetRecognizer::doRecognition()
 void 
 TargetRecognizer::segmentShape()
 {
+	PRINT("STARTING SEGMENTSHAPE");
 	ShapeFinder ^ shapeFinder = gcnew ShapeFinder();
+	PRINT("CREATED SHAPEFINDER");
 	cv::Mat shape = shapeFinder->findShape(mColorImg->o(), nullptr);
+	PRINT("FINDING SHAPE");
 	mShapeImg = gcnew MRef<cv::Mat>(shape);
 	
-	if (!shapeIsValid())
+	
+	if (!shapeIsValid()){
+		PRINT("SHAPE NOT VALID");
 		throw gcnew TargetNotFound();
+	}
 
+	PRINT("SHAPE OK");
 	if (filename != nullptr)
 		saveImage(shape, filename + "_a_shape.jpg");
 
@@ -87,6 +105,7 @@ TargetRecognizer::segmentShape()
 bool 
 TargetRecognizer::shapeIsValid()
 {
+	PRINT("IN SHAPEISVALID");
 	cv::Mat shape = mShapeImg->o();
 	float shapeCoverageRatio = ratioOfBlobToWhole(shape); 
 	bool shapeIsLarge = shapeCoverageRatio > 0.1f;

@@ -37,6 +37,7 @@ namespace Vision {
 		bool letterIsValid();
         String ^ recognizeColor(cv::Mat colorImg, cv::Mat img);
 		double calculateTargetOrientationDegrees();
+		bool busy;
 
 		String ^ filename;
 		static TessWrapper ^tessOCR;

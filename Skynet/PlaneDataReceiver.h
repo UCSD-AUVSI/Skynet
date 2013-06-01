@@ -14,7 +14,7 @@ protected:
 	System::String ^ directory;
 	Communications::PlaneWatcher ^ planeWatcher;
 	void processImage(System::String ^ imageFilename, System::String ^ dataFilename);
-	static System::Int64 filenameToTimestamp(System::String ^ filename);
+	static System::UInt64 filenameToTimestamp(System::String ^ filename);
 	static System::String ^ extractFilename(System::String ^ path);
 	virtual void run() = 0;
 };

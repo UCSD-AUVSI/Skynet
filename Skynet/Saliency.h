@@ -24,9 +24,8 @@ namespace Vision
 	{
 	public:
 		Saliency(VisionController^ visionController); 	// constructor
-		virtual ~Saliency();	// destructor
 
-		bool canAcceptFrame() { return !currentlyAnalyzing;}	// call to see if ready to accept new frame
+		bool canAcceptFrame() { return !busy;}					// call to see if ready to accept new frame
 		void analyzeFrame(Frame ^ frame);						// pass in new frame to analyze
 
 		void setValues(int w, int h);
@@ -40,34 +39,20 @@ namespace Vision
 		
 
 	protected:
-		bool currentlyAnalyzing;	// saliency is running
-		bool newFrameReady;			// saliency is ready for new frame
-		System::Threading::Thread ^ saliencyThread;	// thread for running saliency
-		System::Threading::Thread ^ saveImagesThread;	// thread for saving images
+		bool busy;					// saliency is running
 		int width;					// frame width
 		int height;					// frame height
 		float threshold;			// threshold for saliency
-		Frame ^ currentFrameData;	// current saliency frame
 		VisionController^ visionController;
 		
-		void computeSaliencyForFrame(Frame ^ frame, bool isTest);//, sg::SalientGreenGPU green);
+		void computeSaliencyForFrame(Frame ^ frame, bool isTest);
 
 		
 		int frameCount;
 
-		// for saving images thread
-		Frame ^ savingFrameData;
-		bool newFrameForSaving;		// new frame ready for saveThread to save
-		bool savingData;			// images are being saved
-
-		bool tempPause;
-
-		void analyzeResults ( Frame ^ frame, int imageHeight, int imageWidth, bool isTest );
-		void analyzeResults ( Frame ^ frame, ImageWithPlaneData ^ state, bool isTest ); 
+		void analyzeResults ( Frame ^ frame, int saliencyImageWidth, int saliencyImageHeight, bool isTest );
 		bool validSize(double size);
 		
-		void saliencyThreadFunction(); // main run loop for saliency
-		void saveImagesThreadFunction();	// main run loop for saving images
 	private:
 		cv::Mat Saliency::convertImageForSaliency(cv::Mat image);
 	};

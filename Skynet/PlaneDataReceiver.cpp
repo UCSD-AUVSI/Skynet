@@ -23,6 +23,7 @@ using System::IO::File;
 using System::Threading::Thread;
 using System::IO::FileNotFoundException;
 using System::Threading::ThreadStart;
+using System::DateTime;
 
 #include "../Skynet/PlaneWatcher.h"
 
@@ -38,9 +39,15 @@ String ^ PlaneDataReceiver::extractFilename(String^ path){
 	auto segments = path->Split('\\');
 	return segments[segments->Length-1];
 }
-Int64 PlaneDataReceiver::filenameToTimestamp(String ^ filename) {
+UInt64 PlaneDataReceiver::filenameToTimestamp(String ^ filename) {
 	String ^ namepart = filename->Split('.')[0];
-	return Convert::ToInt64(namepart);
+	try {
+		long long tick = DateTime::MaxValue.Ticks;
+
+		return (Convert::ToUInt64(namepart) * 10) % tick;
+	} catch (System::FormatException^) {
+		return 0;
+	}
 }
 
 String ^ PlaneDataReceiver::imageFilenameToDataFilename(String ^ imageFilename) {
@@ -52,7 +59,12 @@ void PlaneDataReceiver::processImage(String ^ imagePath, String ^ dataPath) {
 	System::Diagnostics::Trace::WriteLine("Image path: " + imagePath + "\nData path: " + dataPath);
 	for(int attempts = 0; attempts < MAX_ATTEMPTS; attempts ++){
 		try {
-			String ^ imageData = File::ReadAllLines(dataPath)[0];
+			array<String ^>^ lines = File::ReadAllLines(dataPath);
+			if (lines->Length == 0){
+				System::Diagnostics::Trace::WriteLine("Data file was empty, not analyzing " + imagePath);
+				return;
+			}
+			String^ imageData = lines[0];
 			ImageWithPlaneData ^ data = gcnew ImageWithPlaneData(imagePath,imageData);
 			if ( planeWatcher == nullptr ){
 				System::Diagnostics::Trace::WriteLine("PlaneWatcher is null");

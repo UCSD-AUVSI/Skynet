@@ -156,11 +156,14 @@ private: System::Windows::Forms::Label^  instructionLabel;
 			// imageBox
 			// 
 			this->imageBox->Location = System::Drawing::Point(13, 12);
+			this->imageBox->MaximumSize = System::Drawing::Size(2048, 2048);
+			this->imageBox->MinimumSize = System::Drawing::Size(640, 480);
 			this->imageBox->Name = L"imageBox";
-			this->imageBox->Size = System::Drawing::Size(726, 540);
+			this->imageBox->Size = System::Drawing::Size(726, 480);
 			this->imageBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->imageBox->TabIndex = 0;
 			this->imageBox->TabStop = false;
+			this->imageBox->Click += gcnew System::EventHandler(this, &TargetDialog::imageBox_Click);
 			this->imageBox->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &TargetDialog::imageBox_MouseDown);
 			// 
 			// markTargetButton
@@ -328,6 +331,8 @@ private: System::Void imageBox_MouseDown(System::Object^  sender, System::Window
 private: System::Void TargetDialog::switchToMode(TargetEditingMode mode);
 
 
+private: System::Void imageBox_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
 };
 
 };

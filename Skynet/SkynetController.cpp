@@ -43,6 +43,11 @@ SkynetController::SkynetController(Form1 ^ mainView):
 
 void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 	if (visionController != nullptr ){
+		/**
+		 * The Garbage collector should be run for every image frame that is 
+		 * received, because each frame uses a lot of memory.
+		 */
+		System::GC::Collect();
 		visionController->receiveFrame(imageWithPlaneData);
 	}
 	form1View->displayPlaneData(imageWithPlaneData);
@@ -275,6 +280,9 @@ String ^ SkynetController::saveCurrentFrameAsImage()
 void SkynetController::saveCurrentFrameAsUnverified()
 {
 	ImageWithPlaneData ^ stateOfPlane = theWatcher->getState();
+	if ( stateOfPlane == nullptr ){
+		return; // Not running a mission
+	}
 	String ^ filename = HTTP_SERVER_TARGET_PATH + "img_" + DateTime::Now.ToString("o")->Replace(":", "-") + ".jpg";
 	cv::Mat image = *(stateOfPlane->image);
 

@@ -99,9 +99,6 @@ VisionController::runLoop()
 
 		Frame ^frame = (Frame ^)frameQueue->Dequeue();
 
-		while (!frame->isReady())
-			Thread::Sleep(100);
-
 		if ( !paused ) {
 			analyzeFrame(frame);
 		}
@@ -117,8 +114,8 @@ VisionController::receiveOCRResults()
 void 
 VisionController::analyzeFrame(Frame ^ frame)
 {
-	frame->planeState = skynetController->getPlaneWatcher()->getState();
 	saliency->analyzeFrame(frame);
+	
 }
 
 void 
@@ -127,8 +124,10 @@ VisionController::receiveFrame(ImageWithPlaneData^ imageWithPlaneData)
 	if (imageWithPlaneData->image->cols != width || imageWithPlaneData->image->rows != height){
 		updateSaliencyImageSize(imageWithPlaneData->image->cols, imageWithPlaneData->image->rows);
 	}
-	Frame ^frame = gcnew Frame(imageWithPlaneData->image->data, width, height);
-	frameQueue->Enqueue(frame);
+	Frame ^frame = gcnew Frame(imageWithPlaneData);
+	if (frameQueue->Count < 20 ){
+		frameQueue->Enqueue(frame);
+	}
 }
 
 void 

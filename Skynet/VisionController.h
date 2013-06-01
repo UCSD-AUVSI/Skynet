@@ -45,61 +45,9 @@ namespace Vision
 
 	public ref struct Frame
 	{
-		unsigned char *buffer;
-		unsigned int saliencyImageHeight, saliencyImageWidth;
-		cv::Mat *img;
-		System::DateTime timestamp;
 		System::Collections::Generic::List<Box ^>^ saliencyBlobs;
 		ImageWithPlaneData ^ planeState;
-
-
-		Frame(unsigned char *buf, int w, int h, System::DateTime time)
-		{
-			allocImg(buf,w,h);
-			init(time);
-		}
-
-		Frame(unsigned char *buf, int w, int h)
-		{
-			allocImg(buf,w,h);
-			init(System::DateTime::Now.AddSeconds(-VIDEO_LATENCY));
-		}
-
-		Frame(cv::Mat inputImg)
-		{
-			buffer = nullptr;
-			img = new cv::Mat(inputImg);
-			
-			init(System::DateTime::Now.AddSeconds(-VIDEO_LATENCY));
-		}
-
-		void allocImg(unsigned char* buf, int w, int h)
-		{
-			buffer = buf;
-			img = new cv::Mat(h, w, CV_8UC3, buf);
-		}
-
-		void init(System::DateTime time)
-		{
-			timestamp = time;
-			planeState = nullptr;
-			saliencyBlobs = gcnew System::Collections::Generic::List<Box ^>();
-		}
-
-		~Frame()
-		{
-			delete buffer;
-			delete img;
-		}
-
-		bool isReady()
-		{
-			// if frame is more than 2 seconds old
-			if (System::DateTime::Now.Subtract(timestamp).TotalSeconds > 2.0)
-				return true;
-			else
-				return false;
-		}
+		Frame(ImageWithPlaneData^ data): planeState(data), saliencyBlobs(gcnew System::Collections::Generic::List<Box ^>()) { }
 	};
 
     public ref class VisionController
