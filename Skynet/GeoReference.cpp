@@ -793,7 +793,7 @@ bool GeoReference::getGPS(double plane_latitude, double plane_longitude, double 
 			image_width, image_height,
 			Target_Latitude, Target_Longitude, Target_Height) ;
 	} catch(GeoReferenceException^ e){
-		throw e;
+		return false;
 	}
 }
 

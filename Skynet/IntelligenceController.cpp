@@ -56,6 +56,7 @@ void IntelligenceController::startPathfinderThread(array<GPSCoord^>^ fieldBounda
 }
 
 void IntelligenceController::doPathfinding(Object^ fieldBoundariesObj) {
+	return;
 	array<GPSCoord^>^ fieldBoundaries = (array<GPSCoord^>^) fieldBoundariesObj;
 	ProcessStartInfo^ pathfinderProcess = getPathfinderProcessInfo();
 	GPSCoord^ planeCoord = skynetController->getPlaneWatcher()->getState()->toGPSCoord();

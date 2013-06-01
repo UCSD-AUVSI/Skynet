@@ -50,6 +50,9 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 		System::GC::Collect();
 		visionController->receiveFrame(imageWithPlaneData);
 	}
+	if (intelligenceController != nullptr){
+		intelligenceController->processPlaneData(imageWithPlaneData);
+	}
 	form1View->displayPlaneData(imageWithPlaneData);
 }
 
