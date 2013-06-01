@@ -95,6 +95,7 @@ SkynetController::~SkynetController()
 	form1View = nullptr;
 	cameraView = nullptr;
 	theDatabase = nullptr;
+	visionController->end();
 }
 
 array<GPSCoord^>^ 
@@ -352,7 +353,7 @@ void SkynetController::loadAllTablesFromDisk()
 }
 
 void SkynetController::updateVerifiedTableFromDatabaseAtInterval(Object ^ interval){
-	while(this->form1View){
+	while(this->form1View != nullptr){
 		loadVerifiedTableFromDisk();
 		Thread::Sleep((int)interval);
 	}

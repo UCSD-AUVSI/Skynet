@@ -94,8 +94,12 @@ VisionController::runLoop()
 	endRunLoop = false;
 	while (!endRunLoop)
 	{
-		while (frameQueue->Count == 0)
+		while (frameQueue->Count == 0 && !endRunLoop)
 			Thread::Sleep(20); // ms
+		
+		if( endRunLoop){
+			return;
+		}
 
 		Frame ^frame = (Frame ^)frameQueue->Dequeue();
 

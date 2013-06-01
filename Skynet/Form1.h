@@ -219,9 +219,13 @@ private: System::Windows::Forms::ToolStripMenuItem^  unlockPlaneCoordinatesToolS
 private: System::Windows::Forms::ToolStripMenuItem^  startMissionToolStripMenuItem;
 private: System::Windows::Forms::Button^  button5;
 
+
+private: Thread^ verifiedTableUpdaterThread;
+public: bool threadsShouldQuit;
 	public:
 		Form1(void)
 		{
+			threadsShouldQuit = false;
 			InitializeComponent();
 
 			// Tester::runTests();
@@ -263,7 +267,7 @@ private: System::Windows::Forms::Button^  button5;
 
 			appController->comeAlive();
 			ParameterizedThreadStart^ threadDelegate = gcnew ParameterizedThreadStart(appController, &SkynetController::updateVerifiedTableFromDatabaseAtInterval);
-			Thread^ verifiedTableUpdaterThread = gcnew Thread (threadDelegate);
+			verifiedTableUpdaterThread = gcnew Thread (threadDelegate);
 			verifiedTableUpdaterThread->Name = "Verified Table Updater Thread";
 			verifiedTableUpdaterThread->Start(5000);
 
@@ -283,6 +287,10 @@ private: System::Windows::Forms::Button^  button5;
 				delete components;
 				System::Diagnostics::Trace::WriteLine("Components Deleted");
 			}
+			
+			threadsShouldQuit = true;
+			delete appController;
+			Application::Exit();
 
 		}
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;

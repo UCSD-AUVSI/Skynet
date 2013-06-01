@@ -58,7 +58,7 @@ namespace Vision
 
 		void receiveFrame(ImageWithPlaneData^ imageWithPlaneData);
 		bool processSaliencyCandidate(Database::CandidateRowData^ candidate);
-
+		void end(){endRunLoop = true;}
 	protected:
 		void runLoop();
 		void initImagingPathway(); // TODO
