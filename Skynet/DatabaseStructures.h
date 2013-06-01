@@ -33,9 +33,17 @@ namespace Database
 			return nullptr;
 		}
 
+		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData,
+											System::Tuple<int, int>^ topLeftPx,
+											System::Tuple<int, int>^ bottomRightPx);
+
 		virtual DialogEditingData^ toDialogData(){
 			PRINT("WARNING: toDialogData() is not implemented");
 			return nullptr;
+		}
+
+		virtual void useImageRegion(System::Tuple<int, int>^ topLeftPx, System::Tuple<int, int>^ bottomRightPx){
+			PRINT("WARNING: toDialogData() is not implemented");
 		}
 
 	};
@@ -53,6 +61,8 @@ namespace Database
 		virtual DialogEditingData^ toDialogData() override;
 		virtual System::String^ deleteSQL() override;
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
+		virtual void useImageRegion( System::Tuple<int, int>^ topLeftPx,
+									 System::Tuple<int, int>^ bottomRightPx) override;
 		bool Equals(CandidateRowData ^ object);
 	};
 
@@ -181,6 +191,8 @@ namespace Database
 		virtual System::String^ deleteSQL() override;
 		virtual DialogEditingData^ toDialogData() override;
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
+		virtual void useImageRegion( System::Tuple<int, int>^ topLeftPx,
+									 System::Tuple<int, int>^ bottomRightPx) override;
 		void applyDialogData(DialogEditingData^ data);
 		void updateCandidate(CandidateRowData ^ candidate);
 	};
@@ -197,6 +209,8 @@ namespace Database
 		virtual System::String^ deleteSQL() override;
 		virtual DialogEditingData^ toDialogData() override;
 		virtual VerifiedRowData^ asVerified(DialogEditingData^ dialogData) override;
+		virtual void useImageRegion( System::Tuple<int, int>^ topLeftPx,
+									 System::Tuple<int, int>^ bottomRightPx) override;
 		void applyDialogData(DialogEditingData^ data);
 	};
 

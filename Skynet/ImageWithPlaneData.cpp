@@ -47,7 +47,7 @@ ImageWithPlaneData::ImageWithPlaneData(String ^ imageFilename, String ^data) {
 	if (vars->Length >= 6){
 		roll = Convert::ToDouble(vars[0]->Substring(1)) / 1000.0;
 		pitch = Convert::ToDouble(vars[1]->Substring(1)) / 1000.0;
-		yaw = Convert::ToDouble(vars[2]->Substring(1));
+		yaw = Convert::ToDouble(vars[2]->Substring(1)) / 1000.0;
 		latitude = Convert::ToDouble(vars[3]);
 		longitude = Convert::ToDouble(vars[4]);
 		altitude = Convert::ToDouble(vars[5]) / 1000;

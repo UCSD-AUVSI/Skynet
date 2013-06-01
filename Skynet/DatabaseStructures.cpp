@@ -7,6 +7,7 @@
 
 using namespace Database;
 using namespace Vision;
+using namespace System::Drawing;
 
 String^ DialogEditingData::getHeadingString() {
 	// TODO: Implement
@@ -35,6 +36,34 @@ DialogEditingData^ UnverifiedRowData::toDialogData() {
 
 DialogEditingData^ VerifiedRowData::toDialogData() {
 	return gcnew DialogEditingData(this);
+}
+
+
+void VerifiedRowData::useImageRegion(Tuple<int, int>^ topLeft, Tuple<int, int>^ bottomRight) {
+	target->candidate->useImageRegion(topLeft, bottomRight);
+}
+
+void UnverifiedRowData::useImageRegion(Tuple<int, int>^ topLeft, Tuple<int, int>^ bottomRight) {
+	candidate->useImageRegion(topLeft, bottomRight);
+}
+
+VerifiedRowData^ TargetRowData::asVerified(DialogEditingData^ dialogData,
+											 Tuple<int, int>^ topLeftPx,
+											 Tuple<int, int>^ bottomRightPx) {
+	auto target = asVerified(dialogData);
+	target->useImageRegion(topLeftPx, bottomRightPx);
+	return target;
+}
+
+void CandidateRowData::useImageRegion(Tuple<int, int>^ topLeft, Tuple<int, int>^ bottomRight) {
+	auto originalImage = gcnew Bitmap(imageName);
+	int originX = Math::Min(topLeft->Item1, bottomRight->Item1);
+	int originY = Math::Min(topLeft->Item2, bottomRight->Item2);
+	int width = Math::Abs(bottomRight->Item1 - topLeft->Item1);
+	int height = Math::Abs(bottomRight->Item2 - topLeft->Item2);
+	auto cropped = originalImage->Clone(System::Drawing::Rectangle(originX, originY, width, height), originalImage->PixelFormat);
+	imageName = imageName + ".crop.jpg";
+	cropped->Save(imageName);
 }
 
 VerifiedRowData^ VerifiedRowData::asVerified(DialogEditingData^ dialogData) {

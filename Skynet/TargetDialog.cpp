@@ -58,20 +58,14 @@ void TargetDialog::loadUIWithData(Database::DialogEditingData^ data)
 	else 
 		LETTER_COLOR->Text = data->letterColor;
 
-
-	centerX = (float)data->targetX;
-	centerY = (float)data->targetY;
-
-	topOfTargetX = (float)( data->topOfTargetX );
-	topOfTargetY = (float)( data->topOfTargetY );
-
 	setImage(data->imageName);
 
 }
 
 void TargetDialog::setImage(String^ imageFilename)
 {
-	imageBox->Image = Image::FromFile(imageFilename);
+	_targetImage = Image::FromFile(imageFilename);
+	imageBox->Image = _targetImage;
 }
 
 
@@ -95,21 +89,31 @@ DialogEditingData^ TargetDialog::getDataFromUI()
 		data->letterColor = letterColorTextBox->Text;
 	}
 
-
-	data->targetX = (int)centerX;
-	data->targetY = (int)centerY;
-
-	data->topOfTargetX = (int)topOfTargetX;
-	data->topOfTargetY = (int)topOfTargetY; 
-
 	return data;
 }
 
+
+Tuple<int, int>^
+TargetDialog::convertPixelsFromDisplayToOriginal(Tuple<int, int>^ picturePixels) {
+	double xRatio = (double)_targetImage->Width / (double)imageBox->Width;
+	double yRatio = (double)_targetImage->Height / (double)imageBox->Height;
+	return gcnew Tuple<int, int>(picturePixels->Item1 * xRatio, picturePixels->Item2 * yRatio);
+}
 
 System::Void 
 TargetDialog::okButton_Click(System::Object^  sender, System::EventArgs^  e) 
 {
 	VerifiedRowData ^ verified = rowData->asVerified(getDataFromUI());
+	appController->upsertVerified(verified);
+	this->Close();
+}
+
+System::Void
+TargetDialog::createVerifiedTargetFromMarkedTarget()
+{
+	auto topLeftOriginal = convertPixelsFromDisplayToOriginal(topLeft);
+	auto bottomRightOriginal = convertPixelsFromDisplayToOriginal(bottomRight);
+	VerifiedRowData ^ verified = rowData->asVerified(getDataFromUI(), topLeftOriginal, bottomRightOriginal);	
 	appController->upsertVerified(verified);
 	this->Close();
 }
@@ -122,22 +126,21 @@ TargetDialog::deleteButton_Click(System::Object^ sender, System::EventArgs^ e)
 }
 System::Void 
 TargetDialog::markTargetButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	switchToMode(TargetEditingMode::MarkingCenter);
+	switchToMode(TargetEditingMode::MarkingBottomRight);
  }
 System::Void
 TargetDialog::imageBox_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {			 			 
 	Point location;
 	 switch (this->currentMode){
-	 case TargetEditingMode::MarkingCenter:
+	 case TargetEditingMode::MarkingBottomRight:
 		 location = e->Location;
-		 centerX = location.X;
-		 centerY = location.Y;
-		 switchToMode(TargetEditingMode::MarkingTop);
+		 bottomRight = gcnew System::Tuple<int, int>(location.X, location.Y);
+		 switchToMode(TargetEditingMode::MarkingTopLeft);
 		 break;
-	 case TargetEditingMode::MarkingTop:
+	 case TargetEditingMode::MarkingTopLeft:
 		 location = e->Location;
-		 topOfTargetX = location.X;
-		 topOfTargetY = location.Y;
+		 topLeft = gcnew System::Tuple<int, int>(location.X, location.Y);
+		 createVerifiedTargetFromMarkedTarget();
 		 switchToMode(TargetEditingMode::TargetMarked);
 	 default:
 		 break;
@@ -147,10 +150,10 @@ System::Void
 TargetDialog::switchToMode(TargetEditingMode mode) {
 	currentMode = mode;
 	switch (mode){
-	case TargetEditingMode::MarkingCenter:
+	case TargetEditingMode::MarkingBottomRight:
 		instructionLabel->Text = "Click on center of target";
 		break;
-	case TargetEditingMode::MarkingTop:
+	case TargetEditingMode::MarkingTopLeft:
 		instructionLabel->Text = "Click on top of target";
 		break;
 	case TargetEditingMode::TargetMarked:

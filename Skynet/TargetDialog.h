@@ -22,8 +22,8 @@ namespace Skynet {
 	{
 
 		enum class TargetEditingMode {
-			MarkingTop,
-			MarkingCenter,
+			MarkingTopLeft,
+			MarkingBottomRight,
 			NotMarking,
 			TargetMarked
 		};
@@ -76,8 +76,8 @@ namespace Skynet {
 
 	protected:
 
-		double centerX, centerY;
-		double topOfTargetX, topOfTargetY;
+		Tuple<int, int>^ topLeft;
+		Tuple<int, int>^ bottomRight;
 		Database::TargetRowData^ rowData;
 		Image ^ _targetImage;
 		Object ^ _parent;
@@ -85,6 +85,8 @@ namespace Skynet {
 		Skynet::SkynetController ^ appController;
 		TargetEditingMode currentMode;
 
+		System::Void createVerifiedTargetFromMarkedTarget();
+		Tuple<int, int>^ convertPixelsFromDisplayToOriginal(Tuple<int, int>^ picturePixels);
 
 	private: System::Windows::Forms::PictureBox^  imageBox;
 	private: System::Windows::Forms::Button^  markTargetButton;
