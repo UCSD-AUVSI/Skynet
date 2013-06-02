@@ -90,7 +90,9 @@ IntelligenceController^ SkynetController::getIntelligenceController()
 void SkynetController::updateAutosearchImage(Image^ image) {
 	form1View->updateAutosearchImage(image);
 }
-
+void SkynetController::setGroundLevel(double groundLevel) {
+	theWatcher->setGroundLevel(groundLevel);
+}
 
 
 SkynetController::~SkynetController()

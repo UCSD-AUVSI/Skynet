@@ -22,6 +22,7 @@
 #include "MapView.h"
 #include "GPSLocationForm.h"
 #include "GPSCoord.h"
+#include "GroundLevelDialog.h"
 
 #include <math.h>
 
@@ -221,6 +222,8 @@ private: System::Windows::Forms::Button^  button5;
 
 
 private: Thread^ verifiedTableUpdaterThread;
+private: System::Windows::Forms::ToolStripMenuItem^  setAltitudeToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItem2;
 public: bool threadsShouldQuit;
 	public:
 		Form1(void)
@@ -326,6 +329,7 @@ public: bool threadsShouldQuit;
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->lockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->unlockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->startMissionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->runSimulationDataToolStripItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -362,7 +366,8 @@ public: bool threadsShouldQuit;
 			this->dataGridViewTextBoxColumn3 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->startMissionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->setAltitudeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->toolStripMenuItem2 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
@@ -373,8 +378,8 @@ public: bool threadsShouldQuit;
 			// menuStrip1
 			// 
 			this->menuStrip1->BackColor = System::Drawing::Color::Gray;
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->toolStripMenuItem1, 
-				this->databaseToolStripMenuItem, this->searchAreaToolStripMenuItem});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->toolStripMenuItem1, 
+				this->databaseToolStripMenuItem, this->searchAreaToolStripMenuItem, this->toolStripMenuItem2});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Size = System::Drawing::Size(1398, 24);
@@ -383,9 +388,9 @@ public: bool threadsShouldQuit;
 			// 
 			// toolStripMenuItem1
 			// 
-			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {this->exportDataToolStripMenuItem, 
+			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(8) {this->exportDataToolStripMenuItem, 
 				this->lockPlaneCoordinatesToolStripMenuItem, this->unlockPlaneCoordinatesToolStripMenuItem, this->startMissionToolStripMenuItem, 
-				this->runSimulationDataToolStripItem, this->toolStripSeparator3, this->exitToolStripMenuItem});
+				this->runSimulationDataToolStripItem, this->setAltitudeToolStripMenuItem, this->toolStripSeparator3, this->exitToolStripMenuItem});
 			this->toolStripMenuItem1->Name = L"toolStripMenuItem1";
 			this->toolStripMenuItem1->Size = System::Drawing::Size(37, 20);
 			this->toolStripMenuItem1->Text = L"&File";
@@ -410,6 +415,13 @@ public: bool threadsShouldQuit;
 			this->unlockPlaneCoordinatesToolStripMenuItem->Size = System::Drawing::Size(210, 22);
 			this->unlockPlaneCoordinatesToolStripMenuItem->Text = L"Unlock Plane Coordinates";
 			this->unlockPlaneCoordinatesToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::unlockPlaneCoordinatesToolStripMenuItem_Click);
+			// 
+			// startMissionToolStripMenuItem
+			// 
+			this->startMissionToolStripMenuItem->Name = L"startMissionToolStripMenuItem";
+			this->startMissionToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->startMissionToolStripMenuItem->Text = L"Start Mission";
+			this->startMissionToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::startMissionToolStripMenuItem_Click);
 			// 
 			// runSimulationDataToolStripItem
 			// 
@@ -644,7 +656,7 @@ public: bool threadsShouldQuit;
 			// 
 			// imageView
 			// 
-			this->imageView->Location = System::Drawing::Point(252, 55);
+			this->imageView->Location = System::Drawing::Point(245, 55);
 			this->imageView->Name = L"imageView";
 			this->imageView->Size = System::Drawing::Size(818, 638);
 			this->imageView->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -715,12 +727,18 @@ public: bool threadsShouldQuit;
 			this->button1->Text = L"Send Path to VC";
 			this->button1->UseVisualStyleBackColor = true;
 			// 
-			// startMissionToolStripMenuItem
+			// setAltitudeToolStripMenuItem
 			// 
-			this->startMissionToolStripMenuItem->Name = L"startMissionToolStripMenuItem";
-			this->startMissionToolStripMenuItem->Size = System::Drawing::Size(210, 22);
-			this->startMissionToolStripMenuItem->Text = L"Start Mission";
-			this->startMissionToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::startMissionToolStripMenuItem_Click);
+			this->setAltitudeToolStripMenuItem->Name = L"setAltitudeToolStripMenuItem";
+			this->setAltitudeToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->setAltitudeToolStripMenuItem->Text = L"Set Altitude";
+			this->setAltitudeToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::setAltitudeToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this->toolStripMenuItem2->Name = L"toolStripMenuItem2";
+			this->toolStripMenuItem2->Size = System::Drawing::Size(22, 20);
+			this->toolStripMenuItem2->Text = L" ";
 			// 
 			// Form1
 			// 
@@ -823,7 +841,12 @@ public:  System::Void printToConsole( array<Object ^> ^ retArr )
 
 
 public: System::Void displayPlaneData(ImageWithPlaneData^ imageWithPlaneData){
-	this->imageView->Image = gcnew Bitmap(imageWithPlaneData->imageFilename);
+	try {
+		this->imageView->Image = gcnew Bitmap(imageWithPlaneData->imageFilename);
+	} catch (Exception^ e){
+		// Do nothing
+		// TODO: Figure out why an exception gets triggered here
+	}
 	updateTable(imageWithPlaneData);
 }
 
@@ -1043,6 +1066,9 @@ private: System::Void startMissionToolStripMenuItem_Click(System::Object^  sende
 			 {
 				 appController->startMission(fileDialog->SelectedPath);
 			 }
+		 }
+private: System::Void setAltitudeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 (gcnew GroundLevelDialog(appController))->Show();
 		 }
 };
 }

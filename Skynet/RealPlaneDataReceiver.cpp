@@ -38,7 +38,7 @@ void RealPlaneDataReceiver::processFile(String^ imageFilename){
 		return;
 	}
 	System::Diagnostics::Trace::WriteLine("Image Added");
-	String ^ dataFilename = imageFilenameToDataFilename("C:\\foo.txt");
+	String ^ dataFilename = imageFilenameToDataFilename(directory + "\\" + imageFilename);
 	processImage(directory + "\\" + imageFilename,dataFilename);
 }
 

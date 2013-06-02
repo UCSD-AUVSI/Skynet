@@ -100,6 +100,7 @@ namespace Skynet
 		Database::CandidateRowData ^ candidateWithID(System::String ^ id);
 		Database::UnverifiedRowData ^ unverifiedWithID(System::String ^ id);
 		Database::VerifiedRowData ^ verifiedWithID(System::String ^ id);
+		void setGroundLevel(double groundLevel);
 		void setSimHandler(Simulator::SimHandler ^ simHandler)
 		{
 			this->simHandler = simHandler;

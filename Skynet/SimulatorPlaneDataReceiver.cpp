@@ -31,12 +31,7 @@ void SimulatorPlaneDataReceiver::run() {
 		if ( i < sorted->Length - 1) {
 			DateTime firstTime = DateTime(filenameToTimestamp(imageFilename));
 			DateTime nextTime = DateTime(filenameToTimestamp(extractFilename(sorted[i+1])));
-			TimeSpan difference = nextTime - firstTime;
-			if ( difference.TotalMilliseconds < 250){
-				Thread::Sleep(TimeSpan::FromMilliseconds(250));
-			} else {
-				Thread::Sleep(difference);
-			}
+			Thread::Sleep(TimeSpan::FromMilliseconds(250));
 		}
 	} 
 	System::Diagnostics::Trace::WriteLine("Simulation Complete");

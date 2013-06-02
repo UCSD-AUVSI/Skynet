@@ -15,7 +15,7 @@ using namespace Intelligence;
 
 #define MAX_INT_32 2147483647
 
-PlaneWatcher::PlaneWatcher(Skynet::SkynetController^ skynetController): skynetController(skynetController) {}
+PlaneWatcher::PlaneWatcher(Skynet::SkynetController^ skynetController): skynetController(skynetController), groundLevel(15) {}
 
 void PlaneWatcher::updateInfo (ImageWithPlaneData ^ data) {
 	if ( data != nullptr && skynetController != nullptr){
@@ -23,10 +23,14 @@ void PlaneWatcher::updateInfo (ImageWithPlaneData ^ data) {
 		if(lockedPosition) {
 			state->setPosition(lockedPosition);
 		}
+		data->altitude -= groundLevel;
 		skynetController->processPlaneData(data);
 	}
 }
 
+void PlaneWatcher::setGroundLevel(double groundLevel) {
+	this->groundLevel = groundLevel;
+}
 
 ImageWithPlaneData ^ PlaneWatcher::getState()
 {
