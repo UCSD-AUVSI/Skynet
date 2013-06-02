@@ -331,12 +331,14 @@ public: bool threadsShouldQuit;
 			this->unlockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->startMissionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->runSimulationDataToolStripItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->setAltitudeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->databaseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->resetToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->searchAreaToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->loadMapFromTextFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->toolStripMenuItem2 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openGLTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->errorLogTextBox = (gcnew System::Windows::Forms::RichTextBox());
 			this->metadataTable = (gcnew System::Windows::Forms::DataGridView());
@@ -366,8 +368,6 @@ public: bool threadsShouldQuit;
 			this->dataGridViewTextBoxColumn3 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->setAltitudeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->toolStripMenuItem2 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
@@ -430,6 +430,13 @@ public: bool threadsShouldQuit;
 			this->runSimulationDataToolStripItem->Text = L"Run Simulation";
 			this->runSimulationDataToolStripItem->Click += gcnew System::EventHandler(this, &Form1::runSimulationDataToolStripItem_Click);
 			// 
+			// setAltitudeToolStripMenuItem
+			// 
+			this->setAltitudeToolStripMenuItem->Name = L"setAltitudeToolStripMenuItem";
+			this->setAltitudeToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->setAltitudeToolStripMenuItem->Text = L"Set Altitude";
+			this->setAltitudeToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::setAltitudeToolStripMenuItem_Click);
+			// 
 			// toolStripSeparator3
 			// 
 			this->toolStripSeparator3->Name = L"toolStripSeparator3";
@@ -453,7 +460,7 @@ public: bool threadsShouldQuit;
 			// resetToolStripMenuItem
 			// 
 			this->resetToolStripMenuItem->Name = L"resetToolStripMenuItem";
-			this->resetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->resetToolStripMenuItem->Size = System::Drawing::Size(102, 22);
 			this->resetToolStripMenuItem->Text = L"Reset";
 			this->resetToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::resetToolStripMenuItem_Click);
 			// 
@@ -469,6 +476,13 @@ public: bool threadsShouldQuit;
 			this->loadMapFromTextFileToolStripMenuItem->Name = L"loadMapFromTextFileToolStripMenuItem";
 			this->loadMapFromTextFileToolStripMenuItem->Size = System::Drawing::Size(204, 22);
 			this->loadMapFromTextFileToolStripMenuItem->Text = L"Load Map From Text File";
+			this->loadMapFromTextFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::loadMapFromTextFileToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this->toolStripMenuItem2->Name = L"toolStripMenuItem2";
+			this->toolStripMenuItem2->Size = System::Drawing::Size(22, 20);
+			this->toolStripMenuItem2->Text = L" ";
 			// 
 			// errorLogTextBox
 			// 
@@ -727,19 +741,6 @@ public: bool threadsShouldQuit;
 			this->button1->Text = L"Send Path to VC";
 			this->button1->UseVisualStyleBackColor = true;
 			// 
-			// setAltitudeToolStripMenuItem
-			// 
-			this->setAltitudeToolStripMenuItem->Name = L"setAltitudeToolStripMenuItem";
-			this->setAltitudeToolStripMenuItem->Size = System::Drawing::Size(210, 22);
-			this->setAltitudeToolStripMenuItem->Text = L"Set Altitude";
-			this->setAltitudeToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::setAltitudeToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem2
-			// 
-			this->toolStripMenuItem2->Name = L"toolStripMenuItem2";
-			this->toolStripMenuItem2->Size = System::Drawing::Size(22, 20);
-			this->toolStripMenuItem2->Text = L" ";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -843,9 +844,9 @@ public:  System::Void printToConsole( array<Object ^> ^ retArr )
 public: System::Void displayPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 	try {
 		this->imageView->Image = gcnew Bitmap(imageWithPlaneData->imageFilename);
-	} catch (Exception^ e){
+	} catch (Exception^){
 		// Do nothing
-		// TODO: Figure out why an exception gets triggered here
+		// TODO: Figure this out
 	}
 	updateTable(imageWithPlaneData);
 }
@@ -1006,22 +1007,6 @@ private: System::Void generateMapButton_click(System::Object^  sender, System::E
 }
 
 private: System::Void loadWaypointsFromFileButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			 Stream ^ boundariesFile;
-			 OpenFileDialog^ fileDialog = gcnew OpenFileDialog;
-			 fileDialog->InitialDirectory = "D:\\Skynet Files\\";
-			 fileDialog->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-			 fileDialog->FilterIndex = 2;
-			 fileDialog->RestoreDirectory = true;
-			 if ( fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-			 {
-				 if ((boundariesFile = fileDialog->OpenFile()) != nullptr )
-				 {
-					 StreamReader ^ fileReader = gcnew StreamReader(boundariesFile);
-					 String^ boundaries = fileReader->ReadToEnd();
-					 // TODO: Re-Implement
-					 //mapBoundariesTextBox->Text = boundaries;
-				 }
-			 }
 		 }
 public: System::Void setPath(array<GPSCoord^>^ gpsCoords) {
 	if (!pathDataGridView->InvokeRequired){
@@ -1070,5 +1055,31 @@ private: System::Void startMissionToolStripMenuItem_Click(System::Object^  sende
 private: System::Void setAltitudeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 (gcnew GroundLevelDialog(appController))->Show();
 		 }
+private: System::Void loadMapFromTextFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 Stream ^ boundariesFile;
+			 OpenFileDialog^ fileDialog = gcnew OpenFileDialog;
+			 fileDialog->InitialDirectory = "D:\\Skynet Files\\";
+			 fileDialog->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+			 fileDialog->FilterIndex = 2;
+			 fileDialog->RestoreDirectory = true;
+			 if ( fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			 {
+				 if ((boundariesFile = fileDialog->OpenFile()) != nullptr )
+				 {
+					 StreamReader ^ fileReader = gcnew StreamReader(boundariesFile);
+					 String^ boundaries = fileReader->ReadToEnd();
+					 array<String^>^ lines = boundaries->Split('\n');
+					 mapBoundariesDataGridView->Rows->Clear();
+					 for (int i = 0; i < lines->Length; i++){
+						 String^ line = lines[i];
+						 array<String^>^ coords = line->Split(',');
+						 if (coords->Length != 2) return;
+						 mapBoundariesDataGridView->Rows->Add();
+						 mapBoundariesDataGridView->Rows[i]->Cells[0]->Value = coords[0];
+						 mapBoundariesDataGridView->Rows[i]->Cells[1]->Value = coords[1];
+				 }
+			 }
+		 }
+	}
 };
 }
