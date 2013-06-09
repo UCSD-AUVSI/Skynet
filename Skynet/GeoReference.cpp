@@ -21,10 +21,10 @@ using System::Math;
 
 
 #define GIMBAL_YAW		0.0
-#define X_PIXELS		720
-#define Y_PIXELS		486
-#define CAMERA_X_FOV_DEGREES 35
-#define CAMERA_Y_FOV_DEGREES 35
+#define X_PIXELS		5184
+#define Y_PIXELS		3456
+#define CAMERA_X_FOV_DEGREES 36
+#define CAMERA_Y_FOV_DEGREES 24
 
 
 String ^ GeoReference::matToString(cv::Mat in)
@@ -617,10 +617,10 @@ void GeoReference::getTargetGPS(Database::CandidateRowData ^ data, double & cent
 			telemetry->gimbalRoll,
 			telemetry->gimbalPitch,
 			telemetry->gimbalYaw,
-			telemetry->originX + telemetry->widthPixels/2,// - X_PIXELS/2,
-			telemetry->originY + telemetry->heightPixels/2,// - Y_PIXELS/2,
+			telemetry->originX + telemetry->widthPixels/2 - X_PIXELS/2,
+			telemetry->originY + telemetry->heightPixels/2 - Y_PIXELS/2,
 			X_PIXELS,
-			Y_PIXELS, // TODO: Fix
+			Y_PIXELS,
 			telemetry->gimbalZoom,
 			centerLatitude,
 			centerLongitude,
@@ -643,11 +643,11 @@ void GeoReference::getTargetGPS(Database::UnverifiedRowData ^ data, double & cen
 			telemetry->gimbalRoll,
 			telemetry->gimbalPitch,
 			telemetry->gimbalYaw,
-			telemetry->originX + data->description->targetX,// - X_PIXELS / 2,
-			telemetry->originY + data->description->targetY,// - Y_PIXELS / 2,
+			telemetry->originX + data->description->targetX - X_PIXELS / 2,
+			telemetry->originY + data->description->targetY - Y_PIXELS / 2,
 			telemetry->gimbalZoom,
 			X_PIXELS,
-			Y_PIXELS, // TODO: Fix
+			Y_PIXELS,
 			centerLatitude,
 			centerLongitude,
 			centerAltitude);
@@ -711,10 +711,10 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->gimbalRoll * PI / 180.0,
 			data->gimbalPitch * PI / 180.0,
 			data->gimbalYaw,
-			data->originX,// - X_PIXELS / 2,
-			data->originY,// - Y_PIXELS / 2,
+			data->originX - X_PIXELS / 2,
+			data->originY - Y_PIXELS / 2,
 			data->gimbalZoom,
-			X_PIXELS, // TODO: FIX
+			X_PIXELS, 
 			Y_PIXELS,
 			BLLat,
 			BLLon,
@@ -729,10 +729,10 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->gimbalRoll * PI / 180.0,
 			data->gimbalPitch * PI / 180.0,
 			data->gimbalYaw,
-			data->originX + data->widthPixels-1,// - X_PIXELS / 2,
-			data->originY,// - Y_PIXELS / 2,
+			data->originX + data->widthPixels-1 - X_PIXELS / 2,
+			data->originY - Y_PIXELS / 2,
 			data->gimbalZoom,
-			X_PIXELS, // TODO: FIX
+			X_PIXELS, 
 			Y_PIXELS,
 			BRLat,
 			BRLon,
@@ -747,10 +747,10 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->gimbalRoll * PI / 180.0,
 			data->gimbalPitch * PI / 180.0,
 			data->gimbalYaw,
-			data->originX,// - X_PIXELS / 2,
-			data->originY + data->heightPixels-1,// - Y_PIXELS / 2,
+			data->originX - X_PIXELS / 2,
+			data->originY + data->heightPixels-1 - Y_PIXELS / 2,
 			data->gimbalZoom,
-			X_PIXELS, // TODO: FIX
+			X_PIXELS,
 			Y_PIXELS,
 			TLLat,
 			TLLon,
@@ -765,10 +765,10 @@ void GeoReference::getCorners(Database::TelemetryRowData ^ data, double & BLLat,
 			data->gimbalRoll * PI / 180.0,
 			data->gimbalPitch * PI / 180.0,
 			data->gimbalYaw,
-			data->originX + data->widthPixels-1,// - X_PIXELS / 2,
-			data->originY + data->heightPixels-1,// - Y_PIXELS / 2,
+			data->originX + data->widthPixels-1 - X_PIXELS / 2,
+			data->originY + data->heightPixels-1 - Y_PIXELS / 2,
 			data->gimbalZoom,
-			X_PIXELS, // TODO: FIX
+			X_PIXELS,
 			Y_PIXELS,
 			TRLat,
 			TRLon,

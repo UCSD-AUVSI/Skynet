@@ -224,6 +224,9 @@ private: System::Windows::Forms::Button^  button5;
 private: Thread^ verifiedTableUpdaterThread;
 private: System::Windows::Forms::ToolStripMenuItem^  setAltitudeToolStripMenuItem;
 private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItem2;
+private: System::Windows::Forms::Button^  nextButton;
+private: System::Windows::Forms::Button^  button2;
+private: System::Windows::Forms::Button^  previousButton;
 public: bool threadsShouldQuit;
 	public:
 		Form1(void)
@@ -368,6 +371,9 @@ public: bool threadsShouldQuit;
 			this->dataGridViewTextBoxColumn3 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->previousButton = (gcnew System::Windows::Forms::Button());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->nextButton = (gcnew System::Windows::Forms::Button());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
@@ -660,7 +666,7 @@ public: bool threadsShouldQuit;
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(564, 708);
+			this->button5->Location = System::Drawing::Point(245, 699);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(184, 151);
 			this->button5->TabIndex = 45;
@@ -741,6 +747,33 @@ public: bool threadsShouldQuit;
 			this->button1->Text = L"Send Path to VC";
 			this->button1->UseVisualStyleBackColor = true;
 			// 
+			// previousButton
+			// 
+			this->previousButton->Location = System::Drawing::Point(548, 699);
+			this->previousButton->Name = L"previousButton";
+			this->previousButton->Size = System::Drawing::Size(155, 147);
+			this->previousButton->TabIndex = 52;
+			this->previousButton->Text = L"Previous";
+			this->previousButton->UseVisualStyleBackColor = true;
+			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(709, 699);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(155, 147);
+			this->button2->TabIndex = 53;
+			this->button2->Text = L"Play";
+			this->button2->UseVisualStyleBackColor = true;
+			// 
+			// nextButton
+			// 
+			this->nextButton->Location = System::Drawing::Point(870, 699);
+			this->nextButton->Name = L"nextButton";
+			this->nextButton->Size = System::Drawing::Size(155, 147);
+			this->nextButton->TabIndex = 54;
+			this->nextButton->Text = L"Next";
+			this->nextButton->UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -748,6 +781,9 @@ public: bool threadsShouldQuit;
 			this->AutoValidate = System::Windows::Forms::AutoValidate::EnableAllowFocusChange;
 			this->BackColor = System::Drawing::Color::DimGray;
 			this->ClientSize = System::Drawing::Size(1398, 881);
+			this->Controls->Add(this->nextButton);
+			this->Controls->Add(this->button2);
+			this->Controls->Add(this->previousButton);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->pathDataGridView);
