@@ -2,7 +2,11 @@
 
 #include <cv.h>
 
-namespace Intelligence{ref struct GPSCoord;};
+namespace Intelligence{
+	ref struct GPSCoord;
+	ref struct ImageAndGPSFiles;
+}
+
 public ref struct ImageWithPlaneData {
 public:
 	System::String ^ imageFilename;

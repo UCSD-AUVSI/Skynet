@@ -1,9 +1,15 @@
 #include "RealPlaneDataReceiver.h"
+#include "ImageAndGPSFiles.h"
+
 using System::IO::FileSystemEventHandler;
 using System::IO::FileSystemEventArgs;
 using System::IO::FileSystemWatcher;
-using namespace System::IO;
 using System::String;
+using System::Predicate;
+
+using namespace System::IO;
+using namespace Intelligence;
+
 
 RealPlaneDataReceiver::RealPlaneDataReceiver(String ^ directory,
 				  Communications::PlaneWatcher ^ planeWatcher):
@@ -23,23 +29,42 @@ void RealPlaneDataReceiver::fileRenamed(Object ^ sender, RenamedEventArgs ^ e){
 	processFile(imageFilename);
 }
 
-void RealPlaneDataReceiver::processFile(String^ imageFilename){
-	auto split = imageFilename->Split('.');
-	if (imageFilename[0] == '.') {
+void RealPlaneDataReceiver::processFile(String^ filename){
+	auto split = filename->Split('.');
+	String^ extension = split[1]->ToLower();
+	if (filename[0] == '.') {
 		System::Diagnostics::Trace::WriteLine("Hidden file");
 		return;
 	}
-	if( split->Length < 2 ){
+	else if( split->Length < 2 ){
 		System::Diagnostics::Trace::WriteLine("No extension");
 		return;
 	}
-	if (split[1] != "jpg"){
-		System::Diagnostics::Trace::WriteLine("Invalid extension: " + split[1]);
-		return;
+	ImageAndGPSFiles^ files = nullptr;
+	if (extension == "jpg"){
+		files = ImageAndGPSFiles::fromImageFilename(directory + "\\" + filename);
 	}
-	System::Diagnostics::Trace::WriteLine("Image Added");
-	String ^ dataFilename = imageFilenameToDataFilename("C:\\foo.txt");
-	processImage(directory + "\\" + imageFilename,dataFilename);
+	else if (extension == "txt"){
+		files = ImageAndGPSFiles::fromDataFilename(directory + "\\" + filename);
+	}
+	if (files != nullptr){
+
+		/**
+		 * Don't add duplicates
+		 */
+		for each (ImageAndGPSFiles^ otherFiles in frames){
+			if (otherFiles->dataFilename == files->dataFilename &&
+				otherFiles->imageFilename == files->imageFilename){
+					return;
+			}
+		}
+
+		frames->Add(files);
+		if (isPlaying){
+			sendToPlaneWatcher(files);
+			index = frames->Count;
+		}
+	}
 }
 
 

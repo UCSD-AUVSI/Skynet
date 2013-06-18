@@ -4,17 +4,28 @@ namespace Communications {
 	ref class PlaneWatcher;
 }
 
+namespace Intelligence {
+	ref struct ImageAndGPSFiles;
+}
+
+
 public ref class PlaneDataReceiver abstract{
 public:
 	PlaneDataReceiver(System::String ^ directory,
-				  Communications::PlaneWatcher ^ planeWatcher);
+					  Communications::PlaneWatcher ^ planeWatcher);
 
-	static System::String ^ imageFilenameToDataFilename(System::String ^ imageFilename);
+	virtual bool play();
+	virtual bool pause();
+	virtual bool next();
+	virtual bool previous();
+	virtual bool stop();
+	bool isPlaying;
+	int index;
+	System::Collections::Generic::List<Intelligence::ImageAndGPSFiles^>^ frames;
+
 protected:
 	System::String ^ directory;
 	Communications::PlaneWatcher ^ planeWatcher;
-	void processImage(System::String ^ imageFilename, System::String ^ dataFilename);
-	static System::UInt64 filenameToTimestamp(System::String ^ filename);
-	static System::String ^ extractFilename(System::String ^ path);
+	void sendToPlaneWatcher(Intelligence::ImageAndGPSFiles^ data);
 	virtual void run() = 0;
 };

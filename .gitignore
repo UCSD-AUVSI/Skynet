@@ -1,4 +1,7 @@
-SystemSettngs.h
+SystemSettings.h
+Skynet.vcxproj
+Skynet.vcxproj.filters
+
 .svn/
 
 #################
