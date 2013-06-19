@@ -1,12 +1,14 @@
 #pragma once
+#using <System.dll>
 
 ref struct ImageWithPlaneData;
 namespace Intelligence {
-	public ref struct ImageAndGPSFiles {
+	public ref struct ImageAndGPSFiles: public System::IComparable<ImageAndGPSFiles^> {
 		System::String^ imageFilename;
 		System::String^ dataFilename;
 		ImageWithPlaneData^ toData();
 		System::UInt64 getTimestamp();
+		virtual System::Int32 CompareTo(ImageAndGPSFiles^ other);
 		static ImageAndGPSFiles^ fromImageFilename(System::String^ imageFilename);
 		static ImageAndGPSFiles^ fromDataFilename(System::String^ imageFilename);
 		static System::String ^ imageFilenameToDataFilename(System::String ^ imageFilename);

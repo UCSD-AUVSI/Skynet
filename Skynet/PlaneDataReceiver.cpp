@@ -20,6 +20,7 @@ using System::Threading::Thread;
 using System::IO::FileNotFoundException;
 using System::Threading::ThreadStart;
 using System::DateTime;
+using namespace System::Collections::Generic;
 
 #include "../Skynet/PlaneWatcher.h"
 #include "ImageAndGPSFiles.h"
@@ -35,13 +36,25 @@ void PlaneDataReceiver::sendToPlaneWatcher(ImageAndGPSFiles^ files) {
 	}
 }
 
+bool PlaneDataReceiver::gotoFrame(int frameIndex){
+	if (frameIndex >= frames->Count){
+		return false;
+	} else {
+		this->index = frameIndex;
+		sendToPlaneWatcher(frames[frameIndex]);
+		return true;
+	}
+}
+
 
 PlaneDataReceiver::PlaneDataReceiver(String ^ directory,
 							 Communications::PlaneWatcher ^ planeWatcher): 
-	directory(directory), planeWatcher(planeWatcher){}
+	directory(directory), planeWatcher(planeWatcher), index(-1),
+	frames(gcnew List<Intelligence::ImageAndGPSFiles^>())
+	{}
 
 bool PlaneDataReceiver::next(){
-	if (index >= frames->Count) {
+	if (index >= frames->Count - 1) {
 		return false;
 	} else {
 		sendToPlaneWatcher(frames[++index]);

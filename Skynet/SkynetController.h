@@ -58,6 +58,12 @@ namespace Skynet
 		Intelligence::IntelligenceController ^ getIntelligenceController();
 		void comeAlive(); // called when the GUI is all set up, and Skynet is ready to begin flight ops
 
+		bool previousFrame();
+		void playOrPause();
+		bool stopPlaying();
+		bool nextFrame();
+		bool gotoFrame(int index);
+		void updateCurrentFrameInUI();
 		void setCameraView(System::Windows::Forms::PictureBox ^ cameraView);
 		void setDatabase(Database::DatabaseConnection ^ newDatabase);
 		void setPlaneWatcher(Communications::PlaneWatcher ^ newWatcher);

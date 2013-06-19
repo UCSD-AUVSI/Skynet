@@ -1,5 +1,6 @@
 #include "RealPlaneDataReceiver.h"
 #include "ImageAndGPSFiles.h"
+#include "SkynetController.h"
 
 using System::IO::FileSystemEventHandler;
 using System::IO::FileSystemEventArgs;
@@ -7,20 +8,29 @@ using System::IO::FileSystemWatcher;
 using System::String;
 using System::Predicate;
 
+using namespace System;
 using namespace System::IO;
 using namespace Intelligence;
+using namespace Skynet;
 
 
-RealPlaneDataReceiver::RealPlaneDataReceiver(String ^ directory,
+RealPlaneDataReceiver::RealPlaneDataReceiver(SkynetController^ skynetController, String ^ directory,
 				  Communications::PlaneWatcher ^ planeWatcher):
-PlaneDataReceiver(directory, planeWatcher){ run(); }
+PlaneDataReceiver(directory, planeWatcher), skynetController(skynetController) { run(); }
 
 void RealPlaneDataReceiver::run() {
+	auto files = Linq::Enumerable::Select(IO::Directory::EnumerateFiles(directory, "*.jpg"), gcnew Func<String^, ImageAndGPSFiles^>(&ImageAndGPSFiles::fromImageFilename));
+	auto sortedEnumerable = Linq::Enumerable::OrderBy(files,gcnew Func<ImageAndGPSFiles^,UInt64>(&ImageAndGPSFiles::getTimestamp));
+	auto filesArray = Linq::Enumerable::ToArray(files);
+	System::Array::Sort(filesArray);
+	frames = gcnew System::Collections::Generic::List<ImageAndGPSFiles^>(filesArray);
 	System::Diagnostics::Trace::WriteLine("Starting PlaneDataReceiver...");
 	FileSystemWatcher ^ watcher = gcnew FileSystemWatcher(directory);
 	watcher->Renamed += gcnew RenamedEventHandler(this,&RealPlaneDataReceiver::fileRenamed);
 	watcher->Created += gcnew FileSystemEventHandler(this,&RealPlaneDataReceiver::fileAdded);
 	watcher->EnableRaisingEvents = true;
+	play();
+	next();
 }
 
 void RealPlaneDataReceiver::fileRenamed(Object ^ sender, RenamedEventArgs ^ e){
@@ -62,8 +72,9 @@ void RealPlaneDataReceiver::processFile(String^ filename){
 		frames->Add(files);
 		if (isPlaying){
 			sendToPlaneWatcher(files);
-			index = frames->Count;
+			index = frames->Count - 1;
 		}
+		skynetController->updateCurrentFrameInUI();
 	}
 }
 

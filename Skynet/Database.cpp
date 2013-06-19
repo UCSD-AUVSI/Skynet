@@ -13,7 +13,7 @@ using namespace Communications;
 using namespace msclr;
 using namespace Vision;
 
-#define DATABASE_NAME	"AUVSI_flightdata"
+#define DATABASE_NAME	"postgres"
 #define CANDIDATE_QUERY_STRING (gcnew String(CANDIDATE_QUERY_CHAR_ARRAY))
 #define UNVERIFIED_QUERY_STRING (gcnew String(UNVERIFIED_QUERY_CHAR_ARRAY))
 #define VERIFIED_QUERY_STRING (gcnew String(VERIFIED_QUERY_CHAR_ARRAY))

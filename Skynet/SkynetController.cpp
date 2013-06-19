@@ -53,13 +53,74 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 	form1View->displayPlaneData(imageWithPlaneData);
 }
 
+bool SkynetController::previousFrame(){
+	if (receiver != nullptr){
+		bool result = receiver->previous();
+		updateCurrentFrameInUI();
+		return result;
+	} else {
+		return false;
+	}
+}
+
+bool SkynetController::nextFrame(){
+	if (receiver != nullptr){
+		bool result = receiver->next();
+		updateCurrentFrameInUI();
+		return result;
+	} else {
+		return false;
+	}
+}
+
+void SkynetController::playOrPause(){
+	if (receiver != nullptr) {
+		if (receiver->isPlaying){
+			receiver->pause();
+			form1View->setPlayPauseButtonTextToPaused();
+		} else {
+			receiver->play();
+			form1View->setPlayPauseButtonTextToPlaying();
+		}
+	}
+}
+
+bool SkynetController::stopPlaying(){
+	if (receiver != nullptr){
+		bool result = receiver->stop();
+		updateCurrentFrameInUI();
+		return result;
+	} else {
+		return false;
+	}
+}
+
+bool SkynetController::gotoFrame(int index){
+	if (receiver != nullptr){
+		bool result = receiver->gotoFrame(index);
+		updateCurrentFrameInUI();
+		return result;
+	} else {
+		return false;
+	}
+}
+
+void SkynetController::updateCurrentFrameInUI(){
+	if (receiver != nullptr){
+		String^ currentFrameString = receiver->index + 1 + " / " + (receiver->frames->Count);
+		form1View->updateCurrentFrameString(currentFrameString);
+	}
+}
+
 void SkynetController::startSimulation(String^ folder){
 	receiver = gcnew SimulatorPlaneDataReceiver(folder, theWatcher);
 }
 
 void SkynetController::startMission(String^ folder){
-	receiver = gcnew RealPlaneDataReceiver(folder, theWatcher);
+	receiver = gcnew RealPlaneDataReceiver(this, folder, theWatcher);
+	updateCurrentFrameInUI();
 }
+
 void SkynetController::lockPosition(Intelligence::GPSCoord^ coordinate)
 {
 	theWatcher->lockPosition(coordinate);

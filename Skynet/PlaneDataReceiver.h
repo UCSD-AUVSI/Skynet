@@ -19,6 +19,7 @@ public:
 	virtual bool next();
 	virtual bool previous();
 	virtual bool stop();
+	virtual bool gotoFrame(int frame);
 	bool isPlaying;
 	int index;
 	System::Collections::Generic::List<Intelligence::ImageAndGPSFiles^>^ frames;

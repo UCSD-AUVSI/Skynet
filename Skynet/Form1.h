@@ -213,7 +213,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  dataGridViewTextBox
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_latitude;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  boundary_longitude;
 private: System::Windows::Forms::ToolStripMenuItem^  lockPlaneCoordinatesToolStripMenuItem;
-private: System::Windows::Forms::ToolStripMenuItem^  runSimulationDataToolStripItem;
+
 
 private: System::Windows::Forms::ToolStripMenuItem^  unlockPlaneCoordinatesToolStripMenuItem;
 private: System::Windows::Forms::ToolStripMenuItem^  startMissionToolStripMenuItem;
@@ -221,6 +221,15 @@ private: System::Windows::Forms::Button^  button5;
 
 
 private: Thread^ verifiedTableUpdaterThread;
+private: System::Windows::Forms::Label^  currentFrameLabel;
+private: System::Windows::Forms::Button^  goToFrameButton;
+private: System::Windows::Forms::TextBox^  frameTextBox;
+
+private: System::Windows::Forms::Label^  currentFrameDescLabel;
+private: System::Windows::Forms::Button^  nextButton;
+private: System::Windows::Forms::Button^  stopButton;
+private: System::Windows::Forms::Button^  playPauseButton;
+private: System::Windows::Forms::Button^  previousButton;
 public: bool threadsShouldQuit;
 	public:
 		Form1(void)
@@ -326,7 +335,7 @@ public: bool threadsShouldQuit;
 			this->exportDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->lockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->unlockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->runSimulationDataToolStripItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->startMissionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->databaseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -362,7 +371,14 @@ public: bool threadsShouldQuit;
 			this->dataGridViewTextBoxColumn3 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->startMissionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->previousButton = (gcnew System::Windows::Forms::Button());
+			this->playPauseButton = (gcnew System::Windows::Forms::Button());
+			this->stopButton = (gcnew System::Windows::Forms::Button());
+			this->nextButton = (gcnew System::Windows::Forms::Button());
+			this->currentFrameDescLabel = (gcnew System::Windows::Forms::Label());
+			this->frameTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->goToFrameButton = (gcnew System::Windows::Forms::Button());
+			this->currentFrameLabel = (gcnew System::Windows::Forms::Label());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->metadataTable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageView))->BeginInit();
@@ -383,9 +399,9 @@ public: bool threadsShouldQuit;
 			// 
 			// toolStripMenuItem1
 			// 
-			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {this->exportDataToolStripMenuItem, 
+			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->exportDataToolStripMenuItem, 
 				this->lockPlaneCoordinatesToolStripMenuItem, this->unlockPlaneCoordinatesToolStripMenuItem, this->startMissionToolStripMenuItem, 
-				this->runSimulationDataToolStripItem, this->toolStripSeparator3, this->exitToolStripMenuItem});
+				this->toolStripSeparator3, this->exitToolStripMenuItem});
 			this->toolStripMenuItem1->Name = L"toolStripMenuItem1";
 			this->toolStripMenuItem1->Size = System::Drawing::Size(37, 20);
 			this->toolStripMenuItem1->Text = L"&File";
@@ -411,12 +427,12 @@ public: bool threadsShouldQuit;
 			this->unlockPlaneCoordinatesToolStripMenuItem->Text = L"Unlock Plane Coordinates";
 			this->unlockPlaneCoordinatesToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::unlockPlaneCoordinatesToolStripMenuItem_Click);
 			// 
-			// runSimulationDataToolStripItem
+			// startMissionToolStripMenuItem
 			// 
-			this->runSimulationDataToolStripItem->Name = L"runSimulationDataToolStripItem";
-			this->runSimulationDataToolStripItem->Size = System::Drawing::Size(210, 22);
-			this->runSimulationDataToolStripItem->Text = L"Run Simulation";
-			this->runSimulationDataToolStripItem->Click += gcnew System::EventHandler(this, &Form1::runSimulationDataToolStripItem_Click);
+			this->startMissionToolStripMenuItem->Name = L"startMissionToolStripMenuItem";
+			this->startMissionToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->startMissionToolStripMenuItem->Text = L"Start Mission";
+			this->startMissionToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::startMissionToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
@@ -634,7 +650,7 @@ public: bool threadsShouldQuit;
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(564, 708);
+			this->button5->Location = System::Drawing::Point(252, 708);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(184, 151);
 			this->button5->TabIndex = 45;
@@ -715,12 +731,82 @@ public: bool threadsShouldQuit;
 			this->button1->Text = L"Send Path to VC";
 			this->button1->UseVisualStyleBackColor = true;
 			// 
-			// startMissionToolStripMenuItem
+			// previousButton
 			// 
-			this->startMissionToolStripMenuItem->Name = L"startMissionToolStripMenuItem";
-			this->startMissionToolStripMenuItem->Size = System::Drawing::Size(210, 22);
-			this->startMissionToolStripMenuItem->Text = L"Start Mission";
-			this->startMissionToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::startMissionToolStripMenuItem_Click);
+			this->previousButton->Location = System::Drawing::Point(483, 708);
+			this->previousButton->Name = L"previousButton";
+			this->previousButton->Size = System::Drawing::Size(143, 151);
+			this->previousButton->TabIndex = 52;
+			this->previousButton->Text = L"Previous";
+			this->previousButton->UseVisualStyleBackColor = true;
+			this->previousButton->Click += gcnew System::EventHandler(this, &Form1::previousButton_Click);
+			// 
+			// playPauseButton
+			// 
+			this->playPauseButton->Location = System::Drawing::Point(645, 708);
+			this->playPauseButton->Name = L"playPauseButton";
+			this->playPauseButton->Size = System::Drawing::Size(129, 71);
+			this->playPauseButton->TabIndex = 53;
+			this->playPauseButton->Text = L"Pause";
+			this->playPauseButton->UseVisualStyleBackColor = true;
+			this->playPauseButton->Click += gcnew System::EventHandler(this, &Form1::playPauseButton_Click);
+			// 
+			// stopButton
+			// 
+			this->stopButton->Location = System::Drawing::Point(645, 788);
+			this->stopButton->Name = L"stopButton";
+			this->stopButton->Size = System::Drawing::Size(129, 71);
+			this->stopButton->TabIndex = 54;
+			this->stopButton->Text = L"Stop";
+			this->stopButton->UseVisualStyleBackColor = true;
+			this->stopButton->Click += gcnew System::EventHandler(this, &Form1::stopButton_Click);
+			// 
+			// nextButton
+			// 
+			this->nextButton->Location = System::Drawing::Point(780, 708);
+			this->nextButton->Name = L"nextButton";
+			this->nextButton->Size = System::Drawing::Size(145, 151);
+			this->nextButton->TabIndex = 55;
+			this->nextButton->Text = L"Next";
+			this->nextButton->UseVisualStyleBackColor = true;
+			this->nextButton->Click += gcnew System::EventHandler(this, &Form1::nextButton_Click);
+			// 
+			// currentFrameDescLabel
+			// 
+			this->currentFrameDescLabel->AutoSize = true;
+			this->currentFrameDescLabel->Location = System::Drawing::Point(931, 708);
+			this->currentFrameDescLabel->Name = L"currentFrameDescLabel";
+			this->currentFrameDescLabel->Size = System::Drawing::Size(76, 13);
+			this->currentFrameDescLabel->TabIndex = 56;
+			this->currentFrameDescLabel->Text = L"Current Frame:";
+			// 
+			// frameTextBox
+			// 
+			this->frameTextBox->Location = System::Drawing::Point(956, 802);
+			this->frameTextBox->Name = L"frameTextBox";
+			this->frameTextBox->Size = System::Drawing::Size(100, 20);
+			this->frameTextBox->TabIndex = 57;
+			this->frameTextBox->Text = L"0";
+			this->frameTextBox->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
+			// 
+			// goToFrameButton
+			// 
+			this->goToFrameButton->Location = System::Drawing::Point(956, 828);
+			this->goToFrameButton->Name = L"goToFrameButton";
+			this->goToFrameButton->Size = System::Drawing::Size(100, 31);
+			this->goToFrameButton->TabIndex = 58;
+			this->goToFrameButton->Text = L"Go To Frame";
+			this->goToFrameButton->UseVisualStyleBackColor = true;
+			this->goToFrameButton->Click += gcnew System::EventHandler(this, &Form1::goToFrameButton_Click);
+			// 
+			// currentFrameLabel
+			// 
+			this->currentFrameLabel->AutoSize = true;
+			this->currentFrameLabel->Location = System::Drawing::Point(989, 737);
+			this->currentFrameLabel->Name = L"currentFrameLabel";
+			this->currentFrameLabel->Size = System::Drawing::Size(12, 13);
+			this->currentFrameLabel->TabIndex = 59;
+			this->currentFrameLabel->Text = L"/";
 			// 
 			// Form1
 			// 
@@ -729,6 +815,14 @@ public: bool threadsShouldQuit;
 			this->AutoValidate = System::Windows::Forms::AutoValidate::EnableAllowFocusChange;
 			this->BackColor = System::Drawing::Color::DimGray;
 			this->ClientSize = System::Drawing::Size(1398, 881);
+			this->Controls->Add(this->currentFrameLabel);
+			this->Controls->Add(this->goToFrameButton);
+			this->Controls->Add(this->frameTextBox);
+			this->Controls->Add(this->currentFrameDescLabel);
+			this->Controls->Add(this->nextButton);
+			this->Controls->Add(this->stopButton);
+			this->Controls->Add(this->playPauseButton);
+			this->Controls->Add(this->previousButton);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->pathDataGridView);
@@ -823,8 +917,12 @@ public:  System::Void printToConsole( array<Object ^> ^ retArr )
 
 
 public: System::Void displayPlaneData(ImageWithPlaneData^ imageWithPlaneData){
-	this->imageView->Image = gcnew Bitmap(imageWithPlaneData->imageFilename);
-	updateTable(imageWithPlaneData);
+	try{
+		this->imageView->Image = gcnew Bitmap(imageWithPlaneData->imageFilename);
+		updateTable(imageWithPlaneData);
+	} catch (System::ArgumentException^){
+		// Silently fail
+	}
 }
 
 public: System::Void updateAutosearchImage(Image^ image){
@@ -939,8 +1037,11 @@ public: System::Void updateTable(ImageWithPlaneData^ data)
 
 
 private: System::Void resetToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 appController->clearAllTables();
-			 targetsForm->removeAllTargets();
+			 if (MessageBox::Show("Are you sure you want to reset the database?", "Really?", 
+				 MessageBoxButtons::YesNo,MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes){
+					 appController->clearAllTables();
+					 targetsForm->removeAllTargets();
+			 }
 		 }
 
 private: System::Void exportDataToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
@@ -1044,5 +1145,44 @@ private: System::Void startMissionToolStripMenuItem_Click(System::Object^  sende
 				 appController->startMission(fileDialog->SelectedPath);
 			 }
 		 }
+private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void previousButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 appController->previousFrame();
+		 }
+private: System::Void playPauseButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 appController->playOrPause();
+		 }
+private: System::Void stopButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 appController->stopPlaying();
+		 }
+private: System::Void nextButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 appController->nextFrame();
+		 }
+private: System::Void goToFrameButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 int frame = Int32::Parse(frameTextBox->Lines[0]);
+			 appController->gotoFrame(frame);
+		 }
+public: void updateCurrentFrameString(String^ frameString){
+			if (!currentFrameLabel->InvokeRequired){
+				currentFrameLabel->Text = frameString;
+			} else {
+				this->Invoke(gcnew Delegates::stringToVoid(this,&Form1::updateCurrentFrameString), (Object^)frameString);
+			}
+		}public: void setPlayPauseButtonTextToPaused(){
+			if (!playPauseButton->InvokeRequired){
+				playPauseButton->Text = "Play";
+			} else {
+				this->Invoke(gcnew Delegates::voidToVoid(this,&Form1::setPlayPauseButtonTextToPaused));
+			}
+		}
+
+public: void setPlayPauseButtonTextToPlaying(){
+			if (!playPauseButton->InvokeRequired){
+				playPauseButton->Text = "Pause";
+			} else {
+				this->Invoke(gcnew Delegates::voidToVoid(this,&Form1::setPlayPauseButtonTextToPlaying));
+			}
+		}
 };
 }
