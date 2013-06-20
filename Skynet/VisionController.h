@@ -26,6 +26,7 @@ namespace Vision
 	ref class Saliency;
 	ref class DuplicateResolver;
 	ref class TargetRecognizer;
+	ref struct TargetResult;
 
 	public ref struct Box
 	{
@@ -59,6 +60,7 @@ namespace Vision
 		void receiveFrame(ImageWithPlaneData^ imageWithPlaneData);
 		bool processSaliencyCandidate(Database::CandidateRowData^ candidate);
 		void end(){endRunLoop = true;}
+		TargetResult^ recognizeImage(System::String^ imageName);
 	protected:
 		void runLoop();
 		void initImagingPathway(); // TODO

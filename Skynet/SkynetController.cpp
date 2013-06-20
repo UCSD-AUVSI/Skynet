@@ -380,10 +380,14 @@ void SkynetController::saveCurrentFrameAsUnverified()
 		System::Diagnostics::Trace::WriteLine("ERROR in SkynetController::saveCurrentFrameAsCandidate(): Failed to add image to target - " + e);
 	}
 
-	((Form1 ^)form1View)->Invoke(gcnew Delegates::unverifiedRowDataToVoid( ((Form1 ^)form1View), &Skynet::Form1::insertUnverifiedData), unverified );
+	// ((Form1 ^)form1View)->Invoke(gcnew Delegates::unverifiedRowDataToVoid( ((Form1 ^)form1View), &Skynet::Form1::insertUnverifiedData), unverified );
 
 }
 
+TargetResult^ SkynetController::recognizeTarget(String^ imageName)
+{
+	return visionController->recognizeImage(imageName);
+}
 void SkynetController::printConsoleMessageInGreen(String ^ message)
 {
 	form1View->printGreenMessage(message);

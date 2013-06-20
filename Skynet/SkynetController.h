@@ -42,6 +42,7 @@ namespace Database
 namespace Vision
 {
 	ref class VisionController;
+	ref struct TargetResult;
 }
 
 namespace Skynet
@@ -67,7 +68,7 @@ namespace Skynet
 		void setCameraView(System::Windows::Forms::PictureBox ^ cameraView);
 		void setDatabase(Database::DatabaseConnection ^ newDatabase);
 		void setPlaneWatcher(Communications::PlaneWatcher ^ newWatcher);
-
+		Vision::TargetResult^ recognizeTarget(System::String^ imageName);
 		void exportData(System::String ^ basePath);
 
 		void lockPosition(Intelligence::GPSCoord^ coordinate);

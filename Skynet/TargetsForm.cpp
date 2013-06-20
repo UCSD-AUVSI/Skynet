@@ -12,9 +12,13 @@ TargetsForm::TargetsForm(SkynetController^ skynetController): skynetController(s
 }
 
 System::Void TargetsForm::candidatesDataGridView_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-	String ^ id = Convert::ToString(candidatesDataGridView->Rows[e->RowIndex]->Cells[0]->Value);
-	CandidateRowData^ candidate = skynetController->candidateWithID(id);
-	(gcnew TargetDialog(skynetController, candidate))->Show();
+	try {
+		String ^ id = Convert::ToString(candidatesDataGridView->Rows[e->RowIndex]->Cells[0]->Value);
+		CandidateRowData^ candidate = skynetController->candidateWithID(id);
+		(gcnew TargetDialog(skynetController, candidate))->Show();
+	} catch (System::ArgumentOutOfRangeException^){
+		// Silently fail
+	}
 }
 
 		 

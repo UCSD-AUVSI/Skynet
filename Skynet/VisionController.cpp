@@ -145,6 +145,12 @@ VisionController::updateSaliencyImageSize(int imgWidth, int imgHeight)
 	}
 }
 
+TargetResult^
+VisionController::recognizeImage(String^ imageName)
+{
+	return recognizer->recognizeTarget(imageName);
+}
+
 bool
 VisionController::processSaliencyCandidate(CandidateRowData^ candidate)
 {

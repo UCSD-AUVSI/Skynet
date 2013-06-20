@@ -46,7 +46,7 @@ TargetRecognizer::recognizeTarget(cv::Mat img)
 TargetResult ^ 
 TargetRecognizer::recognizeTarget(cv::Mat img, String ^ filepath)
 {
-	return nullptr; // NO OCR for Now
+	// return nullptr; // NO OCR for Now
 	while(busy){
 		Thread::Sleep(200);
 	}

@@ -7,6 +7,9 @@
 #define PI 3.14159265358979323846
 
 
+namespace Vision {
+	ref struct TargetResult;
+}
 namespace Skynet {
 
 
@@ -83,6 +86,8 @@ namespace Skynet {
 		Object ^ _parent;
 		Database::DialogEditingData^ dialogData;
 		Skynet::SkynetController ^ appController;
+	private: System::Windows::Forms::Button^  ocrButton;
+	protected: 
 		TargetEditingMode currentMode;
 
 		System::Void createVerifiedTargetFromMarkedTarget();
@@ -152,6 +157,7 @@ private: System::Windows::Forms::Label^  instructionLabel;
 			this->letterTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->letterColorTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->deleteButton = (gcnew System::Windows::Forms::Button());
+			this->ocrButton = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->imageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -295,12 +301,23 @@ private: System::Windows::Forms::Label^  instructionLabel;
 			this->deleteButton->UseVisualStyleBackColor = true;
 			this->deleteButton->Click += gcnew System::EventHandler(this, &TargetDialog::deleteButton_Click);
 			// 
+			// ocrButton
+			// 
+			this->ocrButton->Location = System::Drawing::Point(486, 673);
+			this->ocrButton->Name = L"ocrButton";
+			this->ocrButton->Size = System::Drawing::Size(79, 52);
+			this->ocrButton->TabIndex = 19;
+			this->ocrButton->Text = L"OCR";
+			this->ocrButton->UseVisualStyleBackColor = true;
+			this->ocrButton->Click += gcnew System::EventHandler(this, &TargetDialog::ocrButton_Click);
+			// 
 			// TargetDialog
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ControlDarkDark;
 			this->ClientSize = System::Drawing::Size(743, 737);
+			this->Controls->Add(this->ocrButton);
 			this->Controls->Add(this->deleteButton);
 			this->Controls->Add(this->letterLabel);
 			this->Controls->Add(this->letterColor);
@@ -334,6 +351,9 @@ private: System::Void TargetDialog::switchToMode(TargetEditingMode mode);
 
 
 private: System::Void imageBox_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void ocrButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 Vision::TargetResult^ result = appController->recognizeTarget(rowData->toDialogData()->imageName);
 		 }
 };
 
