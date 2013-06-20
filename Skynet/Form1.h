@@ -22,6 +22,7 @@
 #include "MapView.h"
 #include "GPSLocationForm.h"
 #include "GPSCoord.h"
+#include "GroundLevelDialog.h"
 
 #include <math.h>
 
@@ -230,6 +231,7 @@ private: System::Windows::Forms::Button^  nextButton;
 private: System::Windows::Forms::Button^  stopButton;
 private: System::Windows::Forms::Button^  playPauseButton;
 private: System::Windows::Forms::Button^  previousButton;
+private: System::Windows::Forms::ToolStripMenuItem^  setGroundLevelToolStripMenuItem;
 public: bool threadsShouldQuit;
 	public:
 		Form1(void)
@@ -336,6 +338,7 @@ public: bool threadsShouldQuit;
 			this->lockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->unlockPlaneCoordinatesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->startMissionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->setGroundLevelToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->databaseToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -399,9 +402,9 @@ public: bool threadsShouldQuit;
 			// 
 			// toolStripMenuItem1
 			// 
-			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->exportDataToolStripMenuItem, 
+			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {this->exportDataToolStripMenuItem, 
 				this->lockPlaneCoordinatesToolStripMenuItem, this->unlockPlaneCoordinatesToolStripMenuItem, this->startMissionToolStripMenuItem, 
-				this->toolStripSeparator3, this->exitToolStripMenuItem});
+				this->setGroundLevelToolStripMenuItem, this->toolStripSeparator3, this->exitToolStripMenuItem});
 			this->toolStripMenuItem1->Name = L"toolStripMenuItem1";
 			this->toolStripMenuItem1->Size = System::Drawing::Size(37, 20);
 			this->toolStripMenuItem1->Text = L"&File";
@@ -434,6 +437,13 @@ public: bool threadsShouldQuit;
 			this->startMissionToolStripMenuItem->Text = L"Start Mission";
 			this->startMissionToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::startMissionToolStripMenuItem_Click);
 			// 
+			// setGroundLevelToolStripMenuItem
+			// 
+			this->setGroundLevelToolStripMenuItem->Name = L"setGroundLevelToolStripMenuItem";
+			this->setGroundLevelToolStripMenuItem->Size = System::Drawing::Size(210, 22);
+			this->setGroundLevelToolStripMenuItem->Text = L"Set Ground Level";
+			this->setGroundLevelToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::setGroundLevelToolStripMenuItem_Click);
+			// 
 			// toolStripSeparator3
 			// 
 			this->toolStripSeparator3->Name = L"toolStripSeparator3";
@@ -457,7 +467,7 @@ public: bool threadsShouldQuit;
 			// resetToolStripMenuItem
 			// 
 			this->resetToolStripMenuItem->Name = L"resetToolStripMenuItem";
-			this->resetToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->resetToolStripMenuItem->Size = System::Drawing::Size(102, 22);
 			this->resetToolStripMenuItem->Text = L"Reset";
 			this->resetToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::resetToolStripMenuItem_Click);
 			// 
@@ -919,10 +929,10 @@ public:  System::Void printToConsole( array<Object ^> ^ retArr )
 public: System::Void displayPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 	try{
 		this->imageView->Image = gcnew Bitmap(imageWithPlaneData->imageFilename);
-		updateTable(imageWithPlaneData);
 	} catch (System::ArgumentException^){
 		// Silently fail
 	}
+	updateTable(imageWithPlaneData);
 }
 
 public: System::Void updateAutosearchImage(Image^ image){
@@ -1178,5 +1188,8 @@ public: void setPlayPauseButtonTextToPlaying(){
 				this->Invoke(gcnew Delegates::voidToVoid(this,&Form1::setPlayPauseButtonTextToPlaying));
 			}
 		}
+private: System::Void setGroundLevelToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			 (gcnew GroundLevelDialog(appController))->Show();
+		 }
 };
 }

@@ -46,18 +46,23 @@ TargetRecognizer::recognizeTarget(cv::Mat img)
 TargetResult ^ 
 TargetRecognizer::recognizeTarget(cv::Mat img, String ^ filepath)
 {
-	// return nullptr; // NO OCR for Now
+	return nullptr; // NO OCR for Now
 	while(busy){
 		Thread::Sleep(200);
 	}
 	busy = true;
-	filename = filepath;
+	try {
+		filename = filepath;
 
-	mColorImg = gcnew MRef<cv::Mat>(img);
+		mColorImg = gcnew MRef<cv::Mat>(img);
 
-	TargetResult^ result = doRecognition();
-	busy = false;
-	return result;
+		TargetResult^ result = doRecognition();
+		return result;
+	} catch (Exception^){}
+	finally {
+		busy = false;
+	}
+	return nullptr;
 }
 
 TargetResult ^ 

@@ -21,9 +21,7 @@ PlaneDataReceiver(directory, planeWatcher), skynetController(skynetController) {
 void RealPlaneDataReceiver::run() {
 	auto files = Linq::Enumerable::Select(IO::Directory::EnumerateFiles(directory, "*.jpg"), gcnew Func<String^, ImageAndGPSFiles^>(&ImageAndGPSFiles::fromImageFilename));
 	auto sortedEnumerable = Linq::Enumerable::OrderBy(files,gcnew Func<ImageAndGPSFiles^,UInt64>(&ImageAndGPSFiles::getTimestamp));
-	auto filesArray = Linq::Enumerable::ToArray(files);
-	System::Array::Sort(filesArray);
-	frames = gcnew System::Collections::Generic::List<ImageAndGPSFiles^>(filesArray);
+	frames = gcnew System::Collections::Generic::List<ImageAndGPSFiles^>(sortedEnumerable);
 	System::Diagnostics::Trace::WriteLine("Starting PlaneDataReceiver...");
 	FileSystemWatcher ^ watcher = gcnew FileSystemWatcher(directory);
 	watcher->Renamed += gcnew RenamedEventHandler(this,&RealPlaneDataReceiver::fileRenamed);

@@ -170,23 +170,21 @@ VisionController::processSaliencyCandidate(CandidateRowData^ candidate)
 			return false;
 		}
 	}
-	TargetResult ^ ocrData = recognizer->recognizeTarget(cv::imread(managedToSTL(candidate->imageName)));
-
-	//// handle data
-	unverified->description->shape = ocrData->shape;
-	unverified->description->letter = ocrData->letter;
-	unverified->description->shapeColor = ocrData->shapeColor;
-	unverified->description->letterColor = ocrData->letterColor;
-	unverified->description->heading = ocrData->getHeadingString();
-		
-	/* TODO: Implement SkynetController::upsertUnverified */
-	if (unverified->targetid == 0){
-		skynetController->addUnverified(unverified);
-	} else {
-		skynetController->modifyUnverified(unverified);
+	try {
+		TargetResult ^ ocrData = recognizer->recognizeTarget(cv::imread(managedToSTL(candidate->imageName)));
+		unverified->description->letter = ocrData->letter;
+		unverified->description->shapeColor = ocrData->shapeColor;
+		unverified->description->letterColor = ocrData->letterColor;
+		unverified->description->heading = ocrData->getHeadingString();
+		if (unverified->targetid == 0){
+			skynetController->addUnverified(unverified);
+		} else {
+			skynetController->modifyUnverified(unverified);
+		}
+		return true;
+	} catch (TargetNotFound^) {
+		return false;
 	}
-	
-	return true;
 }
 
 		

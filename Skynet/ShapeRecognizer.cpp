@@ -72,7 +72,11 @@ ShapeRecognizer::findLines()
 	if (filename != nullptr)
 		saveImage(output, filename + "_b_lines.jpg");
 
-	return lineList;
+	try {
+		return lineList;
+	} catch (AccessViolationException^){
+		return gcnew List<Line^>();
+	}
 }
 
 std::vector<cv::Vec2f>  
