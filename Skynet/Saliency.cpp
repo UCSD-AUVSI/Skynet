@@ -72,7 +72,7 @@ cv::Mat Saliency::convertImageForSaliency(cv::Mat image) {
 	const double widthRatio = Saliency::MAX_IMAGE_WIDTH / (double)image.cols;
 	const double heightRatio = Saliency::MAX_IMAGE_HEIGHT / (double)image.rows;
 	const double ratio = System::Math::Min(widthRatio, heightRatio);
-	// TODO: FIx
+	// TODO: Fix
 	if ( widthRatio != 1.0 || heightRatio != 1.0) {
 		cv::Mat result;
 		cv::resize(image,result,cv::Size(0,0),ratio,ratio);
@@ -267,7 +267,7 @@ Saliency::analyzeResults ( Frame ^ frame, int saliencyImageWidth, int saliencyIm
 			System::String ^imageName =  frameCount + "_" + i + ".bmp";
 			System::String ^path = HTTP_SERVER_TARGET_PATH + imageName;
 
-			CandidateRowData ^ candidateData = gcnew CandidateRowData(state,leftCorner,topCorner,blobWidth,blobHeight);
+			CandidateRowData ^ candidateData = gcnew CandidateRowData(state);
 			candidateData->imageName = path;
 				
 			cv::imwrite(managedToSTL(path),blobImg);

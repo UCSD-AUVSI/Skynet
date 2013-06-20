@@ -29,12 +29,17 @@ System::Void TargetsForm::unverifiedDataGridView_CellContentClick(System::Object
 }
 
 System::Void TargetsForm::verifiedDataGridView_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-	String ^ id = Convert::ToString(verifiedDataGridView->Rows[e->RowIndex]->Cells[0]->Value);
-	VerifiedRowData^ verified = skynetController->verifiedWithID(id);
-	(gcnew TargetDialog(skynetController, verified))->Show();
+	try {
+		String ^ id = Convert::ToString(verifiedDataGridView->Rows[e->RowIndex]->Cells[0]->Value);
+		VerifiedRowData^ verified = skynetController->verifiedWithID(id);
+		(gcnew TargetDialog(skynetController, verified))->Show();
+	} catch (Exception^ ){
+		// Fail silently;
+	}
 }
 
 System::Void TargetsForm::setCandidateTableContents( array<Database::CandidateRowData ^> ^ contents ) {
+	PRINT("IN setCandidateTableContents");
 	if ( !candidatesDataGridView->InvokeRequired ) {
 		candidatesDataGridView->Rows->Clear();
 		for each(Database::CandidateRowData ^ data in contents) {
@@ -73,16 +78,10 @@ System::Void TargetsForm::insertCandidate( Database::CandidateRowData ^ data) {
 		grid->Rows[rowNum]->Cells[1]->Value = thumbnail;
 		grid->Rows[rowNum]->Cells[4]->Value = "0*";
 		grid->Rows[rowNum]->Cells[5]->Value = data->processed;
-		double lat, lon, alt;
-		try {
-			Vision::GeoReference::getTargetGPS(data, lat, lon, alt);
-		} catch (Vision::GeoReferenceException^){
-			lat = data->telemetry->planeLocation->lat;
-			lon = data->telemetry->planeLocation->lon;
-		} finally {
-			grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
-			grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
-		}
+		double lat = data->telemetry->planeLocation->lat;
+		double lon = data->telemetry->planeLocation->lon;
+		grid->Rows[rowNum]->Cells[2]->Value = "" + Single(lat).ToString("######.#######") + "*";
+		grid->Rows[rowNum]->Cells[3]->Value = "" + Single(lon).ToString("######.#######") + "*";
 	}
 	else {
 		auto candidateTableUpdateDelegate = gcnew Delegates::candidateRowDataToVoid(this,&TargetsForm::insertCandidate);

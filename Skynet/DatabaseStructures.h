@@ -56,6 +56,7 @@ namespace Database
 		bool processed;
 
 		CandidateRowData();
+		CandidateRowData(ImageWithPlaneData^ state);
 		CandidateRowData(ImageWithPlaneData ^ planeState, int originX, int originY, int widthPixels, int heightPixels);
 	
 		virtual DialogEditingData^ toDialogData() override;
@@ -170,7 +171,7 @@ namespace Database
 		double planeHeading;
 		GPSPositionRowData ^ planeLocation;
 		TelemetryRowData() {}
-		//TelemetryRowData(ImageWithPlaneData ^ planeState);
+		TelemetryRowData(ImageWithPlaneData ^ planeState);
 		TelemetryRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
 	
 	};
@@ -185,7 +186,7 @@ namespace Database
 		DescriptionRowData ^ description;
 		UnverifiedRowData() {}
 		UnverifiedRowData(CandidateRowData ^ candidate);
-		UnverifiedRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn);
+		UnverifiedRowData(ImageWithPlaneData^ planeData);
 		UnverifiedRowData(CandidateRowData^ candidate, DialogEditingData^ extra);
 
 		virtual System::String^ deleteSQL() override;

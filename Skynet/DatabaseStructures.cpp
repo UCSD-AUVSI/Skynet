@@ -103,6 +103,9 @@ CandidateRowData::CandidateRowData()
 	this->telemetry = gcnew TelemetryRowData();
 }
 
+CandidateRowData::CandidateRowData(ImageWithPlaneData^ planeState){
+	this->telemetry = gcnew TelemetryRowData(planeState);
+}
 CandidateRowData::CandidateRowData(ImageWithPlaneData ^ planeState, int originX, int originY, int widthPixels, int heightPixels)
 {
 	this->telemetry = gcnew TelemetryRowData(planeState, originX, originY, widthPixels, heightPixels);
@@ -224,23 +227,23 @@ TelemetryRowData::TelemetryRowData(ImageWithPlaneData ^ planeState, int originXI
 
 }
 
-//TelemetryRowData::TelemetryRowData(ImageWithPlaneData ^ planeState)
-//{
-//	this->originX = 0;
-//	this->originY = 0;
-//	this->widthPixels = 720;
-//	this->heightPixels = 480;
-//
-//	this->gimbalRoll = planeState->gimbalRoll;
-//	this->gimbalPitch = planeState->gimbalPitch;
-//	this->gimbalZoom = planeState->gimbalInfo->zoom;
-//	this->planeRoll = planeState->roll;
-//	this->planePitch = planeState->pitch;
-//	this->planeHeading =  planeState->yaw;
-//	this->planeLocation = gcnew GPSPositionRowData(planeState->latitude, planeState->longitude, planeState->altitude);
-//	this->blurFactor = planeState->blurFactor;
-//
-//}
+TelemetryRowData::TelemetryRowData(ImageWithPlaneData ^ planeState)
+{
+	this->originX = 0;
+	this->originY = 0;
+	this->widthPixels = 5184;
+	this->heightPixels = 3456;
+
+	this->gimbalRoll = planeState->gimbalRoll;
+	this->gimbalPitch = planeState->gimbalPitch;
+	this->gimbalZoom = 1;
+	this->planeRoll = planeState->roll;
+	this->planePitch = planeState->pitch;
+	this->planeHeading =  planeState->yaw;
+	this->planeLocation = gcnew GPSPositionRowData(planeState->latitude, planeState->longitude, planeState->altitude);
+	this->blurFactor = 1;
+
+}
 
 UnverifiedRowData::UnverifiedRowData(CandidateRowData ^ candidate)
 {
@@ -249,9 +252,9 @@ UnverifiedRowData::UnverifiedRowData(CandidateRowData ^ candidate)
 	this->description = gcnew DescriptionRowData();
 }
 
-UnverifiedRowData::UnverifiedRowData(ImageWithPlaneData ^ planeState, int originXIn, int originYIn, int widthPixelsIn, int heightPixelsIn)
+UnverifiedRowData::UnverifiedRowData(ImageWithPlaneData ^ planeState)
 {
-	this->candidate = gcnew CandidateRowData(planeState, originXIn, originYIn, widthPixelsIn, heightPixelsIn);
+	this->candidate = gcnew CandidateRowData(planeState);
 	this->location = gcnew LocationRowData(this->candidate->telemetry);
 	this->description = gcnew DescriptionRowData();
 }
@@ -285,21 +288,9 @@ UnverifiedRowData::UnverifiedRowData(CandidateRowData^ candidate, DialogEditingD
 
 GPSPositionRowData::GPSPositionRowData(UnverifiedRowData ^ unverified)
 {
-	double lat, lon, alt;
-
-	/**
-	 * TODO: Output args shouldn't be passed in as inputs
-	 */
-	try {
-		GeoReference::getTargetGPS(unverified, lat, lon, alt);
-	} catch (Vision::GeoReferenceException^) {	
-		lat = unverified->candidate->telemetry->planeLocation->lat;
-		lon = unverified->candidate->telemetry->planeLocation->lon;
-		alt = unverified->candidate->telemetry->planeLocation->alt;
-	}
-	this->lat = lat;
-	this->lon = lon;
-	this->alt = alt;
+	this->lat = unverified->candidate->telemetry->planeLocation->lat;
+	this->lon = unverified->candidate->telemetry->planeLocation->lon;
+	this->alt = unverified->candidate->telemetry->planeLocation->alt;
 }
 
 double GPSPositionRowData::distanceTo(GPSPositionRowData ^ gps)

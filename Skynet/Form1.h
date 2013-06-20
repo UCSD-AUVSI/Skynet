@@ -986,7 +986,6 @@ public: System::Void setVerifiedTableContents( array<Database::VerifiedRowData ^
 public: System::Void setCandidateTableContents( array<Database::CandidateRowData ^> ^ contents )
 		{
 			targetsForm->setCandidateTableContents(contents);
-
 		}
 
 private: bool findIntInArray( int num, array<int> ^ arr)
@@ -1131,13 +1130,6 @@ private: System::Void lockPlaneCoordinatesToolStripMenuItem_Click(System::Object
 private: System::Void unlockPlaneCoordinatesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 appController->unlockPosition();
 		 }
-private: System::Void runSimulationDataToolStripItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 FolderBrowserDialog^ fileDialog = gcnew FolderBrowserDialog();
-			 if ( fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-			 {
-				 appController->startSimulation(fileDialog->SelectedPath);
-			 }
-		 }
 private: System::Void startMissionToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 FolderBrowserDialog^ fileDialog = gcnew FolderBrowserDialog();
 			 if ( fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
@@ -1169,7 +1161,9 @@ public: void updateCurrentFrameString(String^ frameString){
 			} else {
 				this->Invoke(gcnew Delegates::stringToVoid(this,&Form1::updateCurrentFrameString), (Object^)frameString);
 			}
-		}public: void setPlayPauseButtonTextToPaused(){
+		}
+
+public: void setPlayPauseButtonTextToPaused(){
 			if (!playPauseButton->InvokeRequired){
 				playPauseButton->Text = "Play";
 			} else {

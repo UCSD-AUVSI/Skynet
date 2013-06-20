@@ -34,7 +34,7 @@ ShapeSegmentationTester::runTest( String^ testDirectory, OCRWrapper ^ theOCRWrap
 				TargetResult^ result = theOCRWrapper->targetRecognizer->recognizeTarget( fileEntries[i] );
 				if (result != nullptr) 
 					PRINT(fileEntries[i] + " -> " + result->shape +", " + result->letter);
-			} catch ( std::runtime_error &e ) {
+			} catch ( std::runtime_error & ) {
 				PRINT( fileEntries[i] + " -> FAILED ");
 				numFailed ++;
 			} catch (...) {

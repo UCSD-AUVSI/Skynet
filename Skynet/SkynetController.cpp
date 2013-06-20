@@ -7,7 +7,6 @@
 #include "Form1.h"
 #include "Delegates.h"
 #include "SaveImage.h"
-#include "SimulatorPlaneDataReceiver.h"
 #include "RealPlaneDataReceiver.h"
 #include "GPSCoord.h"
 #include "Util.h"
@@ -113,10 +112,6 @@ void SkynetController::updateCurrentFrameInUI(){
 		String^ currentFrameString = receiver->index + 1 + " / " + (receiver->frames->Count);
 		form1View->updateCurrentFrameString(currentFrameString);
 	}
-}
-
-void SkynetController::startSimulation(String^ folder){
-	receiver = gcnew SimulatorPlaneDataReceiver(folder, theWatcher);
 }
 
 void SkynetController::startMission(String^ folder){
@@ -363,12 +358,7 @@ void SkynetController::saveCurrentFrameAsUnverified()
 		File::Copy(stateOfPlane->imageFilename, filename, true);
 	}
 
-	// insert data into database
-	int width = image.cols;
-	int height = image.rows;
-	int originX = 0;
-	int originY = 0;
-	auto unverified = gcnew UnverifiedRowData(stateOfPlane, originX, originY, width, height);
+	auto unverified = gcnew UnverifiedRowData(stateOfPlane);
 	unverified->candidate->imageName = filename;
 
 	auto saveDelegate = gcnew Delegates::unverifiedRowDataToVoid(this, &SkynetController::addUnverified );

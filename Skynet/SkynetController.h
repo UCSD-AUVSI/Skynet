@@ -113,7 +113,6 @@ namespace Skynet
 			this->simHandler = simHandler;
 		}
 
-		void startSimulation(System::String^ folder);
 		void startMission(System::String^ folder);
 		Simulator::SimHandler ^ getSimHandler() { return simHandler; }
 		System::String ^ imageNameForID(System::String ^ id);
