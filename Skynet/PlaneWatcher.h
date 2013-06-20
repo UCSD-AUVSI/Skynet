@@ -26,6 +26,7 @@ namespace Communications
 		void lockPosition(Intelligence::GPSCoord^ coordinate);
 		void unlockPosition();
 		void updateInfo(ImageWithPlaneData ^ data);
+		void setGroundLevel(double groundLevel);
 		
 		double gimbalRollInDegrees();
 		double gimbalPitchInDegrees();
@@ -33,6 +34,7 @@ namespace Communications
 		ImageWithPlaneData^ getState();
 
 	private:
+		double groundLevel;
 		Intelligence::GPSCoord^ lockedPosition;
 		ImageWithPlaneData^ state;
 		Skynet::SkynetController ^ const skynetController;

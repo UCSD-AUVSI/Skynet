@@ -50,6 +50,9 @@ void SkynetController::processPlaneData(ImageWithPlaneData^ imageWithPlaneData){
 		System::GC::Collect();
 		visionController->receiveFrame(imageWithPlaneData);
 	}
+	if (intelligenceController != nullptr){
+		intelligenceController->processPlaneData(imageWithPlaneData);
+	}
 	form1View->displayPlaneData(imageWithPlaneData);
 }
 
@@ -148,7 +151,9 @@ IntelligenceController^ SkynetController::getIntelligenceController()
 void SkynetController::updateAutosearchImage(Image^ image) {
 	form1View->updateAutosearchImage(image);
 }
-
+void SkynetController::setGroundLevel(double groundLevel) {
+	theWatcher->setGroundLevel(groundLevel);
+}
 
 
 SkynetController::~SkynetController()

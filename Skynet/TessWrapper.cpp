@@ -27,7 +27,8 @@ TessWrapper::TessWrapper(void)
 	ocr->SetVariable("unlv_tilde_crunching", false);
 	ocr->SetVariable("tessedit_zero_rejection", true);
 	ocr->SetVariable("tessedit_zero_kelvin_rejection", true);
-	// TODO: Fail cleanly is TESSDATA_DIR does not exist
+	// TODO: Fail cleanly if TESSDATA_DIR does not exist
+	return;
 	ocr->Init(TESSDATA_DIRECTORY, lang, false);
 }
 

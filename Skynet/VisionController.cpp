@@ -118,6 +118,7 @@ VisionController::receiveOCRResults()
 void 
 VisionController::analyzeFrame(Frame ^ frame)
 {
+	// Catch SEH Exception Here
 	saliency->analyzeFrame(frame);
 	
 }
