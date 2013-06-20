@@ -9,6 +9,7 @@ using namespace Skynet;
 using namespace Database;
 TargetsForm::TargetsForm(SkynetController^ skynetController): skynetController(skynetController) {
 	InitializeComponent();
+
 }
 
 System::Void TargetsForm::candidatesDataGridView_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {

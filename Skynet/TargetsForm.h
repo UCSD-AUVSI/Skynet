@@ -426,7 +426,9 @@ namespace Skynet {
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1031, 395);
+			this->ControlBox = false;
 			this->Controls->Add(this->metadataTabControl);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"TargetsForm";
 			this->Text = L"Targets";
 			this->metadataTabControl->ResumeLayout(false);
