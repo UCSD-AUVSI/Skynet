@@ -64,7 +64,6 @@ namespace Vision
 	protected:
 		void runLoop();
 		void initImagingPathway(); // TODO
-		void receiveOCRResults(); // TODO: pass in a struct
 		void analyzeFrame(Frame ^ frame);
 		void updateSaliencyImageSize(int imgWidth, int imgHeight);
 		bool endRunLoop;

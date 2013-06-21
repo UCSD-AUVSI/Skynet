@@ -1269,7 +1269,7 @@ DatabaseConnection::getAllVerified()
 
 	rows = getAllRows(query, Target_Table);
 	if (rows == nullptr)
-		rows = gcnew array<Object ^>(0);
+		return nullptr;
 
 	auto results = gcnew array<VerifiedRowData ^>(rows->Length);
 	for (int i = 0; i < rows->Length; i ++)

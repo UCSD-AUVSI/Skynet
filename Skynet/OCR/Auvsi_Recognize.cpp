@@ -8,7 +8,7 @@
 
 
 // Whether we want to use just color channels or not
-//#define TWO_CHANNEL 1
+#define TWO_CHANNEL 1
 
 
 cv::Mat

@@ -109,11 +109,6 @@ VisionController::runLoop()
 	}
 }
 
-void 
-VisionController::receiveOCRResults()
-{
-	// TODO: implement
-}
 
 void 
 VisionController::analyzeFrame(Frame ^ frame)
@@ -172,6 +167,9 @@ VisionController::processSaliencyCandidate(CandidateRowData^ candidate)
 	}
 	try {
 		TargetResult ^ ocrData = recognizer->recognizeTarget(cv::imread(managedToSTL(candidate->imageName)));
+		if (ocrData == nullptr){
+			return false;
+		}
 		unverified->description->letter = ocrData->letter;
 		unverified->description->shapeColor = ocrData->shapeColor;
 		unverified->description->letterColor = ocrData->letterColor;

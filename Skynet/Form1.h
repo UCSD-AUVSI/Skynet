@@ -483,6 +483,7 @@ public: bool threadsShouldQuit;
 			this->loadMapFromTextFileToolStripMenuItem->Name = L"loadMapFromTextFileToolStripMenuItem";
 			this->loadMapFromTextFileToolStripMenuItem->Size = System::Drawing::Size(204, 22);
 			this->loadMapFromTextFileToolStripMenuItem->Text = L"Load Map From Text File";
+			this->loadMapFromTextFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::loadMapFromTextFileToolStripMenuItem_Click);
 			// 
 			// errorLogTextBox
 			// 
@@ -1190,6 +1191,25 @@ public: void setPlayPauseButtonTextToPlaying(){
 		}
 private: System::Void setGroundLevelToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 (gcnew GroundLevelDialog(appController))->Show();
+		 }
+private: System::Void loadMapFromTextFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			auto fileDialog = gcnew OpenFileDialog();
+			if (fileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK){
+				StreamReader^ reader = gcnew StreamReader(fileDialog->FileName);
+				String^ content = reader->ReadToEnd();
+				mapBoundariesDataGridView->Rows->Clear();
+				int index = 0;
+				for each (String^ line in content->Split('\n')){
+					if (line->Split(',')->Length == 2){
+						String^ lat = line->Split(',')[0];
+						String^ lon = line->Split(',')[1];
+						mapBoundariesDataGridView->Rows->Add();
+						mapBoundariesDataGridView->Rows[index]->Cells[0]->Value = lat;
+						mapBoundariesDataGridView->Rows[index]->Cells[1]->Value = lon;
+						index++;
+					}
+				}
+			}
 		 }
 };
 }

@@ -442,7 +442,7 @@ ShapeRecognizer::managedLinesFromStandard(std::vector<cv::Vec2f> lines)
 		Line ^ newLine = gcnew Line(stdLine);
 		newLine->strength = calcLineStrength(stdLine);
 		lineList->Add(newLine);
-		//PRINT("line:" + VEC2STR(stdLine) + " - " + newLine->strength);
+		PRINT("line:" + VEC2STR(stdLine) + " - " + newLine->strength);
 	}
 	return lineList;
 }

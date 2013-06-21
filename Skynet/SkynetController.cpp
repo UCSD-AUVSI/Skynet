@@ -544,7 +544,6 @@ void SkynetController::removeVerifiedTargetForID(String ^ id)
 void SkynetController::removeTarget(TargetRowData^ target)
 {
 	theDatabase->removeTarget(target);
-	// TODO: form1View->removeTarget(target);
 }
 
 void SkynetController::removeUnverified(Database::UnverifiedRowData ^ data)

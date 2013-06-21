@@ -22,7 +22,7 @@ ImageAndGPSFiles^ ImageAndGPSFiles::fromImageFilename(String^ imageFilename){
 ImageAndGPSFiles::ImageAndGPSFiles(String^ dataFilename, String^ imageFilename):
 	dataFilename(dataFilename), imageFilename(imageFilename) {}
 ImageWithPlaneData^ ImageAndGPSFiles::toData(){
-	if (IO::File::Exists(dataFilename)){
+	if (IO::File::Exists(dataFilename) && IO::File::Exists(imageFilename)){
 		String^ data = IO::File::ReadAllLines(dataFilename)[0];
 		return gcnew ImageWithPlaneData(imageFilename, data);
 	} else {
